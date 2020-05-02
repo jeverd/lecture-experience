@@ -1,6 +1,6 @@
 const app = require('./servers.js').app;
 const path = require("path");
-const public = path.join(__dirname, "public");
+const public = path.join(__dirname, "../public");
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(public, "index.html"));
@@ -16,10 +16,10 @@ app.get('/lecture/:id', (req, res) => {
      * Make call to redis to destinguish 
      * guests and manager.
      */
-    const is_guest = false
+    const is_guest = false;
     res.sendFile(!is_guest ?
         "whiteboard.html" : "lecture.html",
-        { root: public })
+        { root: public });
 });
 
 app.get('*', function (req, res) {
