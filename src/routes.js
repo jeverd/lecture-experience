@@ -7,7 +7,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/create', (req, res) => {
-    res.sendFile(path.join(public), "create.html");
+    res.sendFile("create.html", { root: path.join(public) });
 });
 
 app.get('/lecture/:id', (req, res) => {
@@ -17,10 +17,11 @@ app.get('/lecture/:id', (req, res) => {
      * guests and manager.
      */
     const is_guest = false
-    res.sendFile(path.join(public),
-        !is_guest ? "whiteboard.html" : "lecture.html")
+    res.sendFile(!is_guest ?
+        "whiteboard.html" : "lecture.html",
+        { root: public })
 });
 
 app.get('*', function (req, res) {
-    res.status(404).sendFile('404.html');
+    res.status(404).sendFile('404.html', { root: public });
 });
