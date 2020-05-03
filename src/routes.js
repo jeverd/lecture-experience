@@ -14,34 +14,32 @@ app.get('/create', (req, res) => {
 });
 
 app.post('/create', (req, res) => {
-    const roomId = uuidv4();   
-    const managerId  = uuidv4();
-    redisClient.hmset("rooms",  { [roomId]: JSON.stringify(req.body) } );
-    redisClient.hmset("managers",  { [managerId]: roomId } );
-
-    redisClient.hmget('rooms', roomId, function(err, object) {
-        console.log("from redis for", roomId);
-        console.log(object);
-    });
-    redisClient.hmget('managers', managerId ,function(err, object) {
-        console.log("from redis for", managerId);
-        console.log(object)
-    });
+    const roomId = uuidv4();
+    const managerId = uuidv4();
+    redisClient.hmset("rooms", { [roomId]: JSON.stringify(req.body) });
+    redisClient.hmset("managers", { [managerId]: roomId });
     const redirectUrl = `/lecture/${managerId}`;
     res.status(200);
     res.send({ redirectUrl });
 });
 
 app.get('/lecture/:id', (req, res) => {
-    /** 
-     * Make redirect based on id.
-     * Make call to redis to destinguish 
-     * guests and manager.
-     */
-    const is_guest = false;
-    res.sendFile(!is_guest ?
-        "whiteboard.html" : "lecture.html",
-        { root: public });
+    const _id = req.params.id;
+    let is_guest;
+    redisClient.hmget('managers', _id, function (err, object) {
+        const roomId = object[0];
+        is_guest = roomId === null;
+        redisClient.hmget('rooms', is_guest ? _id : roomId, function (err, object) {
+            const roomObj = object[0]
+            if (roomObj) {
+                res.sendFile(is_guest ?
+                    "lecture.html" : "whiteboard.html",
+                    { root: public });
+            } else {
+                res.status(404).redirect('/')
+            }
+        });
+    });
 });
 
 app.get('*', function (req, res) {
