@@ -3,6 +3,7 @@ const helmet = require('helmet');
 const redis  = require('redis');
 const socketio = require('socket.io');
 const bodyParser = require('body-parser');
+const {redisHost, redisPort, expressPort} = require('../config/config')
 const app = express();
 
 app.use(express.static('public/js'));
@@ -10,10 +11,11 @@ app.use(express.static('public/css'));
 app.use(express.static('public/images'));
 app.use(bodyParser.json());
 app.use(helmet());
-const expressServer = app.listen(8080);
+const expressServer = app.listen(expressPort);
 const io = socketio(expressServer);
 
-var client = redis.createClient("6379", "127.0.0.1");  // use proper .env
+console.log(redisPort, redisHost, expressPort);
+var client = redis.createClient(redisPort, redisHost);  // use proper .env
 
 
 
