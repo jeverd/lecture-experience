@@ -16,8 +16,15 @@ app.get('/create', (req, res) => {
 app.post('/create', (req, res) => {
     const roomId = uuidv4();
     const managerId = uuidv4();
-    redisClient.hmset("rooms", { [roomId]: JSON.stringify(req.body) });
-    redisClient.hmset("managers", { [managerId]: roomId });
+    let roomObj = req.body;
+    roomObj.managerId = managerId;
+    redisClient.hmset("rooms", { [roomId]: JSON.stringify(roomObj) });
+    redisClient.hmset("managers", {
+        [managerId]: JSON.stringify({
+            roomId,
+            socketId: null
+        })
+    });
     const redirectUrl = `/lecture/${managerId}`;
     res.status(200);
     res.send({ redirectUrl });
@@ -27,8 +34,8 @@ app.get('/lecture/:id', (req, res) => {
     const _id = req.params.id;
     let is_guest;
     redisClient.hmget('managers', _id, function (err, object) {
-        const roomId = object[0];
-        is_guest = roomId === null;
+        is_guest = object[0] === null;
+        const roomId = !is_guest && JSON.parse(object[0]).roomId;
         redisClient.hmget('rooms', is_guest ? _id : roomId, function (err, object) {
             const roomObj = object[0]
             if (roomObj) {
