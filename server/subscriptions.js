@@ -44,16 +44,21 @@ io.sockets.on('connection', socket => {
                 redisClient.hmset('managers', {
                     [_id]: JSON.stringify(managerObj)
                 });
-                const connected_students = Object.keys(io.in(roomToJoin).connected);
-                socket.join(roomToJoin);
-                if (connected_students.length - 1 > 0) {
-                    // if there are students in room -> call them all
-                    socket.broadcast.to(roomToJoin).emit('notifyPeerIdToManager', peer_id => {
-                        call(roomToJoin, socket.id, peer_id)
-                    });
-                }
+                socket.join(roomToJoin)
+                io.of('/').in(roomToJoin).clients((error, clients) => {
+                    if (clients.length - 1 > 0) {
+                        // if there are students in room -> call them all
+                        console.log("start calling all students already in lecture")
+                        socket.broadcast.to(roomToJoin).emit('notifyPeerIdToManager', socket.id);
+                    }
+                })
             }
         } else {
+            socket.on('notify', manager_socket_id => {
+                // professor have just reconnected -> tell him to call me
+                const my_peer_id = socket.handshake.query.peer_id;
+                call(roomToJoin, manager_socket_id, my_peer_id)
+            })
             socket.on('disconnect', e => updateNumOfStudents(roomToJoin));
             is_incoming_student = true;
             console.log('student joining room');
@@ -70,7 +75,6 @@ io.sockets.on('connection', socket => {
             if (is_incoming_student) {
                 // notify manager to call incoming student
                 redisClient.hmget('managers', managerId, (error, manager) => {
-                    console.log(socket.handshake.query)
                     let student_peer_id = socket.handshake.query.peer_id;
                     const { socketId } = JSON.parse(manager);
                     if (socketId) {

@@ -14,11 +14,23 @@ window.onload = () => {
         });
 
         socket.on('updateNumOfStudents', num => {
-            console.log(num)
+            document.getElementById('specs').innerHTML = num
         });
 
-        socket.on('notifyPeerIdToManager', perform_call_on => {
-            perform_call_on(peer.id)
+        socket.on('notifyPeerIdToManager', manager_socket_id => {
+            socket.emit('notify', manager_socket_id)
+        })
+
+        peer.on('call', call => {
+            call.on('stream', stream => {
+                let player = document.getElementById('speaker')
+                if ("srcObject" in player) {
+                    player.srcObject = stream;
+                } else {
+                    player.src = window.URL.createObjURL(stream);
+                }
+            })
+            call.answer(null)
         })
     });
 }
