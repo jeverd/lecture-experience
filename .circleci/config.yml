@@ -4,7 +4,10 @@ jobs:
     branches:
     only:
       - master
+    docker:
+      - image: alpine
     steps:
+      - checkout
       - setup_remote_docker
       - run: |
           TAG=0.1.$CIRCLE_BUILD_NUM
