@@ -5,7 +5,7 @@ jobs:
     only:
       - master
     docker:
-      - image: alpine
+      - image: circleci/node:10.15.0
     steps:
       - checkout
       - setup_remote_docker
