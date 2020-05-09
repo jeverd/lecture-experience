@@ -1,1 +1,2 @@
-require('./src/routes');
+require('./server/routes');
+require('./server/subscriptions');
