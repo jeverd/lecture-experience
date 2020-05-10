@@ -1,0 +1,76 @@
+body{
+    margin: 0px;
+    background-color: #283333;
+}
+
+.toolbox{
+    height: 100vh;
+    position: absolute;
+    background-color: #3a4b4b;
+
+}
+/* Everything related to the images in the left toolbox*/
+.toolbox .group{
+    border-bottom: thin solid gray;
+
+}
+
+
+.toolbox .group .item{
+    width: 24px;
+    height: 24px;
+    padding: 10px;
+}
+
+.toolbox .group .item:hover, .toolbox .group .item.active{
+    background-color: #4b6161;
+    cursor: crosshair;
+}
+
+
+
+
+.toolbox .group .item img{
+    width: 100%;
+}
+
+.toolbox .group.linewidths .item{
+    position: relative;
+}
+
+.toolbox .group.linewidths .item .linewidth{
+    position: absolute;
+    background-color: white;
+    border-radius: 50%; /* make the borders round*/
+    top: 50%;
+    left: 50%;
+    transform: translate( -50%, -50%);
+
+
+}
+
+.toolbox.left{
+    left: 0px;
+    top: 0px;
+
+}
+
+/*Everything related to the right toolbox*/
+.toolbox.right{
+    right: 0px;
+    top: 0px;
+}
+
+.toolbox .group.swatches .item .swatch{
+    width: 100%;
+    height: 100%;
+    border: 2px solid white;
+}
+
+#canvas{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background-color: white;
+    transform: translate(-50%, -50%);
+}
