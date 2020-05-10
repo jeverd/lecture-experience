@@ -12,6 +12,7 @@ services:
       ports:
         - 80:80
       volumes:
+        - ngnix.conf:/etc/nginx/conf.d/default.conf
         - ./letsencrypt:/etc/letsencrypt
     app:
       image: jeverd/liteboard-express:latest
