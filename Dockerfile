@@ -7,10 +7,10 @@ COPY package*.json ./
 RUN npm install
 
 
-COPY ./server .
+COPY . .
 
 
-EXPOSE 8080  # setup the environment variables
+EXPOSE 8080
 
 
 CMD ["npm", "start"]
