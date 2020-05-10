@@ -4,6 +4,7 @@ jobs:
     branches:
     only:
       - master
+      - dockerUPdate
     docker:
       - image: circleci/node:10.15.0
     steps:
