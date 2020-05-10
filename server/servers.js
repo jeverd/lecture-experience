@@ -13,7 +13,7 @@ app.use(helmet());
 const expressServer = app.listen(8080);
 const io = socketio(expressServer);
 
-var client = redis.createClient("6379", "redis://redis_db");  // use proper .env
+var client = redis.createClient("redis://redis_db:6379");  // use proper .env
 // DEBUG - delete everything from db
 // client.flushall(function (err, succeeded) {
 //     console.log(succeeded); // will be true if successfull
