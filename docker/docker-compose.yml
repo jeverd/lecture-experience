@@ -7,3 +7,14 @@ services:
       volumes:
         - ./docker-config/redis.conf:/redis.conf
       command: [ "redis-server", "/redis.conf" ]
+    web-server:
+      image: jeverd/liteboard-ngnix:latest
+      ports:
+        - 80:80
+      volumes:
+        - ./letsencrypt:/etc/letsencrypt
+    app:
+      image: jeverd/liteboard-express:latest
+      ports:
+        - "8080:8080"
+    
