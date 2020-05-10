@@ -98,7 +98,7 @@ dist
 .fusebox/
 
 # letsentrcpy
-./docker/letsencrypt
+docker/letsencrypt/
 
 # DynamoDB Local files
 .dynamodb/
