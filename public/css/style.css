@@ -1,0 +1,163 @@
+* {
+  font-family: "Muli", sans-serif;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #21212e;
+}
+
+.landing-container {
+  background-image: url(../images/liteboardLandingBGlight.png);
+  min-height: 100vh;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.landing-grid {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  justify-content: center;
+  align-items: center;
+}
+
+.landing-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  width: 60%;
+  background-color: transparent;
+}
+
+.landing-info img {
+  width: 500px;
+}
+
+.landing-info .buttons {
+  width: 100%;
+  background-color: transparent;
+  display: flex;
+  flex-direction: row;
+}
+
+.buttons button {
+  color: white;
+  background: rgb(70, 194, 255);
+  background: linear-gradient(
+    135deg,
+    rgba(70, 194, 255, 1) 0%,
+    rgba(189, 31, 250, 1) 100%
+  );
+
+  border: none;
+  border-radius: 2px;
+
+  box-shadow: 0 0 30px rgba(189, 31, 250, 1);
+  -webkit-box-shadow: 0 0 30px rgba(189, 31, 250, 1);
+  outline: none;
+
+  width: 160px;
+  height: 40px;
+  text-align: center;
+  margin: auto;
+  transition: 1.5s;
+}
+
+.buttons button:hover {
+  transition: 1.5s;
+  transform: scale(1.05);
+}
+
+.landing-graphic {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 6rem 0 0 3rem;
+}
+
+#banner-style-2 {
+  display: none;
+}
+
+.landing-graphic img {
+  width: 100%;
+  min-width: 500px;
+  max-width: 1000px;
+}
+
+@media only screen and (max-width: 768px) {
+  #banner-style-2 {
+    width: 125%;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  #banner-style-2 {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  .landing-grid {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+    transform: translateY(-10%);
+  }
+
+  .landing-graphic img,
+  #banner-style-1 {
+    display: none;
+  }
+
+  #banner-style-2 {
+    display: block;
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  .landing-info img {
+    width: 450px;
+  }
+
+  .landing-graphic img {
+    width: 500px;
+  }
+
+  .landing-info .buttons {
+    flex-direction: column;
+  }
+
+  #join-lecture-button {
+    margin-top: 1rem;
+  }
+}
+
+/* start about section */
+
+.about-container {
+  background-image: url(../images/liteboardLandingBGgradientsimple.png);
+  height: 100vh;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+
+  color: white;
+}
+
+/* end about section */
+
+/* start animations */
+
+/* end animations */
