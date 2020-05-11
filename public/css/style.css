@@ -191,6 +191,13 @@ body {
   font-size: 1.1rem;
 }
 
+.teach-content-container .teach-learn-paragraph .highlighted-text {
+  color: #46c2ff;
+  background: linear-gradient(to right, #bd11fa 0%, #46c2ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 @media only screen and (max-width: 1200px) {
   .teach-content-container .teach-learn-header {
     font-size: 4rem;
@@ -220,6 +227,22 @@ body {
   .teach-content-container .teach-learn-paragraph {
     margin-top: 1rem;
     width: 400px;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .teach-content-container .teach-learn-header {
+    font-size: 1.75rem;
+  }
+
+  .teach-container img {
+    margin: auto;
+    width: 200px;
+  }
+
+  .teach-content-container .teach-learn-paragraph {
+    margin-top: 1rem;
+    width: 200px;
   }
 }
 
