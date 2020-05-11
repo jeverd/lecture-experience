@@ -14,6 +14,16 @@ window.onload = () => {
                     calls.push(call)
                 });
 
+                document.querySelector("button#end-lecture").addEventListener('click', e => {
+                    console.log('ended call')
+                    calls.forEach(call => {
+                        call.close()
+                    })
+                    calls = []
+                    socket.emit('lectureEnd')
+                    window.location = '/';
+                })
+
                 socket.on('ready', room => {
                     let sharable_url = window.location.href
                     sharable_url = sharable_url.substr(0, sharable_url.lastIndexOf('/') + 1)
