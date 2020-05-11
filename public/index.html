@@ -45,12 +45,20 @@
         <p class="teach-learn-header">
           <span class="teach-learn-text"></span> from anywhere
         </p>
-        <img src="/whiteboardGraphicGradientV2.png" />
+        <img
+          src="/whiteboardGraphicGradientV2.png"
+          id="teach-whiteboard-graphic"
+        />
         <p class="teach-learn-paragraph">
-          Liteboard provides a decentralized lightweight online experience. This
-          means we offer the quickest solution to hosting an online learning
-          experience. This experience provides a classroom outside of the
-          classroom.
+          <span class="highlighted-text">Liteboard</span> provides a
+          <span class="highlighted-text"
+            >decentralized lightweight online experience.</span
+          >
+          This means we offer the quickest solution to hosting an online
+          learning experience. This experience provides
+          <span class="highlighted-text"
+            >a classroom outside of the classroom.</span
+          >
         </p>
       </div>
     </div>
@@ -59,6 +67,9 @@
       ScrollReveal().reveal(".landing-graphic", { delay: 200 });
       ScrollReveal().reveal(".landing-info", { delay: 700 });
       ScrollReveal().reveal(".buttons", { delay: 1200 });
+      ScrollReveal().reveal(".teach-learn-header", { delay: 200 });
+      ScrollReveal().reveal("#teach-whiteboard-graphic", { delay: 700 });
+      ScrollReveal().reveal(".teach-learn-paragraph", { delay: 1200 });
     </script>
     <script src="" async defer></script>
   </body>
