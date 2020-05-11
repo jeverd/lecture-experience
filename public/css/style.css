@@ -143,7 +143,7 @@ body {
   }
 }
 
-/* start about section */
+/* start intro teach section */
 
 .teach-container {
   background: #21212e;
@@ -162,7 +162,7 @@ body {
   align-items: center;
 }
 
-.teach-content-container p {
+.teach-content-container .teach-learn-header {
   font-size: 5rem;
 }
 
@@ -184,8 +184,15 @@ body {
   width: 800px;
 }
 
+.teach-content-container .teach-learn-paragraph {
+  margin-top: 3rem;
+  text-align: center;
+  width: 800px;
+  font-size: 1.1rem;
+}
+
 @media only screen and (max-width: 1200px) {
-  .teach-content-container p {
+  .teach-content-container .teach-learn-header {
     font-size: 4rem;
   }
 
@@ -193,20 +200,30 @@ body {
     margin: auto;
     width: 700px;
   }
+
+  .teach-content-container .teach-learn-paragraph {
+    margin-top: 2rem;
+    width: 700px;
+  }
 }
 
 @media only screen and (max-width: 768px) {
-  .teach-content-container p {
-    font-size: 2rem;
+  .teach-content-container .teach-learn-header {
+    font-size: 2.5rem;
   }
 
   .teach-container img {
     margin: auto;
     width: 400px;
   }
+
+  .teach-content-container .teach-learn-paragraph {
+    margin-top: 1rem;
+    width: 400px;
+  }
 }
 
-/* end about section */
+/* end intro teach section */
 
 /* start animations */
 
