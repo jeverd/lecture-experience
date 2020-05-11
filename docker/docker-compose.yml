@@ -11,7 +11,8 @@ services:
       image: jeverd/liteboard-ngnix:latest
       ports:
         - 80:80
-      volumes:app
+        - 443:443
+      volumes:
         - ./letsencrypt:/etc/letsencrypt
     app:
       image: jeverd/liteboard-express:latest
