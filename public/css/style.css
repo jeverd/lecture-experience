@@ -9,8 +9,12 @@ body {
   background-color: #21212e;
 }
 
+.responsive-condition {
+  display: none;
+}
+
 .landing-container {
-  background-image: url(/liteboardLandingBGlight.png);
+  background-image: url(../images/liteboardLandingBGlight.png);
   min-height: 100vh;
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -146,8 +150,8 @@ body {
 /* start intro teach section */
 
 .teach-container {
-  background: #21212e;
-  height: 100vh;
+  background-color: #21212e;
+  height: auto;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -248,6 +252,97 @@ body {
 
 /* end intro teach section */
 
+/* start about container */
+
+.about-container {
+  margin-top: 7rem;
+  background-image: url(../images/liteboardLandingBGlightinverse2.png);
+  height: auto;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.about-content-grid {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  text-align: center;
+}
+
+.icon {
+  border-radius: 69% 31% 26% 76% / 49% 65% 35% 52%;
+  width: 10rem;
+  height: 10rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  background-image: linear-gradient(to left, #46c2ff, #bb00fd);
+  transition: 1.5s;
+  -webkit-box-shadow: 0 19px 38px rgba(0, 0, 0, 0.65),
+    0 15px 12px rgba(0, 0, 0, 0.55);
+  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.65), 0 15px 12px rgba(0, 0, 0, 0.55);
+}
+
+.icon i {
+  font-size: 2.5rem;
+  color: #20202e;
+  transition: 1.5s;
+}
+
+.icon:hover {
+  transform: scale(0.8);
+  transition: 1.5s;
+  border-radius: 20% 30% 23% 70% / 40% 80% 20% 33%;
+  -webkit-box-shadow: 0 19px 38px rgba(0, 0, 0, 0.65),
+    0 15px 12px rgba(0, 0, 0, 0.55);
+  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.65), 0 15px 12px rgba(0, 0, 0, 0.55);
+}
+
+.icon:hover i {
+  transform: scale(1.8);
+  transition: 1.5s;
+}
+
+.about-content-grid > div {
+  padding: 2.5rem;
+}
+
+.about-content h2 {
+  margin-top: 1rem;
+  font-size: 1.5rem;
+  color: white;
+}
+
+.about-content p {
+  margin-top: 0.2rem;
+  font-size: 1rem;
+  color: white;
+}
+
+@media only screen and (max-width: 670px) {
+  .about-content-grid {
+    grid-template-columns: 100%;
+  }
+}
+
+/* end about container */
+
 /* start animations */
 
 /* end animations */
+
+@media only screen and (max-width: 282px) {
+  .landing-container,
+  .teach-container,
+  .about-container {
+    display: none;
+  }
+
+  .responsive-condition {
+    display: block;
+    color: whitesmoke;
+  }
+}
