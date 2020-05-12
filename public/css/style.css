@@ -14,7 +14,7 @@ body {
 }
 
 .landing-container {
-  background-image: url(../images/liteboardLandingBGlight.png);
+  background-image: url(/liteboardLandingBGlight.png);
   min-height: 100vh;
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -256,7 +256,7 @@ body {
 
 .about-container {
   margin-top: 7rem;
-  background-image: url(../images/liteboardLandingBGlightinverse2.png);
+  background-image: url(/liteboardLandingBGlightinverse2.png);
   height: auto;
   -webkit-background-size: cover;
   -moz-background-size: cover;
