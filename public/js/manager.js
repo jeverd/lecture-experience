@@ -8,6 +8,9 @@ window.onload = () => {
     peer.on('open', () => {
         navigator.mediaDevices.getUserMedia({ audio: true })
             .then(function (stream) {
+                let whiteboard = document.getElementById('canvas')
+                let whiteboard_stream = whiteboard.captureStream(30);
+                stream.addTrack(whiteboard_stream.getTracks()[0])
                 let socket = io('/', { query: `id=${manager_id}` });
                 socket.on('call', remote_peer_id => {
                     let call = peer.call(remote_peer_id, stream)
