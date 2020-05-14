@@ -13,6 +13,10 @@ window.onload = () => {
             console.log(room)
         });
 
+        socket.on('disconnect', (e) => {
+            console.log(e)
+        })
+
         socket.on('updateNumOfStudents', num => {
             document.getElementById('specs').innerHTML = num
         });
