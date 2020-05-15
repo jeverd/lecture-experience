@@ -14,7 +14,7 @@ body {
 }
 
 .landing-container {
-  background-image: url(/liteboardLandingBGlight.png);
+  background-image: url(../images/liteboardLandingBGlight.png);
   min-height: 100vh;
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -67,7 +67,7 @@ body {
   outline: none;
 
   width: 160px;
-  height: 40px;
+  height: 45px;
   text-align: center;
   margin: auto;
   transition: 1.5s;
@@ -195,7 +195,7 @@ body {
   font-size: 1.1rem;
 }
 
-.teach-content-container .teach-learn-paragraph .highlighted-text {
+.highlighted-text {
   color: #46c2ff;
   background: linear-gradient(to right, #bd11fa 0%, #46c2ff 100%);
   -webkit-background-clip: text;
@@ -255,8 +255,9 @@ body {
 /* start about container */
 
 .about-container {
-  margin-top: 7rem;
-  background-image: url(/liteboardLandingBGlightinverse2.png);
+  margin-top: 4rem;
+  margin-bottom: 4rem;
+  background-image: url(../images/liteboardLandingBGlightinverse2.png);
   height: auto;
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -330,9 +331,94 @@ body {
 
 /* end about container */
 
+/* start footer */
+.footer {
+  position: relative;
+  left: 0;
+  bottom: 0;
+  width: 90%;
+  height: auto;
+  margin: auto;
+  background-color: #21212e;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  text-align: center;
+  color: grey;
+  -webkit-box-shadow: 0 19px 38px rgba(0, 0, 0, 0.9),
+    0 15px 12px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.9), 0 15px 12px rgba(0, 0, 0, 0.8);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 50% 50%;
+}
+
+.footer-grid-right,
+.footer-grid-left {
+  padding: 2rem 0 2rem 0;
+  font-size: 1rem;
+}
+
+.footer-grid-left i {
+  transition: 1s;
+}
+
+.footer-grid-left i {
+  transition: 1s;
+  transform: scale(1.5);
+  color: #46c2ff;
+  background: linear-gradient(to right, #bd11fa 0%, #46c2ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* end footer */
+
 /* start animations */
 
+/* infinite gloss effect */
+.glossy-text {
+  -webkit-mask-image: linear-gradient(
+    -60deg,
+    rgba(189, 17, 250, 0.6) 40%,
+    #bd11fa 50%,
+    rgba(189, 17, 250, 0.6) 60%
+  );
+  -webkit-mask-size: 200%;
+  animation: gloss 2s infinite;
+}
+
+@-webkit-keyframes gloss {
+  from {
+    -webkit-mask-position: 150%;
+  }
+
+  to {
+    -webkit-mask-position: -50%;
+  }
+}
+
+@media only screen and (max-width: 414px) {
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 100%;
+  }
+
+  .footer-grid-right {
+    padding: 1rem 0 1.5rem 0;
+    font-size: 1rem;
+  }
+
+  .footer-grid-left {
+    padding: 1.5rem 0 0rem 0;
+    font-size: 1rem;
+  }
+}
+
 /* end animations */
+
+/* start responsive conditions */
 
 @media only screen and (max-width: 282px) {
   .landing-container,
