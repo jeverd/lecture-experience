@@ -1,11 +1,6 @@
 version: 2
 jobs:
   build:
-    filters:
-      branches:
-        only:
-        - master
-        - dockerUPdate
     docker:
       - image: circleci/node:10.15.0
     steps:
@@ -30,4 +25,13 @@ jobs:
       #       echo 'Deploying to EC2'
       #       echo 'ec2-35-183-20-250.ca-central-1.compute.amazonaws.com' >> ~/.ssh/known_hosts
       #       ssh -o StrictHostKeyChecking=no ec2-user@ec2-35-183-20-250.ca-central-1.compute.amazonaws.com "./deploy.sh"
-        
+
+
+workflows:
+  version: 2
+  main:
+    jobs:
+    - build:
+        filters:
+          branches:
+            only: dev
