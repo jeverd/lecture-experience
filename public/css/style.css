@@ -10,7 +10,7 @@ body {
 }
 
 .landing-container {
-  background-image: url(../images/liteboardLandingBGlight.png);
+  background-image: url(/liteboardLandingBGlight.png);
   min-height: 100vh;
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -46,7 +46,12 @@ body {
   flex-direction: row;
 }
 
-.buttons button {
+.buttons > a > span{
+  position:relative;
+  top:10px;
+}
+.buttons a {
+  text-decoration: none;
   color: white;
   background: rgb(70, 194, 255);
   background: linear-gradient(
@@ -54,14 +59,11 @@ body {
     rgba(70, 194, 255, 1) 0%,
     rgba(189, 31, 250, 1) 100%
   );
-
   border: none;
   border-radius: 2px;
-
   box-shadow: 0 0 30px rgba(189, 31, 250, 1);
   -webkit-box-shadow: 0 0 30px rgba(189, 31, 250, 1);
   outline: none;
-
   width: 160px;
   height: 40px;
   text-align: center;
@@ -69,7 +71,7 @@ body {
   transition: 1.5s;
 }
 
-.buttons button:hover {
+.buttons a:hover {
   transition: 1.5s;
   transform: scale(1.05);
 }
@@ -146,7 +148,7 @@ body {
 /* start about section */
 
 .about-container {
-  background-image: url(../images/liteboardLandingBGgradientsimple.png);
+  background-image: url(/liteboardLandingBGgradientsimple.png);
   height: 100vh;
   -webkit-background-size: cover;
   -moz-background-size: cover;

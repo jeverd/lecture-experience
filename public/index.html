@@ -4,51 +4,53 @@
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!-->
 <html class="no-js">
-  <!--<![endif]-->
+<!--<![endif]-->
 
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      href="https://fonts.googleapis.com/css?family=Muli&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="/public/css/style.css" />
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css?family=Muli&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/style.css" />
+</head>
 
-  <body>
-    <!--[if lt IE 7]>
+<body>
+  <!--[if lt IE 7]>
       <p class="browsehappy">
         You are using an <strong>outdated</strong> browser. Please
         <a href="#">upgrade your browser</a> to improve your experience.
       </p>
     <![endif]-->
 
-    <div class="landing-container">
-      <div class="landing-grid">
-        <div class="landing-graphic">
-          <img src="./images/liteboardLandingCluster.png" />
-        </div>
-        <div class="landing-info">
-          <img src="./images/landingBanner.png" id="banner-style-1" />
-          <img src="./images/mobileBanner.png" id="banner-style-2" />
-          <div class="buttons">
-            <button id="start-lecture-button">Start Lecture</button>
-            <button id="join-lecture-button">Join Lecture</button>
-          </div>
+  <div class="landing-container">
+    <div class="landing-grid">
+      <div class="landing-graphic">
+        <img src="/liteboardLandingCluster.png" />
+      </div>
+      <div class="landing-info">
+        <img src="/landingBanner.png" id="banner-style-1" />
+        <img src="/mobileBanner.png" id="banner-style-2" />
+        <div class="buttons">
+          <a href="/create" id="start-lecture-button">
+            <span>Create Lecture</span>
+          </a>
+          <a href="/" id="join-lecture-button">
+            <span>Join Lecture</span>
+          </a>
         </div>
       </div>
     </div>
+  </div>
 
-    <div class="about-container">
-      about
-    </div>
-    <script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
-    <script>
-      ScrollReveal().reveal(".landing-graphic", { delay: 200 });
-      ScrollReveal().reveal(".landing-info", { delay: 700 });
-      ScrollReveal().reveal(".buttons", { delay: 1200 });
-    </script>
-    <script src="" async defer></script>
-  </body>
+  <div class="about-container">
+    about
+  </div>
+  <script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
+  <script>
+    ScrollReveal().reveal(".landing-graphic", { delay: 200 });
+    ScrollReveal().reveal(".landing-info", { delay: 700 });
+    ScrollReveal().reveal(".buttons", { delay: 1200 });
+  </script>
+  <script src="" async defer></script>
+</body>
+
 </html>
