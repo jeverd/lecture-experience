@@ -14,13 +14,6 @@ app.use(helmet());
 const expressServer = app.listen(expressPort);
 const io = socketio(expressServer);
 
-<<<<<<< HEAD:server/servers.js
-var client = redis.createClient("redis://redis_db:6379");  // use proper .env
-// DEBUG - delete everything from db
-// client.flushall(function (err, succeeded) {
-//     console.log(succeeded); // will be true if successfull
-// });
-=======
 console.log(redisPort, redisHost, expressPort);
 var client = redis.createClient(redisPort, redisHost);  // use proper .env
 
