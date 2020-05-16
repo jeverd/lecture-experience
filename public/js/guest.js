@@ -27,14 +27,22 @@ window.onload = () => {
 
         peer.on('call', call => {
             call.on('stream', stream => {
-                let player = document.getElementById('speaker')
-                if ("srcObject" in player) {
-                    player.srcObject = stream;
-                } else {
-                    player.src = window.URL.createObjURL(stream);
-                }
+                let speaker = document.getElementById('speaker')
+                let whiteboard = document.getElementById('whiteboard')
+                startStream(speaker, stream.getAudioTracks()[0])
+                startStream(whiteboard, stream.getVideoTracks()[0])
             })
             call.answer(null)
         })
     });
+}
+
+function startStream(html_elem, stream_track){
+    let stream = new MediaStream()
+    stream.addTrack(stream_track)
+    if ("srcObject" in html_elem) {
+        html_elem.srcObject = stream;
+    } else {
+        html_elem.src = window.URL.createObjURL(stream);
+    }
 }
