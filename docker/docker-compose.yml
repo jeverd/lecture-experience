@@ -1,6 +1,6 @@
 version: '3.3'
 services:
-    redis:
+    redis_db:
       image: redis:4.0-alpine
       ports:
         - 6379:6379
@@ -11,12 +11,16 @@ services:
       image: jeverd/liteboard-ngnix:latest
       ports:
         - 80:80
+        - 443:443
       volumes:
         - ./letsencrypt:/etc/letsencrypt
     app:
       image: jeverd/liteboard-express:latest
+      links:
+        - redis_db
+        - web-server
       ports:
         - "8080:8080"
       depends_on:
-        - redis
+        - redis_db
         - web-server
