@@ -1,4 +1,3 @@
-version: 2
 jobs:
   build:
     docker:
@@ -32,6 +31,6 @@ workflows:
   main:
     jobs:
       - build:
-        filters:
+          filters:
           branches:
             only: master
