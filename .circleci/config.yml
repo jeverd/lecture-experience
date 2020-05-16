@@ -22,7 +22,7 @@ jobs:
           ls
           docker build -t jeverd/liteboard-ngnix .
           echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin  # (4)
-          docker push jeverd/liteboard-ngnix
+          docker push jeverd/liteboard-ngnix 
           
       # - run:
       #     name: 'Deploy to AWS EC2 INSTANACE'
