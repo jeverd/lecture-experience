@@ -1,10 +1,11 @@
 version: 2
 jobs:
   build:
-    branches:
-    only:
-      - master
-      - dockerUPdate
+    filters:
+      branches:
+        only:
+        - master
+        - dockerUPdate
     docker:
       - image: circleci/node:10.15.0
     steps:
