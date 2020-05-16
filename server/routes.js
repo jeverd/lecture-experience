@@ -2,6 +2,7 @@ const app = require('./servers.js').app;
 const redisClient = require('./servers.js').client;
 const path = require("path");
 const { v4: uuidv4 } = require('uuid');
+const { logger } = require('./logging/logger');
 
 const public = path.join(__dirname, "../public");
 
