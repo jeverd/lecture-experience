@@ -1,4 +1,3 @@
-version: 2
 jobs:
   build:
     docker:
@@ -17,11 +16,11 @@ jobs:
           ls
           docker build -t jeverd/liteboard-ngnix .
           echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin  # (4)
-          docker push jeverd/liteboard-ngnix
+          docker push jeverd/liteboard-ngnix 
           
       # - run:
       #     name: 'Deploy to AWS EC2 INSTANACE'
-      #     command: |
+      #     command: |    
       #       echo 'Deploying to EC2'
       #       echo 'ec2-35-183-20-250.ca-central-1.compute.amazonaws.com' >> ~/.ssh/known_hosts
       #       ssh -o StrictHostKeyChecking=no ec2-user@ec2-35-183-20-250.ca-central-1.compute.amazonaws.com "./deploy.sh"
@@ -31,7 +30,7 @@ workflows:
   version: 2
   main:
     jobs:
-    - build:
-        filters:
-          branches:
-            only: dev
+      - build:
+          filters:
+            branches:
+              only: dev
