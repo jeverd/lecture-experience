@@ -15,8 +15,13 @@ app.get('/create', (req, res) => {
 });
 
 app.post('/create', (req, res) => {
+    logger.info('POST request received: /create')
+
     const roomId = uuidv4();
     const managerId = uuidv4();
+    logger.info('POST /create roomId generated: ' + roomId);
+    logger.info('POST /create managerId generated: ' + managerId);
+
     let roomObj = req.body;
     roomObj.managerId = managerId;
     redisClient.hmset("rooms", { [roomId]: JSON.stringify(roomObj) });
@@ -26,6 +31,8 @@ app.post('/create', (req, res) => {
             socketId: null
         })
     });
+
+    logger.info('POST /create successfully added room and manager id to redis');
     const redirectUrl = `/lecture/${managerId}`;
     res.status(200);
     res.send({ redirectUrl });
@@ -33,6 +40,8 @@ app.post('/create', (req, res) => {
 
 app.get('/lecture/:id', (req, res) => {
     const _id = req.params.id;
+    logger.info('GET request received: /lecture for lecture id: ' + _id);
+
     let is_guest;
     redisClient.hmget('managers', _id, function (err, object) {
         is_guest = object[0] === null;

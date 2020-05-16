@@ -1,5 +1,6 @@
 const io = require('./servers.js').io;
 const redisClient = require('./servers.js').client;
+const { logger } = require('./logging/logger');
 
 function updateNumOfStudents(room) {
     io.in(room).clients((error, clients) => {
@@ -16,27 +17,30 @@ io.sockets.on('connection', socket => {
     redisClient.hmget('managers', _id, (error, manager) => {
         manager = manager.pop(); // manager comes in array of one item
         if (error) {
-            console.log('throwing dbError for client', socket.id)
-            socket.emit('dbError')
+            logger.warn(`SOCKET: ON CONNECTION: attempting to get managers from redis- failed, socket_id: ${socket.id} emitting dbError now`);
+            socket.emit('dbError');
             return;
         }
         let roomToJoin, is_incoming_student;
         if (manager) {
+            logger.info(`SOCKET: ON CONNECTION: manager found, socket_id: ${socket.id}`);
             is_incoming_student = false;
             let managerObj = JSON.parse(manager);
             roomToJoin = managerObj.roomId;
             if (socket.id != managerObj.sockedId &&
                 managerObj.socketId in io.in(roomToJoin).connected) {
-                console.log('attempted to have multiple managers');
+                logger.warn(`SOCKET: ON CONNECTION: manager already exists, socket_id: ${socket.id}, emitting attemptToConnectMultipleManagers now`);
                 socket.emit('attemptToConnectMultipleManagers');
                 return;
             } else {
                 function terminateLecture() {
-                    console.log(`ending lecture ${roomToJoin}`)
+                    logger.info(`SOCKET: terminateLecture Function Called: room_id: ${roomToJoin}`)
                     redisClient.hmget('rooms', roomToJoin, (error, roomObj) => {
                         const { managerId } = JSON.parse(roomObj)
                         redisClient.hdel('managers', managerId, (error, success) => null)
+                        logger.info(`SOCKET: Successfully deleted manager from redis, managerId: ${managerId}`);
                         redisClient.hdel('rooms', roomToJoin, (error, success) => null)
+                        logger.info(`SOCKET: Successfully deleted room from redis, room_id: ${roomToJoin}`);
                         const connected_sockets = io.sockets.adapter.rooms[roomToJoin].sockets
                         Object.keys(connected_sockets).forEach(cli_id => {
                             if (cli_id != socket.id) {
@@ -46,14 +50,15 @@ io.sockets.on('connection', socket => {
                     })
                 }
                 socket.on('disconnect', e => {
+                    logger.info('SOCKET: ON DISCONNECT: trying to find client identity');
                     managerObj.sockedId = null;
                     redisClient.hmset('managers', {
                         [_id]: JSON.stringify(managerObj)
                     });
+                    logger.info('SOCKET: ON DISCONNECT: determined manager disconnected, calling updateNumOfStudents now');
                     updateNumOfStudents(roomToJoin)
                 });
                 socket.on('lectureEnd', terminateLecture)
-                console.log('initializing room >> manager joining')
                 managerObj.socketId = socket.id;
                 redisClient.hmset('managers', {
                     [_id]: JSON.stringify(managerObj)
@@ -62,7 +67,7 @@ io.sockets.on('connection', socket => {
                 io.of('/').in(roomToJoin).clients((error, clients) => {
                     if (clients.length - 1 > 0) {
                         // if there are students in room -> call them all
-                        console.log("start calling all students already in lecture")
+                        logger.info("SOCKET: start calling all students already in lecture")
                         socket.broadcast.to(roomToJoin).emit('notifyPeerIdToManager', socket.id);
                     }
                 })
@@ -75,7 +80,7 @@ io.sockets.on('connection', socket => {
             })
             socket.on('disconnect', e => updateNumOfStudents(roomToJoin));
             is_incoming_student = true;
-            console.log('student joining room');
+            logger.info('SOCKET: student joining room');
             roomToJoin = _id;
             socket.join(roomToJoin);
         }

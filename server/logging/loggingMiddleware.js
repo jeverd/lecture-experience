@@ -10,7 +10,7 @@ logger.stream = {
 module.exports = {
 
   logMiddleWare: morgan(
-    ':method :url :status :response-time ms - :res[content-length]',
+    ':remote-addr - :remote-user [:date[clf]] ":method :url" :status :res[content-length]',
     { stream: logger.stream },
   ),
 };

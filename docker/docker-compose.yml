@@ -10,8 +10,8 @@ services:
     web-server:
       image: jeverd/liteboard-ngnix:latest
       ports:
-        - 80:80
-        - 443:443
+        - ${WEB_SERVER_PORT_HTTP}:${WEB_SERVER_PORT_HTTP}
+        - ${WEB_SERVER_PORT_HTTPS}:${WEB_SERVER_PORT_HTTPS}
       volumes:
         - ./letsencrypt:/etc/letsencrypt
     app:
@@ -20,7 +20,13 @@ services:
         - redis_db
         - web-server
       ports:
-        - "8080:8080"
+        - ${EXPRESS_PORT}:${EXPRESS_PORT}
+      environment: 
+        - NODE_ENV=${NODE_ENV}
+        - EXPRESS_PORT=${EXPRESS_PORT}
+        - PT_HOST=${PT_HOST}
+        - PT_PORT=${PT_PORT}
+        - REDIS_URL=${REDIS_URL}
       depends_on:
         - redis_db
         - web-server

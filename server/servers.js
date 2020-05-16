@@ -3,7 +3,9 @@ const helmet = require('helmet');
 const redis = require('redis');
 const socketio = require('socket.io');
 const bodyParser = require('body-parser');
-const { redisHost, redisPort, expressPort } = require('../config/config');
+const {
+  redisHost, redisPort, expressPort, environment, redisUrl,
+} = require('../config/config');
 const { logger } = require('./logging/logger');
 const { logMiddleWare } = require('./logging/loggingMiddleware');
 
@@ -19,10 +21,15 @@ app.use(logMiddleWare);
 const expressServer = app.listen(expressPort);
 const io = socketio(expressServer);
 
-const client = redis.createClient(redisPort, redisHost);
+let client = null;
+if (environment === 'DEVELOPMENT') {
+  client = redis.createClient(redisPort, redisHost);
+} else {
+  client = redis.createClient(redisUrl);
+}
 
 
-logger.info('Express and socketio are listening on port: ' + expressPort);
+logger.info(`Express and socketio are listening on port: ${expressPort}`);
 
 
 client.on('connect', () => {
