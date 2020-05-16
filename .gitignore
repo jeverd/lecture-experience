@@ -97,6 +97,9 @@ dist
 # FuseBox cache
 .fusebox/
 
+# letsentrcpy
+docker/letsencrypt/
+
 # DynamoDB Local files
 .dynamodb/
 
@@ -105,3 +108,4 @@ dist
 /.history
 
 .DS_Store
+
