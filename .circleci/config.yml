@@ -31,12 +31,6 @@ workflows:
   main:
     jobs:
       - build:
-<<<<<<< HEAD
           filters:
             branches:
               only: dev
-=======
-        filters:
-          branches:
-            only: master
->>>>>>> 487526cdf737b1e1f8100c52613af483d78cd399
