@@ -1,11 +1,17 @@
+workflows:
+  version: 2
+  main:
+    jobs:
+      - build:
+        filters:
+          branches:
+            only: master
+
+
+
 version: 2
 jobs:
   build:
-    filters:
-      branches:
-        only:
-        - master
-        - dockerUPdate
     docker:
       - image: circleci/node:10.15.0
     steps:
