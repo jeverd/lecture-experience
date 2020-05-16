@@ -1,5 +1,5 @@
 const winston = require('winston');
-const { PapertrailConnection, PapertrailTransport } = require('winston-papertrail');
+const { PapertrailTransport, PapertrailConnection } = require('winston-papertrail');
 
 const { format } = winston;
 const {
@@ -8,7 +8,7 @@ const {
 
 
 console.log('Called logger');
-const { environment } = require('../../config/config');
+const { environment, ptPort, ptHost } = require('../../config/config');
 
 const consoleFormat = printf(({
   // eslint-disable-next-line no-shadow
@@ -24,16 +24,12 @@ const consoleLogger = new winston.transports.Console({
   ),
 });
 
-
-const logger = winston.createLogger({ // both production, staging and dev enviroments allow for this
-  transports: [consoleLogger],
-});
-
+const loggerTransports = [consoleLogger];
 
 if (environment === 'PRODUCTION' || environment === 'STAGING') {
   const papertrailConnection = new PapertrailConnection({
-    host: 'logs6.papertrailapp.com',
-    port: '29341',
+    host: ptHost,
+    port: ptPort,
   });
 
   const winstonPapertrail = new PapertrailTransport(papertrailConnection, {
@@ -45,9 +41,12 @@ if (environment === 'PRODUCTION' || environment === 'STAGING') {
     },
     colorize: true,
   });
-  logger.transports.push(winstonPapertrail);
+  loggerTransports.push(winstonPapertrail);
 }
 
+const logger = winston.createLogger({
+  transports: loggerTransports,
+});
 
 module.exports = {
   logger,

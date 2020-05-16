@@ -10,4 +10,5 @@ module.exports = {
   environment: process.env.NODE_ENV,
   ptHost: process.env.PT_HOST,
   ptPort: process.env.PT_PORT,
+  redisUrl: process.env.REDIS_URL,
 };
