@@ -10,9 +10,6 @@ paint.selectedColor = "#000000";
 
 paint.init();
 
-
-
-
 document.querySelectorAll("[data-command]").forEach( // maybe remove ]
     item => {
         item.addEventListener("click", e => {
@@ -30,7 +27,6 @@ document.querySelectorAll("[data-command]").forEach( // maybe remove ]
                 link.download = "my-image.png";
                 link.href = image;
                 link.click();
-
             }
         })
     }//e is the element

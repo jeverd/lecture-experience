@@ -9,6 +9,8 @@ export default class Paint{
 
     constructor(canvasId){
         this.canvas = document.getElementById(canvasId);
+        canvas.height = window.innerHeight
+        canvas.width = window.innerWidth
         this.context = canvas.getContext("2d");
         this.undoStack = [];
         this.undoLimit = 3; //limit for the stack
@@ -144,8 +146,7 @@ export default class Paint{
     undoPaint(){
         if(this.undoStack.length > 0){
             console.log(this.undoStack)
-            this.context.putImageData(this.undoStack[this.undoStack.length - 1], 0, 0);
-            this.undoStack.pop();
+            this.context.putImageData(this.undoStack.pop(), 0, 0);
         }else{
             alert("No drawing to be undone");
         }

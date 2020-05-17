@@ -1,5 +1,6 @@
 const io = require('./servers.js').io;
 const redisClient = require('./servers.js').client;
+var roomsTimeout = {}
 
 function updateNumOfStudents(room) {
     io.in(room).clients((error, clients) => {
@@ -12,57 +13,71 @@ function call(room, manager_socket_id, peer_id) {
 }
 
 io.sockets.on('connection', socket => {
-    const _id = socket.handshake.query.id;
-    redisClient.hmget('managers', _id, (error, manager) => {
-        manager = manager.pop(); // manager comes in array of one item
+    const urlUuid = socket.handshake.query.id;
+    redisClient.hmget('managers', urlUuid, (error, manager) => {
         if (error) {
-            console.log('throwing dbError for client', socket.id)
+            console.log('Throwing dbError for client', socket.id)
             socket.emit('dbError')
             return;
         }
-        let roomToJoin, is_incoming_student;
+        manager = manager.pop(); //redis brings manager as an array
+        let roomToJoin, isIncomingStudent;
         if (manager) {
-            is_incoming_student = false;
+            isIncomingStudent = false;
             let managerObj = JSON.parse(manager);
             roomToJoin = managerObj.roomId;
             if (socket.id != managerObj.sockedId &&
                 managerObj.socketId in io.in(roomToJoin).connected) {
-                console.log('attempted to have multiple managers');
+                console.log('Attempted to have multiple managers');
                 socket.emit('attemptToConnectMultipleManagers');
                 return;
             } else {
+                if (roomToJoin in roomsTimeout){
+                    clearTimeout(roomsTimeout[roomToJoin])
+                    delete roomsTimeout[roomToJoin]
+                    console.log(`Manager came back -> cleared ${roomToJoin} timeout`)
+                }
                 function terminateLecture() {
-                    console.log(`ending lecture ${roomToJoin}`)
+                    console.log(`Ending lecture ${roomToJoin}`)
                     redisClient.hmget('rooms', roomToJoin, (error, roomObj) => {
                         const { managerId } = JSON.parse(roomObj)
                         redisClient.hdel('managers', managerId, (error, success) => null)
                         redisClient.hdel('rooms', roomToJoin, (error, success) => null)
                         const connected_sockets = io.sockets.adapter.rooms[roomToJoin].sockets
-                        Object.keys(connected_sockets).forEach(cli_id => {
-                            if (cli_id != socket.id) {
-                                io.in(roomToJoin).connected[cli_id].disconnect()
+                        Object.keys(connected_sockets).forEach(cliId => {
+                            if (cliId != socket.id) {
+                                io.in(roomToJoin).connected[cliId].disconnect()
                             }
                         })
                     })
                 }
                 socket.on('disconnect', e => {
+                    console.log(`Manager of room ${roomToJoin} disconnected`)
                     managerObj.sockedId = null;
                     redisClient.hmset('managers', {
-                        [_id]: JSON.stringify(managerObj)
+                        [urlUuid]: JSON.stringify(managerObj)
                     });
                     updateNumOfStudents(roomToJoin)
+                    redisClient.hexists('rooms', roomToJoin, (er, roomExist)=>{
+                        //Set timeout only if manager disconnected and didn't end lecture
+                        if (roomExist){
+                            //Terminate lecture if manager is away for 15 minutes.
+                            roomsTimeout[roomToJoin] = setTimeout(terminateLecture, 15 * 60 * 1000)
+                            console.log(`Timeout on room ${roomToJoin} started`)
+                        }
+                    })
                 });
                 socket.on('lectureEnd', terminateLecture)
-                console.log('initializing room >> manager joining')
+                console.log('Initializing room -> manager joining')
                 managerObj.socketId = socket.id;
                 redisClient.hmset('managers', {
-                    [_id]: JSON.stringify(managerObj)
+                    [urlUuid]: JSON.stringify(managerObj)
                 });
                 socket.join(roomToJoin)
                 io.of('/').in(roomToJoin).clients((error, clients) => {
                     if (clients.length - 1 > 0) {
                         // if there are students in room -> call them all
-                        console.log("start calling all students already in lecture")
+                        console.log("Start calling all students already in lecture")
                         socket.broadcast.to(roomToJoin).emit('notifyPeerIdToManager', socket.id);
                     }
                 })
@@ -74,9 +89,9 @@ io.sockets.on('connection', socket => {
                 call(roomToJoin, manager_socket_id, my_peer_id)
             })
             socket.on('disconnect', e => updateNumOfStudents(roomToJoin));
-            is_incoming_student = true;
-            console.log('student joining room');
-            roomToJoin = _id;
+            isIncomingStudent = true;
+            console.log(`Student joining room ${roomToJoin}`);
+            roomToJoin = urlUuid;
             socket.join(roomToJoin);
         }
         updateNumOfStudents(roomToJoin)
@@ -84,7 +99,7 @@ io.sockets.on('connection', socket => {
             let lectureObj = JSON.parse(roomObj);
             lectureObj.id = roomToJoin;
             const { managerId } = lectureObj;
-            if (is_incoming_student) {
+            if (isIncomingStudent) {
                 delete lectureObj.managerId;
                 // notify manager to call incoming student
                 redisClient.hmget('managers', managerId, (error, manager) => {
