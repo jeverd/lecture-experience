@@ -14,10 +14,10 @@ const expressServer = app.listen(8080);
 const io = socketio(expressServer);
 
 var client = redis.createClient("6379", "127.0.0.1");  // use proper .env
-// DEBUG - delete everything from db
-// client.flushall(function (err, succeeded) {
-//     console.log(succeeded); // will be true if successfull
-// });
+
+client.flushall(function (err, succeeded) {
+    console.log(succeeded);
+});
 
 
 console.log('Express and socketio are listening on port 8080');
