@@ -31,7 +31,14 @@ window.onload = () => {
                     let sharable_url = window.location.href
                     sharable_url = sharable_url.substr(0, sharable_url.lastIndexOf('/') + 1)
                     sharable_url += room.lecture_details.id
-                    document.getElementById('sharable-link').innerHTML = sharable_url
+                    document.getElementById("copy-share-link").addEventListener('click', e=>{
+                        let tmp_input = document.createElement('input');
+                        tmp_input.value = sharable_url;
+                        document.body.appendChild(tmp_input);
+                        tmp_input.select()
+                        document.execCommand("copy");
+                        document.body.removeChild(tmp_input);
+                    })
                     console.log(room)
                 });
 

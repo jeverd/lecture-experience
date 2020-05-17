@@ -19,14 +19,13 @@
     <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-    <div style="margin:10px 60px;">
+    <div class="classroom-info">
         <div>
             <h1>Lecture Runnining</h1>
             <button id="end-lecture">End Lecture</button>
         </div>
         <h2>Spectators: <span id="specs"></span></h2>
-        <h3>Share link: </h3>
-        <h4><span id="sharable-link"></span></h4>
+        <button id="copy-share-link">Copy Share Link</button>
     </div>
     <div class="toolbox left">
         <div class="group commands">
@@ -133,7 +132,7 @@
 
     </div>
 
-    <canvas id="canvas" width="640" height="480" style=" border-style: solid; border-width: 3px; border-color: black;"> </canvas>
+    <canvas id="canvas" style="background-color: #ffffff;"></canvas>
 
     <div class="toolbox right">
         <div class="group swatches">
@@ -156,12 +155,6 @@
             <div class="item" data-color="#00ff00">
                 <div class="swatch" style="background-color: green; "></div>
             </div>
-
-            <!--
-            <div class = "item">
-                <input type="color">
-            </div>
-            -->
         </div>
         <div class ="group swatches" id="pagelist">
                 

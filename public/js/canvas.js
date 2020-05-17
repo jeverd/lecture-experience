@@ -10,9 +10,6 @@ paint.selectedColor = "#000000";
 
 paint.init();
 
-
-
-
 document.querySelectorAll("[data-command]").forEach( // maybe remove ]
     item => {
         item.addEventListener("click", e => {
@@ -30,7 +27,6 @@ document.querySelectorAll("[data-command]").forEach( // maybe remove ]
                 link.download = "my-image.png";
                 link.href = image;
                 link.click();
-
             }else if (command === "add-page"){
                 //update the image of the current page
                 var canvas = document.getElementById("canvas");
@@ -105,7 +101,7 @@ document.querySelectorAll("[data-command]").forEach( // maybe remove ]
             }else if (command === "clear-page"){
                 
                 paint.clearCanvas();
-
+              
             }
             
         })
