@@ -12,6 +12,8 @@ export default class Paint{
         this.context = canvas.getContext("2d");
         this.undoStack = [];
         this.undoLimit = 3; //limit for the stack
+        var canvasW = 640;
+        var canwasL = 480;
     }
 
 
@@ -149,6 +151,16 @@ export default class Paint{
         }else{
             alert("No drawing to be undone");
         }
+    }
+
+    clearCanvas(){
+        //make the canvass a blank page
+        this.context.clearRect(0, 0, 640, 480);
+
+    }
+
+    currentPage(img){
+        this.context.drawImage(img, 0, 0, 640, 480);
     }
 }
 

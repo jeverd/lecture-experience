@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="/canvas.css">
 </head>
 
-<body>
+<body style="background-color: #ffffff">
     <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
@@ -36,6 +36,17 @@
             <div class="item" data-command="dowload" title="Dowload">
                 <img src="/dowload-icon.png" />
             </div>
+            <div class="item" data-command="add-page" title="Add Page">
+                <img src="/add-icon.png" />
+            </div>
+
+            <div class="item" data-command="remove-page" title="Remove Page">
+                    <img src="/remove-icon.png" />
+            </div>
+
+            <div class="item" data-command="clear-page" title="Remove Page">
+                <img src="/clear-icon.png" />
+        </div>
 
         </div>
 
@@ -122,7 +133,7 @@
 
     </div>
 
-    <canvas id="canvas" width="640" height="480"></canvas>
+    <canvas id="canvas" width="640" height="480" style=" border-style: solid; border-width: 3px; border-color: black;"> </canvas>
 
     <div class="toolbox right">
         <div class="group swatches">
@@ -151,6 +162,15 @@
                 <input type="color">
             </div>
             -->
+        </div>
+        <div class ="group swatches" id="pagelist">
+                
+                <div class="item active homePage" data-page="page" >
+                        <div class="swatch" style="background-color: #ffffff; ">
+                        <img>
+                        </div>
+                </div>
+
         </div>
     </div>
 
