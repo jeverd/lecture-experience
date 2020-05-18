@@ -35,7 +35,7 @@ logger.info(`Express and socketio are listening on port: ${expressPort}`);
 
 
 client.on('connect', () => {
-  logger.info('Redis connected on port: ', redisPort);
+  logger.info(`Redis connected on port: ${redisPort}`);
 });
 
 module.exports = {
