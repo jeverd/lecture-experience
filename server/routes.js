@@ -2,6 +2,9 @@ const app = require('./servers.js').app;
 const redisClient = require('./servers.js').client;
 const path = require("path");
 const { v4: uuidv4 } = require('uuid');
+const { logger } = require('./logging/logger');
+const AWS = require('aws-sdk');
+const fs = require('fs');
 
 const public = path.join(__dirname, "../public");
 
@@ -14,8 +17,13 @@ app.get('/create', (req, res) => {
 });
 
 app.post('/create', (req, res) => {
+    logger.info('POST request received: /create')
+
     const roomId = uuidv4();
     const managerId = uuidv4();
+    logger.info('POST /create roomId generated: ' + roomId);
+    logger.info('POST /create managerId generated: ' + managerId);
+
     let roomObj = req.body;
     roomObj.managerId = managerId;
     redisClient.hmset("rooms", { [roomId]: JSON.stringify(roomObj) });
@@ -25,6 +33,8 @@ app.post('/create', (req, res) => {
             socketId: null
         })
     });
+
+    logger.info('POST /create successfully added room and manager id to redis');
     const redirectUrl = `/lecture/${managerId}`;
     res.status(200);
     res.send({ redirectUrl });
@@ -32,6 +42,8 @@ app.post('/create', (req, res) => {
 
 app.get('/lecture/:id', (req, res) => {
     const urlId = req.params.id;
+    logger.info('GET request received: /lecture for lecture id: ' + urlId);
+  
     let is_guest;
     redisClient.hmget('managers', urlId, function (err, object) {
         is_guest = object[0] === null;
