@@ -10,9 +10,6 @@ paint.selectedColor = "#000000";
 
 paint.init();
 
-
-
-
 document.querySelectorAll("[data-command]").forEach( // maybe remove ]
     item => {
         item.addEventListener("click", e => {
@@ -30,10 +27,85 @@ document.querySelectorAll("[data-command]").forEach( // maybe remove ]
                 link.download = "my-image.png";
                 link.href = image;
                 link.click();
+            }else if (command === "add-page"){
+                //update the image of the current page
+                var canvas = document.getElementById("canvas");
+                var image = canvas.toDataURL("image/png", 1.0).replace("image.png", "image/octet-stream");
+                document.querySelector("[data-page].active img").setAttribute("src", image);
 
+                //remove the active class on the current page and make it the new page
+                document.querySelector("[data-page].active").classList.toggle("active"); // remove the previous active function from the active class
+
+                //making the new page image
+                var currentPage = document.createElement("img");
+
+                //setting the class to item and active
+                var outer = document.createElement("div");
+                outer.classList.add('item');
+                outer.classList.add('active');
+                outer.setAttribute("data-page", "page");
+                
+
+                var inner = document.createElement("div");
+                inner.classList.add('swatch');
+                inner.style.backgroundColor = "#ffffff";
+                
+                inner.appendChild(currentPage);
+                outer.appendChild(inner);
+                document.getElementById("pagelist").appendChild(outer);
+
+                //clear the current canvas
+                paint.clearCanvas();
+
+                //ensures the new buttons are clickable
+                document.querySelectorAll("[data-page]").forEach(
+                    item => {
+                        item.addEventListener("click", e => {
+
+                            var canvas = document.getElementById("canvas");
+                            var image = canvas.toDataURL("image/png", 1.0).replace("image.png", "image/octet-stream");
+                            document.querySelector("[data-page].active img").setAttribute("src", image);
+
+                            document.querySelector("[data-page].active").classList.toggle("active"); // remove the previous active function from the active class
+                            item.classList.add("active"); // we add the element we clicked on to the active class
+                
+                            var image = document.querySelector("[data-page].active img"); 
+
+                            console.log(image.getAttribute("src"));
+
+                            //make the canvass show the current active image
+
+                            paint.clearCanvas();
+                            paint.currentPage(image);
+                        });
+                    }
+                );
+
+            }else if (command === "remove-page"){
+                
+                if(document.querySelector("[data-page].active").classList.contains("homePage")){
+                    alert("Cannot delete the first page, you can clear it");
+                }else{
+                    //document.querySelector("[data-brush-size].active").classList.toggle("active"); // remove the previous active function from the active class
+                    document.querySelector("#pagelist").removeChild(document.querySelector("[data-page].active"));
+                    document.querySelector("[data-page].homePage").classList.add("active"); // we add the element we clicked on to the active class
+
+                    var image = document.querySelector("[data-page].active img"); 
+
+                    //make the canvass show the current active image
+
+                    paint.clearCanvas();
+                    paint.currentPage(image);
+                }
+
+            }else if (command === "clear-page"){
+                
+                paint.clearCanvas();
+              
             }
+            
         })
-    }//e is the element
+     }//e is the element
 ); //this way, you will get all the elements that have the data command specified
 
 document.querySelectorAll("[data-tool]").forEach(

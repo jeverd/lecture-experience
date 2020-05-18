@@ -41,16 +41,15 @@ app.post('/create', (req, res) => {
 });
 
 app.get('/lecture/:id', (req, res) => {
-    const _id = req.params.id;
-    logger.info('GET request received: /lecture for lecture id: ' + _id);
-
+    const urlId = req.params.id;
+    logger.info('GET request received: /lecture for lecture id: ' + urlId);
+  
     let is_guest;
-    redisClient.hmget('managers', _id, function (err, object) {
+    redisClient.hmget('managers', urlId, function (err, object) {
         is_guest = object[0] === null;
         const roomId = !is_guest && JSON.parse(object[0]).roomId;
-        redisClient.hmget('rooms', is_guest ? _id : roomId, function (err, object) {
-            const roomObj = object[0]
-            if (roomObj) {
+        redisClient.hexists('rooms', is_guest ? urlId : roomId, function (err, roomExist) {
+            if (roomExist) {
                 res.sendFile(is_guest ?
                     "lecture.html" : "whiteboard.html",
                     { root: public });
