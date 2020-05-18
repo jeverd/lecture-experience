@@ -34,6 +34,11 @@ if (environment === 'DEVELOPMENT') {
 logger.info(`Express and socketio are listening on port: ${expressPort}`);
 
 
+client.flushall(function (err, succeeded) {
+    logger.info(`Redis status: ${succeeded}`);
+});
+
+
 client.on('connect', () => {
   logger.info(`Redis connected on port: ${redisPort}`);
 });
