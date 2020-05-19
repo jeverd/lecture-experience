@@ -109,3 +109,5 @@ docker/letsencrypt/
 
 .DS_Store
 
+# ignoring .env file
+config/.env

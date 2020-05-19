@@ -10,7 +10,9 @@ window.onload = () => {
         });
 
         socket.on('ready', room => {
-            console.log(room)
+            const { boards, boardActive } = room.lecture_details
+            console.log(room.lecture_details)
+            setNonActiveBoards(boards.filter((e,i) => i != boardActive))
         });
 
         socket.on('disconnect', (e) => {
@@ -24,6 +26,8 @@ window.onload = () => {
         socket.on('notifyPeerIdToManager', manager_socket_id => {
             socket.emit('notify', manager_socket_id)
         })
+
+        socket.on('boards', setNonActiveBoards)
 
         peer.on('call', call => {
             call.on('stream', stream => {
@@ -45,4 +49,15 @@ function startStream(html_elem, stream_track){
     } else {
         html_elem.src = window.URL.createObjURL(stream);
     }
+}
+
+function setNonActiveBoards(boards){
+    let boardsDiv = document.getElementById('non-active-boards')
+    boardsDiv.innerHTML = ""
+    boards.forEach(board => {
+        let imgElem = document.createElement('img')
+        imgElem.src = board
+        imgElem.height = 75
+        boardsDiv.appendChild(imgElem)
+    })
 }
