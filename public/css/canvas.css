@@ -3,10 +3,25 @@ body{
     background-color: #283333;
 }
 
+.classroom-info{
+    position: absolute;
+    z-index: 10;
+    top: 0px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#canvas{
+    border-style: solid; 
+    border-width: 3px; 
+    border-color: black;
+}
+
 .toolbox{
-    height: 100vh;
+    height: 100%;
     position: absolute;
     background-color: #3a4b4b;
+    z-index: 10;
 
 }
 /* Everything related to the images in the left toolbox*/

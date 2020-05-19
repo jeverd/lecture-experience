@@ -9,6 +9,10 @@ body {
   background-color: #21212e;
 }
 
+.responsive-condition {
+  display: none;
+}
+
 .landing-container {
   background-image: url(/liteboardLandingBGlight.png);
   min-height: 100vh;
@@ -65,7 +69,7 @@ body {
   -webkit-box-shadow: 0 0 30px rgba(189, 31, 250, 1);
   outline: none;
   width: 160px;
-  height: 40px;
+  height: 45px;
   text-align: center;
   margin: auto;
   transition: 1.5s;
@@ -145,21 +149,288 @@ body {
   }
 }
 
-/* start about section */
+/* start intro teach section */
 
-.about-container {
-  background-image: url(/liteboardLandingBGgradientsimple.png);
-  height: 100vh;
+.teach-container {
+  background-color: #21212e;
+  height: auto;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-
   color: white;
 }
 
-/* end about section */
+.teach-content-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.teach-content-container .teach-learn-header {
+  font-size: 5rem;
+}
+
+.teach-learn-text::after {
+  content: "Teach";
+  color: #46c2ff;
+  background: linear-gradient(to right, #bd11fa 0%, #46c2ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.teach-learn-text:hover::after {
+  transition: 2s;
+  content: "Learn";
+}
+
+.teach-container img {
+  margin: auto;
+  width: 800px;
+}
+
+.teach-content-container .teach-learn-paragraph {
+  margin-top: 3rem;
+  text-align: center;
+  width: 800px;
+  font-size: 1.1rem;
+}
+
+.highlighted-text {
+  color: #46c2ff;
+  background: linear-gradient(to right, #bd11fa 0%, #46c2ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@media only screen and (max-width: 1200px) {
+  .teach-content-container .teach-learn-header {
+    font-size: 4rem;
+  }
+
+  .teach-container img {
+    margin: auto;
+    width: 700px;
+  }
+
+  .teach-content-container .teach-learn-paragraph {
+    margin-top: 2rem;
+    width: 700px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .teach-content-container .teach-learn-header {
+    font-size: 2.5rem;
+  }
+
+  .teach-container img {
+    margin: auto;
+    width: 400px;
+  }
+
+  .teach-content-container .teach-learn-paragraph {
+    margin-top: 1rem;
+    width: 400px;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .teach-content-container .teach-learn-header {
+    font-size: 1.75rem;
+  }
+
+  .teach-container img {
+    margin: auto;
+    width: 200px;
+  }
+
+  .teach-content-container .teach-learn-paragraph {
+    margin-top: 1rem;
+    width: 200px;
+  }
+}
+
+/* end intro teach section */
+
+/* start about container */
+
+.about-container {
+  margin-top: 4rem;
+  margin-bottom: 4rem;
+  background-image: url(/liteboardLandingBGlightinverse2.png);
+  height: auto;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.about-content-grid {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  text-align: center;
+}
+
+.icon {
+  border-radius: 69% 31% 26% 76% / 49% 65% 35% 52%;
+  width: 10rem;
+  height: 10rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  background-image: linear-gradient(to left, #46c2ff, #bb00fd);
+  transition: 1.5s;
+  -webkit-box-shadow: 0 19px 38px rgba(0, 0, 0, 0.65),
+    0 15px 12px rgba(0, 0, 0, 0.55);
+  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.65), 0 15px 12px rgba(0, 0, 0, 0.55);
+}
+
+.icon i {
+  font-size: 2.5rem;
+  color: #20202e;
+  transition: 1.5s;
+}
+
+.icon:hover {
+  transform: scale(0.8);
+  transition: 1.5s;
+  border-radius: 20% 30% 23% 70% / 40% 80% 20% 33%;
+  -webkit-box-shadow: 0 19px 38px rgba(0, 0, 0, 0.65),
+    0 15px 12px rgba(0, 0, 0, 0.55);
+  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.65), 0 15px 12px rgba(0, 0, 0, 0.55);
+}
+
+.icon:hover i {
+  transform: scale(1.8);
+  transition: 1.5s;
+}
+
+.about-content-grid > div {
+  padding: 2.5rem;
+}
+
+.about-content h2 {
+  margin-top: 1rem;
+  font-size: 1.5rem;
+  color: white;
+}
+
+.about-content p {
+  margin-top: 0.2rem;
+  font-size: 1rem;
+  color: white;
+}
+
+@media only screen and (max-width: 670px) {
+  .about-content-grid {
+    grid-template-columns: 100%;
+  }
+}
+
+/* end about container */
+
+/* start footer */
+.footer {
+  position: relative;
+  left: 0;
+  bottom: 0;
+  width: 90%;
+  height: auto;
+  margin: auto;
+  background-color: #21212e;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  text-align: center;
+  color: grey;
+  -webkit-box-shadow: 0 19px 38px rgba(0, 0, 0, 0.9),
+    0 15px 12px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.9), 0 15px 12px rgba(0, 0, 0, 0.8);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 50% 50%;
+}
+
+.footer-grid-right,
+.footer-grid-left {
+  padding: 2rem 0 2rem 0;
+  font-size: 1rem;
+}
+
+.footer-grid-left i {
+  transition: 1s;
+}
+
+.footer-grid-left i {
+  transition: 1s;
+  transform: scale(1.5);
+  color: #46c2ff;
+  background: linear-gradient(to right, #bd11fa 0%, #46c2ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* end footer */
 
 /* start animations */
 
+/* infinite gloss effect */
+.glossy-text {
+  -webkit-mask-image: linear-gradient(
+    -60deg,
+    rgba(189, 17, 250, 0.6) 40%,
+    #bd11fa 50%,
+    rgba(189, 17, 250, 0.6) 60%
+  );
+  -webkit-mask-size: 200%;
+  animation: gloss 2s infinite;
+}
+
+@-webkit-keyframes gloss {
+  from {
+    -webkit-mask-position: 150%;
+  }
+
+  to {
+    -webkit-mask-position: -50%;
+  }
+}
+
+@media only screen and (max-width: 414px) {
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 100%;
+  }
+
+  .footer-grid-right {
+    padding: 1rem 0 1.5rem 0;
+    font-size: 1rem;
+  }
+
+  .footer-grid-left {
+    padding: 1.5rem 0 0rem 0;
+    font-size: 1rem;
+  }
+}
+
 /* end animations */
+
+/* start responsive conditions */
+
+@media only screen and (max-width: 282px) {
+  .landing-container,
+  .teach-container,
+  .about-container {
+    display: none;
+  }
+
+  .responsive-condition {
+    display: block;
+    color: whitesmoke;
+  }
+}
