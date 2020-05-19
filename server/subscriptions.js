@@ -68,6 +68,20 @@ io.sockets.on('connection', socket => {
                     })
                 });
                 socket.on('lectureEnd', terminateLecture)
+                socket.on('updateBoards', boardObj => {
+                    redisClient.hmget('rooms', roomToJoin, (err, roomObj) => {
+                        roomObj = JSON.parse(roomObj)
+                        roomObj.boards = boardObj.boards
+                        roomObj.boardActive = boardObj.activeBoardIndex
+                        redisClient.hmset("rooms", {
+                            [roomToJoin]: JSON.stringify(roomObj)
+                        })
+                        socket.broadcast.to(roomToJoin).emit('boards', 
+                        boardObj.boards.filter((e,i)=>{
+                            return i != boardObj.activeBoardIndex
+                        }))
+                    })
+                })
                 console.log('Initializing room -> manager joining')
                 managerObj.socketId = socket.id;
                 redisClient.hmset('managers', {
@@ -90,8 +104,8 @@ io.sockets.on('connection', socket => {
             })
             socket.on('disconnect', e => updateNumOfStudents(roomToJoin));
             isIncomingStudent = true;
-            console.log(`Student joining room ${roomToJoin}`);
             roomToJoin = urlUuid;
+            console.log(`Student joining room ${roomToJoin}`);
             socket.join(roomToJoin);
         }
         updateNumOfStudents(roomToJoin)

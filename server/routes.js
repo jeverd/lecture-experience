@@ -18,6 +18,8 @@ app.post('/create', (req, res) => {
     const managerId = uuidv4();
     let roomObj = req.body;
     roomObj.managerId = managerId;
+    roomObj.boards = []
+    roomObj.boardActive = 0
     redisClient.hmset("rooms", { [roomId]: JSON.stringify(roomObj) });
     redisClient.hmset("managers", {
         [managerId]: JSON.stringify({

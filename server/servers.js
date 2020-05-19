@@ -8,6 +8,7 @@ const app = express();
 app.use(express.static('public/js'));
 app.use(express.static('public/css'));
 app.use(express.static('public/images'));
+app.use(express.json({limit: '50mb'}))
 app.use(bodyParser.json());
 app.use(helmet());
 const expressServer = app.listen(8080);
