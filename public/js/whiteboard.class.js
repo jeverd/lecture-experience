@@ -1,19 +1,21 @@
 import Point from './point.model.js';
-import {TOOL_CIRCLE, TOOL_LINE, TOOL_BRUSH, TOOL_ERASER, TOOL_PAINT_BUCKET, TOOL_PENCIL, TOOL_SQUARE, TOOL_TRIANGLE} from './tool.js'; 
+import {TOOL_CIRCLE, TOOL_LINE, TOOL_BRUSH, TOOL_ERASER, TOOL_PAINT_BUCKET, TOOL_PENCIL, TOOL_SQUARE, TOOL_TRIANGLE} from './tools.js'; 
 
 import {getMouseCoordsOnCanvas, findDistance} from './utility.js';
 import Fill from './fill.class.js';
 
-
-export default class Paint{
+export default class Whiteboard{
 
     constructor(canvasId){
         this.canvas = document.getElementById(canvasId);
+        this.canvas.height = window.innerHeight
+        this.canvas.width = window.innerWidth
         this.context = canvas.getContext("2d");
+        this.paintWhite()
+        this.boards = [this.getImage()]
         this.undoStack = [];
         this.undoLimit = 3; //limit for the stack
     }
-
 
     set activeTool(tool){
         this.tool = tool;
@@ -34,16 +36,32 @@ export default class Paint{
         this.context.strokeStyle = this._color;
     }
 
+    //returns a MediaStream of canvas
+    getStream(fps){
+        return this.canvas.captureStream(fps)
+    }
 
-    init(){
-        // maybe it should be onmousedown and onMouseDown
+    // returns an image of the current state of canvas
+    getImage(){
+        return this.canvas.toDataURL("image/png", 1.0).replace("image.png", "image/octet-stream");
+    }
+
+    initialize(){
+        this.activeTool = TOOL_BRUSH;
+        this.lineWidth = 1;
+        this.brushSize = 4;
+        this.selectedColor = "#000000";
         this.canvas.onmousedown = e => this.onMouseDown(e);
+    }
+
+    paintWhite(){
+        this.context.fillStyle = "white";
+        this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
     onMouseDown(e){
         // store the image so that we can replicate it with every mouse move.
         this.saveData = this.context.getImageData(0, 0, this.canvas.clientWidth, this.canvas.height);
-        console.log(this.saveData);
 
         //undo portion (2L)
         if(this.undoStack.length >= this.undoLimit) this.undoStack.shift();
@@ -143,12 +161,21 @@ export default class Paint{
 
     undoPaint(){
         if(this.undoStack.length > 0){
-            console.log(this.undoStack)
-            this.context.putImageData(this.undoStack[this.undoStack.length - 1], 0, 0);
-            this.undoStack.pop();
+            this.context.putImageData(this.undoStack.pop(), 0, 0);
         }else{
             alert("No drawing to be undone");
         }
+    }
+
+    clearCanvas(){
+        //make the canvass a blank page
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.paintWhite()
+
+    }
+
+    setCurrentBoard(img){
+        this.context.drawImage(img, 0, 0, this.canvas.width, this.canvas.height);
     }
 }
 
