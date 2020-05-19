@@ -10,7 +10,9 @@ window.onload = () => {
         });
 
         socket.on('ready', room => {
-            console.log(room)
+            const { boards, boardActive } = room.lecture_details
+            console.log(room.lecture_details)
+            setNonActiveBoards(boards.filter((e,i) => i != boardActive))
         });
 
         socket.on('disconnect', (e) => {
@@ -25,16 +27,37 @@ window.onload = () => {
             socket.emit('notify', manager_socket_id)
         })
 
+        socket.on('boards', setNonActiveBoards)
+
         peer.on('call', call => {
             call.on('stream', stream => {
-                let player = document.getElementById('speaker')
-                if ("srcObject" in player) {
-                    player.srcObject = stream;
-                } else {
-                    player.src = window.URL.createObjURL(stream);
-                }
+                let speaker = document.getElementById('speaker')
+                let whiteboard = document.getElementById('whiteboard')
+                startStream(speaker, stream.getAudioTracks()[0])
+                startStream(whiteboard, stream.getVideoTracks()[0])
             })
             call.answer(null)
         })
     });
+}
+
+function startStream(html_elem, stream_track){
+    let stream = new MediaStream()
+    stream.addTrack(stream_track)
+    if ("srcObject" in html_elem) {
+        html_elem.srcObject = stream;
+    } else {
+        html_elem.src = window.URL.createObjURL(stream);
+    }
+}
+
+function setNonActiveBoards(boards){
+    let boardsDiv = document.getElementById('non-active-boards')
+    boardsDiv.innerHTML = ""
+    boards.forEach(board => {
+        let imgElem = document.createElement('img')
+        imgElem.src = board
+        imgElem.height = 75
+        boardsDiv.appendChild(imgElem)
+    })
 }

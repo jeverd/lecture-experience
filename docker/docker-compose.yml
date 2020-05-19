@@ -7,20 +7,26 @@ services:
       volumes:
         - ./docker-config/redis.conf:/redis.conf
       command: [ "redis-server", "/redis.conf" ]
-    web-server:
-      image: jeverd/liteboard-ngnix:latest
-      ports:
-        - 80:80
-        - 443:443
-      volumes:
-        - ./letsencrypt:/etc/letsencrypt
-    app:
-      image: jeverd/liteboard-express:latest
-      links:
-        - redis_db
-        - web-server
-      ports:
-        - "8080:8080"
-      depends_on:
-        - redis_db
-        - web-server
+    # web-server:
+    #   image: jeverd/liteboard-ngnix:latest
+    #   ports:
+    #     - ${WEB_SERVER_PORT_HTTP}:${WEB_SERVER_PORT_HTTP}
+    #     - ${WEB_SERVER_PORT_HTTPS}:${WEB_SERVER_PORT_HTTPS}
+    #   volumes:
+    #     - ./letsencrypt:/etc/letsencrypt
+    # app:
+    #   image: jeverd/liteboard-express:latest
+    #   links:
+    #     - redis_db
+    #     - web-server
+    #   ports:
+    #     - ${EXPRESS_PORT}:${EXPRESS_PORT}
+    #   environment: 
+    #     - NODE_ENV=${NODE_ENV}
+    #     - EXPRESS_PORT=${EXPRESS_PORT}
+    #     - PT_HOST=${PT_HOST}
+    #     - PT_PORT=${PT_PORT}
+    #     - REDIS_URL=${REDIS_URL}
+    #   depends_on:
+    #     - redis_db
+    #     - web-server

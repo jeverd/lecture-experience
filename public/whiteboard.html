@@ -15,18 +15,19 @@
     <link rel="stylesheet" href="/canvas.css">
 </head>
 
-<body>
+<body style="background-color: #ffffff">
     <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-    <div style="margin:10px 60px;">
-        <div>
-            <h1>Lecture Runnining</h1>
+    <div class="classroom-info">
+        <div class="display:flex;justify-content:center">
+            <span>Lecture Runnining</span>
             <button id="end-lecture">End Lecture</button>
         </div>
-        <h2>Spectators: <span id="specs"></span></h2>
-        <h3>Share link: </h3>
-        <h4><span id="sharable-link"></span></h4>
+        <div class="display:flex;justify-content:center">
+            <span>Spectators: <span id="specs"></span></span>
+            <button id="copy-share-link">Copy Share Link</button>
+        </div>
     </div>
     <div class="toolbox left">
         <div class="group commands">
@@ -36,6 +37,17 @@
             <div class="item" data-command="dowload" title="Dowload">
                 <img src="/dowload-icon.png" />
             </div>
+            <div class="item" data-command="add-page" title="Add Page">
+                <img src="/add-icon.png" />
+            </div>
+
+            <div class="item" data-command="remove-page" title="Remove Page">
+                    <img src="/remove-icon.png" />
+            </div>
+
+            <div class="item" data-command="clear-page" title="Remove Page">
+                <img src="/clear-icon.png" />
+        </div>
 
         </div>
 
@@ -122,7 +134,7 @@
 
     </div>
 
-    <canvas id="canvas" width="640" height="480"></canvas>
+    <canvas id="canvas"> </canvas>
 
     <div class="toolbox right">
         <div class="group swatches">
@@ -145,19 +157,21 @@
             <div class="item" data-color="#00ff00">
                 <div class="swatch" style="background-color: green; "></div>
             </div>
+        </div>
+        <div class ="group swatches" id="pagelist">
+                <div id="first-board" class="item homePage" data-page="page">
+                        <div class="swatch" style="background-color: #ffffff; ">
+                        <img/>
+                        </div>
+                </div>
 
-            <!--
-            <div class = "item">
-                <input type="color">
-            </div>
-            -->
         </div>
     </div>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/peerjs@0.3.20/dist/peer.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="/manager.js" type="text/javascript"></script>
-    <script src="/canvas.js" type="module"></script>
+    <script src="/whiteboard.js" type="module"></script>
 </body>
 
 </html>

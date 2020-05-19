@@ -6,12 +6,23 @@
 <html class="no-js">
 <!--<![endif]-->
 
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://fonts.googleapis.com/css?family=Muli&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css?family=Muli&display=swap"
+    rel="stylesheet"
+  />
+  <link
+    rel="stylesheet"
+    href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+    integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+    crossorigin="anonymous"
+  />
   <link rel="stylesheet" href="/style.css" />
 </head>
+
 
 <body>
   <!--[if lt IE 7]>
@@ -41,16 +52,99 @@
     </div>
   </div>
 
-  <div class="about-container">
-    about
-  </div>
-  <script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
-  <script>
-    ScrollReveal().reveal(".landing-graphic", { delay: 200 });
-    ScrollReveal().reveal(".landing-info", { delay: 700 });
-    ScrollReveal().reveal(".buttons", { delay: 1200 });
-  </script>
-  <script src="" async defer></script>
-</body>
+    <div class="teach-container">
+      <div class="teach-content-container">
+        <p class="teach-learn-header">
+          <span class="teach-learn-text"></span> from anywhere
+        </p>
+        <img
+          src="/whiteboardGraphicGradientV2.png"
+          id="teach-whiteboard-graphic"
+        />
+        <p class="teach-learn-paragraph">
+          <span class="highlighted-text">Liteboard</span> provides a
+          <span class="highlighted-text"
+            >decentralized lightweight online experience.</span
+          >
+          This means we offer the quickest solution to hosting an online
+          learning experience. This experience provides
+          <span class="highlighted-text"
+            >a classroom outside of the classroom.</span
+          >
+        </p>
+      </div>
+    </div>
 
+    <div class="about-container">
+      <div class="about-content-container">
+        <div class="about-content-grid">
+          <div id="about-content-1" class="about-content">
+            <div id="icon-1" class="icon">
+              <i class="fas fa-play-circle"></i>
+            </div>
+            <h2>
+              Real time audio sharing
+            </h2>
+            <p>text</p>
+          </div>
+          <div id="about-content-2" class="about-content">
+            <div id="icon-2" class="icon">
+              <i class="fas fa-chalkboard"></i>
+            </div>
+            <h2>Instant canvas sharing</h2>
+            <p>text</p>
+          </div>
+          <div id="about-content-3" class="about-content">
+            <div id="icon-3" class="icon">
+              <i class="fas fa-phone"></i>
+            </div>
+            <h2>Lightweight calls</h2>
+            <p>text</p>
+          </div>
+          <div id="about-content-4" class="about-content">
+            <div id="icon-4" class="icon">
+              <i class="far fa-chart-bar"></i>
+            </div>
+            <h2>In-depth analytics</h2>
+            <p>text</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div class="footer-grid">
+        <div class="footer-grid-left">
+          <a
+            href="https://github.com/jeverd/lecture-experience"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <i class="fab fa-github-alt"></i>
+          </a>
+        </div>
+        <div class="footer-grid-right">
+          <p class="glossy-text">&copy; 2020 Liteboard</p>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="responsive-condition">
+      Sorry, Liteboard isn't supported on this device yet
+    </h2>
+    <script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
+    <script>
+      ScrollReveal().reveal(".landing-graphic", { delay: 100 });
+      ScrollReveal().reveal(".landing-info", { delay: 600 });
+      ScrollReveal().reveal(".buttons", { delay: 1100 });
+      ScrollReveal().reveal(".teach-learn-header", { delay: 200 });
+      ScrollReveal().reveal("#teach-whiteboard-graphic", { delay: 700 });
+      ScrollReveal().reveal(".teach-learn-paragraph", { delay: 1200 });
+      ScrollReveal().reveal("#about-content-1", { delay: 100 });
+      ScrollReveal().reveal("#about-content-2", { delay: 600 });
+      ScrollReveal().reveal("#about-content-3", { delay: 1100 });
+      ScrollReveal().reveal("#about-content-4", { delay: 1600 });
+    </script>
+    <script src="" async defer></script>
+  </body>
 </html>
