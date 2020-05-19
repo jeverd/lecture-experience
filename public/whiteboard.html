@@ -20,12 +20,14 @@
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
     <div class="classroom-info">
-        <div>
-            <h1>Lecture Runnining</h1>
+        <div class="display:flex;justify-content:center">
+            <span>Lecture Runnining</span>
             <button id="end-lecture">End Lecture</button>
         </div>
-        <h2>Spectators: <span id="specs"></span></h2>
-        <button id="copy-share-link">Copy Share Link</button>
+        <div class="display:flex;justify-content:center">
+            <span>Spectators: <span id="specs"></span></span>
+            <button id="copy-share-link">Copy Share Link</button>
+        </div>
     </div>
     <div class="toolbox left">
         <div class="group commands">
@@ -132,7 +134,7 @@
 
     </div>
 
-    <canvas id="canvas" style="background-color: #ffffff;"></canvas>
+    <canvas id="canvas"> </canvas>
 
     <div class="toolbox right">
         <div class="group swatches">
@@ -157,20 +159,19 @@
             </div>
         </div>
         <div class ="group swatches" id="pagelist">
-                
-                <div class="item active homePage" data-page="page" >
+                <div id="first-board" class="item homePage" data-page="page">
                         <div class="swatch" style="background-color: #ffffff; ">
-                        <img>
+                        <img/>
                         </div>
                 </div>
 
         </div>
     </div>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/peerjs@0.3.20/dist/peer.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="/manager.js" type="text/javascript"></script>
-    <script src="/canvas.js" type="module"></script>
+    <script src="/whiteboard.js" type="module"></script>
 </body>
 
 </html>

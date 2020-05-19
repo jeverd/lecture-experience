@@ -11,6 +11,11 @@ body{
     transform: translateX(-50%);
 }
 
+#canvas{
+    border-style: solid; 
+    border-width: 3px; 
+    border-color: black;
+}
 
 .toolbox{
     height: 100%;
