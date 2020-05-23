@@ -37,7 +37,7 @@ io.sockets.on('connection', socket => {
                 if (roomToJoin in roomsTimeout){
                     clearTimeout(roomsTimeout[roomToJoin])
                     delete roomsTimeout[roomToJoin]
-                    console.log(`Manager came back -> cleared ${roomToJoin} timeout`)
+                    logger.info(`SOCKET: Manager came back -> cleared ${roomToJoin} timeout`)
                 }
                 function terminateLecture() {
                     logger.info(`SOCKET: Lecture ${roomToJoin} terminated`)
