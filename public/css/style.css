@@ -11,6 +11,7 @@ body {
 
 .responsive-condition {
   display: none;
+  margin: 15px;
 }
 
 .landing-container {
@@ -494,7 +495,10 @@ margin-top: -30px;
   }
 
 .fixed-footer{
-  margin-top: -40px;
+  position: block;
+  /* left: 50%;
+  transform: translateX(-50%);
+  bottom: 1px; */
 }
 
 .tooltip {
@@ -507,18 +511,19 @@ margin-top: -30px;
 }
 
 .tooltip .tooltiptext {
+  font-size: calc(0.75em + 3%);
   visibility: hidden;
-  width: 200px;
+  width: auto;
+  min-width: 125px;
   background-color: #555;
   color: #fff;
-  text-align: center;
+  text-align: left;
   border-radius: 6px;
-  padding: 5px 0;
+  padding: 5px 10px;
   position: absolute;
   z-index: 1;
-  bottom: 125%;
-  left: 50%;
-  margin-left: -95px;
+  bottom: 50px;
+  left: -35px;
   opacity: 0;
   transition: opacity 0.3s;
 }
@@ -543,7 +548,7 @@ margin-top: -30px;
 @media only screen and (max-width: 599px) {
 
   .tooltip .tooltiptext {
-    margin-left: -170px;
+    left:-110px;
   }
 
   .tooltip .tooltiptext::after {
