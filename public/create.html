@@ -7,22 +7,90 @@
 <!--<![endif]-->
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title></title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+        href="https://fonts.googleapis.com/css?family=Muli&display=swap"
+        rel="stylesheet"
+    />
+    <link
+        rel="stylesheet"
+        href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+        crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="/style.css" />
 </head>
 
-<body>
+<body style="overflow-x: hidden;">
     <!--[if lt IE 7]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
-    <h1>Hello Create!</h1>
-    <div style="display: flex; flex:1;align-items: center;justify-content:center;">
-        <button id="create-lecture">Create Lecture</button>
+      <p class="browsehappy">
+        You are using an <strong>outdated</strong> browser. Please
+        <a href="#">upgrade your browser</a> to improve your experience.
+      </p>
+    <![endif]-->
+    <div class="landing-container">
+        <div class="centered">
+            <div id="create-lecture-graphic" >
+                <img
+                    src="/createALecture.png"
+                    id="create-lecture-graphic"
+                />
+            </div>
+            
+            <div id="create-lecture-info">      
+                <div id="info" >
+                    <label class="inputText" for="lectureName">Lecture Name:</label>
+                    <input class="inputBox" type="text" id="lectureName" name="lectureName" ><br><br><br><br>
+                    <label class="inputText" for="email">Email:</label>
+                    <input class="inputBox" type="email" id="email" name="email">
+                </div> 
+                
+               
+                <div class="tooltip"> 
+                    <img src="/tool-tip.png" class="tooltip" id="tooltip">
+                        <span class="tooltiptext"><p>Optional: current progress will be sent to your email.</p></span>
+                </div>
+            </div>
+        
+            <div class="buttons" >
+                <button disabled="disabled" id="create-lecture" >Start Lecture</button><br><br><br><br>
+            </div> 
+        </div> 
+
+        <div class="footer fixed-footer">
+                <div class="footer-grid">
+                    <div class="footer-grid-left">
+                    <a
+                        href="https://github.com/jeverd/lecture-experience"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <i class="fab fa-github-alt"></i>
+                    </a>
+                    </div>
+                    <div class="footer-grid-right">
+                    <p class="glossy-text">&copy; 2020 Liteboard</p>
+                    </div>
+                </div>
+                </div>
     </div>
+    
+    
+   
+
+    <h2 class="responsive-condition">
+    Sorry, Liteboard isn't supported on this device yet
+    </h2>
+    <script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
+    <script>
+    ScrollReveal().reveal("#create-lecture-graphic", { delay: 300 });
+    ScrollReveal().reveal("#create-lecture-info", { delay: 300 });
+    ScrollReveal().reveal(".buttons", { delay: 300 });
+    </script>
+    <script src="" async defer></script>
+
+
     <script src="/create.js" type="text/javascript"></script>
 </body>
 
