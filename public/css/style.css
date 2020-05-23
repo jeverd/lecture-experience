@@ -73,6 +73,9 @@ body {
   text-align: center;
   margin: auto;
   transition: 1.5s;
+
+  align-items: center;
+  justify-content:center;
 }
 
 .buttons a:hover {
@@ -422,7 +425,7 @@ body {
 
 /* start responsive conditions */
 
-@media only screen and (max-width: 282px) {
+@media only screen and (max-width: 350px) {
   .landing-container,
   .teach-container,
   .about-container {
@@ -432,5 +435,147 @@ body {
   .responsive-condition {
     display: block;
     color: whitesmoke;
+  }
+}
+
+/* create page */
+
+#create-lecture-graphic{
+  padding-top: 1%;
+}
+
+#create-lecture-info{
+  background-color:#21212e;
+  height: 200px;
+  width: 450px;
+  margin: 0 auto;
+  border-radius: 25px;
+  box-shadow: 10px 10px 54px -6px rgba(0,0,0,0.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 50px;
+}
+
+.inputText{
+  color: white;
+  float: left;
+  font-size: 18px
+}
+
+.inputBox{
+  float: right;
+  border-radius: 25px;
+  margin-left: 10px;
+  width: 60%;
+  height: 30px;
+  border-color: white;
+  box-shadow: 0px 0px 0px 0px white;
+  text-indent: 10px;
+  font-size: 18px;
+  outline: none;
+}
+
+
+
+#info{
+  width: 80%;
+}
+
+
+.centered {
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+text-align: center;
+min-height: 100vh;
+margin-top: -30px;
+  }
+
+.fixed-footer{
+  margin-top: -40px;
+}
+
+.tooltip {
+  position: relative;
+  width: 40px;
+  height: auto;
+  margin-top: 17%;
+  margin-right: -15px;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 200px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -95px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Responsive portion*/
+@media only screen and (max-width: 599px) {
+
+  .tooltip .tooltiptext {
+    margin-left: -170px;
+  }
+
+  .tooltip .tooltiptext::after {
+    left: 87.5%;
+  }
+
+  #create-lecture-graphic{
+    width: 100%;
+    height: auto;
+  }
+
+  #create-lecture-info{
+    width: 90%;
+    height: 180px;
+  }
+
+  #info{
+    width: 90%;
+    
+  }
+
+  .inputBox{
+    width: 50%;
+    margin-left: 0px;
+  }
+
+  .tooltip {
+    margin-top: 22%;
+    margin-right: 0px;
+  }
+
+  .inputText{
+    margin-left: 10px;
   }
 }
