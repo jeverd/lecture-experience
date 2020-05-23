@@ -29,7 +29,7 @@
         <a href="#">upgrade your browser</a> to improve your experience.
       </p>
     <![endif]-->
-    <div class="landing-container">
+    <div class="landing-container" style="margin:30px;">
         <div class="centered">
             <div id="create-lecture-graphic" >
                 <img
@@ -46,41 +46,45 @@
                     <input class="inputBox" type="email" id="email" name="email">
                 </div> 
                 
-               
                 <div class="tooltip"> 
                     <img src="/tool-tip.png" class="tooltip" id="tooltip">
-                        <span class="tooltiptext"><p>Optional: current progress will be sent to your email.</p></span>
+                        <span class="tooltiptext">
+                            <b>Optional:</b> 
+                            <p>We'll send you steps to reconnect in case you disconnect from the lecture</p>
+                        </span>
                 </div>
             </div>
-        
-            <div class="buttons" >
-                <button disabled="disabled" id="create-lecture" >Start Lecture</button><br><br><br><br>
-            </div> 
-        </div> 
-
-        <div class="footer fixed-footer">
-                <div class="footer-grid">
-                    <div class="footer-grid-left">
-                    <a
-                        href="https://github.com/jeverd/lecture-experience"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        <i class="fab fa-github-alt"></i>
+            <div style="margin-bottom: 20px;" class="landing-info">
+                <div class="buttons">
+                    <a href="#" id="create-lecture">
+                        <span>Start Lecture</span>
                     </a>
-                    </div>
-                    <div class="footer-grid-right">
-                    <p class="glossy-text">&copy; 2020 Liteboard</p>
-                    </div>
-                </div>
-                </div>
+                </div> 
+            </div>  
+        </div> 
     </div>
+    <div class="footer">
+        <div class="footer-grid">
+          <div class="footer-grid-left">
+            <a
+              href="https://github.com/jeverd/lecture-experience"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <i class="fab fa-github-alt"></i>
+            </a>
+          </div>
+          <div class="footer-grid-right">
+            <p class="glossy-text">&copy; 2020 Liteboard</p>
+          </div>
+        </div>
+      </div>
     
     
    
 
     <h2 class="responsive-condition">
-    Sorry, Liteboard isn't supported on this device yet
+      Sorry, Liteboard isn't supported on this device yet
     </h2>
     <script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
     <script>
