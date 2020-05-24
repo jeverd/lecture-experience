@@ -11,7 +11,9 @@ window.onload = () => {
     const url = window.location.pathname;
     const last_slash = url.lastIndexOf('/');
     const manager_id = url.substr(last_slash + 1);
-    
+    const messageContainer = document.getElementById("message-container");
+    const sendContainer = document.getElementById("send-container");
+    const messageInput = document.getElementById("message-input");
 
     peer.on('open', () => {
         navigator.mediaDevices.getUserMedia({ audio: true })
@@ -38,6 +40,11 @@ window.onload = () => {
             alert('There is already a manager')
         });
 
+        socket.on('send-to-manager', message => {
+            console.log(message);
+            appendMessage(message);
+        })
+
         socket.on('ready', room => {
             whiteboard.initialize();
             let firstNonActiveBoard = $('#first-board')
@@ -63,6 +70,15 @@ window.onload = () => {
                 document.execCommand("copy");
                 document.body.removeChild(tmp_input);
             })
+
+            sendContainer.addEventListener("submit", (e) => {
+                e.preventDefault();
+            
+                const message = messageInput.value;
+                appendMessage(`You: ${message}`);
+                socket.emit("send-to-guests", room.lecture_details.id, message);
+                messageInput.value = "";
+            });
 
             document.querySelector("button#end-lecture").addEventListener('click', e => {
                 calls.forEach(call => {
@@ -214,6 +230,8 @@ window.onload = () => {
             console.log(room)
         });
 
+
+
         function onClickNonActiveBoardElem(){
             if(!$(this).hasClass('active')){
                 const currentBoardImage = whiteboard.getImage()
@@ -258,5 +276,14 @@ window.onload = () => {
             document.getElementById("pagelist").appendChild(outer);
             outer.addEventListener('click', onClickNonActiveBoardElem.bind(outer))
        }
+
+       function appendMessage(message) {
+            const messageElement = document.createElement("tr");
+            const tableData = document.createElement("td");
+            tableData.innerText = message;
+      
+            messageElement.append(tableData);
+            messageContainer.append(messageElement);
+        }
     }
 }
