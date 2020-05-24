@@ -11,6 +11,7 @@ body {
 
 .responsive-condition {
   display: none;
+  margin:15px 30px;
 }
 
 .landing-container {
@@ -455,6 +456,7 @@ body {
   justify-content: center;
   align-items: center;
   margin-bottom: 50px;
+  position: relative;
 }
 
 .inputText{
@@ -484,31 +486,30 @@ body {
 
 
 .centered {
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-text-align: center;
-min-height: 100vh;
-margin-top: -30px;
-  }
-
-.fixed-footer{
-  margin-top: -40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 100vh;
+  margin-top: -30px;
 }
 
 .tooltip {
+  left: 5px;
   position: relative;
-  width: 40px;
-  height: auto;
-  margin-top: 17%;
-  margin-right: -15px;
-  display: inline-block;
+  top: 36.5px;
+}
+
+.tooltip > img{
+  width: 37.5px;
 }
 
 .tooltip .tooltiptext {
+  font-size: calc(3% + 0.75em);
   visibility: hidden;
-  width: 200px;
+  width: auto;
+  min-width: 150px;
   background-color: #555;
   color: #fff;
   text-align: center;
@@ -516,9 +517,8 @@ margin-top: -30px;
   padding: 5px 0;
   position: absolute;
   z-index: 1;
-  bottom: 125%;
-  left: 50%;
-  margin-left: -95px;
+  bottom: 46px;
+  right: -55.75px;
   opacity: 0;
   transition: opacity 0.3s;
 }
@@ -539,13 +539,21 @@ margin-top: -30px;
   opacity: 1;
 }
 
+.create-lecture-inputs:last-child{
+  margin-top:65px;
+}
+
 /* Responsive portion*/
 @media only screen and (max-width: 599px) {
 
   .tooltip .tooltiptext {
-    margin-left: -170px;
+    right: 0.75px;
   }
 
+  .tooltip{
+    left: 0px;
+  }
+  
   .tooltip .tooltiptext::after {
     left: 87.5%;
   }
@@ -570,12 +578,35 @@ margin-top: -30px;
     margin-left: 0px;
   }
 
-  .tooltip {
-    margin-top: 22%;
-    margin-right: 0px;
-  }
-
   .inputText{
     margin-left: 10px;
+  }
+}
+
+@media only screen and (max-width: 430px) {
+  .create-lecture-inputs{
+    display:flex;
+    flex-direction: column;
+    position: relative;
+    text-align: left;
+    padding-left: 15px;
+    top: -6px;
+  }
+
+  .inputBox{
+    width: 80%;
+    margin: auto;
+    position: relative;
+    left: calc(-3% - 12px);
+    top: 2px;
+  }
+
+  .tooltip{
+    left: -10px;
+    top: 47px;
+  }
+
+  .create-lecture-inputs:last-child{
+    margin-top:20px;
   }
 }
