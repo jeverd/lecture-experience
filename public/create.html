@@ -29,58 +29,67 @@
         <a href="#">upgrade your browser</a> to improve your experience.
       </p>
     <![endif]-->
-    <div class="landing-container">
-        <div class="centered">
-            <div id="create-lecture-graphic" >
-                <img
-                    src="/createALecture.png"
-                    id="create-lecture-graphic"
-                />
-            </div>
-            
-            <div id="create-lecture-info">      
-                <div id="info" >
-                    <label class="inputText" for="lectureName">Lecture Name:</label>
-                    <input class="inputBox" type="text" id="lectureName" name="lectureName" ><br><br><br><br>
-                    <label class="inputText" for="email">Email:</label>
-                    <input class="inputBox" type="email" id="email" name="email">
-                </div> 
-                
-               
-                <div class="tooltip"> 
-                    <img src="/tool-tip.png" class="tooltip" id="tooltip">
-                        <span class="tooltiptext"><p>Optional: current progress will be sent to your email.</p></span>
-                </div>
-            </div>
+    <div class="landing-container" style="margin:30px 30px 0 30px">
+      <div class="centered">
+        <div id="create-lecture-graphic" >
+            <img
+                src="/createALecture.png"
+                id="create-lecture-graphic"
+            />
+        </div>
         
-            <div class="buttons" >
-                <button disabled="disabled" id="create-lecture" >Start Lecture</button><br><br><br><br>
+        <div id="create-lecture-info">      
+            <div id="info" >
+              <div class="create-lecture-inputs">
+                <label class="inputText" for="lectureName">Lecture Name:</label>
+                <input class="inputBox" type="text" id="lectureName" name="lectureName" >
+              </div>
+              <div class="create-lecture-inputs">
+                <label class="inputText" for="email">Email:</label>
+                <input class="inputBox" type="email" id="email" name="email">
+              </div>
             </div> 
-        </div> 
+            
+            <div class="tooltip"> 
+                <img src="/tool-tip.png" id="tooltip"/>
+                <div class="tooltiptext">
+                  <b>Optional:</b> 
+                  <div>In case you disconnect, we'll send you steps to join it back.</div>
+                </div>
+            </div>
+        </div>
+        <div class="landing-info" style="margin-bottom:40px;">
+          <div class="buttons">
+            <a href="#" id="create-lecture">
+              <span>Start Lecture</span>
+            </a>
+          </div>
+        </div>
+      </div> 
+    </div>
 
-        <div class="footer fixed-footer">
-                <div class="footer-grid">
-                    <div class="footer-grid-left">
-                    <a
-                        href="https://github.com/jeverd/lecture-experience"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        <i class="fab fa-github-alt"></i>
-                    </a>
-                    </div>
-                    <div class="footer-grid-right">
-                    <p class="glossy-text">&copy; 2020 Liteboard</p>
-                    </div>
-                </div>
-                </div>
+    <div class="footer">
+      <div class="footer-grid">
+          <div class="footer-grid-left">
+          <a
+              href="https://github.com/jeverd/lecture-experience"
+              target="_blank"
+              rel="noopener noreferrer"
+          >
+              <i class="fab fa-github-alt"></i>
+          </a>
+          </div>
+          <div class="footer-grid-right">
+          <p class="glossy-text">&copy; 2020 Liteboard</p>
+        </div>
+      </div>
     </div>
     
     
    
 
     <h2 class="responsive-condition">
-    Sorry, Liteboard isn't supported on this device yet
+      Sorry, Liteboard isn't supported on this device yet
     </h2>
     <script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
     <script>
