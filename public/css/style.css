@@ -484,6 +484,10 @@ body {
   width: 80%;
 }
 
+.create-button{
+  margin-bottom: 45px; 
+}
+
 
 .centered {
   display: flex;
@@ -492,7 +496,7 @@ body {
   align-items: center;
   text-align: center;
   min-height: 100vh;
-  margin-top: -30px;
+  margin:30px 30px 0 30px;
 }
 
 .tooltip {
