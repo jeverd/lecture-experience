@@ -1,4 +1,4 @@
-import Point from "./point.model.js";
+import Point from "./point.js";
 
 export default class Fill{
     //canvas ==> canvas board being affected

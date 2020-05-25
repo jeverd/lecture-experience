@@ -1,8 +1,11 @@
-import Point from './point.model.js';
-import {TOOL_CIRCLE, TOOL_LINE, TOOL_BRUSH, TOOL_ERASER, TOOL_PAINT_BUCKET, TOOL_PENCIL, TOOL_SQUARE, TOOL_TRIANGLE} from './tools.js'; 
+import {
+    TOOL_CIRCLE, TOOL_LINE, TOOL_BRUSH, 
+    TOOL_ERASER, TOOL_PAINT_BUCKET, TOOL_PENCIL, 
+    TOOL_SQUARE, TOOL_TRIANGLE
+} from '../tools.js'; 
 
-import {getMouseCoordsOnCanvas, findDistance} from './utility.js';
-import Fill from './fill.class.js';
+import {getMouseCoordsOnCanvas, findDistance} from '../utility.js';
+import Fill from './fill.js';
 
 export default class Whiteboard{
 
@@ -11,10 +14,11 @@ export default class Whiteboard{
         this.canvas.height = window.innerHeight
         this.canvas.width = window.innerWidth
         this.context = canvas.getContext("2d");
+        this.currentBoard = 0
         this.paintWhite()
-        this.boards = [this.getImage()]
+        this.boards = []
         this.undoStack = [];
-        this.undoLimit = 3; //limit for the stack
+        this.undoLimit = 10; //limit for the stack
     }
 
     set activeTool(tool){
@@ -105,9 +109,11 @@ export default class Whiteboard{
                 break;
             case TOOL_BRUSH:
                 this.drawFreeLine(this._brushSize);
+                break
             case TOOL_ERASER:
                 this.context.clearRect(this.currentPos.x, this.currentPos.y,
-                this._brushSize, this._brushSize);                
+                this._brushSize, this._brushSize);    
+                break            
             default:
                 break;
         }   
@@ -119,14 +125,12 @@ export default class Whiteboard{
         document.onmouseup = null;
     }
     
-
     //shape drawing functions
     drawShape(){
         
         this.context.putImageData(this.saveData, 0, 0);
 
         this.context.beginPath();
-
 
         if (this.tool == TOOL_LINE){
             this.context.moveTo(this.startPos.x, this.startPos.y);

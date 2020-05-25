@@ -6,8 +6,6 @@ const {
   combine, timestamp, printf, colorize,
 } = format;
 
-
-console.log('Called logger');
 const { environment, ptPort, ptHost } = require('../../config/config');
 
 const consoleFormat = printf(({
