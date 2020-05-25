@@ -32,7 +32,7 @@
             <input type="text" id="message-input">
             <button type="submit" id="send-button">Send</button>
         </form>
-        <div id="message-container">Hello, world!</div>
+        <div id="message-container">Chat:</div>
 
     </div>
     <div class="toolbox left">
@@ -40,18 +40,18 @@
             <div class="item" data-command="undo" title="Undo">
                 <img src="/undo-icon.png" />
             </div>
-            <div class="item" data-command="dowload" title="Dowload">
+            <div class="item" data-command="save" title="Save">
                 <img src="/dowload-icon.png" />
             </div>
             <div class="item" data-command="add-page" title="Add Page">
                 <img src="/add-icon.png" />
             </div>
 
-            <div class="item" data-command="remove-page" title="Remove Page">
+            <div class="item" data-command="remove-page" title="Delete Board">
                     <img src="/remove-icon.png" />
             </div>
 
-            <div class="item" data-command="clear-page" title="Remove Page">
+            <div class="item" data-command="clear-page" title="Clear Board">
                 <img src="/clear-icon.png" />
         </div>
 
@@ -164,18 +164,12 @@
                 <div class="swatch" style="background-color: green; "></div>
             </div>
         </div>
-        <div class ="group swatches" id="pagelist">
-                <div id="first-board" class="item homePage" data-page="page">
-                        <div class="swatch" style="background-color: #ffffff; ">
-                        <img/>
-                        </div>
-                </div>
 
-        </div>
+        <div class ="group swatches" id="pagelist"></div>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/peerjs@0.3.20/dist/peer.min.js"></script>
+    <script src="https://unpkg.com/peerjs@1.2.0/dist/peerjs.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/whiteboard.js" type="module"></script>
 </body>
