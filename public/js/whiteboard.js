@@ -43,7 +43,6 @@ window.onload = () => {
         });
 
         socket.on('send-to-manager', message => {
-            console.log(message);
             appendMessage(message);
         })
 
@@ -252,12 +251,15 @@ window.onload = () => {
             outer.appendChild(inner);
             document.getElementById("pagelist").appendChild(outer);
             whiteboard.boards[whiteboard.boards.length] = img
+            outer.addEventListener('click', onClickNonActiveBoardElem.bind(outer))
             if(isActive){
                 $(outer).hide();
                 whiteboard.currentBoard = whiteboard.boards.length - 1;
-                whiteboard.setCurrentBoard(newBoardImg);
+                //must defer function to work when opening on new tab
+                setTimeout(()=>{
+                    whiteboard.setCurrentBoard(newBoardImg);
+                }, 0)
              }
-            outer.addEventListener('click', onClickNonActiveBoardElem.bind(outer))
        }
 
        function emitBoards(){
