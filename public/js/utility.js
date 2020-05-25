@@ -1,4 +1,4 @@
-import Point from './point.model.js';
+import Point from '/classes/point.js';
 
 export function getMouseCoordsOnCanvas(e, canvas){
     let rect = canvas.getBoundingClientRect();
