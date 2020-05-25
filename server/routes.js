@@ -3,8 +3,6 @@ const redisClient = require('./servers.js').client;
 const path = require("path");
 const { v4: uuidv4 } = require('uuid');
 const { logger } = require('./logging/logger');
-const AWS = require('aws-sdk');
-const fs = require('fs');
 
 const public = path.join(__dirname, "../public");
 
@@ -25,6 +23,7 @@ app.post('/create', (req, res) => {
     logger.info('POST /create managerId generated: ' + managerId);
 
     let roomObj = req.body;
+    console.log(roomObj)
     roomObj.managerId = managerId;
     roomObj.boards = []
     roomObj.boardActive = 0

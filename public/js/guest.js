@@ -1,8 +1,10 @@
+import { CONFIG } from './peerConfig.js' 
+
 window.onload = () => {
-  let peer = new Peer();
+  let peer = new Peer(CONFIG);
   const url = window.location.pathname;
   const last_slash = url.lastIndexOf("/");
-  const room_id = url.substr(last_slash + 1);
+  const room_id = url.substr(last_slash + 1); 
   const sendContainer = document.getElementById("send-container");
   const messageInput = document.getElementById("message-input");
 
@@ -58,6 +60,7 @@ window.onload = () => {
   function setNonActiveBoards(boards) {
     let boardsDiv = document.getElementById("non-active-boards");
     boardsDiv.innerHTML = "";
+    console.log(boards)
     boards.forEach((board) => {
       let imgElem = document.createElement("img");
       imgElem.src = board;
