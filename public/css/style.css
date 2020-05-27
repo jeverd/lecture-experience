@@ -514,10 +514,10 @@ body {
 }
 
 .tooltip .tooltiptext {
-  font-size: calc(0.75em + 3%);
+  font-size: calc(3% + 0.75em);
   visibility: hidden;
   width: auto;
-  min-width: 125px;
+  min-width: 150px;
   background-color: #555;
   color: #fff;
   text-align: left;
@@ -525,8 +525,8 @@ body {
   padding: 5px 10px;
   position: absolute;
   z-index: 1;
-  bottom: 50px;
-  left: -35px;
+  bottom: 44px;
+  right: -62px;
   opacity: 0;
   transition: opacity 0.3s;
 }
@@ -555,7 +555,7 @@ body {
 @media only screen and (max-width: 599px) {
 
   .tooltip .tooltiptext {
-    left:-110px;
+    right: -5px;
   }
 
   .tooltip{
