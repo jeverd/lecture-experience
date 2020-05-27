@@ -14,6 +14,14 @@ body {
   margin: 15px;
 }
 
+.create-lecture-container{
+  background-image: url(/liteboardLandingBGlight.png);
+-webkit-background-size: cover;
+-moz-background-size: cover;
+-o-background-size: cover;
+background-size: cover;
+}
+
 .landing-container {
   background-image: url(/liteboardLandingBGlight.png);
   min-height: 100vh;
