@@ -456,6 +456,7 @@ body {
   justify-content: center;
   align-items: center;
   margin-bottom: 50px;
+  position: relative;
 }
 
 .inputText{
@@ -483,16 +484,10 @@ body {
   width: 80%;
 }
 
+.create-button{
+  margin-bottom: 45px; 
+}
 
-.centered {
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-text-align: center;
-min-height: 100vh;
-margin-top: -30px;
-  }
 
 .fixed-footer{
   position: block;
@@ -502,12 +497,13 @@ margin-top: -30px;
 }
 
 .tooltip {
+  left: 12.5px;
   position: relative;
-  width: 40px;
-  height: auto;
-  margin-top: 17%;
-  margin-right: -15px;
-  display: inline-block;
+  top: 35.5px;
+}
+
+.tooltip > img{
+  width: 25px;
 }
 
 .tooltip .tooltiptext {
@@ -544,6 +540,10 @@ margin-top: -30px;
   opacity: 1;
 }
 
+.create-lecture-inputs:last-child{
+  margin-top:65px;
+}
+
 /* Responsive portion*/
 @media only screen and (max-width: 599px) {
 
@@ -551,6 +551,10 @@ margin-top: -30px;
     left:-110px;
   }
 
+  .tooltip{
+    left: -5px;
+  }
+  
   .tooltip .tooltiptext::after {
     left: 87.5%;
   }
@@ -567,20 +571,51 @@ margin-top: -30px;
 
   #info{
     width: 90%;
-    
   }
 
   .inputBox{
     width: 50%;
-    margin-left: 0px;
-  }
-
-  .tooltip {
-    margin-top: 22%;
-    margin-right: 0px;
+    left: -20px;
+    position: relative;
   }
 
   .inputText{
     margin-left: 10px;
+  }
+}
+
+@media only screen and (max-width: 460px) {
+  .create-lecture-inputs{
+    display:flex;
+    flex-direction: column;
+    position: relative;
+    text-align: left;
+    padding-left: 15px;
+    top: -6px;
+  }
+
+  #create-lectuire-info{
+    margin-bottom: 0px !important;
+  }
+
+  .create-button{
+    margin: 0 !important;
+  }
+
+  .inputBox{
+    width: 80%;
+    margin: auto;
+    position: relative;
+    left: calc(-3% - 12px);
+    top: 2px;
+  }
+
+  .tooltip{
+    left: -22.5px;
+    top: 47px;
+  }
+
+  .create-lecture-inputs:last-child{
+    margin-top:20px;
   }
 }

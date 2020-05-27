@@ -15,6 +15,7 @@ create_but.addEventListener('click', e => {
             window.location = response.redirectUrl;
         }
     }
+
     xhr.send(JSON.stringify({
         name: lecture_name,
         email: lecture_email,

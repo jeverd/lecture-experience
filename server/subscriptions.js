@@ -111,7 +111,7 @@ io.sockets.on('connection', socket => {
             logger.info(`SOCKET: Student joining room ${roomToJoin}`);
             isIncomingStudent = true;
             roomToJoin = urlUuid;
-            console.log(`Student joining room ${roomToJoin}`);
+            logger.info(`SOCKET: Student joining room ${roomToJoin}`);
             socket.join(roomToJoin);
         }
         updateNumOfStudents(roomToJoin)
@@ -133,5 +133,22 @@ io.sockets.on('connection', socket => {
             }
             socket.emit('ready', { lecture_details: lectureObj });
         });
-    })
+    });
+    socket.on("send-to-guests", (room, message) => {
+      socket.broadcast.to(room).emit("send-to-guests", message)
+    });
+  
+    socket.on("send-to-manager", (room, message) => {
+      redisClient.hmget("rooms", room, (error, roomObject) => {
+        roomObject = JSON.parse(roomObject.pop());
+        redisClient.hmget(
+          "managers",
+          roomObject.managerId,
+          (error, managerObject) => {
+            const { socketId } = JSON.parse(managerObject.pop());
+            io.in(room).connected[socketId].emit("send-to-manager", message);
+          }
+        );
+      });
+    });
 });
