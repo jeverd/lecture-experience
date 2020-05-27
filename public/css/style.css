@@ -491,9 +491,16 @@ body {
 
 .fixed-footer{
   position: block;
-  /* left: 50%;
-  transform: translateX(-50%);
-  bottom: 1px; */
+}
+
+.centered {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  /* min-height: 100vh; */
+  margin:30px 30px 0 30px;
 }
 
 .tooltip {
