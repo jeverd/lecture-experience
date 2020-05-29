@@ -64,5 +64,5 @@ app.get('/lecture/:id', (req, res) => {
 
 
 app.get('*', function (req, res) {
-    res.sendFile('error.html', { root: path.join(public) });
+    res.sendFile('/', { root: path.join(public) });
 });
