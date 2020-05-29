@@ -20,7 +20,7 @@ const sendEmail = (toEmail, subject, htmlBody) => {
     html: htmlBody,
   };
   transporter.sendMail(mailOption, (err, info) => {
-    if (err) console.log(`EMAIL: Failed to send email to: ${toEmail}, error: ${err}`);
+    if (err) logger.info(`EMAIL: Failed to send email to: ${toEmail}, error: ${err}`);
     else logger.info(`EMAIL: Successfully sent email to ${toEmail}`);
   });
 };
