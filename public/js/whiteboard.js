@@ -18,13 +18,19 @@ window.onload = () => {
     const messageInput = document.getElementById("message-input");
 
     peer.on('open', () => {
-        navigator.mediaDevices.getUserMedia({ audio: true })
+        const getUserMedia = navigator.mediaDevices.getUserMedia || 
+                             navigator.getUserMedia ||
+                             navigator.webkitGetUserMedia ||
+                             navigator.mozGetUserMedia ||
+                             navigator.msGetUserMedia;
+
+        getUserMedia({ audio: true })
             .then(startLecture)
     })
 
     function startLecture(stream){
         let whiteboard = new Whiteboard("canvas");
-        stream.addTrack(whiteboard.getStream(30).getTracks()[0])
+        stream.addTrack(whiteboard.getStream().getTracks()[0])
         let socket = io('/', { query: `id=${manager_id}` });
         socket.on('call', remote_peer_id => {
             let call = peer.call(remote_peer_id, stream)
@@ -35,6 +41,13 @@ window.onload = () => {
             document.getElementById('specs').innerHTML = num
         });
 
+        socket.on('currentBoard', studentSocketId => {
+            socket.emit('currentBoard', {
+                board: whiteboard.getImage(),
+                studentSocket: studentSocketId
+            })
+        })
+
         socket.on('attemptToConnectMultipleManagers', () => {
             stream.getTracks().forEach(function (track) {
                 track.stop();
@@ -43,7 +56,6 @@ window.onload = () => {
         });
 
         socket.on('send-to-manager', message => {
-            console.log(message);
             appendMessage(message);
         })
 
@@ -252,12 +264,15 @@ window.onload = () => {
             outer.appendChild(inner);
             document.getElementById("pagelist").appendChild(outer);
             whiteboard.boards[whiteboard.boards.length] = img
+            outer.addEventListener('click', onClickNonActiveBoardElem.bind(outer))
             if(isActive){
                 $(outer).hide();
                 whiteboard.currentBoard = whiteboard.boards.length - 1;
-                whiteboard.setCurrentBoard(newBoardImg);
+                //must defer function to work when opening on new tab
+                setTimeout(()=>{
+                    whiteboard.setCurrentBoard(newBoardImg);
+                }, 0)
              }
-            outer.addEventListener('click', onClickNonActiveBoardElem.bind(outer))
        }
 
        function emitBoards(){

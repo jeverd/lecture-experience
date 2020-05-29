@@ -15,7 +15,6 @@ window.onload = () => {
 
     socket.on("ready", (room) => {
       const { boards, boardActive } = room.lecture_details;
-      console.log(room.lecture_details);
       setNonActiveBoards(boards.filter((e, i) => i != boardActive));
     });
 
@@ -37,12 +36,19 @@ window.onload = () => {
 
     socket.on("boards", setNonActiveBoards);
 
+    socket.on('currentBoard', board => {
+      document.querySelector('#whiteboard').poster = board
+    })
+
     peer.on("call", (call) => {
       call.on("stream", (stream) => {
         let speaker = document.getElementById("speaker");
         let whiteboard = document.getElementById("whiteboard");
         startStream(speaker, stream.getAudioTracks()[0]);
         startStream(whiteboard, stream.getVideoTracks()[0]);
+        // whiteboard.addEventListener("play", () => {
+        //   document.querySelector('#whiteboard').style.display = "none"
+        // })
       });
       call.answer(null);
     });
@@ -60,7 +66,6 @@ window.onload = () => {
   function setNonActiveBoards(boards) {
     let boardsDiv = document.getElementById("non-active-boards");
     boardsDiv.innerHTML = "";
-    console.log(boards)
     boards.forEach((board) => {
       let imgElem = document.createElement("img");
       imgElem.src = board;
@@ -81,6 +86,7 @@ window.onload = () => {
   function startStream(html_elem, stream_track) {
     let stream = new MediaStream();
     stream.addTrack(stream_track);
+    html_elem.srcObject = stream;
     if ("srcObject" in html_elem) {
       html_elem.srcObject = stream;
     } else {
