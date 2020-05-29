@@ -18,13 +18,19 @@ window.onload = () => {
     const messageInput = document.getElementById("message-input");
 
     peer.on('open', () => {
-        navigator.mediaDevices.getUserMedia({ audio: true })
+        const getUserMedia = navigator.mediaDevices.getUserMedia || 
+                             navigator.getUserMedia ||
+                             navigator.webkitGetUserMedia ||
+                             navigator.mozGetUserMedia ||
+                             navigator.msGetUserMedia;
+
+        getUserMedia({ audio: true })
             .then(startLecture)
     })
 
     function startLecture(stream){
         let whiteboard = new Whiteboard("canvas");
-        stream.addTrack(whiteboard.getStream(30).getTracks()[0])
+        stream.addTrack(whiteboard.getStream().getTracks()[0])
         let socket = io('/', { query: `id=${manager_id}` });
         socket.on('call', remote_peer_id => {
             let call = peer.call(remote_peer_id, stream)
@@ -34,6 +40,13 @@ window.onload = () => {
         socket.on('updateNumOfStudents', num => {
             document.getElementById('specs').innerHTML = num
         });
+
+        socket.on('currentBoard', studentSocketId => {
+            socket.emit('currentBoard', {
+                board: whiteboard.getImage(),
+                studentSocket: studentSocketId
+            })
+        })
 
         socket.on('attemptToConnectMultipleManagers', () => {
             stream.getTracks().forEach(function (track) {

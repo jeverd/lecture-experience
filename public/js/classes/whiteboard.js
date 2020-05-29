@@ -41,8 +41,8 @@ export default class Whiteboard{
     }
 
     //returns a MediaStream of canvas
-    getStream(fps){
-        return this.canvas.captureStream(fps)
+    getStream(){
+        return this.canvas.captureStream()
     }
 
     // returns an image of the current state of canvas
