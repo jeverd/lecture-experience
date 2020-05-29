@@ -3,6 +3,7 @@ const redisClient = require('./servers.js').client;
 const path = require("path");
 const { v4: uuidv4 } = require('uuid');
 const { sendManagerDisconnectEmail } = require('./helpers/emailer.js');
+const { logger } = require('./logging/logger');
 
 const public = path.join(__dirname, "../public");
 
@@ -15,12 +16,18 @@ app.get('/create', (req, res) => {
 });
 
 app.post('/create', (req, res) => {
+    logger.info('POST request received: /create')
+
     const roomId = uuidv4();
     const managerId = uuidv4();
+    logger.info('POST /create roomId generated: ' + roomId);
+    logger.info('POST /create managerId generated: ' + managerId);
+
     let roomObj = req.body;
     let email = roomObj.email;
-    console.log("the email is: ", email);
     roomObj.managerId = managerId;
+    roomObj.boards = []
+    roomObj.boardActive = 0
     redisClient.hmset("rooms", { [roomId]: JSON.stringify(roomObj) });
     redisClient.hmset("managers", {
         [managerId]: JSON.stringify({
@@ -29,6 +36,8 @@ app.post('/create', (req, res) => {
             email
         })
     });
+
+    logger.info('POST /create successfully added room and manager id to redis');
     const redirectUrl = `/lecture/${managerId}`;
     res.status(200);
     res.send({ redirectUrl });
@@ -48,14 +57,15 @@ app.post('/email', (req, res) => {
 });
 
 app.get('/lecture/:id', (req, res) => {
-    const _id = req.params.id;
+    const urlId = req.params.id;
+    logger.info('GET request received: /lecture for lecture id: ' + urlId);
+  
     let is_guest;
-    redisClient.hmget('managers', _id, function (err, object) {
+    redisClient.hmget('managers', urlId, function (err, object) {
         is_guest = object[0] === null;
         const roomId = !is_guest && JSON.parse(object[0]).roomId;
-        redisClient.hmget('rooms', is_guest ? _id : roomId, function (err, object) {
-            const roomObj = object[0]
-            if (roomObj) {
+        redisClient.hexists('rooms', is_guest ? urlId : roomId, function (err, roomExist) {
+            if (roomExist) {
                 res.sendFile(is_guest ?
                     "lecture.html" : "whiteboard.html",
                     { root: public });
