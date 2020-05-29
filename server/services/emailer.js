@@ -1,39 +1,37 @@
 const nodemailer = require('nodemailer');
-// const { email, emailPassword, emailService } = require('../../config/config');
-// const { logger } = require('../logging/logger');
+const { email, emailPassword, emailService, environment } = require('../../config/config');
+const { logger } = require('../logging/logger');
 
 
 const transporter = nodemailer.createTransport({
-  service: 'Gmail',
+  service: emailService,
   auth: {
-    user: 'ece150sucks@gmail.com',
-    pass: 'jawad123',
+    user: email,
+    pass: emailPassword,
   },
 });
 
 
 const sendEmail = (toEmail, subject, htmlBody) => {
   const mailOption = {
-    from: 'ece150sucks@gmail.com',
+    from: email,
     to: toEmail,
     subject,
     html: htmlBody,
   };
   transporter.sendMail(mailOption, (err, info) => {
     if (err) console.log(`EMAIL: Failed to send email to: ${toEmail}, error: ${err}`);
-    // else logger.info(EMAIL: Successfully sent email to ${toEmail});
+    else logger.info(`EMAIL: Successfully sent email to ${toEmail}`);
   });
 };
 
 // eslint-disable-next-line max-len
-const sendManagerDisconnectEmail = (toEmail, link) => { // doesn't matter because its async, since user disconnected
+const sendManagerDisconnectEmail = (toEmail, id) => { // doesn't matter because its async, since user disconnected
   const subject = 'You disconnected from your lecture, heres your link';
-  console.log(toEmail);
-  const htmlBody = "<p> Heres your link ${link} <p>";
+  const host = environment == 'DEVELOPMENT' ? 'localhost' : 'liteboard.io'
+  const htmlBody = `<p> Heres your link http://${host}/lecture/${id} <p>`;
   sendEmail(toEmail, subject, htmlBody);
 };
-
-sendManagerDisconnectEmail('jeverd123@gmail.com');
 
 module.exports = {
   sendEmail,

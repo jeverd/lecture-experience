@@ -1,6 +1,7 @@
 const io = require('./servers.js').io;
 const redisClient = require('./servers.js').client;
 const { logger } = require('./logging/logger');
+const { sendManagerDisconnectEmail } = require('./services/emailer.js');
 var roomsTimeout = {}
 
 function updateNumOfStudents(room) {
@@ -66,7 +67,11 @@ io.sockets.on('connection', socket => {
                         //Set timeout only if manager disconnected and didn't end lecture
                         if (roomExist){
                             //Terminate lecture if manager is away for 15 minutes.
-                            roomsTimeout[roomToJoin] = setTimeout(terminateLecture, 15 * 60 * 1000)
+                            roomsTimeout[roomToJoin] = setTimeout(()=>{
+                                const { email } = managerObj;
+                                sendManagerDisconnectEmail(email, urlUuid)
+                                roomsTimeout[roomToJoin] = setTimeout(terminateLecture, 15 * 60 * 1000)
+                            }, 1000 * 60 * 3)
                             logger.info(`SOCKET: Timeout on room ${roomToJoin} started`);
                         }
                     })
