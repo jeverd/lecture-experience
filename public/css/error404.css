@@ -1,0 +1,14 @@
+.centered {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+    margin-top: -80px;
+  }
+
+#error404 {
+    width: 80%;
+    height: auto;
+}
