@@ -55,12 +55,13 @@ app.get('/lecture/:id', (req, res) => {
                     "lecture.html" : "whiteboard.html",
                     { root: public });
             } else {
-                res.status(404).redirect('/')
+                res.sendFile('error.html', { root: path.join(public) });
             }
         });
     });
 });
 
+
 app.get('*', function (req, res) {
-    res.status(404).redirect('/');
+    res.sendFile('error.html', { root: path.join(public) });
 });
