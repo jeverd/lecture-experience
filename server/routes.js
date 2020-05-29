@@ -23,7 +23,7 @@ app.post('/create', (req, res) => {
     logger.info('POST /create managerId generated: ' + managerId);
 
     let roomObj = req.body;
-    console.log(roomObj)
+    let email = roomObj.email;
     roomObj.managerId = managerId;
     roomObj.boards = []
     roomObj.boardActive = 0
@@ -31,7 +31,8 @@ app.post('/create', (req, res) => {
     redisClient.hmset("managers", {
         [managerId]: JSON.stringify({
             roomId,
-            socketId: null
+            socketId: null,
+            email
         })
     });
 
