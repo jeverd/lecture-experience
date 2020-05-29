@@ -10,7 +10,7 @@ RUN npm install
 COPY . .
 
 
-EXPOSE 8080  # setup the environment variables
+EXPOSE 8080
 
-
+ 
 CMD ["npm", "start"]

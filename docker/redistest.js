@@ -28,6 +28,13 @@ client.hmget('rooms', '00f8ce9b-260d-431b-b70f-08eb677633a8' ,function(err, obje
     console.log(JSON.parse(object[0]));
 });
 
+
+client.rpush(['frameworks', 'angularjs', 'backbone'], function(err, reply) {
+    console.log(reply); //prints 2
+});
+client.rget('frameworks', (err, object) => {
+    console.log(object)
+})
 // client.hgetall('key', function(err, object) {
 //     console.log(object);
 // });

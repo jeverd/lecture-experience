@@ -97,9 +97,17 @@ dist
 # FuseBox cache
 .fusebox/
 
+# letsentrcpy
+docker/letsencrypt/
+
 # DynamoDB Local files
 .dynamodb/
 
 # TernJS port file
 .tern-port
 /.history
+
+.DS_Store
+
+# ignoring .env file
+config/.env

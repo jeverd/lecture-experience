@@ -15,21 +15,10 @@ create_but.addEventListener('click', e => {
             window.location = response.redirectUrl;
         }
     }
+
     xhr.send(JSON.stringify({
         name: lecture_name,
         email: lecture_email,
         time: new Date(),
     }));
 });
-
-
-
-let name = document.querySelector('#lectureName');
-
-name.onkeyup = function (e) {
-    if(name.value != ""){
-        create_but.removeAttribute("disabled");
-    } else {
-        create_but.setAttribute("disabled", "disabled");
-    }
-};

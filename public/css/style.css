@@ -11,6 +11,7 @@ body {
 
 .responsive-condition {
   display: none;
+  margin:15px 30px;
 }
 
 .landing-container {
@@ -50,7 +51,12 @@ body {
   flex-direction: row;
 }
 
-.buttons button {
+.buttons > a > span{
+  position:relative;
+  top:12.5px;
+}
+.buttons a {
+  text-decoration: none;
   color: white;
   background: rgb(70, 194, 255);
   background: linear-gradient(
@@ -58,14 +64,11 @@ body {
     rgba(70, 194, 255, 1) 0%,
     rgba(189, 31, 250, 1) 100%
   );
-
   border: none;
   border-radius: 2px;
-
   box-shadow: 0 0 30px rgba(189, 31, 250, 1);
   -webkit-box-shadow: 0 0 30px rgba(189, 31, 250, 1);
   outline: none;
-
   width: 160px;
   height: 45px;
   text-align: center;
@@ -76,7 +79,7 @@ body {
   justify-content:center;
 }
 
-.buttons button:hover {
+.buttons a:hover {
   transition: 1.5s;
   transform: scale(1.05);
 }
@@ -86,7 +89,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 6rem 0 0 3rem;
+  margin: 3.5rem 0 0 3rem;
 }
 
 #banner-style-2 {
@@ -365,15 +368,15 @@ body {
 
 .footer-grid-left i {
   transition: 1s;
-}
-
-.footer-grid-left i {
-  transition: 1s;
   transform: scale(1.5);
   color: #46c2ff;
   background: linear-gradient(to right, #bd11fa 0%, #46c2ff 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.footer-grid-left i:hover{
+  transform: scale(1.5) translateY(-3px);
 }
 
 /* end footer */
@@ -453,6 +456,7 @@ body {
   justify-content: center;
   align-items: center;
   margin-bottom: 50px;
+  position: relative;
 }
 
 .inputText{
@@ -480,33 +484,36 @@ body {
   width: 80%;
 }
 
+.create-button{
+  margin-bottom: 45px; 
+}
+
 
 .centered {
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-text-align: center;
-min-height: 100vh;
-margin-top: -30px;
-  }
-
-.fixed-footer{
-  margin-top: -40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 100vh;
+  margin:30px 30px 0 30px;
 }
 
 .tooltip {
+  left: 12.5px;
   position: relative;
-  width: 40px;
-  height: auto;
-  margin-top: 17%;
-  margin-right: -15px;
-  display: inline-block;
+  top: 35.5px;
+}
+
+.tooltip > img{
+  width: 25px;
 }
 
 .tooltip .tooltiptext {
+  font-size: calc(3% + 0.75em);
   visibility: hidden;
-  width: 200px;
+  width: auto;
+  min-width: 150px;
   background-color: #555;
   color: #fff;
   text-align: center;
@@ -514,9 +521,8 @@ margin-top: -30px;
   padding: 5px 0;
   position: absolute;
   z-index: 1;
-  bottom: 125%;
-  left: 50%;
-  margin-left: -95px;
+  bottom: 44px;
+  right: -62px;
   opacity: 0;
   transition: opacity 0.3s;
 }
@@ -537,13 +543,21 @@ margin-top: -30px;
   opacity: 1;
 }
 
+.create-lecture-inputs:last-child{
+  margin-top:65px;
+}
+
 /* Responsive portion*/
 @media only screen and (max-width: 599px) {
 
   .tooltip .tooltiptext {
-    margin-left: -170px;
+    right: -5px;
   }
 
+  .tooltip{
+    left: -5px;
+  }
+  
   .tooltip .tooltiptext::after {
     left: 87.5%;
   }
@@ -560,20 +574,51 @@ margin-top: -30px;
 
   #info{
     width: 90%;
-    
   }
 
   .inputBox{
     width: 50%;
-    margin-left: 0px;
-  }
-
-  .tooltip {
-    margin-top: 22%;
-    margin-right: 0px;
+    left: -20px;
+    position: relative;
   }
 
   .inputText{
     margin-left: 10px;
+  }
+}
+
+@media only screen and (max-width: 460px) {
+  .create-lecture-inputs{
+    display:flex;
+    flex-direction: column;
+    position: relative;
+    text-align: left;
+    padding-left: 15px;
+    top: -6px;
+  }
+
+  #create-lectuire-info{
+    margin-bottom: 0px !important;
+  }
+
+  .create-button{
+    margin: 0 !important;
+  }
+
+  .inputBox{
+    width: 80%;
+    margin: auto;
+    position: relative;
+    left: calc(-3% - 12px);
+    top: 2px;
+  }
+
+  .tooltip{
+    left: -22.5px;
+    top: 47px;
+  }
+
+  .create-lecture-inputs:last-child{
+    margin-top:20px;
   }
 }

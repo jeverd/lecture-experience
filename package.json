@@ -18,11 +18,26 @@
   },
   "homepage": "https://github.com/jeverd/lecture-experience#readme",
   "dependencies": {
+    "aws-sdk": "^2.678.0",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "helmet": "^3.22.0",
     "nodemailer": "^6.4.6",
+    "morgan": "^1.10.0",
+    "peer": "^0.5.3",
     "redis": "^3.0.2",
     "socket.io": "^2.3.0",
-    "uuid": "^8.0.0"
+    "uuid": "^8.0.0",
+    "winston": "^3.2.1",
+    "winston-papertrail": "git+https://github.com/kenperkins/winston-papertrail.git#v2"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.1.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.19.0",
+    "eslint-plugin-react-hooks": "^2.5.0"
   }
 }
