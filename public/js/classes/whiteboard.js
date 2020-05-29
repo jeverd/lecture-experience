@@ -41,8 +41,8 @@ export default class Whiteboard{
     }
 
     //returns a MediaStream of canvas
-    getStream(fps){
-        return this.canvas.captureStream(fps)
+    getStream(){
+        return this.canvas.captureStream()
     }
 
     // returns an image of the current state of canvas
@@ -65,7 +65,7 @@ export default class Whiteboard{
 
     onMouseDown(e){
         // store the image so that we can replicate it with every mouse move.
-        this.saveData = this.context.getImageData(0, 0, this.canvas.clientWidth, this.canvas.height);
+        this.saveData = this.context.getImageData(0, 0, this.canvas.width, this.canvas.height);
 
         //undo portion (2L)
         if(this.undoStack.length >= this.undoLimit) this.undoStack.shift();
@@ -175,7 +175,7 @@ export default class Whiteboard{
         //make the canvass a blank page
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.paintWhite()
-
+        
     }
 
     setCurrentBoard(img){
