@@ -72,7 +72,6 @@ io.sockets.on('connection', socket => {
                     })
                 });
                 socket.on('lectureEnd', terminateLecture)
-                
                 socket.on('updateBoards', boardObj => {
                     redisClient.hmget('rooms', roomToJoin, (err, roomObj) => {
                         roomObj = JSON.parse(roomObj)
@@ -86,6 +85,10 @@ io.sockets.on('connection', socket => {
                             return i != boardObj.activeBoardIndex
                         }))
                     })
+                })
+                socket.on('currentBoard', obj => {
+                    const { studentSocket, board } = obj
+                    io.in(roomToJoin).connected[studentSocket].emit('currentBoard', board)
                 })
                 logger.info(`SOCKET: Initializing ${roomToJoin}  - manager joined`);
                 managerObj.socketId = socket.id;
@@ -107,10 +110,10 @@ io.sockets.on('connection', socket => {
                 const my_peer_id = socket.handshake.query.peer_id;
                 call(roomToJoin, manager_socket_id, my_peer_id)
             })
+            roomToJoin = urlUuid;
             socket.on('disconnect', e => updateNumOfStudents(roomToJoin));
             logger.info(`SOCKET: Student joining room ${roomToJoin}`);
             isIncomingStudent = true;
-            roomToJoin = urlUuid;
             logger.info(`SOCKET: Student joining room ${roomToJoin}`);
             socket.join(roomToJoin);
         }
@@ -126,6 +129,8 @@ io.sockets.on('connection', socket => {
                     let student_peer_id = socket.handshake.query.peer_id;
                     const { socketId } = JSON.parse(manager);
                     if (socketId) {
+                        // Notify prof to send student back the currentBoard
+                        io.in(roomToJoin).connected[socketId].emit('currentBoard', socket.id)
                         // add incoming student to call
                         call(roomToJoin, socketId, student_peer_id);
                     }
