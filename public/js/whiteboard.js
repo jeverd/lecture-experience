@@ -275,6 +275,7 @@ window.onload = () => {
         // must defer function to work when opening on new tab
         setTimeout(() => {
           whiteboard.setCurrentBoard(newBoardImg);
+          socket.emit('currentBoardToAll', img);
         }, 0);
       }
     }
