@@ -17,8 +17,7 @@
 }
 
   .buttons {
-    margin-top: 50px;
-    margin-bottom: 30px;
+    margin: 50px;
     width: 100%;
     background-color: transparent;
     display: flex;
