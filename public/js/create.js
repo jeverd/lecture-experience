@@ -1,6 +1,7 @@
 let is_valid_email
 let create_but = document.querySelector('#create-lecture');
 let invalidEmailDiv = document.getElementById('invalid-email')
+let invalidNameDiv = document.getElementById('invalid-lecturename')
 let emailInput = document.querySelector('#email')
 
 create_but.addEventListener('click', e => {
@@ -9,7 +10,9 @@ create_but.addEventListener('click', e => {
     let name = document.querySelector('#lectureName');
     var lecture_name = name.value;
     var lecture_email = emailInput.value;
-    if(lecture_email === "" || isValidEmail(lecture_email)){
+    if (lecture_name === "") {
+        invalidNameDiv.style.opacity = 1
+    } else if (lecture_email === "" || isValidEmail(lecture_email)) {
         xhr.open('POST', '/create', true)
         xhr.setRequestHeader('Content-Type', 'application/json')
         xhr.onreadystatechange = function () {
@@ -18,13 +21,13 @@ create_but.addEventListener('click', e => {
                 window.location = response.redirectUrl;
             }
         }
-    
+
         xhr.send(JSON.stringify({
             name: lecture_name,
             email: lecture_email,
             time: new Date(),
         }));
-    }else{
+    } else {
         invalidEmailDiv.style.opacity = 1
     }
 });
@@ -34,6 +37,6 @@ emailInput.addEventListener('input', e => {
 })
 
 
-function isValidEmail(email){
+function isValidEmail(email) {
     return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
 }
