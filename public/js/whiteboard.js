@@ -108,13 +108,6 @@ window.onload = () => {
         });
       });
 
-      // case "download":
-      //     var link = document.createElement("a");
-      //     link.download = "my-image.png";
-      //     link.href = whiteboard.getImage();
-      //     link.click();
-      //     break;
-
       document.querySelectorAll('[data-command]').forEach((item) => {
         item.addEventListener('click', () => {
           const command = item.getAttribute('data-command'); // not doing shit here still
@@ -165,33 +158,6 @@ window.onload = () => {
             // with the tool.class.js created:
             const selectedTool = item.getAttribute('data-tool');
             whiteboard.activeTool = selectedTool;
-
-            switch (selectedTool) {
-              // activate shape or line widths group
-              case TOOL_CIRCLE:
-              case TOOL_LINE:
-              case TOOL_SQUARE:
-              case TOOL_TRIANGLE:
-              // case TOOL_PAINT_BUCKET:
-              case TOOL_PENCIL:
-                // make pencil shapes visible
-                document.querySelector('.group.for-shapes').style = 'display: block;';
-                // make brush sizes invisible
-                document.querySelector('.group.for-brush').style = 'display: none;';
-                break;
-
-              case TOOL_BRUSH:
-              case TOOL_ERASER:
-                // make pencil shapes invisible
-                document.querySelector('.group.for-shapes').style.display = 'none';
-                // make brush selection visible
-                document.querySelector('.group.for-brush').style.display = 'block';
-                break;
-              default:
-                // make both line groups invisible
-                document.querySelector('.group.for-shapes').style.display = 'none';
-                document.querySelector('.group.for-brush').style.display = 'none';
-            }
           })),
       );
 
