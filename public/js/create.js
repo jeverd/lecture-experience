@@ -30,7 +30,6 @@ createBut.addEventListener('click', (e) => {
     xhr.send(JSON.stringify({
       name: lectureName,
       email: lectureEmail,
-      time: new Date(),
     }));
   } else {
     invalidEmailDiv.style.opacity = 1;
