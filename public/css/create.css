@@ -87,7 +87,7 @@
     bottom: 44px;
     right: -62px;
     opacity: 0;
-    transition: opacity 0.3s;
+    transition: opacity 0.4s;
   }
   
   .tooltip .tooltiptext::after {
@@ -192,5 +192,19 @@
     .create-lecture-inputs:last-child{
       margin-top:20px;
     }
+  }
+
+  #invalid-email{
+    position: absolute;
+    opacity: 0;
+    transition: .6s ease;
+    color: rgb(255, 95, 95);
+    left: 155px;
+    font-size: .9em;
+    top: 37px;
+  }
+
+  .relative{
+    position: relative;
   }
   
