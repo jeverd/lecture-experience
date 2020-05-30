@@ -194,7 +194,7 @@
     }
   }
 
-  #invalid-email{
+  .invalid-message{
     position: absolute;
     opacity: 0;
     transition: .6s ease;
@@ -207,4 +207,3 @@
   .relative{
     position: relative;
   }
-  

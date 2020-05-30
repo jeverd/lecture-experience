@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="/create.css" />
 </head>
 
-<body >
+<body>
   <!--[if lt IE 7]>
       <p class="browsehappy">
         You are using an <strong>outdated</strong> browser. Please
@@ -26,60 +26,59 @@
   <div class="create-lecture-container">
     <div class="centered">
       <div>
-          <div id="create-lecture-graphic">
-              <img src="/createALecture.png" id="create-lecture-graphic" />
-          </div>
-      
-            <div id="create-lecture-info">
-              <div id="info">
-                <div class="create-lecture-inputs">
-                  <label class="inputText" for="lectureName">Lecture Name:</label>
-                  <input class="inputBox" type="text" id="lectureName" name="lectureName">
-                </div>
-                <div class="create-lecture-inputs relative">
-                  <label class="inputText" for="email">Your Email:</label>
-                  <input class="inputBox" type="text" id="email" name="email">
-                  <div id="invalid-email">
-                    Email provided is invalid
-                  </div>
-                </div>
+        <div id="create-lecture-graphic">
+          <img src="/createALecture.png" id="create-lecture-graphic" />
+        </div>
+
+        <div id="create-lecture-info">
+          <div id="info">
+            <div class="create-lecture-inputs">
+              <label class="inputText" for="lectureName">Lecture Name:</label>
+              <input class="inputBox" type="text" id="lectureName" name="lectureName">
+            </div>
+            <div class="create-lecture-inputs relative">
+              <label class="inputText" for="email">Your Email:</label>
+              <input class="inputBox" type="text" id="email" name="email">
+              <div class="invalid-message" id="invalid-email">
+                Email provided is invalid
               </div>
-      
-              <div class="tooltip">
-                <img src="/question.png" id="tooltip" />
-                <div class="tooltiptext">
-                  <b>Optional:</b>
-                  <div>In case you disconnect, we'll send you steps to join back on.</div>
-                </div>
+              <div class="invalid-message" id="invalid-lecturename">
+                Please provide a lecture name
               </div>
             </div>
+          </div>
+
+          <div class="tooltip">
+            <img src="/question.png" id="tooltip" />
+            <div class="tooltiptext">
+              <b>Optional:</b>
+              <div>In case you disconnect, we'll send you steps to join back on.</div>
+            </div>
+          </div>
+        </div>
 
 
-            <div class="landing-info create-button">
-                <div class="buttons">
-                  <a id="create-lecture">
-                    <span>Start Lecture</span>
-                  </a>
-                </div>
-              </div>
-      </div> 
+        <div class="landing-info create-button">
+          <div class="buttons">
+            <a id="create-lecture">
+              <span>Start Lecture</span>
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
   <div class="footer fixed-footer">
     <div class="footer-grid">
-        <div class="footer-grid-left">
-        <a
-            href="https://github.com/jeverd/lecture-experience"
-            target="_blank"
-            rel="noopener noreferrer"
-        >
-            <i class="fab fa-github-alt"></i>
+      <div class="footer-grid-left">
+        <a href="https://github.com/jeverd/lecture-experience" target="_blank" rel="noopener noreferrer">
+          <i class="fab fa-github-alt"></i>
         </a>
-        </div>
-        <div class="footer-grid-right">
+      </div>
+      <div class="footer-grid-right">
         <p class="glossy-text">&copy; 2020 Liteboard</p>
-        </div>
+      </div>
     </div>
   </div>
 
