@@ -26,10 +26,10 @@ window.onload = () => {
 
   peer.on('open', () => {
     const getUserMedia = navigator.mediaDevices.getUserMedia
-                             || navigator.getUserMedia
-                             || navigator.webkitGetUserMedia
-                             || navigator.mozGetUserMedia
-                             || navigator.msGetUserMedia;
+      || navigator.getUserMedia
+      || navigator.webkitGetUserMedia
+      || navigator.mozGetUserMedia
+      || navigator.msGetUserMedia;
 
     getUserMedia({ audio: true })
       .then(startLecture);
@@ -103,8 +103,9 @@ window.onload = () => {
           call.close();
         });
         calls = [];
-        socket.emit('lectureEnd');
-        window.location = '/';
+        socket.emit('lectureEnd', () => {
+          window.location = `/lecture/stats/${room.lecture_details.id}`;
+        });
       });
 
       // case "download":
@@ -171,7 +172,7 @@ window.onload = () => {
               case TOOL_LINE:
               case TOOL_SQUARE:
               case TOOL_TRIANGLE:
-                // case TOOL_PAINT_BUCKET:
+              // case TOOL_PAINT_BUCKET:
               case TOOL_PENCIL:
                 // make pencil shapes visible
                 document.querySelector('.group.for-shapes').style = 'display: block;';
