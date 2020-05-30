@@ -94,6 +94,9 @@ io.sockets.on('connection', (socket) => {
             boardObj.boards.filter((e, i) => i !== boardObj.activeBoardIndex));
         });
       });
+      socket.on('currentBoardToAll', (board) => {
+        socket.broadcast.to(roomToJoin).emit('currentBoard', board);
+      });
       socket.on('currentBoard', (obj) => {
         const { studentSocket, board } = obj;
         io.in(roomToJoin).connected[studentSocket].emit('currentBoard', board);
