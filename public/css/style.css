@@ -50,6 +50,7 @@ background-size: cover;
 
 .landing-info img {
   width: 500px;
+  min-width: 300px;
 }
 
 .landing-info .buttons {
@@ -82,7 +83,7 @@ background-size: cover;
   text-align: center;
   margin: auto;
   transition: 1.5s;
-
+  cursor: pointer;
   align-items: center;
   justify-content:center;
 }

@@ -36,9 +36,12 @@
                   <label class="inputText" for="lectureName">Lecture Name:</label>
                   <input class="inputBox" type="text" id="lectureName" name="lectureName">
                 </div>
-                <div class="create-lecture-inputs">
+                <div class="create-lecture-inputs relative">
                   <label class="inputText" for="email">Your Email:</label>
-                  <input class="inputBox" type="email" id="email" name="email">
+                  <input class="inputBox" type="text" id="email" name="email">
+                  <div id="invalid-email">
+                    Email provided is invalid
+                  </div>
                 </div>
               </div>
       
@@ -54,7 +57,7 @@
 
             <div class="landing-info create-button">
                 <div class="buttons">
-                  <a href="#" id="create-lecture">
+                  <a id="create-lecture">
                     <span>Start Lecture</span>
                   </a>
                 </div>
