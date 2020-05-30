@@ -1,10 +1,10 @@
 /* eslint-disable no-shadow */
 /* eslint-disable no-inner-declarations */
 /* eslint-disable no-param-reassign */
-const { io } = require('./servers.js');
-const redisClient = require('./servers.js').client;
-const { logger } = require('./logging/logger');
-const { sendManagerDisconnectEmail } = require('./services/emailer.js');
+const { io } = require('./servers');
+const redisClient = require('./servers').client;
+const { logger } = require('./services/logger/logger');
+const { sendManagerDisconnectEmail } = require('./services/emailer');
 
 const roomsTimeout = {};
 

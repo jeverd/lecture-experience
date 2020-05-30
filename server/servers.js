@@ -9,8 +9,8 @@ const bodyParser = require('body-parser');
 const {
   redisHost, redisPort, expressPort, environment, redisUrl,
 } = require('../config/config');
-const { logger } = require('./logging/logger');
-const { logMiddleWare } = require('./logging/loggingMiddleware');
+const { logger } = require('./services/logger/logger');
+const { logMiddleWare } = require('./services/logger/loggingMiddleware');
 
 
 const app = express();
