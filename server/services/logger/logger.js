@@ -6,7 +6,7 @@ const {
   combine, timestamp, printf, colorize,
 } = format;
 
-const { environment, ptPort, ptHost } = require('../../config/config');
+const { environment, ptPort, ptHost } = require('../../../config/config');
 
 const consoleFormat = printf(({
   // eslint-disable-next-line no-shadow
