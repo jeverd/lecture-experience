@@ -187,6 +187,8 @@
   
     .create-button{
       margin: 0 !important;
+      position: relative;
+      bottom: 25px;
     }
   
     .inputBox{
@@ -204,6 +206,12 @@
   
     .create-lecture-inputs:last-child{
       margin-top:20px;
+    }
+  }
+
+  @media only screen and (max-width: 350px) {
+    .create-lecture-container{
+      display: none;
     }
   }
 
