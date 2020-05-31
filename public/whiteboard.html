@@ -4,174 +4,342 @@
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!-->
 <html class="no-js">
-<!--<![endif]-->
+  <!--<![endif]-->
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title></title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/canvas.css">
-</head>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/canvas.css" />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+      integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+      crossorigin="anonymous"
+    />
+    <script
+      src="http://code.jquery.com/jquery-3.5.1.min.js"
+      integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+      crossorigin="anonymous"
+    ></script>
+  </head>
 
-<body style="background-color: #ffffff">
+  <body style="background-color: #ffffff;">
     <!--[if lt IE 7]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
+      <p class="browsehappy">
+        You are using an <strong>outdated</strong> browser. Please
+        <a href="#">upgrade your browser</a> to improve your experience.
+      </p>
+    <![endif]-->
     <div class="classroom-info">
-        <div class="display:flex;justify-content:center">
-            <span>Lecture Runnining</span>
-            <button id="end-lecture">End Lecture</button>
+      <div class="classroom-info-flexbox">
+        <div class="lecture-running">
+          <span class="status-dot"><i class="fas fa-circle"></i> &nbsp;</span
+          ><span class="lecture-running-text">Lecture Running</span
+          ><span class="divider">|</span>
         </div>
-        <div class="display:flex;justify-content:center">
-            <span>Spectators: <span id="specs"></span></span>
-            <button id="copy-share-link">Copy Share Link</button>
-        </div>
-        <form id="send-container">
-            <input type="text" id="message-input">
-            <button type="submit" id="send-button">Send</button>
-        </form>
-        <div id="message-container">Chat:</div>
 
+        <div class="lecture-spectators">
+          <span
+            ><span class="spectators-count-text">Spectators: </span
+            ><span id="specs">0</span
+          ></span>
+          <span class="divider">|</span>
+        </div>
+
+        <div class="end-lecture-container">
+          <button id="end-lecture">
+            <i class="fas fa-sign-out-alt"></i></button
+          >&nbsp;&nbsp;
+          <span class="end-lecture-text">End Lecture</span>
+          <span class="divider">|</span>
+
+        </div>
+
+        <div class="copy-link-container">
+          <button id="copy-share-link">
+            <i class="fas fa-copy"></i></button
+          >&nbsp;&nbsp;
+          <span class="copy-link-text">Copy Share Link</span>
+        </div>
+      </div>
     </div>
-    <div class="toolbox left">
-        <div class="group commands">
-            <div class="item" data-command="undo" title="Undo">
-                <img src="/undo-icon.png" />
-            </div>
-            <div class="item" data-command="save" title="Save">
-                <img src="/dowload-icon.png" />
-            </div>
-            <div class="item" data-command="add-page" title="Add Page">
-                <img src="/add-icon.png" />
-            </div>
-
-            <div class="item" data-command="remove-page" title="Delete Board">
-                    <img src="/remove-icon.png" />
-            </div>
-
-            <div class="item" data-command="clear-page" title="Clear Board">
-                <img src="/clear-icon.png" />
-        </div>
-
-        </div>
-
-        <div class="group shapes">
-            <div class="item active" data-tool="line" title="Line Tool">
-                <img src="/line-icon.png" />
-            </div>
-
-            <div class="item" data-tool="circle" title="Circle Tool">
-                <img src="/circle-icon.png" />
-            </div>
-
-            <div class="item" data-tool="square" title="Square Tool">
-                <img src="/square-icon.png" />
-            </div>
-
-            <div class="item" data-tool="triangle" title="Triangle Tool">
-                <img src="/triangle-icon.png" />
-            </div>
-        </div>
-
-        <div class="group tools">
-            <div class="item" data-tool="pencil" title="Pencil Tool">
-                <img src="/pencil-icon.png" />
-            </div>
-
-            <div class="item" data-tool="brush" title="Brush Tool">
-                <img src="/brush-icon.png" />
-            </div>
-
-            <div class="item" data-tool="eraser" title="Eraser Tool">
-                <img src="/eraser-icon.png" />
-            </div>
-
-            <div class="item" data-tool="paint-bucket" title="Paint Bucket Tool">
-                <img src="/paint-bucket-icon.png" />
-            </div>
-        </div>
-        <div class="group linewidths for-shapes" style="display: block;">
-            <div class="item active" data-line-width="1" title="1 Pixel">
-                <div class="linewidth" style="width: 1px;height: 1px"></div>
-            </div>
-
-            <div class="item" data-line-width="2" title="2 Pixel">
-                <div class="linewidth" style="width: 2px;height: 2px"></div>
-            </div>
-
-            <div class="item" data-line-width="3" title="3 Pixel">
-                <div class="linewidth" style="width: 3px;height: 3px"></div>
-            </div>
-
-            <div class="item" data-line-width="4" title="4 Pixel">
-                <div class="linewidth" style="width: 4px;height: 4px"></div>
-            </div>
-
-            <div class="item" data-line-width="5" title="5 Pixel">
-                <div class="linewidth" style="width: 5px;height: 5px"></div>
-            </div>
-        </div>
-
-        <div class="group linewidths for-brush" style="display: none;">
-
-            <div class="item active" data-brush-size="4" title="4 Pixel">
-                <div class="linewidth" style="width: 4px;height: 4px">
-                </div>
-            </div>
-            <div class="item" data-brush-size="6" title="6 Pixel">
-                <div class="linewidth" style="width: 6px;height: 6px">
-                </div>
-            </div>
-            <div class="item" data-brush-size="8" title="8 Pixel">
-                <div class="linewidth" style="width: 8px;height: 8px">
-                </div>
-            </div>
-            <div class="item" data-brush-size="10" title="10 Pixel">
-                <div class="linewidth" style="width: 10px;height: 10px">
-                </div>
-            </div>
-            <div class="item" data-brush-size="12" title="12 Pixel">
-                <div class="linewidth" style="width: 12px;height: 12px">
-                </div>
-            </div>
-        </div>
-
-    </div>
+    <form style="position:absolute;bottom:30px;left:50%;z-index:10;" id="send-container">
+      <input type="text" id="message-input">
+      <button type="submit" id="send-button">Send</button>
+    </form>
+    <div id="message-container">Chat:</div>
 
     <canvas id="canvas"> </canvas>
 
-    <div class="toolbox right">
-        <div class="group swatches">
-            <div class="item" data-color="#ffffff">
-                <div class="swatch" style="background-color: #ffffff; "></div>
-            </div>
+    <!--start right sidebar-->
+    <nav class="right-bar">
+      <ul class="right-bar-nav">
+        <li class="right-bar-item">
+          <a href="#" class="right-bar-link">
+            <div class="white"></div>
+          </a>
+        </li>
 
-            <div class="item active" data-color="#000000">
-                <div class="swatch" style="background-color: #000000; "></div>
-            </div>
+        <li class="right-bar-item">
+          <a href="#" class="right-bar-link">
+            <div class="red"></div>
+          </a>
+        </li>
 
-            <div class="item" data-color="#ff0000">
-                <div class="swatch" style="background-color: red; "></div>
-            </div>
+        <li class="right-bar-item">
+          <a href="#" class="right-bar-link">
+            <div class="blue"></div>
+          </a>
+        </li>
 
-            <div class="item" data-color="#0000ff">
-                <div class="swatch" style="background-color: blue; "></div>
-            </div>
+        <li class="right-bar-item">
+          <a href="#" class="right-bar-link">
+            <div class="lime"></div>
+          </a>
+        </li>
 
-            <div class="item" data-color="#00ff00">
-                <div class="swatch" style="background-color: green; "></div>
-            </div>
+        <li class="right-bar-item">
+          <a href="#" class="right-bar-link">
+            <div class="purple"></div>
+          </a>
+        </li>
+
+        <!--start whiteboard draw tools-->
+        <div class="group shapes">
+          <div class="item active" data-tool="line" title="Line Tool">
+            <li class="left-bar-item">
+              <a href="#" class="left-bar-link">
+                <i class="fas fa-grip-lines"></i>
+              </a>
+            </li>
+          </div>
+
+          <div class="item" data-tool="circle" title="Circle Tool">
+            <li class="left-bar-item">
+              <a href="#" class="left-bar-link">
+                <i class="far fa-circle"></i>
+              </a>
+            </li>
+          </div>
+
+          <div class="item" data-tool="square" title="Square Tool">
+            <li class="left-bar-item">
+              <a href="#" class="left-bar-link">
+                <i class="far fa-square"></i>
+              </a>
+            </li>
+          </div>
+
+          <div class="item" data-tool="triangle" title="Triangle Tool">
+            <li class="left-bar-item">
+              <a href="#" class="left-bar-link">
+                <i class="fas fa-caret-up"></i>
+              </a>
+            </li>
+          </div>
+      </div>
+
+
+      <div class="group tools">
+        <div class="item" data-tool="pencil" title="Pencil Tool">
+          <li class="left-bar-item">
+            <a href="#" class="left-bar-link">
+              <i class="fas fa-pencil-alt"></i>
+            </a>
+          </li>
         </div>
 
-        <div class ="group swatches" id="pagelist"></div>
+        <div class="item" data-tool="brush" title="Brush Tool">
+          <li class="left-bar-item">
+            <a href="#" class="left-bar-link">
+              <i class="fas fa-paint-brush"></i>
+            </a>
+          </li>
+        </div>
+
+        <div class="item" data-tool="eraser" title="Eraser Tool">
+          <li class="left-bar-item">
+            <a href="#" class="left-bar-link">
+              <i class="fas fa-eraser"></i>
+            </a>
+          </li>
+        </div>
+
+        <div class="item" data-tool="paint-bucket" title="Paint Bucket Tool">
+          <li class="left-bar-item">
+            <a href="#" class="left-bar-link">
+              <i class="fas fa-fill"></i>
+            </a>
+          </li>
+        </div>
     </div>
+
+    <div class="group linewidths for-shapes" style="display: block;">
+      <div class="item active" data-line-width="1" title="1 Pixel">
+        <li class="left-bar-item">
+          <a href="#" class="left-bar-link">
+            <i class="fas fa-circle"></i>
+          </a>
+        </li>
+      </div>
+
+      <div class="item" data-line-width="2" title="2 Pixel">
+        <li class="left-bar-item">
+          <a href="#" class="left-bar-link">
+            <i class="fas fa-circle"></i>
+          </a>
+        </li>
+      </div>
+
+      <div class="item" data-line-width="3" title="3 Pixel">
+        <li class="left-bar-item">
+          <a href="#" class="left-bar-link">
+            <i class="fas fa-circle"></i>
+          </a>
+        </li>
+      </div>
+
+      <div class="item" data-line-width="4" title="4 Pixel">
+        <li class="left-bar-item">
+          <a href="#" class="left-bar-link">
+            <i class="fas fa-circle"></i>
+          </a>
+        </li>
+      </div>
+
+      <div class="item" data-line-width="5" title="5 Pixel">
+        <li class="left-bar-item">
+          <a href="#" class="left-bar-link">
+            <i class="fas fa-circle"></i>
+          </a>
+        </li>
+      </div>
+  </div>
+            <!--end whiteboard draw tools-->
+
+        <!-- <li class="nav-item" id="themeButton"> shifts last child to bottom of side bar
+              <a href="#" class="nav-link">
+                <div
+                  style="width: 20px; height: 20px; background-color: white;"
+                ></div>
+              </a>
+            </li> -->
+      </ul>
+    </nav>
+
+    <button class="hide-options-right"><i class="fas fa-palette"></i></button>
+
+    <!--end right sidebar-->
+
+    <!--start left sidebar-->
+    <nav class="left-bar">
+      <ul class="left-bar-nav">
+        <!--group commands-->
+        <div class="group commands">
+          <div class="item" data-command="undo" title="Undo">
+            <li class="left-bar-item">
+              <a href="#" class="left-bar-link">
+                <i class="fas fa-undo"></i>
+              </a>
+            </li>
+          </div>
+
+          <div class="item" data-command="save" title="Save">
+            <li class="left-bar-item">
+              <a href="#" class="left-bar-link">
+                <i class="fas fa-download"></i>
+              </a>
+            </li>
+          </div>
+
+          <div class="item" data-command="add-page" title="Add Page">
+            <li class="left-bar-item">
+              <a href="#" class="left-bar-link">
+                <i class="fas fa-plus"></i>
+              </a>
+            </li>
+          </div>
+
+          <div class="item" data-command="remove-page" title="Delete Board">
+            <li class="left-bar-item">
+              <a href="#" class="left-bar-link">
+                <i class="fas fa-minus"></i>
+              </a>
+            </li>
+          </div>
+
+          <div class="item" data-command="clear-page" title="Clear Board">
+            <li class="left-bar-item">
+              <a href="#" class="left-bar-link">
+                <i class="fas fa-backspace"></i>
+              </a>
+            </li>
+          </div>
+
+
+        <!-- <div class="group linewidths for-brush" style="display: none;">
+
+            <div class="item active" data-brush-size="4" title="4 Pixel">
+              <li class="left-bar-item">
+                <a href="#" class="left-bar-link">
+                  <i class="fas fa-plus"></i>
+                </a>
+              </li>
+            </div>
+            <div class="item" data-brush-size="6" title="6 Pixel">
+              <li class="left-bar-item">
+                <a href="#" class="left-bar-link">
+                  <i class="fas fa-plus"></i>
+                </a>
+              </li>
+            </div>
+            <div class="item" data-brush-size="8" title="8 Pixel">
+              <li class="left-bar-item">
+                <a href="#" class="left-bar-link">
+                  <i class="fas fa-plus"></i>
+                </a>
+              </li>
+            </div>
+            <div class="item" data-brush-size="10" title="10 Pixel">
+              <li class="left-bar-item">
+                <a href="#" class="left-bar-link">
+                  <i class="fas fa-plus"></i>
+                </a>
+              </li>
+            </div>
+            <div class="item" data-brush-size="12" title="12 Pixel">
+              <li class="left-bar-item">
+                <a href="#" class="left-bar-link">
+                  <i class="fas fa-plus"></i>
+                </a>
+              </li>
+            </div>
+        </div> -->
+        </div>
+      </ul>
+    </nav>
+
+    <button class="hide-options-left"><i class="fas fa-info"></i></button>
+    <div class ="group swatches" id="pagelist"></div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script src="https://unpkg.com/peerjs@1.2.0/dist/peerjs.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/whiteboard.js" type="module"></script>
-</body>
+    <script>
+      $(document).ready(function () {
+        //loads after html
+        $(".hide-options-right").click(function () {
+          $(".right-bar").fadeToggle();
+        });
 
+        $(".hide-options-left").click(function () {
+          $(".left-bar").fadeToggle();
+        });
+      });
+    </script>
+  </body>
 </html>
