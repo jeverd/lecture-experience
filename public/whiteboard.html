@@ -44,27 +44,33 @@
         <div class="lecture-spectators">
           <span
             ><span class="spectators-count-text">Spectators: </span
-            ><span class="specs"></span
+            ><span id="specs">0</span
           ></span>
           <span class="divider">|</span>
         </div>
 
         <div class="end-lecture-container">
-          <button class="end-lecture">
+          <button id="end-lecture">
             <i class="fas fa-sign-out-alt"></i></button
           >&nbsp;&nbsp;
           <span class="end-lecture-text">End Lecture</span>
           <span class="divider">|</span>
+
         </div>
 
         <div class="copy-link-container">
-          <button class="copy-share-link">
+          <button id="copy-share-link">
             <i class="fas fa-copy"></i></button
           >&nbsp;&nbsp;
           <span class="copy-link-text">Copy Share Link</span>
         </div>
       </div>
     </div>
+    <form style="position:absolute;bottom:30px;left:50%;z-index:10;" id="send-container">
+      <input type="text" id="message-input">
+      <button type="submit" id="send-button">Send</button>
+    </form>
+    <div id="message-container">Chat:</div>
 
     <canvas id="canvas"> </canvas>
 
@@ -312,24 +318,15 @@
               </li>
             </div>
         </div> -->
-
-    </div>
         </div>
-
-        <!-- <li class="nav-item" id="themeButton"> shifts last child to bottom of side bar
-                      <a href="#" class="nav-link">
-                        <div
-                          style="width: 20px; height: 20px; background-color: white;"
-                        ></div>
-                      </a>
-                    </li> -->
       </ul>
     </nav>
 
     <button class="hide-options-left"><i class="fas fa-info"></i></button>
+    <div class ="group swatches" id="pagelist"></div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/peerjs@0.3.20/dist/peer.min.js"></script>
+    <script src="https://unpkg.com/peerjs@1.2.0/dist/peerjs.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/whiteboard.js" type="module"></script>
     <script>
