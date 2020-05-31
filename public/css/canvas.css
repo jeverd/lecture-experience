@@ -15,7 +15,7 @@ body {
   color: white;
   background-color: var(--bg-primary);
   transition: width 600ms ease;
-  overflow: scroll;
+  overflow: hidden;
   border-bottom-right-radius: 27px;
   border-bottom-left-radius: 27px;
   -webkit-box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3),
@@ -39,6 +39,52 @@ body {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-weight: 500;
+}
+
+.sharelink-info-icon{
+  font-size: 1.25em;
+  position: relative;
+  bottom: 2px;
+  color: #46c2ff;
+  background: linear-gradient(to right, #bd11fa 0%, #46c2ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+#copied-popup{
+  position: absolute;
+  transform: translateX(-50%);
+  left: 50%;
+  top: 55px;
+  padding: 7.5px 10px;
+  font-size: 0.75em;
+  background-color: #21212e;
+  color: #fafafa;
+  font-weight: 600;
+  opacity: 0.9;
+  display:none;
+  border-radius: 0 0 .25em .25em;
+  z-index: 10; 
+}
+
+.end-lecture-icon{
+  font-size: 1.333em;
+  position: relative;
+  bottom: 1.7px;
+  color: #ef5350;
+}
+
+.end-lecture-container,
+.copy-link-container{
+  opacity: 0.85;
+  transition: 0.25s ease;
+  cursor: pointer;
+}
+
+.end-lecture-container:hover,
+.copy-link-container:hover{
+  opacity: 1;
 }
 
 .lecture-running,
@@ -237,11 +283,17 @@ body {
   font-size: 1.1rem;
 }
 
+button{
+  cursor: pointer;
+}
+
 .right-bar {
   position: absolute; /* fixed */
   background-color: var(--bg-primary);
   transition: width 600ms ease;
-  overflow: scroll;
+  overflow: hidden;
+  /* overflow-y: scroll;
+  overflow-x: hidden; */
   scrollbar-color: transparent;
   top: 0;
   right: 0;
@@ -260,6 +312,7 @@ body {
   display: none; /* Chrome */
 }
 
+
 .right-bar {
   -ms-overflow-style: none; /* Internet Explorer 10+ */
   scrollbar-width: none; /* Firefox */
@@ -268,12 +321,13 @@ body {
 /* start right sidebar colors */
 .right-bar-link {
   transition: 1s;
+  cursor: pointer;
 }
 
-.white {
+.black {
   width: 25px;
   height: 25px;
-  background-color: white;
+  background-color: #424242;
   border-radius: 20% 30% 23% 70% / 40% 80% 20% 33%;
   margin: auto;
 }
@@ -327,9 +381,9 @@ body {
   flex-direction: column;
   align-items: center;
   height: 100%;
-  /* random ass white border around div */
   overflow: hidden;
-  /* */
+  /* overflow-y: scroll;
+  overflow-x: hidden; */
 }
 
 /* .nav-item:last-child { shifts last child to bottom of side
@@ -405,8 +459,8 @@ body {
   position: absolute; /* fixed */
   background-color: var(--bg-primary);
   transition: width 600ms ease;
-  overflow: scroll;
   margin: 0px;
+  overflow: hidden;
   top: 0;
   left: 0;
   width: 4.2rem;
@@ -432,6 +486,7 @@ body {
 /* start right sidebar colors */
 .left-bar-link {
   transition: 1s;
+  cursor: pointer;
 }
 
 .left-bar-link:hover,
@@ -442,6 +497,7 @@ body {
   color: white;
   filter: grayscale(0%) opacity(1);
 }
+
 /* end sidebar colors */
 
 .left-bar-nav {
@@ -463,11 +519,85 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 5rem;
+  height: 3.75rem;
   color: var(--text-primary);
   text-decoration: none;
   filter: grayscale(50%) opacity(0.5);
   transition: var(--transition-speed);
+}
+
+.left-bar-link > img{
+  height: 20px;
+  filter: invert(45%);
+  transition: 1s;
+}
+
+.menu-thickness-svg{
+  height: 17.5px !important;
+  filter: invert(45%);
+  transition: 1s;
+}
+
+.menu-shapes-svg{
+  height: 23px !important;
+  filter: invert(45%);
+  transition: 1s;
+}
+
+.menu-select-svg{
+  position: relative;
+  left: 2px;
+  height: 20px !important;
+  filter: invert(45%);
+  transition: 1s;
+}
+
+.menu-select-svg:hover,
+.menu-select-svg:focus{
+  filter: invert(100%);
+  transform: scale(1.10) !important;
+}
+
+.menu-shapes-svg:hover,
+.menu-shapes-svg:focus,
+.menu-thickness-svg:hover,
+.menu-thickness-svg:focus{
+  filter: invert(100%);
+  transform: scale(1.05) !important;
+}
+
+.left-bar-link > img:hover,
+.left-bar-link > img:focus{
+  filter: invert(100%);
+  transform: scale(1.15);
+}
+
+.left-bar-link-svg > img{
+  height: 25px;
+  filter: invert(45%);
+  transform: rotate(45deg);
+  transition: 1s;
+}
+
+.left-bar-link-svg{
+  cursor: pointer;
+  height: 3.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-speed);
+}
+
+.left-bar-link-svg > img:hover,
+.left-bar-link-svg > img:focus{
+  filter: invert(100%);
+  transform: rotate(45deg) scale(1.25);
+}
+
+#right-bar-thickness,
+#right-bar-shapes,
+#right-bar-colors{
+  display:none;
 }
 
 /* @media only screen and (max-width: 600px) {
