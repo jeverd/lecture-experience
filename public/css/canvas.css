@@ -11,6 +11,7 @@ body {
   left: 50%;
   transform: translateX(-50%);
   width: auto;
+  border: none;
   color: white;
   background-color: var(--bg-primary);
   transition: width 600ms ease;
@@ -21,13 +22,23 @@ body {
     0 15px 12px rgba(0, 0, 0, 0.22);
   box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
   font-size: 0.8rem;
+  margin: 0;
+
+  /* random ass white border around div */
+  overflow: hidden;
 }
 
 .classroom-info-flexbox {
+  /* display tob bar contents in a row */
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 20px;
+
+  /* forces topbar text to stay in a single line */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-weight: 500;
 }
 
@@ -79,7 +90,10 @@ body {
 .lecture-running,
 .end-lecture-container,
 .lecture-spectators,
-.copy-link-container {
+.copy-link-container,
+.my-boards-button-container,
+.view-chat-container,
+.hide-bar-button-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -108,6 +122,39 @@ body {
   border-radius: 10% 13% 6% 16% / 21% 5% 21% 10%;
   background: #ff4136;
   color: white;
+}
+
+.my-boards-button {
+  text-decoration: none;
+  color: white;
+  background: rgb(70, 194, 255);
+  background: linear-gradient(135deg, #b10dc9 0%, #85144b 100%);
+  border: none;
+  border-radius: 2px;
+
+  outline: none;
+  width: 120px;
+  height: 25px;
+  text-align: center;
+  margin: auto;
+  transition: 1.5s;
+}
+
+.view-chat-button,
+.hide-bar-button {
+  text-decoration: none;
+  color: white;
+  background: rgb(70, 194, 255);
+  background: linear-gradient(135deg, #b10dc9 0%, #85144b 100%);
+  border: none;
+  border-radius: 2px;
+
+  outline: none;
+  width: 120px;
+  height: 25px;
+  text-align: center;
+  margin: auto;
+  transition: 1.5s;
 }
 
 @media only screen and (max-width: 1200px) {
@@ -412,11 +459,13 @@ button{
   position: absolute; /* fixed */
   background-color: var(--bg-primary);
   transition: width 600ms ease;
+  margin: 0px;
   overflow: hidden;
   top: 0;
   left: 0;
   width: 4.2rem;
-
+  border: none;
+  outline: none;
   margin-top: 75px;
   border-bottom-right-radius: 27px;
   border-top-right-radius: 27px;
@@ -576,3 +625,50 @@ button{
   } */
 
 /* end right side-bar */
+
+/* start dropdown button */
+
+.show-bar-button-container {
+  position: absolute;
+  z-index: 9;
+  top: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: none;
+  transition-delay: 1s;
+  width: 200px;
+  color: white;
+  background-color: var(--bg-primary);
+  transition: width 600ms ease;
+  border-bottom-right-radius: 27px;
+  border-bottom-left-radius: 27px;
+  -webkit-box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3),
+    0 15px 12px rgba(0, 0, 0, 0.22);
+  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+.show-bar-button {
+  margin: 1rem;
+
+  text-decoration: none;
+  color: white;
+  background: rgb(70, 194, 255);
+  background: linear-gradient(135deg, #b10dc9 0%, #85144b 100%);
+  border: none;
+  border-radius: 2px;
+
+  outline: none;
+  width: 120px;
+  height: 25px;
+  transition: 1.5s;
+}
+
+.show-bar-button i {
+  -moz-transform: scale(1, -1);
+  -webkit-transform: scale(1, -1);
+  -o-transform: scale(1, -1);
+  -ms-transform: scale(1, -1);
+  transform: scale(1, -1);
+}
