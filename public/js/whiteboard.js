@@ -5,6 +5,7 @@
 /* eslint-disable import/extensions */
 import Whiteboard from './classes/whiteboard.js';
 import { CONFIG } from './peerConfig.js';
+import initializeToolsMenu from './tools.js';
 
 
 window.onload = () => {
@@ -79,6 +80,12 @@ window.onload = () => {
         document.body.appendChild(tmpInput);
         tmpInput.select();
         document.execCommand('copy');
+        // eslint-disable-next-line func-names
+        $('#copied-popup').fadeIn(200, function () {
+          setTimeout(() => {
+            $(this).fadeOut(300);
+          }, 2000);
+        });
         document.body.removeChild(tmpInput);
       });
 
@@ -91,7 +98,7 @@ window.onload = () => {
         messageInput.value = '';
       });
 
-      document.querySelector('button#end-lecture').addEventListener('click', () => {
+      document.querySelector('#end-lecture').addEventListener('click', () => {
         calls.forEach((call) => {
           call.close();
         });
@@ -141,55 +148,7 @@ window.onload = () => {
           }
         });
       });
-      document.querySelectorAll('[data-tool]').forEach(
-        (item) => (
-          item.addEventListener('click', () => {
-            document.querySelector('[data-tool].active').classList.toggle('active'); // remove the previous active function from the active class
-
-            item.classList.add('active'); // we add the element we clicked on to the active class
-
-            // with the tool.class.js created:
-            const selectedTool = item.getAttribute('data-tool');
-            whiteboard.activeTool = selectedTool;
-          })),
-      );
-
-      document.querySelectorAll('[data-line-width]').forEach(
-        (item) => {
-          item.addEventListener('click', () => {
-            document.querySelector('[data-line-width].active').classList.toggle('active'); // remove the previous active function from the active class
-            item.classList.add('active'); // we add the element we clicked on to the active class
-
-            const lineWidth = item.getAttribute('data-line-width');
-            whiteboard.lineWidth = lineWidth;
-          });
-        },
-      );
-
-      // document.querySelectorAll('[data-brush-size]').forEach(
-      //   (item) => {
-      //     item.addEventListener('click', () => {
-      //       document.querySelector('[data-brush-size].active').classList.toggle('active'); // remove the previous active function from the active class
-      //       item.classList.add('active'); // we add the element we clicked on to the active class
-
-      //       const brushSize = item.getAttribute('data-brush-size');
-      //       whiteboard.brushSize = brushSize;
-      //     });
-      //   },
-      // );
-
-      document.querySelectorAll('[data-color]').forEach(
-        (item) => {
-          item.addEventListener('click', () => {
-            document.querySelector('[data-color].active').classList.toggle('active'); // remove the previous active function from the active class
-            item.classList.add('active'); // we add the element we clicked on to the active class
-
-            const color = item.getAttribute('data-color');
-
-            whiteboard.selectedColor = color;
-          });
-        },
-      );
+      initializeToolsMenu(whiteboard);
 
       console.log(room);
     });
