@@ -50,9 +50,9 @@ body {
   flex-direction: row;
 }
 
-.buttons > a > span{
-  position:relative;
-  top:10px;
+.buttons > a > span {
+  position: relative;
+  top: 10px;
 }
 .buttons a {
   text-decoration: none;
