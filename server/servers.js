@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 const express = require('express');
 const helmet = require('helmet');
 const { ExpressPeerServer } = require('peer');
@@ -8,8 +9,8 @@ const bodyParser = require('body-parser');
 const {
   redisHost, redisPort, expressPort, environment, redisUrl,
 } = require('../config/config');
-const { logger } = require('./logging/logger');
-const { logMiddleWare } = require('./logging/loggingMiddleware');
+const { logger } = require('./services/logger/logger');
+const { logMiddleWare } = require('./services/logger/loggingMiddleware');
 
 
 const app = express();
@@ -20,7 +21,7 @@ app.use('/peerjs', peerServer);
 app.use(express.static('public/js'));
 app.use(express.static('public/css'));
 app.use(express.static('public/images'));
-app.use(express.json({limit: '50mb'}))
+app.use(express.json({ limit: '50mb' }));
 app.use(bodyParser.json());
 app.use(helmet());
 app.use(logMiddleWare);
@@ -37,8 +38,8 @@ if (environment === 'DEVELOPMENT') {
 logger.info(`Express and socketio are listening on port: ${expressPort}`);
 
 
-client.flushall(function (err, succeeded) {
-    logger.info(`Redis status: ${succeeded}`);
+client.flushall((err, succeeded) => {
+  logger.info(`Redis status: ${succeeded}`);
 });
 
 
