@@ -120,6 +120,7 @@ io.sockets.on('connection', (socket) => {
       redisClient.hmset('managers', {
         [urlUuid]: JSON.stringify(managerObj),
       });
+
       socket.join(roomToJoin);
       io.of('/').in(roomToJoin).clients((error, clients) => {
         if (clients.length - 1 > 0) {
@@ -138,7 +139,6 @@ io.sockets.on('connection', (socket) => {
       socket.on('disconnect', () => updateNumOfStudents(roomToJoin));
       logger.info(`SOCKET: Student joining room ${roomToJoin}`);
       isIncomingStudent = true;
-      logger.info(`SOCKET: Student joining room ${roomToJoin}`);
       socket.join(roomToJoin);
       updateNumOfStudents(roomToJoin);
     }
