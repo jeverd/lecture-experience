@@ -1,5 +1,5 @@
 * {
-  font-family: "Open Sans", sans-serif;
+  font-family: "Muli", sans-serif, "Open Sans";
   padding: 0;
   margin: 0;
   box-sizing: border-box;
@@ -11,6 +11,7 @@ body {
 
 .responsive-condition {
   display: none;
+  margin: 15px;
 }
 
 .landing-container {
@@ -41,6 +42,7 @@ body {
 
 .landing-info img {
   width: 500px;
+  min-width: 300px;
 }
 
 .landing-info .buttons {
@@ -50,9 +52,9 @@ body {
   flex-direction: row;
 }
 
-.buttons > a > span {
-  position: relative;
-  top: 10px;
+.buttons > a > span{
+  position:relative;
+  top:12.5px;
 }
 .buttons a {
   text-decoration: none;
@@ -73,6 +75,9 @@ body {
   text-align: center;
   margin: auto;
   transition: 1.5s;
+  cursor: pointer;
+  align-items: center;
+  justify-content:center;
 }
 
 .buttons a:hover {
@@ -85,7 +90,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 6rem 0 0 3rem;
+  margin: 3.5rem 0 0 3rem;
 }
 
 #banner-style-2 {
@@ -364,15 +369,15 @@ body {
 
 .footer-grid-left i {
   transition: 1s;
-}
-
-.footer-grid-left i {
-  transition: 1s;
   transform: scale(1.5);
   color: #46c2ff;
   background: linear-gradient(to right, #bd11fa 0%, #46c2ff 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.footer-grid-left i:hover{
+  transform: scale(1.5) translateY(-3px);
 }
 
 /* end footer */
@@ -422,7 +427,7 @@ body {
 
 /* start responsive conditions */
 
-@media only screen and (max-width: 282px) {
+@media only screen and (max-width: 350px) {
   .landing-container,
   .teach-container,
   .about-container {
