@@ -38,6 +38,7 @@ jobs:
             echo 'starting up redis now'
             cd docker
             docker-compose up -d
+            docker ps
             echo 'now running tests'
             cd ..
             npm test
