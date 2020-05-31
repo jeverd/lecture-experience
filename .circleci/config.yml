@@ -34,7 +34,11 @@ jobs:
           command: |
             echo 'running npm install'
             npm install
+            echo 'starting up redis now'
+            cd docker
+            docker-compose up -d
             echo 'now running tests'
+            cd ..
             npm test
 
 workflows:
