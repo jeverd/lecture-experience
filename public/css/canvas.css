@@ -213,6 +213,10 @@ body {
   cursor: crosshair;
 }
 
+.back-to-tool-menu{
+  height:2.75rem !important;
+}
+
 .linewidth{
   background-color: white;
   border-radius: 50%; /* make the borders round*/
