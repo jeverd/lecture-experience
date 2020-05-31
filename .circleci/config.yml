@@ -24,7 +24,18 @@ jobs:
       #       echo 'Deploying to EC2'
       #       echo 'ec2-35-183-20-250.ca-central-1.compute.amazonaws.com' >> ~/.ssh/known_hosts
       #       ssh -o StrictHostKeyChecking=no ec2-user@ec2-35-183-20-250.ca-central-1.compute.amazonaws.com "./deploy.sh"
-
+  tests:
+    docker:
+      - image: circleci/node:10.15.0
+    steps:
+      - checkout
+      - run:
+          name: 'Running tests'
+          command: |
+            echo 'running npm install'
+            npm install
+            echo 'now running tests'
+            npm test
 
 workflows:
   version: 2
@@ -36,3 +47,5 @@ workflows:
               only: 
                 - dev
                 - dockerUPdate
+      - tests
+          
