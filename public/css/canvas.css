@@ -23,32 +23,32 @@ body {
   font-size: 0.8rem;
 }
 
-#classroom-info-flexbox {
+.classroom-info-flexbox {
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 20px;
 }
 
-#lecture-running,
-#end-lecture-container,
-#lecture-spectators,
-#copy-link-container {
+.lecture-running,
+.end-lecture-container,
+.lecture-spectators,
+.copy-link-container {
   display: flex;
   justify-content: center;
   align-items: center;
   margin: auto;
 }
 
-#divider {
+.divider {
   padding: 0rem 1rem 0rem 1rem;
 }
 
-#status-dot {
+.status-dot {
   color: #2ecc40;
 }
 
-#copy-share-link {
+.copy-share-link {
   height: 22px;
   border: none;
   border-radius: 10% 13% 6% 16% / 21% 5% 21% 10%;
@@ -56,7 +56,7 @@ body {
   color: white;
 }
 
-#end-lecture {
+.end-lecture {
   height: 22px;
   border: none;
   border-radius: 10% 13% 6% 16% / 21% 5% 21% 10%;
@@ -71,17 +71,17 @@ body {
 }
 
 @media only screen and (max-width: 800px) {
-  #lecture-running-text,
-  #spectators-count-text,
-  #end-lecture-text,
-  #copy-link-text {
+  .lecture-running-text,
+  .spectators-count-text,
+  .end-lecture-text,
+  .copy-link-text {
     display: none;
   }
 }
 
 /* end top panel styling */
 
-#canvas {
+.canvas {
   border-style: solid;
   border-width: 3px;
   border-color: black;
@@ -164,20 +164,21 @@ body {
   --transition-speed: 600ms;
 }
 
-#hide-options-right {
+.hide-options-right {
   /* display button */
   position: absolute;
   top: 10px;
   right: 10px;
   width: 50px;
   height: 50px;
+  border: none;
   border-radius: 20% 30% 23% 70% / 40% 80% 20% 33%;
   background-color: var(--bg-primary);
   color: white;
   transition: 1s;
 }
 
-#hide-options-right:focus {
+.hide-options-right:focus {
   transition: 1s;
   -webkit-box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3),
     0 15px 12px rgba(0, 0, 0, 0.22);
@@ -185,7 +186,7 @@ body {
   outline: none;
 }
 
-#hide-options-right i {
+.hide-options-right i {
   font-size: 1.1rem;
 }
 
@@ -194,6 +195,7 @@ body {
   background-color: var(--bg-primary);
   transition: width 600ms ease;
   overflow: scroll;
+  scrollbar-color: transparent;
   top: 0;
   right: 0;
   width: 4.2rem;
@@ -207,12 +209,21 @@ body {
   box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
 }
 
+.right-bar::-webkit-scrollbar {
+  display: none; /* Chrome */
+}
+
+.right-bar {
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+}
+
 /* start right sidebar colors */
 .right-bar-link {
   transition: 1s;
 }
 
-#white {
+.white {
   width: 25px;
   height: 25px;
   background-color: white;
@@ -220,7 +231,7 @@ body {
   margin: auto;
 }
 
-#red {
+.red {
   width: 25px;
   height: 25px;
   background-color: #ff4136;
@@ -228,7 +239,7 @@ body {
   margin: auto;
 }
 
-#blue {
+.blue {
   width: 25px;
   height: 25px;
   background-color: #0074d9;
@@ -236,7 +247,7 @@ body {
   margin: auto;
 }
 
-#lime {
+.lime {
   width: 25px;
   height: 25px;
   background-color: #01ff70;
@@ -244,7 +255,7 @@ body {
   margin: auto;
 }
 
-#purple {
+.purple {
   width: 25px;
   height: 25px;
   background-color: #b10dc9;
@@ -315,20 +326,21 @@ body {
 
 /* start left side-bar */
 
-#hide-options-left {
+.hide-options-left {
   /* display button */
   position: absolute;
   top: 10px;
   left: 10px;
   width: 50px;
   height: 50px;
+  border: none;
   border-radius: 20% 30% 23% 70% / 40% 80% 20% 33%;
   background-color: var(--bg-primary);
   color: white;
   transition: 1s;
 }
 
-#hide-options-left:focus {
+.hide-options-left:focus {
   transition: 1s;
   -webkit-box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3),
     0 15px 12px rgba(0, 0, 0, 0.22);
@@ -336,7 +348,7 @@ body {
   outline: none;
 }
 
-#hide-options-left i {
+.hide-options-left i {
   font-size: 1.1rem;
 }
 
@@ -355,6 +367,15 @@ body {
   -webkit-box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3),
     0 15px 12px rgba(0, 0, 0, 0.22);
   box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+}
+
+.left-bar::-webkit-scrollbar {
+  display: none; /* Chrome */
+}
+
+.left-bar {
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
 }
 
 /* start right sidebar colors */
