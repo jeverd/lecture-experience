@@ -33,6 +33,8 @@
         <a href="#">upgrade your browser</a> to improve your experience.
       </p>
     <![endif]-->
+
+    <!--start whiteboard topbar-->
     <div class="classroom-info">
       <div class="classroom-info-flexbox">
         <div class="lecture-running">
@@ -64,13 +66,49 @@
           >&nbsp;&nbsp;
           <span class="copy-link-text">Copy Share Link</span>
         </div>
+
+        <div class="my-boards-button-container">
+          <span class="divider">|</span>
+          <button class="my-boards-button">
+            View my boards</button
+          >&nbsp;&nbsp;
+          <span class="my-boards-button-text"></span>
+        </div>
+
+        <div class="view-chat-button-container">
+          <span class="divider">|</span>
+          <button class="view-chat-button">
+            View chat</button
+          >&nbsp;&nbsp;
+          <span class="view-chat-text"></span>
+        </div>
+
+        <div class="hide-bar-button-container">
+          <span class="divider">|</span>
+          <button class="hide-bar-button">
+            <i class="fas fa-level-up-alt"></i></button
+          >&nbsp;&nbsp;
+          <span class="view-chat-text"></span>
+        </div>
+
       </div>
     </div>
+
     <form style="position:absolute;bottom:30px;left:50%;z-index:10;" id="send-container">
       <input type="text" id="message-input">
       <button type="submit" id="send-button">Send</button>
     </form>
     <div id="message-container">Chat:</div>
+
+       <!--end whiteboard topbar-->
+
+          <!--start show-bar-button-->
+    <div class="show-bar-button-container">
+      <button class="show-bar-button">
+        <i class="fas fa-level-up-alt"></i></button>
+      </div>
+              <!--end show-bar-button-->
+
 
     <canvas id="canvas"> </canvas>
 
@@ -325,10 +363,15 @@
     <button class="hide-options-left"><i class="fas fa-info"></i></button>
     <div class ="group swatches" id="pagelist"></div>
 
+        <!--end right sidebar-->
+
+    <div class="group swatches" id="pagelist"> </div>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script src="https://unpkg.com/peerjs@1.2.0/dist/peerjs.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/whiteboard.js" type="module"></script>
+    <!--start jquery tobpar toggle animations-->
     <script>
       $(document).ready(function () {
         //loads after html
@@ -339,7 +382,18 @@
         $(".hide-options-left").click(function () {
           $(".left-bar").fadeToggle();
         });
+
+        $(".hide-bar-button").click(function () {
+          $(".classroom-info-flexbox").fadeToggle(500);
+          $(".show-bar-button-container").delay(500).fadeToggle();
+        });
+
+        $(".show-bar-button").click(function () {
+          $(".show-bar-button-container").fadeToggle();
+          $(".classroom-info-flexbox").delay().fadeToggle();
+        });
       });
     </script>
+        <!--end jquery tobpar toggle animations-->
   </body>
 </html>
