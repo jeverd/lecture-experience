@@ -34,33 +34,34 @@
       </p>
     <![endif]-->
     <div class="classroom-info">
-      <div id="classroom-info-flexbox">
-        <div id="lecture-running">
-          <span id="status-dot"><i class="fas fa-circle"></i> &nbsp;</span
-          ><span id="lecture-running-text">Lecture Running</span
-          ><span id="divider">|</span>
+      <div class="classroom-info-flexbox">
+        <div class="lecture-running">
+          <span class="status-dot"><i class="fas fa-circle"></i> &nbsp;</span
+          ><span class="lecture-running-text">Lecture Running</span
+          ><span class="divider">|</span>
         </div>
 
-        <div id="lecture-spectators">
+        <div class="lecture-spectators">
           <span
-            ><span id="spectators-count-text">Spectators: </span
-            ><span id="specs"></span
+            ><span class="spectators-count-text">Spectators: </span
+            ><span class="specs"></span
           ></span>
-          <span id="divider">|</span>
+          <span class="divider">|</span>
         </div>
 
-        <div id="end-lecture-container">
-          <button id="end-lecture"><i class="fas fa-sign-out-alt"></i></button
+        <div class="end-lecture-container">
+          <button class="end-lecture">
+            <i class="fas fa-sign-out-alt"></i></button
           >&nbsp;&nbsp;
-          <span id="end-lecture-text">End Lecture</span>
-          <span id="divider">|</span>
+          <span class="end-lecture-text">End Lecture</span>
+          <span class="divider">|</span>
         </div>
 
-        <div id="copy-link-container">
-          <button id="copy-share-link">
+        <div class="copy-link-container">
+          <button class="copy-share-link">
             <i class="fas fa-copy"></i></button
           >&nbsp;&nbsp;
-          <span id="copy-link-text">Copy Share Link</span>
+          <span class="copy-link-text">Copy Share Link</span>
         </div>
       </div>
     </div>
@@ -68,37 +69,150 @@
     <canvas id="canvas"> </canvas>
 
     <!--start right sidebar-->
-    <nav class="right-bar" id="right-bar">
+    <nav class="right-bar">
       <ul class="right-bar-nav">
         <li class="right-bar-item">
           <a href="#" class="right-bar-link">
-            <div id="white"></div>
+            <div class="white"></div>
           </a>
         </li>
 
         <li class="right-bar-item">
           <a href="#" class="right-bar-link">
-            <div id="red"></div>
+            <div class="red"></div>
           </a>
         </li>
 
         <li class="right-bar-item">
           <a href="#" class="right-bar-link">
-            <div id="blue"></div>
+            <div class="blue"></div>
           </a>
         </li>
 
         <li class="right-bar-item">
           <a href="#" class="right-bar-link">
-            <div id="lime"></div>
+            <div class="lime"></div>
           </a>
         </li>
 
         <li class="right-bar-item">
           <a href="#" class="right-bar-link">
-            <div id="purple"></div>
+            <div class="purple"></div>
           </a>
         </li>
+
+        <!--start whiteboard draw tools-->
+        <div class="group shapes">
+          <div class="item active" data-tool="line" title="Line Tool">
+            <li class="left-bar-item">
+              <a href="#" class="left-bar-link">
+                <i class="fas fa-grip-lines"></i>
+              </a>
+            </li>
+          </div>
+
+          <div class="item" data-tool="circle" title="Circle Tool">
+            <li class="left-bar-item">
+              <a href="#" class="left-bar-link">
+                <i class="far fa-circle"></i>
+              </a>
+            </li>
+          </div>
+
+          <div class="item" data-tool="square" title="Square Tool">
+            <li class="left-bar-item">
+              <a href="#" class="left-bar-link">
+                <i class="far fa-square"></i>
+              </a>
+            </li>
+          </div>
+
+          <div class="item" data-tool="triangle" title="Triangle Tool">
+            <li class="left-bar-item">
+              <a href="#" class="left-bar-link">
+                <i class="fas fa-caret-up"></i>
+              </a>
+            </li>
+          </div>
+      </div>
+
+
+      <div class="group tools">
+        <div class="item" data-tool="pencil" title="Pencil Tool">
+          <li class="left-bar-item">
+            <a href="#" class="left-bar-link">
+              <i class="fas fa-pencil-alt"></i>
+            </a>
+          </li>
+        </div>
+
+        <div class="item" data-tool="brush" title="Brush Tool">
+          <li class="left-bar-item">
+            <a href="#" class="left-bar-link">
+              <i class="fas fa-paint-brush"></i>
+            </a>
+          </li>
+        </div>
+
+        <div class="item" data-tool="eraser" title="Eraser Tool">
+          <li class="left-bar-item">
+            <a href="#" class="left-bar-link">
+              <i class="fas fa-eraser"></i>
+            </a>
+          </li>
+        </div>
+
+        <div class="item" data-tool="paint-bucket" title="Paint Bucket Tool">
+          <li class="left-bar-item">
+            <a href="#" class="left-bar-link">
+              <i class="fas fa-fill"></i>
+            </a>
+          </li>
+        </div>
+    </div>
+
+    <div class="group linewidths for-shapes" style="display: block;">
+      <div class="item active" data-line-width="1" title="1 Pixel">
+        <li class="left-bar-item">
+          <a href="#" class="left-bar-link">
+            <i class="fas fa-circle"></i>
+          </a>
+        </li>
+      </div>
+
+      <div class="item" data-line-width="2" title="2 Pixel">
+        <li class="left-bar-item">
+          <a href="#" class="left-bar-link">
+            <i class="fas fa-circle"></i>
+          </a>
+        </li>
+      </div>
+
+      <div class="item" data-line-width="3" title="3 Pixel">
+        <li class="left-bar-item">
+          <a href="#" class="left-bar-link">
+            <i class="fas fa-circle"></i>
+          </a>
+        </li>
+      </div>
+
+      <div class="item" data-line-width="4" title="4 Pixel">
+        <li class="left-bar-item">
+          <a href="#" class="left-bar-link">
+            <i class="fas fa-circle"></i>
+          </a>
+        </li>
+      </div>
+
+      <div class="item" data-line-width="5" title="5 Pixel">
+        <li class="left-bar-item">
+          <a href="#" class="left-bar-link">
+            <i class="fas fa-circle"></i>
+          </a>
+        </li>
+      </div>
+  </div>
+            <!--end whiteboard draw tools-->
 
         <!-- <li class="nav-item" id="themeButton"> shifts last child to bottom of side bar
               <a href="#" class="nav-link">
@@ -110,42 +224,97 @@
       </ul>
     </nav>
 
-    <button id="hide-options-right"><i class="fas fa-palette"></i></button>
+    <button class="hide-options-right"><i class="fas fa-palette"></i></button>
 
     <!--end right sidebar-->
 
     <!--start left sidebar-->
-    <nav class="left-bar" id="left-bar">
+    <nav class="left-bar">
       <ul class="left-bar-nav">
-        <li class="left-bar-item">
-          <a href="#" class="left-bar-link">
-            <i class="fas fa-undo"></i>
-          </a>
-        </li>
+        <!--group commands-->
+        <div class="group commands">
+          <div class="item" data-command="undo" title="Undo">
+            <li class="left-bar-item">
+              <a href="#" class="left-bar-link">
+                <i class="fas fa-undo"></i>
+              </a>
+            </li>
+          </div>
 
-        <li class="left-bar-item">
-          <a href="#" class="left-bar-link">
-            <i class="fas fa-download"></i>
-          </a>
-        </li>
+          <div class="item" data-command="save" title="Save">
+            <li class="left-bar-item">
+              <a href="#" class="left-bar-link">
+                <i class="fas fa-download"></i>
+              </a>
+            </li>
+          </div>
 
-        <li class="left-bar-item">
-          <a href="#" class="left-bar-link">
-            <i class="fas fa-grip-lines"></i>
-          </a>
-        </li>
+          <div class="item" data-command="add-page" title="Add Page">
+            <li class="left-bar-item">
+              <a href="#" class="left-bar-link">
+                <i class="fas fa-plus"></i>
+              </a>
+            </li>
+          </div>
 
-        <li class="left-bar-item">
-          <a href="#" class="left-bar-link">
-            <i class="fas fa-circle"></i>
-          </a>
-        </li>
+          <div class="item" data-command="remove-page" title="Delete Board">
+            <li class="left-bar-item">
+              <a href="#" class="left-bar-link">
+                <i class="fas fa-minus"></i>
+              </a>
+            </li>
+          </div>
 
-        <li class="left-bar-item">
-          <a href="#" class="left-bar-link">
-            <i class="fas fa-square-full"></i>
-          </a>
-        </li>
+          <div class="item" data-command="clear-page" title="Clear Board">
+            <li class="left-bar-item">
+              <a href="#" class="left-bar-link">
+                <i class="fas fa-backspace"></i>
+              </a>
+            </li>
+          </div>
+
+
+        <!-- <div class="group linewidths for-brush" style="display: none;">
+
+            <div class="item active" data-brush-size="4" title="4 Pixel">
+              <li class="left-bar-item">
+                <a href="#" class="left-bar-link">
+                  <i class="fas fa-plus"></i>
+                </a>
+              </li>
+            </div>
+            <div class="item" data-brush-size="6" title="6 Pixel">
+              <li class="left-bar-item">
+                <a href="#" class="left-bar-link">
+                  <i class="fas fa-plus"></i>
+                </a>
+              </li>
+            </div>
+            <div class="item" data-brush-size="8" title="8 Pixel">
+              <li class="left-bar-item">
+                <a href="#" class="left-bar-link">
+                  <i class="fas fa-plus"></i>
+                </a>
+              </li>
+            </div>
+            <div class="item" data-brush-size="10" title="10 Pixel">
+              <li class="left-bar-item">
+                <a href="#" class="left-bar-link">
+                  <i class="fas fa-plus"></i>
+                </a>
+              </li>
+            </div>
+            <div class="item" data-brush-size="12" title="12 Pixel">
+              <li class="left-bar-item">
+                <a href="#" class="left-bar-link">
+                  <i class="fas fa-plus"></i>
+                </a>
+              </li>
+            </div>
+        </div> -->
+
+    </div>
+        </div>
 
         <!-- <li class="nav-item" id="themeButton"> shifts last child to bottom of side bar
                       <a href="#" class="nav-link">
@@ -157,7 +326,7 @@
       </ul>
     </nav>
 
-    <button id="hide-options-left"><i class="fas fa-info"></i></button>
+    <button class="hide-options-left"><i class="fas fa-info"></i></button>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/peerjs@0.3.20/dist/peer.min.js"></script>
@@ -166,12 +335,12 @@
     <script>
       $(document).ready(function () {
         //loads after html
-        $("#hide-options-right").click(function () {
-          $("#right-bar").fadeToggle();
+        $(".hide-options-right").click(function () {
+          $(".right-bar").fadeToggle();
         });
 
-        $("#hide-options-left").click(function () {
-          $("#left-bar").fadeToggle();
+        $(".hide-options-left").click(function () {
+          $(".left-bar").fadeToggle();
         });
       });
     </script>
