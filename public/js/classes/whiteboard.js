@@ -5,7 +5,7 @@
 import {
   TOOL_CIRCLE, TOOL_LINE,
   TOOL_ERASER, TOOL_PAINT_BUCKET, TOOL_PENCIL,
-  TOOL_SQUARE, TOOL_TRIANGLE,
+  TOOL_SQUARE, TOOL_TRIANGLE, TOOL_SELECTAREA,
 } from '../tools.js';
 
 import { getMouseCoordsOnCanvas, findDistance } from '../utility.js';
@@ -17,14 +17,14 @@ export default class Whiteboard {
     this.canvas.height = window.innerHeight;
     this.canvas.width = window.innerWidth;
     this.context = this.canvas.getContext('2d');
-    this.canvas.style.cursor = "crosshair";
+    this.canvas.style.cursor = 'crosshair';
     this.currentBoard = 0;
     this.paintWhite();
     this.boards = [];
     this.undoStack = [];
     this.undoLimit = 40; // limit for the stack
-    this.startingPoint = {x: 0, y: 0};
-    this.endPoint = {x: 0, y: 0};
+    this.startingPoint = { x: 0, y: 0 };
+    this.endPoint = { x: 0, y: 0 };
     this.numSquares = false;
     this.rectDeleted = false;
   }
@@ -125,11 +125,11 @@ export default class Whiteboard {
     this.canvas.onmousemove = null;
     document.onmouseup = null;
 
-    if (this.tool == TOOL_SELECTAREA){
+    if (this.tool === TOOL_SELECTAREA) {
       this.context.setLineDash([]);
       this.context.lineWidth = this._lineWidth;
-      if (this.numSquares == false){
-          this.numSquares = true;
+      if (!this.numSquares) {
+        this.numSquares = true;
       }
     }
   }
@@ -159,16 +159,16 @@ export default class Whiteboard {
       this.context.lineTo(this.startPos.x, this.currentPos.y);
       this.context.lineTo(this.currentPos.x, this.currentPos.y);
       this.context.closePath();
-    }else if (this.tool = TOOL_SELECTAREA){
+    } else if (this.tool === TOOL_SELECTAREA) {
       this.context.lineWidth = 1;
       this.context.setLineDash([10, 20]);
-      this.context.rect(this.startPos.x, this.startPos.y, this.currentPos.x - this.startPos.x, this.currentPos.y - this.startPos.y);
+      this.context.rect(this.startPos.x, this.startPos.y,
+        this.currentPos.x - this.startPos.x, this.currentPos.y - this.startPos.y);
       this.startingPoint.x = this.startPos.x;
       this.startingPoint.y = this.startPos.y;
-      
+
       this.endPoint.x = this.currentPos.x;
       this.endPoint.y = this.currentPos.y;
-
     }
 
     this.context.stroke();
