@@ -1,11 +1,9 @@
-import {
-  TOOL_CIRCLE, TOOL_LINE,
-  TOOL_BRUSH, TOOL_ERASER,
-  TOOL_PAINT_BUCKET, TOOL_PENCIL,
-  TOOL_SQUARE, TOOL_TRIANGLE,
-} from './tools.js';
+/* eslint-disable no-use-before-define */
+/* eslint-disable no-fallthrough */
+/* eslint-disable default-case */
+/* eslint-disable no-undef */
+/* eslint-disable import/extensions */
 import Whiteboard from './classes/whiteboard.js';
-
 import { CONFIG } from './peerConfig.js';
 
 
@@ -13,18 +11,18 @@ window.onload = () => {
   const peer = new Peer(CONFIG);
   let calls = [];
   const url = window.location.pathname;
-  const last_slash = url.lastIndexOf('/');
-  const manager_id = url.substr(last_slash + 1);
+  const lastSlash = url.lastIndexOf('/');
+  const managerId = url.substr(lastSlash + 1);
   const messageContainer = document.getElementById('message-container');
   const sendContainer = document.getElementById('send-container');
   const messageInput = document.getElementById('message-input');
 
   peer.on('open', () => {
     const getUserMedia = navigator.mediaDevices.getUserMedia
-                             || navigator.getUserMedia
-                             || navigator.webkitGetUserMedia
-                             || navigator.mozGetUserMedia
-                             || navigator.msGetUserMedia;
+      || navigator.getUserMedia
+      || navigator.webkitGetUserMedia
+      || navigator.mozGetUserMedia
+      || navigator.msGetUserMedia;
 
     getUserMedia({ audio: true })
       .then(startLecture);
@@ -33,9 +31,9 @@ window.onload = () => {
   function startLecture(stream) {
     const whiteboard = new Whiteboard('canvas');
     stream.addTrack(whiteboard.getStream().getTracks()[0]);
-    const socket = io('/', { query: `id=${manager_id}` });
-    socket.on('call', (remote_peer_id) => {
-      const call = peer.call(remote_peer_id, stream);
+    const socket = io('/', { query: `id=${managerId}` });
+    socket.on('call', (remotePeerId) => {
+      const call = peer.call(remotePeerId, stream);
       calls.push(call);
     });
 
@@ -72,16 +70,16 @@ window.onload = () => {
         createNonActiveBoardElem(whiteboard.getImage(), true);
       }
 
-      let sharable_url = window.location.href;
-      sharable_url = sharable_url.substr(0, sharable_url.lastIndexOf('/') + 1);
-      sharable_url += room.lecture_details.id;
-      document.getElementById('copy-share-link').addEventListener('click', (e) => {
-        const tmp_input = document.createElement('input');
-        tmp_input.value = sharable_url;
-        document.body.appendChild(tmp_input);
-        tmp_input.select();
+      let sharableUrl = window.location.href;
+      sharableUrl = sharableUrl.substr(0, sharableUrl.lastIndexOf('/') + 1);
+      sharableUrl += room.lecture_details.id;
+      document.getElementById('copy-share-link').addEventListener('click', () => {
+        const tmpInput = document.createElement('input');
+        tmpInput.value = sharableUrl;
+        document.body.appendChild(tmpInput);
+        tmpInput.select();
         document.execCommand('copy');
-        document.body.removeChild(tmp_input);
+        document.body.removeChild(tmpInput);
       });
 
       sendContainer.addEventListener('submit', (e) => {
@@ -93,24 +91,18 @@ window.onload = () => {
         messageInput.value = '';
       });
 
-      document.querySelector('button#end-lecture').addEventListener('click', (e) => {
+      document.querySelector('button#end-lecture').addEventListener('click', () => {
         calls.forEach((call) => {
           call.close();
         });
         calls = [];
-        socket.emit('lectureEnd');
-        window.location = '/';
+        socket.emit('lectureEnd', () => {
+          window.location = `/lecture/stats/${room.lecture_details.id}`;
+        });
       });
 
-      // case "download":
-      //     var link = document.createElement("a");
-      //     link.download = "my-image.png";
-      //     link.href = whiteboard.getImage();
-      //     link.click();
-      //     break;
-
       document.querySelectorAll('[data-command]').forEach((item) => {
-        item.addEventListener('click', (e) => {
+        item.addEventListener('click', () => {
           const command = item.getAttribute('data-command'); // not doing shit here still
           const currImage = whiteboard.getImage();
           switch (command) {
@@ -151,7 +143,7 @@ window.onload = () => {
       });
       document.querySelectorAll('[data-tool]').forEach(
         (item) => (
-          item.addEventListener('click', (e) => {
+          item.addEventListener('click', () => {
             document.querySelector('[data-tool].active').classList.toggle('active'); // remove the previous active function from the active class
 
             item.classList.add('active'); // we add the element we clicked on to the active class
@@ -159,39 +151,12 @@ window.onload = () => {
             // with the tool.class.js created:
             const selectedTool = item.getAttribute('data-tool');
             whiteboard.activeTool = selectedTool;
-
-            switch (selectedTool) {
-              // activate shape or line widths group
-              case TOOL_CIRCLE:
-              case TOOL_LINE:
-              case TOOL_SQUARE:
-              case TOOL_TRIANGLE:
-                // case TOOL_PAINT_BUCKET:
-              case TOOL_PENCIL:
-                // make pencil shapes visible
-                document.querySelector('.group.for-shapes').style = 'display: block;';
-                // make brush sizes invisible
-                document.querySelector('.group.for-brush').style = 'display: none;';
-                break;
-
-              case TOOL_BRUSH:
-              case TOOL_ERASER:
-                // make pencil shapes invisible
-                document.querySelector('.group.for-shapes').style.display = 'none';
-                // make brush selection visible
-                document.querySelector('.group.for-brush').style.display = 'block';
-                break;
-              default:
-                // make both line groups invisible
-                document.querySelector('.group.for-shapes').style.display = 'none';
-                document.querySelector('.group.for-brush').style.display = 'none';
-            }
           })),
       );
 
       document.querySelectorAll('[data-line-width]').forEach(
         (item) => {
-          item.addEventListener('click', (e) => {
+          item.addEventListener('click', () => {
             document.querySelector('[data-line-width].active').classList.toggle('active'); // remove the previous active function from the active class
             item.classList.add('active'); // we add the element we clicked on to the active class
 
@@ -203,7 +168,7 @@ window.onload = () => {
 
       document.querySelectorAll('[data-brush-size]').forEach(
         (item) => {
-          item.addEventListener('click', (e) => {
+          item.addEventListener('click', () => {
             document.querySelector('[data-brush-size].active').classList.toggle('active'); // remove the previous active function from the active class
             item.classList.add('active'); // we add the element we clicked on to the active class
 
@@ -215,7 +180,7 @@ window.onload = () => {
 
       document.querySelectorAll('[data-color]').forEach(
         (item) => {
-          item.addEventListener('click', (e) => {
+          item.addEventListener('click', () => {
             document.querySelector('[data-color].active').classList.toggle('active'); // remove the previous active function from the active class
             item.classList.add('active'); // we add the element we clicked on to the active class
 
@@ -270,6 +235,7 @@ window.onload = () => {
         // must defer function to work when opening on new tab
         setTimeout(() => {
           whiteboard.setCurrentBoard(newBoardImg);
+          socket.emit('currentBoardToAll', img);
         }, 0);
       }
     }

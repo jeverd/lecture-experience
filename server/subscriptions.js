@@ -1,21 +1,29 @@
 /* eslint-disable no-shadow */
 /* eslint-disable no-inner-declarations */
 /* eslint-disable no-param-reassign */
-const { io } = require('./servers.js');
-const redisClient = require('./servers.js').client;
-const { logger } = require('./logging/logger');
-const { sendManagerDisconnectEmail } = require('./services/emailer.js');
+const { io } = require('./servers');
+const redisClient = require('./servers').client;
+const { logger } = require('./services/logger/logger');
+const { sendManagerDisconnectEmail } = require('./services/emailer');
+const Stats = require('./models/stats');
 
 const roomsTimeout = {};
 
 function updateNumOfStudents(room) {
   io.in(room).clients((error, clients) => {
-    io.in(room).emit('updateNumOfStudents', clients.length);
+    const numOfStudents = clients.length + (room in roomsTimeout ? 0 : -1);
+    io.in(room).emit('updateNumOfStudents', numOfStudents);
+    redisClient.hmget('stats', room, (error, stats) => {
+      const { userTracker, maxNumOfUsers, numOfBoards } = JSON.parse(stats);
+      const updatedStat = new Stats(userTracker, maxNumOfUsers, numOfBoards);
+      updatedStat.addUserTrack(new Date(), clients.length);
+      redisClient.hmset('stats', { [room]: JSON.stringify(updatedStat) });
+    });
   });
 }
 
-function call(room, manager_socket_id, peer_id) {
-  io.in(room).connected[manager_socket_id].emit('call', peer_id);
+function call(room, managerSocketId, peerId) {
+  io.in(room).connected[managerSocketId].emit('call', peerId);
 }
 
 io.sockets.on('connection', (socket) => {
@@ -27,15 +35,14 @@ io.sockets.on('connection', (socket) => {
       return;
     }
     manager = manager.pop(); // redis brings manager as an array
-    let roomToJoin; let
-      isIncomingStudent;
+    let roomToJoin; let isIncomingStudent;
     if (manager) {
       logger.info(`SOCKET: ON CONNECTION: manager found, socket_id: ${socket.id}`);
       isIncomingStudent = false;
       const managerObj = JSON.parse(manager);
       roomToJoin = managerObj.roomId;
       if (socket.id !== managerObj.sockedId
-                && managerObj.socketId in io.in(roomToJoin).connected) {
+        && managerObj.socketId in io.in(roomToJoin).connected) {
         logger.info(`SOCKET: ON CONNECTION: manager already exists, socket_id: ${socket.id}, emitting attemptToConnectMultipleManagers now`);
         socket.emit('attemptToConnectMultipleManagers');
         return;
@@ -49,18 +56,21 @@ io.sockets.on('connection', (socket) => {
         logger.info(`SOCKET: Lecture ${roomToJoin} terminated`);
         redisClient.hmget('rooms', roomToJoin, (error, roomObj) => {
           const { managerId } = JSON.parse(roomObj);
-          redisClient.hdel('managers', managerId, () => null);
+          redisClient.hdel('managers', managerId);
           logger.info(`SOCKET: Successfully deleted manager from redis, managerId: ${managerId}`);
-          redisClient.hdel('rooms', roomToJoin, () => null);
-          logger.info(`SOCKET: Successfully deleted room from redis, room_id: ${roomToJoin}`);
-          if (roomToJoin in io.sockets.adapter.rooms) {
-            const connectedSockets = io.sockets.adapter.rooms[roomToJoin].sockets;
-            Object.keys(connectedSockets).forEach((cliId) => {
-              if (cliId !== socket.id) {
-                io.in(roomToJoin).connected[cliId].disconnect();
-              }
+          redisClient.hdel('rooms', roomToJoin, () => {
+            socket.leave(roomToJoin, () => {
+              // Call this just to get last piece of stats about this lecture.
+              updateNumOfStudents(roomToJoin);
             });
-          }
+          });
+          logger.info(`SOCKET: Successfully deleted room from redis, room_id: ${roomToJoin}`);
+          const connectedSockets = io.sockets.adapter.rooms[roomToJoin].sockets;
+          Object.keys(connectedSockets).forEach((cliId) => {
+            if (cliId !== socket.id) {
+              io.in(roomToJoin).connected[cliId].disconnect();
+            }
+          });
         });
       }
       socket.on('disconnect', () => {
@@ -69,7 +79,6 @@ io.sockets.on('connection', (socket) => {
         redisClient.hmset('managers', {
           [urlUuid]: JSON.stringify(managerObj),
         });
-        updateNumOfStudents(roomToJoin);
         redisClient.hexists('rooms', roomToJoin, (er, roomExist) => {
           // Set timeout only if manager disconnected and didn't end lecture
           if (roomExist) {
@@ -83,7 +92,10 @@ io.sockets.on('connection', (socket) => {
           }
         });
       });
-      socket.on('lectureEnd', terminateLecture);
+      socket.on('lectureEnd', (handleTerminateLectureOnClientManager) => {
+        terminateLecture();
+        handleTerminateLectureOnClientManager();
+      });
       socket.on('updateBoards', (boardObj) => {
         redisClient.hmget('rooms', roomToJoin, (err, roomObj) => {
           roomObj = JSON.parse(roomObj);
@@ -95,6 +107,9 @@ io.sockets.on('connection', (socket) => {
           socket.broadcast.to(roomToJoin).emit('boards',
             boardObj.boards.filter((e, i) => i !== boardObj.activeBoardIndex));
         });
+      });
+      socket.on('currentBoardToAll', (board) => {
+        socket.broadcast.to(roomToJoin).emit('currentBoard', board);
       });
       socket.on('currentBoard', (obj) => {
         const { studentSocket, board } = obj;
@@ -125,8 +140,8 @@ io.sockets.on('connection', (socket) => {
       isIncomingStudent = true;
       logger.info(`SOCKET: Student joining room ${roomToJoin}`);
       socket.join(roomToJoin);
+      updateNumOfStudents(roomToJoin);
     }
-    updateNumOfStudents(roomToJoin);
     redisClient.hmget('rooms', roomToJoin, (error, roomObj) => {
       const lectureObj = JSON.parse(roomObj);
       lectureObj.id = roomToJoin;
