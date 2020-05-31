@@ -31,6 +31,33 @@ window.onload = () => {
 
   function startLecture(stream) {
     const whiteboard = new Whiteboard('canvas');
+
+    function handleWindowResize() {
+      let timeout;
+      let isStartingToResize = true;
+      const inMemCanvas = document.createElement('canvas');
+      const inMemCtx = inMemCanvas.getContext('2d');
+      const onResizeDone = () => {
+        whiteboard.canvas.height = window.innerHeight;
+        whiteboard.canvas.width = window.innerWidth;
+        whiteboard.paintWhite();
+        whiteboard.setCurrentBoard(inMemCanvas);
+        isStartingToResize = true;
+      };
+      $(window).on('resize', () => {
+        if (isStartingToResize) {
+          inMemCanvas.width = whiteboard.canvas.width;
+          inMemCanvas.height = whiteboard.canvas.height;
+          inMemCtx.drawImage(whiteboard.canvas, 0, 0);
+          isStartingToResize = false;
+        }
+        clearTimeout(timeout);
+        timeout = setTimeout(onResizeDone, 100);
+      });
+    }
+
+    handleWindowResize();
+
     stream.addTrack(whiteboard.getStream().getTracks()[0]);
     const socket = io('/', { query: `id=${managerId}` });
     socket.on('call', (remotePeerId) => {
