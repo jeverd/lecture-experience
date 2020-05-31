@@ -57,7 +57,7 @@ export default class Whiteboard {
     this.activeTool = TOOL_BRUSH;
     this.lineWidth = 1;
     this.brushSize = 4;
-    this.selectedColor = '#000000';
+    this.selectedColor = '#424242';
     this.canvas.onmousedown = (e) => this.onMouseDown(e);
   }
 
@@ -164,8 +164,6 @@ export default class Whiteboard {
   undoPaint() {
     if (this.undoStack.length > 0) {
       this.context.putImageData(this.undoStack.pop(), 0, 0);
-    } else {
-      alert('No drawing to be undone');
     }
   }
 
