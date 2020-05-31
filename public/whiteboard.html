@@ -43,62 +43,60 @@
           ><span class="divider"></span>
         </div>
 
-        <div id="end-lecture" class="end-lecture-container">
+        <div title="Click to end lecture" id="end-lecture" class="end-lecture-container">
           <i class="fas fa-sign-out-alt end-lecture-icon"></i>
           &nbsp;
           <span class="end-lecture-text">End Lecture</span>
           &nbsp;
         </div>
+
         <span class="divider"></span>
-        <div id="copy-share-link" class="copy-link-container">
+
+        <div title="Share lecture link" id="copy-share-link" class="copy-link-container">
           <i class="fas fa-link sharelink-info-icon"></i>
           &nbsp;
           <span class="copy-link-text">Share Link</span>
           &nbsp;
         </div>
+
         <span class="divider"></span>
-        <div class="lecture-spectators">
+
+        <div title="Open Board View" class="my-boards-button-container">
+          <img src="/whiteboard.svg"/>
+            &nbsp;
+          <span>My Boards</span>
+        </div>
+
+        <span class="divider"></span>
+
+
+        <div title="Open Chat View" class="chat-button-container">
           <span>
-            <i class="fas fa-eye classroom-info-icon"></i>
+            <i class="fas fa-comment-dots chat-info-icon"></i>
+            <span>Chat</span>
+          </span>
+        </div>
+
+        <span class="divider"></span>
+
+        <div title="Number of Spectators" class="lecture-spectators">
+          <span>
+            <i class="fas fa-eye"></i>
             &nbsp;
             <span id="specs">0</span>
           </span>
-          <span class="divider"></span>
         </div>
 
-        <div class="my-boards-button-container">
-          <span class="divider">|</span>
-          <button class="my-boards-button">
-            View my boards</button
-          >&nbsp;&nbsp;
-          <span class="my-boards-button-text"></span>
-        </div>
+        <span class="divider"></span>
 
-        <div class="view-chat-button-container">
-          <span class="divider">|</span>
-          <button class="view-chat-button">
-            View chat</button
-          >&nbsp;&nbsp;
-          <span class="view-chat-text"></span>
-        </div>
-
-        <div class="hide-bar-button-container">
-          <span class="divider">|</span>
+        <div title="Minimize View" class="hide-bar-button-container">
           <button class="hide-bar-button">
-            <i class="fas fa-level-up-alt"></i></button
-          >&nbsp;&nbsp;
-          <span class="view-chat-text"></span>
+            <i class="fas fa-level-up-alt"></i>
+          </button>
         </div>
 
       </div>
     </div>
-
-
-    <form style="position:absolute;bottom:30px;left:50%;z-index:10;" id="send-container">
-      <input type="text" id="message-input">
-      <button type="submit" id="send-button">Send</button>
-    </form>
-    <div id="message-container">Chat:</div>
 
     <div id="copied-popup">Copied!</div>
     <div style="position:absolute;bottom:30px;left:50%;z-index:10;">
@@ -219,42 +217,42 @@
               <i class="fas fa-arrow-left"></i>
             </a>
           </li>
-          <div class="item active" data-line-width="1" title="1 Pixel">
+          <div class="item active" data-line-width="1" title="3 Pixel">
             <li class="left-bar-item">
               <a class="left-bar-link">
-                <i class="fas fa-circle"></i>
+                <div class="linewidth" style="width: 3px;height: 3px"></div>
               </a>
             </li>
           </div>
 
-          <div class="item" data-line-width="2" title="2 Pixel">
+          <div class="item" data-line-width="3" title="6 Pixel">
             <li class="left-bar-item">
               <a class="left-bar-link">
-                <i class="fas fa-circle"></i>
+                <div class="linewidth" style="width: 6px;height: 6px"></div>
               </a>
             </li>
           </div>
 
-          <div class="item" data-line-width="3" title="3 Pixel">
+          <div class="item" data-line-width="6" title="9 Pixel">
             <li class="left-bar-item">
               <a class="left-bar-link">
-                <i class="fas fa-circle"></i>
+                <div class="linewidth" style="width: 9px;height: 9px"></div>
               </a>
             </li>
           </div>
 
-          <div class="item" data-line-width="4" title="4 Pixel">
+          <div class="item" data-line-width="9" title="12 Pixel">
             <li class="left-bar-item">
               <a class="left-bar-link">
-                <i class="fas fa-circle"></i>
+                <div class="linewidth" style="width: 12px;height: 12px"></div>
               </a>
             </li>
           </div>
 
-          <div class="item" data-line-width="5" title="5 Pixel">
+          <div class="item" data-line-width="12" title="15 Pixel">
             <li class="left-bar-item">
               <a class="left-bar-link">
-                <i class="fas fa-circle"></i>
+                <div class="linewidth" style="width: 15px;height: 15px"></div>
               </a>
             </li>
           </div>

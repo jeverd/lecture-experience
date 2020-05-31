@@ -3,7 +3,7 @@
 /* eslint-disable import/extensions */
 /* eslint-disable no-underscore-dangle */
 import {
-  TOOL_CIRCLE, TOOL_LINE, TOOL_BRUSH,
+  TOOL_CIRCLE, TOOL_LINE,
   TOOL_ERASER, TOOL_PAINT_BUCKET, TOOL_PENCIL,
   TOOL_SQUARE, TOOL_TRIANGLE,
 } from '../tools.js';
@@ -33,11 +33,6 @@ export default class Whiteboard {
     this.context.lineWidth = this._lineWidth;
   }
 
-
-  set brushSize(brushSize) {
-    this._brushSize = brushSize;
-  }
-
   set selectedColor(color) {
     this._color = color;
     this.context.strokeStyle = this._color;
@@ -54,9 +49,8 @@ export default class Whiteboard {
   }
 
   initialize() {
-    this.activeTool = TOOL_BRUSH;
-    this.lineWidth = 1;
-    this.brushSize = 4;
+    this.activeTool = TOOL_PENCIL;
+    this.lineWidth = 3;
     this.selectedColor = '#424242';
     this.canvas.onmousedown = (e) => this.onMouseDown(e);
   }
@@ -80,7 +74,7 @@ export default class Whiteboard {
 
     this.startPos = getMouseCoordsOnCanvas(e, this.canvas); // NaN here
 
-    if (this.tool === TOOL_PENCIL || this.tool === TOOL_BRUSH) {
+    if (this.tool === TOOL_PENCIL) {
       // begin path again and again for good quality
       this.context.beginPath();
       this.context.moveTo(this.startPos.x, this.startPos.y);
@@ -89,7 +83,7 @@ export default class Whiteboard {
       new Fill(this.canvas, this.startPos, this._color);
     } else if (this.tool === TOOL_ERASER) {
       this.context.clearRect(this.startPos.x, this.startPos.y,
-        this._brushSize, this._brushSize);
+        this._lineWidth, this._lineWidth);
     }
   }
 
@@ -108,12 +102,9 @@ export default class Whiteboard {
       case TOOL_PENCIL:
         this.drawFreeLine(this._lineWidth);
         break;
-      case TOOL_BRUSH:
-        this.drawFreeLine(this._brushSize);
-        break;
       case TOOL_ERASER:
         this.context.clearRect(this.currentPos.x, this.currentPos.y,
-          this._brushSize, this._brushSize);
+          this._lineWidth, this._lineWidth);
         break;
       default:
         break;
