@@ -166,17 +166,17 @@ window.onload = () => {
         },
       );
 
-      document.querySelectorAll('[data-brush-size]').forEach(
-        (item) => {
-          item.addEventListener('click', () => {
-            document.querySelector('[data-brush-size].active').classList.toggle('active'); // remove the previous active function from the active class
-            item.classList.add('active'); // we add the element we clicked on to the active class
+      // document.querySelectorAll('[data-brush-size]').forEach(
+      //   (item) => {
+      //     item.addEventListener('click', () => {
+      //       document.querySelector('[data-brush-size].active').classList.toggle('active'); // remove the previous active function from the active class
+      //       item.classList.add('active'); // we add the element we clicked on to the active class
 
-            const brushSize = item.getAttribute('data-brush-size');
-            whiteboard.brushSize = brushSize;
-          });
-        },
-      );
+      //       const brushSize = item.getAttribute('data-brush-size');
+      //       whiteboard.brushSize = brushSize;
+      //     });
+      //   },
+      // );
 
       document.querySelectorAll('[data-color]').forEach(
         (item) => {
