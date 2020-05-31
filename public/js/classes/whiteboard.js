@@ -194,6 +194,6 @@ export default class Whiteboard {
   }
 
   setCurrentBoard(img) {
-    this.context.drawImage(img, 0, 0, this.canvas.width, this.canvas.height);
+    this.context.drawImage(img, 0, 0);
   }
 }

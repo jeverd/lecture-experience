@@ -81,17 +81,18 @@ export default function initializeToolsMenu(whiteboard) {
 
         /* TAKE CARE OF ALL DIRECTIONS POSSIBLE FOR DRAG AND DROP ERASING FUNCIOTIONALITY */
         // start high go down, right (good)
+        whiteboard.context.fillStyle = 'white';
         if (start.x < end.x && start.y < end.y) {
-          whiteboard.context.clearRect(start.x - 2, start.y - 2,
+          whiteboard.context.fillRect(start.x - 2, start.y - 2,
             (end.x - start.x) + 3, (end.y - start.y) + 3);
         } else if (start.x < end.x && start.y > end.y) { // start low, go up, right (good)
-          whiteboard.context.clearRect(start.x - 2, end.y - 2,
+          whiteboard.context.fillRect(start.x - 2, end.y - 2,
             (end.x - start.x) + 3, (start.y - end.y) + 3);
         } else if (start.x > end.x && start.y < end.y) { // start high, go down, left (good)
-          whiteboard.context.clearRect(end.x - 2, start.y - 2,
+          whiteboard.context.fillRect(end.x - 2, start.y - 2,
             (start.x - end.x) + 3, (end.y - start.y) + 3);
         } else if (start.x > end.x && start.y > end.y) { // start low, go up, left (good)
-          whiteboard.context.clearRect(end.x - 2, end.y - 2,
+          whiteboard.context.fillRect(end.x - 2, end.y - 2,
             (start.x - end.x) + 3, (start.y - end.y) + 3);
         }
 
