@@ -3,7 +3,7 @@ services:
     redis_db:
       image: redis:4.0-alpine
       ports:
-        - 6179:6179
+        - 6379:6379
       volumes:
         - ./docker-config/redis.conf:/redis.conf
       command: [ "redis-server", "/redis.conf" ]

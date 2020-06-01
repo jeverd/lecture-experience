@@ -32,6 +32,11 @@ jobs:
             cd docker
             docker-compose up -d
             docker ps
+            echo 'now setting up enviromment vars'
+            cd ..
+            cd config
+            mv example.env .env
+            ls
             echo 'now running tests'
             cd ..
             npm test
