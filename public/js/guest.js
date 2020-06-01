@@ -5,6 +5,7 @@ window.onload = () => {
   const room_id = url.substr(last_slash + 1);
   const sendContainer = document.getElementById("send-container");
   const messageInput = document.getElementById("message-input");
+  const messageContainer = document.getElementById("message-container");
 
   peer.on("open", (peer_id) => {
     let socket = io("/", {
@@ -53,6 +54,31 @@ window.onload = () => {
       socket.emit("send-to-manager", room_id, message);
       messageInput.value = "";
     });
+
+    document.querySelector("button#toggle-messages").addEventListener("click", e => {
+      e.preventDefault();
+
+      const messagesChild = e.target.nextElementSibling;
+      e.target.classList.toggle("active");
+      if (messagesChild.style.maxHeight) {
+        messagesChild.style.maxHeight = null;
+      } else {
+        messagesChild.style.maxHeight = messagesChild.scrollHeight + "px";
+      }
+    })
+
+    document.querySelector("button#toggle-messages").addEventListener("redraw", e => {
+      e.preventDefault();
+
+      const messagesChild = e.target.nextElementSibling;
+      e.target.classList.add("active");
+      if (messagesChild.scrollHeight >= 300) {
+        messagesChild.style.maxHeight = "300px";
+        messagesChild.style.overflow = "scroll";
+      } else {
+        messagesChild.style.maxHeight = messagesChild.scrollHeight + "px";
+      }
+    })
   });
 
   function setNonActiveBoards(boards) {
@@ -72,7 +98,11 @@ window.onload = () => {
     tableData.innerText = message;
 
     messageElement.append(tableData);
-    sendContainer.append(messageElement);
+    messageContainer.append(messageElement);
+
+    const messageToggle = document.getElementById("toggle-messages");
+    const event = new Event("redraw");
+    messageToggle.dispatchEvent(event);
   }
 
   function startStream(html_elem, stream_track) {

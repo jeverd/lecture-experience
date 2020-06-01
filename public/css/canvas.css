@@ -11,6 +11,55 @@ body{
     transform: translateX(-50%);
 }
 
+/* Chat menu */
+
+/* Wrapper for button and messages */
+div.messages {
+    position: fixed;
+    bottom: 0;
+    left: 50px;
+    z-index: 1000;
+}
+
+/* Trigger collapsible button */
+.collapsible {
+    min-width: 200px;
+    max-width: 200px;
+    background-color: aqua;
+}
+
+.collapsible:after {
+  content: '\02795'; /* Unicode character for "plus" sign (+) */
+  font-size: 13px;
+  color: white;
+  float: right;
+  margin-left: 5px;
+}
+
+.active:after {
+  content: "\2796"; /* Unicode character for "minus" sign (-) */
+}
+
+/* Container for messages */
+.message-container {
+    padding: 0 18px;
+    background-color: white;
+    min-width: 200px;
+    max-width: 200px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+}
+
+/* Row of message */
+div.message-container > tr {
+    
+}
+
+/* Text element */
+div.message-container > tr > td {
+}
+
 #canvas{
     border-style: solid; 
     border-width: 3px; 
