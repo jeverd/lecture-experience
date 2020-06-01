@@ -36,9 +36,7 @@ jobs:
             echo 'running npm install'
             npm install
             echo 'starting up redis now'
-            cd docker
-            docker-compose up -d
-            docker ps
+            redis
             echo 'now running tests'
             cd ..
             npm test
