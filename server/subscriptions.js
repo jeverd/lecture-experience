@@ -65,12 +65,14 @@ io.sockets.on('connection', (socket) => {
             });
           });
           logger.info(`SOCKET: Successfully deleted room from redis, room_id: ${roomToJoin}`);
-          const connectedSockets = io.sockets.adapter.rooms[roomToJoin].sockets;
-          Object.keys(connectedSockets).forEach((cliId) => {
-            if (cliId !== socket.id) {
-              io.in(roomToJoin).connected[cliId].disconnect();
-            }
-          });
+          if (roomToJoin in io.sockets.adapter.rooms) {
+            const connectedSockets = io.sockets.adapter.rooms[roomToJoin].sockets;
+            Object.keys(connectedSockets).forEach((cliId) => {
+              if (cliId !== socket.id) {
+                io.in(roomToJoin).connected[cliId].disconnect();
+              }
+            });
+          }
         });
       }
       socket.on('disconnect', () => {
@@ -120,6 +122,7 @@ io.sockets.on('connection', (socket) => {
       redisClient.hmset('managers', {
         [urlUuid]: JSON.stringify(managerObj),
       });
+
       socket.join(roomToJoin);
       io.of('/').in(roomToJoin).clients((error, clients) => {
         if (clients.length - 1 > 0) {
@@ -138,7 +141,6 @@ io.sockets.on('connection', (socket) => {
       socket.on('disconnect', () => updateNumOfStudents(roomToJoin));
       logger.info(`SOCKET: Student joining room ${roomToJoin}`);
       isIncomingStudent = true;
-      logger.info(`SOCKET: Student joining room ${roomToJoin}`);
       socket.join(roomToJoin);
       updateNumOfStudents(roomToJoin);
     }

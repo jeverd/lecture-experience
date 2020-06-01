@@ -1,5 +1,5 @@
 * {
-  font-family: "Muli", sans-serif;
+  font-family: "Muli", sans-serif, "Open Sans";
   padding: 0;
   margin: 0;
   box-sizing: border-box;
@@ -369,7 +369,6 @@ body {
 
 .footer-grid-left i {
   transition: 1s;
-  transform: scale(1.5);
   color: #46c2ff;
   background: linear-gradient(to right, #bd11fa 0%, #46c2ff 100%);
   -webkit-background-clip: text;
@@ -439,4 +438,3 @@ body {
     color: whitesmoke;
   }
 }
-
