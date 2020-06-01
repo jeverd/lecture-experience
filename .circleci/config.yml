@@ -36,7 +36,7 @@ jobs:
             cd ..
             cd config
             mv example.env .env
-            ls
+            sleep 10s
             echo 'now running tests'
             cd ..
             npm test
