@@ -5,6 +5,7 @@ window.onload = () => {
   const room_id = url.substr(last_slash + 1);
   const sendContainer = document.getElementById("send-container");
   const messageInput = document.getElementById("message-input");
+  const fileInput = document.getElementById("file-input");
   const messageContainer = document.getElementById("message-container");
 
   peer.on("open", (peer_id) => {
@@ -50,8 +51,17 @@ window.onload = () => {
       e.preventDefault();
 
       const message = messageInput.value;
-      appendMessage(`You: ${message}`);
-      socket.emit("send-to-manager", room_id, message);
+      const file = fileInput.value;
+      console.log(file);
+      if (file === "") {
+        appendMessage(`You: ${message}`);
+        socket.emit("send-to-manager", room_id, message);
+      } else {
+        appendMessage(`You: ${message}`)
+        appendImage(file)
+        // Need to send object with file URL, mime type, and message
+        socket.emit("send-to-manager", room_id, message);
+      }
       messageInput.value = "";
     });
 
@@ -98,6 +108,21 @@ window.onload = () => {
     tableData.innerText = message;
 
     messageElement.append(tableData);
+    messageContainer.append(messageElement);
+
+    const messageToggle = document.getElementById("toggle-messages");
+    const event = new Event("redraw");
+    messageToggle.dispatchEvent(event);
+  }
+
+  function appendImage(image) {
+    const messageElement = document.createElement("tr");
+    const img = document.createElement("img");
+    
+    // Doesn't work - need some kind of file upload
+    img.src = image;
+    
+    messageElement.append(img);
     messageContainer.append(messageElement);
 
     const messageToggle = document.getElementById("toggle-messages");
