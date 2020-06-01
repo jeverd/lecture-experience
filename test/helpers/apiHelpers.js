@@ -5,7 +5,7 @@ const createLecture = (cb) => {
   const options = {
     uri: 'http://localhost:8080/create', // note this is hardcoded in change this afterwards
     method: 'POST',
-    json: {
+    json: { 
       email: 'testing123@gmail.com',
     },
   };
