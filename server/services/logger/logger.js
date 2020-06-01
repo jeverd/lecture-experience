@@ -6,12 +6,15 @@ const {
   combine, timestamp, printf, colorize,
 } = format;
 
-const { environment, ptPort, ptHost } = require('../../../config/config');
+const {
+  environment, ptPort, ptHost, loggerFlag,
+} = require('../../../config/config');
 
 const consoleFormat = printf(({
   // eslint-disable-next-line no-shadow
   level, message, timestamp,
 }) => `${timestamp}: ${level}: ${message}`);
+
 
 const consoleLogger = new winston.transports.Console({
   level: 'debug',
@@ -20,7 +23,9 @@ const consoleLogger = new winston.transports.Console({
     timestamp(),
     consoleFormat,
   ),
+  silent: !loggerFlag,
 });
+
 
 const loggerTransports = [consoleLogger];
 
