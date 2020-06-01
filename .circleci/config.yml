@@ -46,4 +46,5 @@ workflows:
               only: 
                 - dev
                 - dockerUPdate
+      - tests
           
