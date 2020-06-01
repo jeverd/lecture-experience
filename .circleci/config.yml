@@ -20,7 +20,7 @@ jobs:
   tests:
     docker:
       - image: circleci/node:10.15.0
-      - image: docker
+      - image: redis
     steps:
       - checkout
       - setup_remote_docker
