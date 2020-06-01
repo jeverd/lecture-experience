@@ -20,6 +20,7 @@ jobs:
   tests:
     docker:
       - image: circleci/node:10.15.0
+      - image: docker
     steps:
       - checkout
       - setup_remote_docker
@@ -28,15 +29,8 @@ jobs:
           command: |
             echo 'running npm install'
             npm install
-            echo 'starting up redis now'
-            cd docker
-            docker-compose up -d
-            docker ps
-            echo 'now setting up enviromment vars'
-            cd ..
             cd config
             mv example.env .env
-            sleep 60s
             echo 'now running tests'
             cd ..
             npm test
