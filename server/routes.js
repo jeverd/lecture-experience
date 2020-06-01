@@ -50,7 +50,6 @@ app.get('/lecture/:id', (req, res) => {
           ? 'lecture.html' : 'whiteboard.html',
         { root: publicPath });
       } else {
-        res.status(404);
         res.sendFile('error.html', { root: path.join(publicPath) });
       }
     });
@@ -59,7 +58,7 @@ app.get('/lecture/:id', (req, res) => {
 
 app.get('/lecture/stats/:id', (req, res) => {
   const urlId = req.params.id;
-  const renderNotFound = () => res.status(404).sendFile('error.html', { root: path.join(publicPath) });
+  const renderNotFound = () => res.sendFile('error.html', { root: path.join(publicPath) });
   redisClient.hexists('rooms', urlId, (er, roomExist) => {
     if (roomExist) {
       renderNotFound();
