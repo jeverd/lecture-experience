@@ -71,3 +71,62 @@ export default function initializeToolsMenu(whiteboard) {
     },
   );
 }
+
+window.addEventListener('keydown', e => {
+
+  //paint.tool is the one that stores the current paint tool
+   if (paint.tool == "select-area"){
+       if (e.key === "Backspace" || e.key === "Delete"){
+          var canvas = document.getElementById("canvas");
+          var context = canvas.getContext("2d");
+           
+          var start = paint.startingPoint;
+          var end = paint.endPoint;
+
+          /* TAKE CARE OF ALL DIRECTIONS POSSIBLE FOR DRAG AND DROP ERASING FUNCIOTIONALITY*/
+          //start high go down, right (good)
+          if (start.x < end.x && start.y < end.y){
+               context.clearRect(start.x - 2, start.y - 2, (end.x - start.x) + 3, (end.y - start.y) + 3);
+          }else if (start.x < end.x && start.y > end.y){ //start low, go up, right (good)
+               context.clearRect(start.x - 2, end.y - 2, (end.x - start.x) + 3, (start.y - end.y) + 3);
+          }else if (start.x > end.x && start.y < end.y){ // start high, go down, left (good)
+               context.clearRect(end.x - 2, start.y - 2, (start.x - end.x) + 3, (end.y - start.y) + 3);
+          }else if (start.x > end.x && start.y > end.y){ //start low, go up, left (good)
+               context.clearRect(end.x - 2, end.y - 2, (start.x - end.x) + 3, (start.y - end.y) + 3);
+          }
+
+          // if there is a select area square on the canvas, remove it from the undo stack
+          if (paint.numSquares == true){
+           paint.undoStack.pop(); // this makes it so returning to the deleted drawing requires the redo button
+          }
+          paint.numSquares = false;
+
+
+
+   // if the user presses ctrl + c, copy the image inside of the dotted rectangle
+       }else if (e.key === "c" && e.ctrlKey){
+           var canvas = document.getElementById("canvas");
+           var context = canvas.getContext("2d");
+            
+           var start = paint.startingPoint;
+           var end = paint.endPoint;
+           
+           /* TAKE CARE OF ALL DIRECTIONS POSSIBLE FOR DRAG AND DROP COPYING FUNCIOTIONALITY*/
+           
+           if (start.x < end.x && start.y < end.y){//start high go down, right (good)
+                let test = context.getImageData(start.x, start.y, (end.x - start.x), (end.y - start.y));
+                //context.putImageData(test, start.x + 20, start.y + 20); (this works...... ish)
+                paint.getRectImage(test);
+           }else if (start.x < end.x && start.y > end.y){ //start low, go up, right (good)
+                let test = context.getImageData(start.x, end.y, (end.x - start.x), (start.y - end.y));
+                paint.getRectImage(test);
+           }else if (start.x > end.x && start.y < end.y){ // start high, go down, left (good)
+                let test = context.getImageData(end.x, start.y, (start.x - end.x), (end.y - start.y));
+                paint.getRectImage(test);
+           }else if (start.x > end.x && start.y > end.y){ //start low, go up, left (good)
+                let test = context.getImageData(end.x, end.y, (start.x - end.x), (start.y - end.y));
+                paint.getRectImage(test);
+           }
+       }
+   }
+});
