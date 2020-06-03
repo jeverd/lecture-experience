@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 /* eslint-disable no-new */
 /* eslint-disable no-shadow */
 /* eslint-disable import/extensions */
@@ -140,35 +141,41 @@ export default class Whiteboard {
 
     this.context.beginPath();
 
-    if (this.tool === TOOL_LINE) {
-      this.context.moveTo(this.startPos.x, this.startPos.y);
-      this.context.lineTo(this.currentPos.x, this.currentPos.y);
-    } else if (this.tool === TOOL_SQUARE) {
-      this.context.rect(this.startPos.x, this.startPos.y,
-        this.currentPos.x - this.startPos.x, this.currentPos.y - this.startPos.y);
-    } else if (this.tool === TOOL_CIRCLE) {
-      // variables to make it clear what is happening
-      const start = this.startPos;
-      const finish = this.currentPos;
+    switch (this.tool) {
+      case TOOL_LINE:
+        this.context.moveTo(this.startPos.x, this.startPos.y);
+        this.context.lineTo(this.currentPos.x, this.currentPos.y);
+        break;
+      case TOOL_SQUARE:
+        this.context.rect(this.startPos.x, this.startPos.y,
+          this.currentPos.x - this.startPos.x, this.currentPos.y - this.startPos.y);
+        break;
+      case TOOL_CIRCLE:
+        // variables to make it clear what is happening
+        const start = this.startPos;
+        const finish = this.currentPos;
 
-      const distance = findDistance(start, finish);
-      this.context.arc(this.startPos.x, this.startPos.y, distance, 0, 2 * Math.PI, false);
-    } else if (this.tool === TOOL_TRIANGLE) {
-      this.context.moveTo(this.startPos.x + (this.currentPos.x - this.startPos.x) / 2,
-        this.startPos.y);
-      this.context.lineTo(this.startPos.x, this.currentPos.y);
-      this.context.lineTo(this.currentPos.x, this.currentPos.y);
-      this.context.closePath();
-    } else if (this.tool === TOOL_SELECTAREA) {
-      this.context.lineWidth = 1;
-      this.context.setLineDash([10, 20]);
-      this.context.rect(this.startPos.x, this.startPos.y,
-        this.currentPos.x - this.startPos.x, this.currentPos.y - this.startPos.y);
-      this.startingPoint.x = this.startPos.x;
-      this.startingPoint.y = this.startPos.y;
-
-      this.endPoint.x = this.currentPos.x;
-      this.endPoint.y = this.currentPos.y;
+        const distance = findDistance(start, finish);
+        this.context.arc(this.startPos.x, this.startPos.y, distance, 0, 2 * Math.PI, false);
+        break;
+      case TOOL_TRIANGLE:
+        this.context.moveTo(this.startPos.x + (this.currentPos.x - this.startPos.x) / 2,
+          this.startPos.y);
+        this.context.lineTo(this.startPos.x, this.currentPos.y);
+        this.context.lineTo(this.currentPos.x, this.currentPos.y);
+        this.context.closePath();
+        break;
+      case TOOL_SELECTAREA:
+        this.context.lineWidth = 1;
+        this.context.setLineDash([10, 20]);
+        this.context.rect(this.startPos.x, this.startPos.y,
+          this.currentPos.x - this.startPos.x, this.currentPos.y - this.startPos.y);
+        this.startingPoint.x = this.startPos.x;
+        this.startingPoint.y = this.startPos.y;
+        this.endPoint.x = this.currentPos.x;
+        this.endPoint.y = this.currentPos.y;
+        break;
+      default: break;
     }
 
     this.context.stroke();
