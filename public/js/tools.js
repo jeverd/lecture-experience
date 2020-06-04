@@ -110,25 +110,40 @@ export default function initializeToolsMenu(whiteboard) {
         const end = whiteboard.endPoint;
 
         /* TAKE CARE OF ALL DIRECTIONS POSSIBLE FOR DRAG AND DROP COPYING FUNCIOTIONALITY */
-
+        let imgData;
         if (start.x < end.x && start.y < end.y) { // start high go down, right (good)
-          const test = whiteboard.context.getImageData(start.x, start.y,
+          imgData = whiteboard.context.getImageData(start.x, start.y,
             (end.x - start.x), (end.y - start.y));
           // context.putImageData(test, start.x + 20, start.y + 20); (this works...... ish)
-          whiteboard.getRectImage(test);
         } else if (start.x < end.x && start.y > end.y) { // start low, go up, right (good)
-          const test = whiteboard.context.getImageData(start.x, end.y,
+          imgData = whiteboard.context.getImageData(start.x, end.y,
             (end.x - start.x), (start.y - end.y));
-          whiteboard.getRectImage(test);
         } else if (start.x > end.x && start.y < end.y) { // start high, go down, left (good)
-          const test = whiteboard.context.getImageData(end.x, start.y,
+          imgData = whiteboard.context.getImageData(end.x, start.y,
             (start.x - end.x), (end.y - start.y));
-          whiteboard.getRectImage(test);
         } else if (start.x > end.x && start.y > end.y) { // start low, go up, left (good)
-          const test = whiteboard.context.getImageData(end.x, end.y,
+          imgData = whiteboard.context.getImageData(end.x, end.y,
             (start.x - end.x), (start.y - end.y));
-          whiteboard.getRectImage(test);
         }
+        console.log(imgData);
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = imgData.width;
+        canvas.height = imgData.height;
+        ctx.putImageData(imgData, 0, 0);
+        const imgElem = document.createElement('img');
+        imgElem.src = canvas.toDataURL();
+        imgElem.style.position = 'absolute';
+        imgElem.style.top = 200;
+        imgElem.style.left = '50%';
+        imgElem.style.zIndex = 10;
+        imgElem.draggable = true;
+        imgElem.ondragstart = (ev) => {
+          ev.dataTransfer.setDragImage(ev.target, 10, 10);
+          ev.dataTransfer.dropEffect = 'move';
+          console.log(ev.target);
+        };
+        document.querySelector('#test-img').appendChild(imgElem);
       }
     }
   });

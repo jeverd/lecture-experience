@@ -18,6 +18,20 @@ export default class Whiteboard {
     this.canvas.height = window.innerHeight;
     this.canvas.width = window.innerWidth;
     this.context = this.canvas.getContext('2d');
+    this.canvas.ondragover = (ev) => ev.preventDefault();
+    this.canvas.ondrop = (ev) => {
+      ev.preventDefault();
+      const img = new Image();
+      img.src = ev.dataTransfer.getData('text/plain');
+      const canvas = document.createElement('canvas');
+      const context = canvas.getContext('2d');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      context.drawImage(img, 0, 0);
+      const imgData = context.getImageData(0, 0, img.width, img.height);
+      this.context.putImageData(imgData, ev.clientX - (img.width / 2),
+        ev.clientY - (img.height / 2));
+    };
     this.canvas.style.cursor = 'crosshair';
     this.currentBoard = 0;
     this.paintWhite();
