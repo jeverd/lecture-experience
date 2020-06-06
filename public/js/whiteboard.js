@@ -3,15 +3,9 @@
 /* eslint-disable default-case */
 /* eslint-disable no-undef */
 /* eslint-disable import/extensions */
-import {
-  TOOL_CIRCLE, TOOL_LINE,
-  TOOL_BRUSH, TOOL_ERASER,
-  TOOL_PAINT_BUCKET, TOOL_PENCIL,
-  TOOL_SQUARE, TOOL_TRIANGLE,
-} from './tools.js';
 import Whiteboard from './classes/whiteboard.js';
-
 import { CONFIG } from './peerConfig.js';
+import initializeToolsMenu from './tools.js';
 
 
 window.onload = () => {
@@ -26,10 +20,10 @@ window.onload = () => {
 
   peer.on('open', () => {
     const getUserMedia = navigator.mediaDevices.getUserMedia
-                             || navigator.getUserMedia
-                             || navigator.webkitGetUserMedia
-                             || navigator.mozGetUserMedia
-                             || navigator.msGetUserMedia;
+      || navigator.getUserMedia
+      || navigator.webkitGetUserMedia
+      || navigator.mozGetUserMedia
+      || navigator.msGetUserMedia;
 
     getUserMedia({ audio: true })
       .then(startLecture);
@@ -37,6 +31,33 @@ window.onload = () => {
 
   function startLecture(stream) {
     const whiteboard = new Whiteboard('canvas');
+
+    function handleWindowResize() {
+      let timeout;
+      let isStartingToResize = true;
+      const inMemCanvas = document.createElement('canvas');
+      const inMemCtx = inMemCanvas.getContext('2d');
+      const onResizeDone = () => {
+        whiteboard.canvas.height = window.innerHeight;
+        whiteboard.canvas.width = window.innerWidth;
+        whiteboard.paintWhite();
+        whiteboard.setCurrentBoard(inMemCanvas);
+        isStartingToResize = true;
+      };
+      $(window).on('resize', () => {
+        if (isStartingToResize) {
+          inMemCanvas.width = whiteboard.canvas.width;
+          inMemCanvas.height = whiteboard.canvas.height;
+          inMemCtx.drawImage(whiteboard.canvas, 0, 0);
+          isStartingToResize = false;
+        }
+        clearTimeout(timeout);
+        timeout = setTimeout(onResizeDone, 100);
+      });
+    }
+
+    handleWindowResize();
+
     stream.addTrack(whiteboard.getStream().getTracks()[0]);
     const socket = io('/', { query: `id=${managerId}` });
     socket.on('call', (remotePeerId) => {
@@ -86,6 +107,12 @@ window.onload = () => {
         document.body.appendChild(tmpInput);
         tmpInput.select();
         document.execCommand('copy');
+        // eslint-disable-next-line func-names
+        $('#copied-popup').fadeIn(200, function () {
+          setTimeout(() => {
+            $(this).fadeOut(300);
+          }, 2000);
+        });
         document.body.removeChild(tmpInput);
       });
 
@@ -98,21 +125,46 @@ window.onload = () => {
         messageInput.value = '';
       });
 
-      document.querySelector('button#end-lecture').addEventListener('click', () => {
+      // On click for display messages button
+      document.querySelector('button#toggle-messages').addEventListener('click', (e) => {
+        e.preventDefault();
+        // If we want to include multiple separate chat windows, this is an easy way of doing that
+        const messagesChild = e.target.nextElementSibling;
+        e.target.classList.toggle('active-chat');
+        if (messagesChild.style.maxHeight) {
+          messagesChild.style.maxHeight = null;
+        } else if (messagesChild.scrollHeight >= 300) {
+          messagesChild.style.maxHeight = '300px';
+          messagesChild.style.overflow = 'scroll';
+        } else {
+          messagesChild.style.maxHeight = `${messagesChild.scrollHeight}px`;
+        }
+      });
+
+      // Refresh the chat window for the new message
+      document.querySelector('button#toggle-messages').addEventListener('redraw', (e) => {
+        e.preventDefault();
+
+        const messagesChild = e.target.nextElementSibling;
+        e.target.classList.add('active-chat');
+        if (messagesChild.scrollHeight >= 300) {
+          messagesChild.style.maxHeight = '300px';
+          messagesChild.style.overflow = 'scroll';
+        } else {
+          messagesChild.style.maxHeight = `${messagesChild.scrollHeight}px`;
+        }
+      });
+
+
+      document.querySelector('#end-lecture').addEventListener('click', () => {
         calls.forEach((call) => {
           call.close();
         });
         calls = [];
-        socket.emit('lectureEnd');
-        window.location = '/';
+        socket.emit('lectureEnd', () => {
+          window.location = `/lecture/stats/${room.lecture_details.id}`;
+        });
       });
-
-      // case "download":
-      //     var link = document.createElement("a");
-      //     link.download = "my-image.png";
-      //     link.href = whiteboard.getImage();
-      //     link.click();
-      //     break;
 
       document.querySelectorAll('[data-command]').forEach((item) => {
         item.addEventListener('click', () => {
@@ -154,82 +206,7 @@ window.onload = () => {
           }
         });
       });
-      document.querySelectorAll('[data-tool]').forEach(
-        (item) => (
-          item.addEventListener('click', () => {
-            document.querySelector('[data-tool].active').classList.toggle('active'); // remove the previous active function from the active class
-
-            item.classList.add('active'); // we add the element we clicked on to the active class
-
-            // with the tool.class.js created:
-            const selectedTool = item.getAttribute('data-tool');
-            whiteboard.activeTool = selectedTool;
-
-            switch (selectedTool) {
-              // activate shape or line widths group
-              case TOOL_CIRCLE:
-              case TOOL_LINE:
-              case TOOL_SQUARE:
-              case TOOL_TRIANGLE:
-                // case TOOL_PAINT_BUCKET:
-              case TOOL_PENCIL:
-                // make pencil shapes visible
-                document.querySelector('.group.for-shapes').style = 'display: block;';
-                // make brush sizes invisible
-                document.querySelector('.group.for-brush').style = 'display: none;';
-                break;
-
-              case TOOL_BRUSH:
-              case TOOL_ERASER:
-                // make pencil shapes invisible
-                document.querySelector('.group.for-shapes').style.display = 'none';
-                // make brush selection visible
-                document.querySelector('.group.for-brush').style.display = 'block';
-                break;
-              default:
-                // make both line groups invisible
-                document.querySelector('.group.for-shapes').style.display = 'none';
-                document.querySelector('.group.for-brush').style.display = 'none';
-            }
-          })),
-      );
-
-      document.querySelectorAll('[data-line-width]').forEach(
-        (item) => {
-          item.addEventListener('click', () => {
-            document.querySelector('[data-line-width].active').classList.toggle('active'); // remove the previous active function from the active class
-            item.classList.add('active'); // we add the element we clicked on to the active class
-
-            const lineWidth = item.getAttribute('data-line-width');
-            whiteboard.lineWidth = lineWidth;
-          });
-        },
-      );
-
-      document.querySelectorAll('[data-brush-size]').forEach(
-        (item) => {
-          item.addEventListener('click', () => {
-            document.querySelector('[data-brush-size].active').classList.toggle('active'); // remove the previous active function from the active class
-            item.classList.add('active'); // we add the element we clicked on to the active class
-
-            const brushSize = item.getAttribute('data-brush-size');
-            whiteboard.brushSize = brushSize;
-          });
-        },
-      );
-
-      document.querySelectorAll('[data-color]').forEach(
-        (item) => {
-          item.addEventListener('click', () => {
-            document.querySelector('[data-color].active').classList.toggle('active'); // remove the previous active function from the active class
-            item.classList.add('active'); // we add the element we clicked on to the active class
-
-            const color = item.getAttribute('data-color');
-
-            whiteboard.selectedColor = color;
-          });
-        },
-      );
+      initializeToolsMenu(whiteboard);
 
       console.log(room);
     });
@@ -275,6 +252,7 @@ window.onload = () => {
         // must defer function to work when opening on new tab
         setTimeout(() => {
           whiteboard.setCurrentBoard(newBoardImg);
+          socket.emit('currentBoardToAll', img);
         }, 0);
       }
     }
@@ -293,6 +271,10 @@ window.onload = () => {
 
       messageElement.append(tableData);
       messageContainer.append(messageElement);
+
+      const messageToggle = document.getElementById('toggle-messages');
+      const event = new Event('redraw');
+      messageToggle.dispatchEvent(event);
     }
   }
 };

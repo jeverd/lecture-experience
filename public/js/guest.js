@@ -10,6 +10,8 @@ window.onload = () => {
   const roomId = url.substr(lastSlash + 1);
   const sendContainer = document.getElementById('send-container');
   const messageInput = document.getElementById('message-input');
+  const fileInput = document.getElementById('file-input');
+  const messageContainer = document.getElementById('message-container');
 
   function setNonActiveBoards(boards) {
     const boardsDiv = document.getElementById('non-active-boards');
@@ -28,7 +30,26 @@ window.onload = () => {
     tableData.innerText = message;
 
     messageElement.append(tableData);
-    sendContainer.append(messageElement);
+    messageContainer.append(messageElement);
+
+    const messageToggle = document.getElementById('toggle-messages');
+    const event = new Event('redraw');
+    messageToggle.dispatchEvent(event);
+  }
+
+  function appendImage(image) {
+    const messageElement = document.createElement('tr');
+    const img = document.createElement('img');
+
+    // Doesn't work - need some kind of file upload
+    img.src = image;
+
+    messageElement.append(img);
+    messageContainer.append(messageElement);
+
+    const messageToggle = document.getElementById('toggle-messages');
+    const event = new Event('redraw');
+    messageToggle.dispatchEvent(event);
   }
 
   function startStream(htmlElem, streamTrack) {
@@ -88,9 +109,43 @@ window.onload = () => {
       e.preventDefault();
 
       const message = messageInput.value;
-      appendMessage(`You: ${message}`);
-      socket.emit('send-to-manager', roomId, message);
+      const file = fileInput.value;
+      console.log(file);
+      if (file === '') {
+        appendMessage(`You: ${message}`);
+        socket.emit('send-to-manager', roomId, message);
+      } else {
+        appendMessage(`You: ${message}`);
+        appendImage(file);
+        // Need to send object with file URL, mime type, and message
+        socket.emit('send-to-manager', roomId, message);
+      }
       messageInput.value = '';
+    });
+
+    document.querySelector('button#toggle-messages').addEventListener('click', (e) => {
+      e.preventDefault();
+
+      const messagesChild = e.target.nextElementSibling;
+      e.target.classList.toggle('active-chat');
+      if (messagesChild.style.maxHeight) {
+        messagesChild.style.maxHeight = null;
+      } else {
+        messagesChild.style.maxHeight = `${messagesChild.scrollHeight}px`;
+      }
+    });
+
+    document.querySelector('button#toggle-messages').addEventListener('redraw', (e) => {
+      e.preventDefault();
+
+      const messagesChild = e.target.nextElementSibling;
+      e.target.classList.add('active-chat');
+      if (messagesChild.scrollHeight >= 300) {
+        messagesChild.style.maxHeight = '300px';
+        messagesChild.style.overflow = 'scroll';
+      } else {
+        messagesChild.style.maxHeight = `${messagesChild.scrollHeight}px`;
+      }
     });
   });
 };

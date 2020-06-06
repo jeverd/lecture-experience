@@ -4,7 +4,7 @@ const createBut = document.querySelector('#create-lecture');
 const invalidEmailDiv = document.getElementById('invalid-email');
 const invalidNameDiv = document.getElementById('invalid-lecturename');
 const emailInput = document.querySelector('#email');
-
+const nameInput = document.querySelector('#lectureName');
 function isValidEmail(email) {
   return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
 }
@@ -12,10 +12,10 @@ function isValidEmail(email) {
 createBut.addEventListener('click', (e) => {
   e.preventDefault();
   const xhr = new XMLHttpRequest();
-  const name = document.querySelector('#lectureName');
-  const lectureName = name.value;
+  const lectureName = nameInput.value;
   const lectureEmail = emailInput.value;
   if (lectureName === '') {
+    invalidEmailDiv.style.opacity = 0;
     invalidNameDiv.style.opacity = 1;
   } else if (lectureEmail === '' || isValidEmail(lectureEmail)) {
     xhr.open('POST', '/create', true);
@@ -30,13 +30,17 @@ createBut.addEventListener('click', (e) => {
     xhr.send(JSON.stringify({
       name: lectureName,
       email: lectureEmail,
-      time: new Date(),
     }));
   } else {
+    invalidNameDiv.style.opacity = 0;
     invalidEmailDiv.style.opacity = 1;
   }
 });
 
 emailInput.addEventListener('input', () => {
   invalidEmailDiv.style.opacity = 0;
+});
+
+nameInput.addEventListener('input', () => {
+  invalidNameDiv.style.opacity = 0;
 });

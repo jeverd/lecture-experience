@@ -1,11 +1,12 @@
+/* eslint-disable no-case-declarations */
 /* eslint-disable no-new */
 /* eslint-disable no-shadow */
 /* eslint-disable import/extensions */
 /* eslint-disable no-underscore-dangle */
 import {
-  TOOL_CIRCLE, TOOL_LINE, TOOL_BRUSH,
+  TOOL_CIRCLE, TOOL_LINE,
   TOOL_ERASER, TOOL_PAINT_BUCKET, TOOL_PENCIL,
-  TOOL_SQUARE, TOOL_TRIANGLE,
+  TOOL_SQUARE, TOOL_TRIANGLE, TOOL_SELECTAREA,
 } from '../tools.js';
 
 import { getMouseCoordsOnCanvas, findDistance } from '../utility.js';
@@ -17,11 +18,16 @@ export default class Whiteboard {
     this.canvas.height = window.innerHeight;
     this.canvas.width = window.innerWidth;
     this.context = this.canvas.getContext('2d');
+    this.canvas.style.cursor = 'crosshair';
     this.currentBoard = 0;
     this.paintWhite();
     this.boards = [];
     this.undoStack = [];
-    this.undoLimit = 10; // limit for the stack
+    this.undoLimit = 40; // limit for the stack
+    this.startingPoint = { x: 0, y: 0 };
+    this.endPoint = { x: 0, y: 0 };
+    this.numSquares = false;
+    this.rectDeleted = false;
   }
 
   set activeTool(tool) {
@@ -31,11 +37,6 @@ export default class Whiteboard {
   set lineWidth(lineWidth) {
     this._lineWidth = lineWidth; // "_" for no conflict in between the two
     this.context.lineWidth = this._lineWidth;
-  }
-
-
-  set brushSize(brushSize) {
-    this._brushSize = brushSize;
   }
 
   set selectedColor(color) {
@@ -54,10 +55,9 @@ export default class Whiteboard {
   }
 
   initialize() {
-    this.activeTool = TOOL_BRUSH;
-    this.lineWidth = 1;
-    this.brushSize = 4;
-    this.selectedColor = '#000000';
+    this.activeTool = TOOL_PENCIL;
+    this.lineWidth = 3;
+    this.selectedColor = '#424242';
     this.canvas.onmousedown = (e) => this.onMouseDown(e);
   }
 
@@ -67,6 +67,10 @@ export default class Whiteboard {
   }
 
   onMouseDown(e) {
+    if (this.numSquares && this.undoStack.length > 0) {
+      this.numSquares = false;
+      this.undoPaint();
+    }
     // store the image so that we can replicate it with every mouse move.
     this.saveData = this.context.getImageData(0, 0, this.canvas.width, this.canvas.height);
 
@@ -80,16 +84,17 @@ export default class Whiteboard {
 
     this.startPos = getMouseCoordsOnCanvas(e, this.canvas); // NaN here
 
-    if (this.tool === TOOL_PENCIL || this.tool === TOOL_BRUSH) {
-      // begin path again and again for good quality
-      this.context.beginPath();
-      this.context.moveTo(this.startPos.x, this.startPos.y);
-    } else if (this.tool === TOOL_PAINT_BUCKET) {
-      // in this case, we will implement the flood fill algorithm
-      new Fill(this.canvas, this.startPos, this._color);
-    } else if (this.tool === TOOL_ERASER) {
-      this.context.clearRect(this.startPos.x, this.startPos.y,
-        this._brushSize, this._brushSize);
+    switch (this.tool) {
+      case TOOL_PENCIL:
+        // begin path again and again for good quality
+        this.context.beginPath();
+        this.context.moveTo(this.startPos.x, this.startPos.y);
+        break;
+      case TOOL_PAINT_BUCKET:
+        // in this case, we will implement the flood fill algorithm
+        new Fill(this.canvas, this.startPos, this._color);
+        break;
+      default: break;
     }
   }
 
@@ -99,6 +104,7 @@ export default class Whiteboard {
 
     // loop for every shape at the user's disposal
     switch (this.tool) {
+      case TOOL_SELECTAREA:
       case TOOL_LINE:
       case TOOL_SQUARE:
       case TOOL_CIRCLE:
@@ -108,12 +114,10 @@ export default class Whiteboard {
       case TOOL_PENCIL:
         this.drawFreeLine(this._lineWidth);
         break;
-      case TOOL_BRUSH:
-        this.drawFreeLine(this._brushSize);
-        break;
       case TOOL_ERASER:
-        this.context.clearRect(this.currentPos.x, this.currentPos.y,
-          this._brushSize, this._brushSize);
+        // make eraser thickness be greater than thickness of pencil by 5px
+        this.context.fillRect(this.currentPos.x, this.currentPos.y,
+          this._lineWidth + 5, this._lineWidth + 5);
         break;
       default:
         break;
@@ -123,6 +127,14 @@ export default class Whiteboard {
   onMouseUp() {
     this.canvas.onmousemove = null;
     document.onmouseup = null;
+
+    if (this.tool === TOOL_SELECTAREA) {
+      this.context.setLineDash([]);
+      this.context.lineWidth = this._lineWidth;
+      if (!this.numSquares) {
+        this.numSquares = true;
+      }
+    }
   }
 
   // shape drawing functions
@@ -131,25 +143,41 @@ export default class Whiteboard {
 
     this.context.beginPath();
 
-    if (this.tool === TOOL_LINE) {
-      this.context.moveTo(this.startPos.x, this.startPos.y);
-      this.context.lineTo(this.currentPos.x, this.currentPos.y);
-    } else if (this.tool === TOOL_SQUARE) {
-      this.context.rect(this.startPos.x, this.startPos.y,
-        this.currentPos.x - this.startPos.x, this.currentPos.y - this.startPos.y);
-    } else if (this.tool === TOOL_CIRCLE) {
-      // variables to make it clear what is happening
-      const start = this.startPos;
-      const finish = this.currentPos;
+    switch (this.tool) {
+      case TOOL_LINE:
+        this.context.moveTo(this.startPos.x, this.startPos.y);
+        this.context.lineTo(this.currentPos.x, this.currentPos.y);
+        break;
+      case TOOL_SQUARE:
+        this.context.rect(this.startPos.x, this.startPos.y,
+          this.currentPos.x - this.startPos.x, this.currentPos.y - this.startPos.y);
+        break;
+      case TOOL_CIRCLE:
+        // variables to make it clear what is happening
+        const start = this.startPos;
+        const finish = this.currentPos;
 
-      const distance = findDistance(start, finish);
-      this.context.arc(this.startPos.x, this.startPos.y, distance, 0, 2 * Math.PI, false);
-    } else if (this.tool === TOOL_TRIANGLE) {
-      this.context.moveTo(this.startPos.x + (this.currentPos.x - this.startPos.x) / 2,
-        this.startPos.y);
-      this.context.lineTo(this.startPos.x, this.currentPos.y);
-      this.context.lineTo(this.currentPos.x, this.currentPos.y);
-      this.context.closePath();
+        const distance = findDistance(start, finish);
+        this.context.arc(this.startPos.x, this.startPos.y, distance, 0, 2 * Math.PI, false);
+        break;
+      case TOOL_TRIANGLE:
+        this.context.moveTo(this.startPos.x + (this.currentPos.x - this.startPos.x) / 2,
+          this.startPos.y);
+        this.context.lineTo(this.startPos.x, this.currentPos.y);
+        this.context.lineTo(this.currentPos.x, this.currentPos.y);
+        this.context.closePath();
+        break;
+      case TOOL_SELECTAREA:
+        this.context.lineWidth = 1;
+        this.context.setLineDash([10, 20]);
+        this.context.rect(this.startPos.x, this.startPos.y,
+          this.currentPos.x - this.startPos.x, this.currentPos.y - this.startPos.y);
+        this.startingPoint.x = this.startPos.x;
+        this.startingPoint.y = this.startPos.y;
+        this.endPoint.x = this.currentPos.x;
+        this.endPoint.y = this.currentPos.y;
+        break;
+      default: break;
     }
 
     this.context.stroke();
@@ -162,10 +190,9 @@ export default class Whiteboard {
   }
 
   undoPaint() {
+    this.numSquares = this.numSquares && false; // carefull to not be a boolean value
     if (this.undoStack.length > 0) {
       this.context.putImageData(this.undoStack.pop(), 0, 0);
-    } else {
-      alert('No drawing to be undone');
     }
   }
 
@@ -176,6 +203,6 @@ export default class Whiteboard {
   }
 
   setCurrentBoard(img) {
-    this.context.drawImage(img, 0, 0, this.canvas.width, this.canvas.height);
+    this.context.drawImage(img, 0, 0);
   }
 }
