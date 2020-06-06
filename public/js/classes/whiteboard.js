@@ -12,6 +12,9 @@ import {
 import { getMouseCoordsOnCanvas, findDistance } from '../utility.js';
 import Fill from './fill.js';
 
+// MAIN COLOR
+const DEFAULT_COLOR = '#424242';
+
 export default class Whiteboard {
   constructor(canvasId) {
     this.canvas = document.getElementById(canvasId);
@@ -24,7 +27,7 @@ export default class Whiteboard {
     this.boards = [];
     this.undoStack = [];
     this.undoLimit = 40; // limit for the stack
-    this.startingPoint = { x: 0, y: 0 };
+    this.startingPoint = { x: 0, y: 0 }; // operations with delete, copy, and paste functionalities
     this.endPoint = { x: 0, y: 0 };
     this.numSquares = false;
     this.rectDeleted = false;
@@ -57,7 +60,7 @@ export default class Whiteboard {
   initialize() {
     this.activeTool = TOOL_PENCIL;
     this.lineWidth = 3;
-    this.selectedColor = '#424242';
+    this.selectedColor = DEFAULT_COLOR;
     this.canvas.onmousedown = (e) => this.onMouseDown(e);
   }
 
@@ -109,7 +112,7 @@ export default class Whiteboard {
       case TOOL_SQUARE:
       case TOOL_CIRCLE:
       case TOOL_TRIANGLE:
-        this.drawShape(); // nothing showed up here, might glitch
+        this.drawShape(); 
         break;
       case TOOL_PENCIL:
         this.drawFreeLine(this._lineWidth);
@@ -129,6 +132,7 @@ export default class Whiteboard {
     document.onmouseup = null;
 
     if (this.tool === TOOL_SELECTAREA) {
+      this.selectedColor = this._color;
       this.context.setLineDash([]);
       this.context.lineWidth = this._lineWidth;
       if (!this.numSquares) {
@@ -168,6 +172,7 @@ export default class Whiteboard {
         this.context.closePath();
         break;
       case TOOL_SELECTAREA:
+        this.selectedColor = DEFAULT_COLOR;
         this.context.lineWidth = 1;
         this.context.setLineDash([10, 20]);
         this.context.rect(this.startPos.x, this.startPos.y,
@@ -177,7 +182,8 @@ export default class Whiteboard {
         this.endPoint.x = this.currentPos.x;
         this.endPoint.y = this.currentPos.y;
         break;
-      default: break;
+      default: 
+        break;
     }
 
     this.context.stroke();
@@ -190,7 +196,7 @@ export default class Whiteboard {
   }
 
   undoPaint() {
-    this.numSquares = this.numSquares && false; // carefull to not be a boolean value
+    this.numSquares = this.numSquares && false; // careful to not be a boolean value
     if (this.undoStack.length > 0) {
       this.context.putImageData(this.undoStack.pop(), 0, 0);
     }
