@@ -84,16 +84,17 @@ export default class Whiteboard {
 
     this.startPos = getMouseCoordsOnCanvas(e, this.canvas); // NaN here
 
-    if (this.tool === TOOL_PENCIL) {
-      // begin path again and again for good quality
-      this.context.beginPath();
-      this.context.moveTo(this.startPos.x, this.startPos.y);
-    } else if (this.tool === TOOL_PAINT_BUCKET) {
-      // in this case, we will implement the flood fill algorithm
-      new Fill(this.canvas, this.startPos, this._color);
-    } else if (this.tool === TOOL_ERASER) {
-      this.context.clearRect(this.startPos.x, this.startPos.y,
-        this._lineWidth, this._lineWidth);
+    switch (this.tool) {
+      case TOOL_PENCIL:
+        // begin path again and again for good quality
+        this.context.beginPath();
+        this.context.moveTo(this.startPos.x, this.startPos.y);
+        break;
+      case TOOL_PAINT_BUCKET:
+        // in this case, we will implement the flood fill algorithm
+        new Fill(this.canvas, this.startPos, this._color);
+        break;
+      default: break;
     }
   }
 
@@ -114,8 +115,9 @@ export default class Whiteboard {
         this.drawFreeLine(this._lineWidth);
         break;
       case TOOL_ERASER:
-        this.context.clearRect(this.currentPos.x, this.currentPos.y,
-          this._lineWidth, this._lineWidth);
+        // make eraser thickness be greater than thickness of pencil by 5px
+        this.context.fillRect(this.currentPos.x, this.currentPos.y,
+          this._lineWidth + 5, this._lineWidth + 5);
         break;
       default:
         break;
