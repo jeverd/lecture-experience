@@ -13,7 +13,6 @@ import {
 import { getMouseCoordsOnCanvas, findDistance } from '../utility.js';
 import Fill from './fill.js';
 
-// MAIN COLOR
 const DEFAULT_COLOR = '#424242';
 
 export default class Whiteboard {
