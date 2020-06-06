@@ -134,9 +134,9 @@
     <nav class="right-bar">
       <ul class="right-bar-nav">
         <div id="right-bar-main">
-          <div class="item" data-tool="pencil" title="Pencil Tool">
+          <div data-tool="pencil" title="Pencil Tool">
             <li class="left-bar-item">
-              <a class="left-bar-link">
+              <a class="left-bar-link tool-active">
                 <i class="fas fa-pencil-alt"></i>
               </a>
             </li>
@@ -157,8 +157,8 @@
           </div>
           <div class="item" data-tool="select-area" title="Select Area">
             <li class="left-bar-item">
-              <a class="left-bar-link">
-                <img class="menu-select-svg" src="/area.svg"/>
+              <a class="left-bar-link-svg">
+                <img src="/area.svg"/>
               </a>
             </li>
           </div>
@@ -171,15 +171,15 @@
           </div>
           <div class="item" data-main="thickness" title="Stroke Thickness">
             <li class="left-bar-item">
-              <a class="left-bar-link">
-                <img class="menu-thickness-svg" src="/width.svg"/>
+              <a class="left-bar-link-svg">
+                <img src="/width.svg"/>
               </a>
             </li>
           </div>
           <div class="item" data-main="shapes" title="Shapes">
             <li class="left-bar-item">
-              <a class="left-bar-link">
-                <img class="menu-shapes-svg" src="/shape.svg"/>
+              <a class="left-bar-link-svg">
+                <img src="/shape.svg"/>
               </a>
             </li>
           </div>
@@ -190,8 +190,8 @@
               <i class="fas fa-arrow-left"></i>
             </a>
           </li>
-          <li data-color="#424242" class="right-bar-item active">
-            <a class="right-bar-link">
+          <li data-color="#424242" class="right-bar-item">
+            <a class="right-bar-link tool-active">
               <div class="black"></div>
             </a>
           </li>
@@ -227,7 +227,7 @@
               <i class="fas fa-arrow-left"></i>
             </a>
           </li>
-          <div class="item active" data-line-width="1" title="3 Pixel">
+          <div class="item" data-line-width="1" title="3 Pixel">
             <li class="left-bar-item">
               <a class="left-bar-link">
                 <div class="linewidth" style="width: 3px;height: 3px"></div>
@@ -237,7 +237,7 @@
 
           <div class="item" data-line-width="3" title="6 Pixel">
             <li class="left-bar-item">
-              <a class="left-bar-link">
+              <a class="left-bar-link tool-active">
                 <div class="linewidth" style="width: 6px;height: 6px"></div>
               </a>
             </li>
@@ -275,9 +275,9 @@
             <i class="fas fa-arrow-left"></i>
           </a>
         </li>
-        <div class="item active" data-tool="line" title="Line Tool">
+        <div class="item" data-tool="line" title="Line Tool">
           <li class="left-bar-item">
-            <a class="left-bar-link-svg">
+            <a style="transform: rotate(45deg)" class="left-bar-link-svg">
               <img src="/dash.svg"/>
               <!-- <i class="fas fa-grip-lines"></i> -->
             </a>
@@ -302,7 +302,7 @@
 
         <div class="item" data-tool="triangle" title="Triangle Tool">
           <li class="left-bar-item">
-            <a class="left-bar-link">
+            <a class="left-bar-link-svg">
               <img src="/triangle.svg"/>
             </a>
           </li>
