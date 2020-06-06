@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-param-reassign */
 export const TOOL_SQUARE = 'square';
 export const TOOL_TRIANGLE = 'triangle';
@@ -37,21 +39,21 @@ export default function initializeToolsMenu(whiteboard) {
   document.querySelectorAll('[data-tool]').forEach(
     (item) => (
       item.addEventListener('click', () => {
-        document.querySelector('[data-tool].active').classList.toggle('active'); // remove the previous active function from the active class
+        $('[data-tool]').find('.tool-active-svg').removeClass('tool-active-svg');
+        $('[data-tool]').find('.tool-active').removeClass('tool-active');
 
-        item.classList.add('active'); // we add the element we clicked on to the active class
+        $(item).find('.left-bar-link-svg').addClass('tool-active-svg');
+        $(item).find('.left-bar-link').addClass('tool-active');
 
-        // with the tool.class.js created:
-        const selectedTool = item.getAttribute('data-tool');
-        whiteboard.activeTool = selectedTool;
+        whiteboard.activeTool = item.getAttribute('data-tool');
       })),
   );
 
   document.querySelectorAll('[data-line-width]').forEach(
     (item) => {
       item.addEventListener('click', () => {
-        // document.querySelector('[data-line-width].active').classList.toggle('active'); // remove the previous active function from the active class
-        // item.classList.add('active'); // we add the element we clicked on to the active class
+        $('[data-line-width]').find('.tool-active').removeClass('tool-active');
+        $(item).find('.left-bar-link').addClass('tool-active');
 
         const lineWidth = item.getAttribute('data-line-width');
         whiteboard.lineWidth = lineWidth;
@@ -62,12 +64,9 @@ export default function initializeToolsMenu(whiteboard) {
   document.querySelectorAll('[data-color]').forEach(
     (item) => {
       item.addEventListener('click', () => {
-        document.querySelector('[data-color].active').classList.toggle('active'); // remove the previous active function from the active class
-        item.classList.add('active'); // we add the element we clicked on to the active class
-
-        const color = item.getAttribute('data-color');
-
-        whiteboard.selectedColor = color;
+        $('[data-color]').find('.tool-active').removeClass('tool-active');
+        $(item).find('.right-bar-link').addClass('tool-active');
+        whiteboard.selectedColor = item.getAttribute('data-color');
       });
     },
   );
