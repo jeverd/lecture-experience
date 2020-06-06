@@ -59,6 +59,7 @@ app.get('/lecture/:id', (req, res) => {
 
 app.get('/lecture/stats/:id', (req, res) => {
   const urlId = req.params.id;
+  logger.info(`GET request received: /lecture/stats for lecture id: ${urlId}`);
   const renderNotFound = () => res.status(404).sendFile('error.html', { root: path.join(publicPath) });
   redisClient.hexists('rooms', urlId, (er, roomExist) => {
     if (roomExist) {
@@ -73,7 +74,18 @@ app.get('/lecture/stats/:id', (req, res) => {
       });
     }
   });
-  logger.info(`GET request received: /lecture/stats for lecture id: ${urlId}`);
+});
+
+app.post('/lecture/stats/:id', (req, res) => {
+  const urlId = req.params.id;
+  logger.info(`POST request received: /lecture/stats for lecture id: ${urlId}`);
+  redisClient.hmget('stats', urlId, (err, statsJson) => {
+    if (err != null) {
+      res.send(statsJson.pop());
+    } else {
+      res.status(404);
+    }
+  });
 });
 
 
