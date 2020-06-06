@@ -132,7 +132,7 @@ export default class Whiteboard {
     document.onmouseup = null;
 
     if (this.tool === TOOL_SELECTAREA) {
-      this.selectedColor = this._color;
+      this.context.strokeStyle = this._color;
       this.context.setLineDash([]);
       this.context.lineWidth = this._lineWidth;
       if (!this.numSquares) {
@@ -172,7 +172,7 @@ export default class Whiteboard {
         this.context.closePath();
         break;
       case TOOL_SELECTAREA:
-        this.selectedColor = DEFAULT_COLOR;
+        this.context.strokeStyle = DEFAULT_COLOR;
         this.context.lineWidth = 1;
         this.context.setLineDash([10, 20]);
         this.context.rect(this.startPos.x, this.startPos.y,
