@@ -11,6 +11,10 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(publicPath, 'index.html'));
 });
 
+app.get('/stats', (req, res) => {
+  res.sendFile(path.join(publicPath, 'stats.html'));
+});
+
 app.get('/create', (req, res) => {
   res.sendFile('create.html', { root: path.join(publicPath) });
 });
