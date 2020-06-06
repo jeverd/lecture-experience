@@ -1,5 +1,30 @@
 
-let products = [
+const url = window.location.pathname;
+const lastSlash = url.lastIndexOf('/');
+const urlId = url.substr(lastSlash + 1);
+const requestOpts = {
+  method: 'POST',
+  mode: 'cors',
+  cache: 'no-cache',
+  credentials: 'same-origin',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+};
+
+
+fetch(`/lecture/stats/${urlId}`, requestOpts)
+  .then((response) => {
+    if (response.status === 200) {
+      response.json().then((jsonResponse) => {
+        const statsObj = JSON.parse(jsonResponse);
+        console.log(statsObj);
+      });
+    }
+    // else display error loading stats
+  });
+
+const products = [
   {
     time: 1,
     numStudent: 3,
@@ -90,53 +115,47 @@ let products = [
   },
 ];
 
-var finalTime =  products[products.length - 1].time;
+const finalTime = products[products.length - 1].time;
 
-var timeInterval = finalTime / 10;
+const timeInterval = finalTime / 10;
 
-var watchers = Array(10).fill(0);
-var average = Array(10).fill(0);
+const watchers = Array(10).fill(0);
+const average = Array(10).fill(0);
 
-for(var i = 0; i < products.length; i++){
+for (var i = 0; i < products.length; i++) {
+  const index = Math.floor(products[i].time / timeInterval);
 
-  let index = Math.floor(products[i].time / timeInterval) ;
-
-  if( index <= (i + 1) ){
+  if (index <= (i + 1)) {
     watchers[index] += products[i].numStudent;
     average[index] += 1;
   }
-
 }
 
 console.log(watchers);
 console.log(average);
 
-var wat = [];
+const wat = [];
 
-for(var i = 0; i < 10; i++){
-
-  if( watchers[i] == 0 ){
-    if(i == 0){
+for (var i = 0; i < 10; i++) {
+  if (watchers[i] === 0) {
+    if (i == 0) {
       wat[i] = 0;
-    }else{
-      if(average[i] == 0){
-        wat[i] = wat[i-1];
-      }else{
-        wat[i] = 0;
-      }
+    } else if (average[i] === 0) {
+      wat[i] = wat[i - 1];
+    } else {
+      wat[i] = 0;
     }
-  }else{
-    wat[i] = Math.ceil(watchers[i] / average[i] );
+  } else {
+    wat[i] = Math.ceil(watchers[i] / average[i]);
   }
 }
 
-var elem = document.getElementsByClassName("myBar");
+const elem = document.getElementsByClassName('myBar');
 
-var maxStudents = Math.max.apply(null, wat);
+const maxStudents = Math.max.apply(null, wat);
 
 console.log(maxStudents);
 
-for(var k = 0; k < 10; k++){
-    elem[k].style.height = (wat[k] / maxStudents) * 100 + "%";
+for (let k = 0; k < 10; k++) {
+  elem[k].style.height = `${(wat[k] / maxStudents) * 100}%`;
 }
-
