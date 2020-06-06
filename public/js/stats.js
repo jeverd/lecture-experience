@@ -12,13 +12,24 @@ const requestOpts = {
   },
 };
 
+// getSecondsBetweenTwoTimes receives two Date objects
+function getSecondsBetweenTwoTimes(start, end) {
+  return (end.getTime() - start.getTime()) / 1000;
+}
+
+function buildGraph(statsObj) {
+  console.log(statsObj);
+  const timeTracks = statsObj.userTracker.map((obj) => obj.time);
+  const lectureDurationInSeconds = getSecondsBetweenTwoTimes(new Date(timeTracks[0]),
+    new Date(timeTracks[timeTracks.length - 1]));
+  console.log(lectureDurationInSeconds);
+}
 
 fetch(`/lecture/stats/${urlId}`, requestOpts)
   .then((response) => {
     if (response.status === 200) {
       response.json().then((jsonResponse) => {
-        const statsObj = JSON.parse(jsonResponse);
-        console.log(statsObj);
+        buildGraph(jsonResponse);
       });
     }
     // else display error loading stats
