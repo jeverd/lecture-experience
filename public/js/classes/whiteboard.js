@@ -172,7 +172,7 @@ export default class Whiteboard {
         this.context.closePath();
         break;
       case TOOL_SELECTAREA:
-        this.context.strokeStyle = DEFAULT_COLOR;
+        this.context.strokeStyle = '#000000';
         this.context.lineWidth = 1;
         this.context.setLineDash([10, 20]);
         this.context.rect(this.startPos.x, this.startPos.y,
@@ -182,7 +182,7 @@ export default class Whiteboard {
         this.endPoint.x = this.currentPos.x;
         this.endPoint.y = this.currentPos.y;
         break;
-      default: 
+      default:
         break;
     }
 
