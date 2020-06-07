@@ -20,3 +20,10 @@ export function findDistance(point1, point2) { // coord1 ==> start, coord2 ==> f
 
   return distance;
 }
+
+export function removeSelectedRegion() {
+  const selectedRegion = document.querySelector('#selected-area-img');
+  if (selectedRegion != null) {
+    selectedRegion.parentNode.removeChild(selectedRegion);
+  }
+}

@@ -548,7 +548,7 @@ button{
   filter: grayscale(0%) opacity(1);
 }
 
-.selected-area-img{
+#selected-area-img{
   position: absolute;
   z-index: 5;
   border: 2px dashed rgb(172, 172, 172);
