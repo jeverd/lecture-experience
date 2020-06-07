@@ -19,28 +19,22 @@ app.get('/create', (req, res) => {
 });
 
 app.post('/create', (req, res) => {
-  if (!req.session.inRoom) {
-    res.status(404);
-    const badRequest = 'bad-request';
-    res.send({ badRequest });
-  } else {
-    logger.info('POST request received: /create');
+  logger.info('POST request received: /create');
 
-    const roomId = uuidv4();
-    const managerId = uuidv4();
-    logger.info(`POST /create roomId generated: ${roomId}`);
-    logger.info(`POST /create managerId generated: ${managerId}`);
+  const roomId = uuidv4();
+  const managerId = uuidv4();
+  logger.info(`POST /create roomId generated: ${roomId}`);
+  logger.info(`POST /create managerId generated: ${managerId}`);
 
-    const { name, email } = req.body;
-    redisClient.hmset('stats', { [roomId]: JSON.stringify(new Stats()) });
-    redisClient.hmset('rooms', { [roomId]: JSON.stringify(new Room(name, managerId, new Date())) });
-    redisClient.hmset('managers', { [managerId]: JSON.stringify(new Manager(roomId, email)) });
+  const { name, email } = req.body;
+  redisClient.hmset('stats', { [roomId]: JSON.stringify(new Stats()) });
+  redisClient.hmset('rooms', { [roomId]: JSON.stringify(new Room(name, managerId, new Date())) });
+  redisClient.hmset('managers', { [managerId]: JSON.stringify(new Manager(roomId, email)) });
 
-    logger.info('POST /create successfully added room and manager id to redis');
-    const redirectUrl = `/lecture/${managerId}`;
-    res.status(200);
-    res.send({ redirectUrl });
-  }
+  logger.info('POST /create successfully added room and manager id to redis');
+  const redirectUrl = `/lecture/${managerId}`;
+  res.status(200);
+  res.send({ redirectUrl });
 });
 
 app.get('/lecture/:id', (req, res) => {
