@@ -1,7 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 export const CONFIG = {
   // secure: true,
-  host: 'localhost',
+  host: 'https://liteboard.io',
   path: '/peerjs',
   port: 8080,
   iceServers: [
