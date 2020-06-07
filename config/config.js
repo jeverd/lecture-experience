@@ -11,4 +11,8 @@ module.exports = {
   ptHost: process.env.PT_HOST,
   ptPort: process.env.PT_PORT,
   redisUrl: process.env.REDIS_URL,
+  email: process.env.EMAIL,
+  emailPassword: process.env.EMAIL_PASSWORD,
+  emailService: process.env.EMAIL_SERVICE,
+  loggerFlag: (process.env.LOGGER === 'true'),
 };

@@ -1,0 +1,31 @@
+.centered {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+    margin-top: -80px;
+  }
+
+#error404 {
+    min-width: 250px;
+    max-width: 850px;
+    margin-top: 100px;
+    width: 80%;
+    height: auto;
+}
+
+  .buttons {
+    margin: 50px;
+    width: 100%;
+    background-color: transparent;
+    display: flex;
+    flex-direction: row;
+  }
+
+  @media only screen and (max-width: 1024px) {
+    #error404 {
+        width: 70%;
+    }
+  }

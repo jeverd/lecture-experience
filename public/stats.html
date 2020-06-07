@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    Hi Stats!!
+
+    <script type="text/javascript">
+        window.onload = () => {
+            history.pushState({ page: 1 }, "", "#nbb");
+            window.onhashchange = function (event) {
+                window.location.hash = "nbb";
+            };
+        }
+    </script>
+</body>
+</html>
