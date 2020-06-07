@@ -273,6 +273,7 @@ div.messages {
 .hide-options-right {
   /* display button */
   position: absolute;
+  z-index: 5;
   top: 10px;
   right: 10px;
   width: 50px;
@@ -280,6 +281,7 @@ div.messages {
   border: none;
   border-radius: 20% 30% 23% 70% / 40% 80% 20% 33%;
   background-color: var(--bg-primary);
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   color: white;
   transition: 1s;
 }
@@ -305,6 +307,7 @@ button{
   background-color: var(--bg-primary);
   transition: width 600ms ease;
   overflow: hidden;
+  z-index: 5;
   /* overflow-y: scroll;
   overflow-x: hidden; */
   scrollbar-color: transparent;
@@ -414,6 +417,13 @@ button{
   transition: var(--transition-speed);
 }
 
+@media only screen and (max-height: 600px){
+  .right-bar{
+    overflow-y: scroll;
+  }
+}
+
+
 @media only screen and (max-width: 600px) {
     /* .right-bar {
       bottom: 0;
@@ -448,12 +458,14 @@ button{
 .hide-options-left {
   /* display button */
   position: absolute;
+  z-index: 5;
   top: 10px;
   left: 10px;
   width: 50px;
   height: 50px;
   border: none;
   border-radius: 20% 30% 23% 70% / 40% 80% 20% 33%;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   background-color: var(--bg-primary);
   color: white;
   transition: 1s;
@@ -473,6 +485,7 @@ button{
 
 .left-bar {
   position: absolute; /* fixed */
+  z-index: 5;
   background-color: var(--bg-primary);
   transition: width 600ms ease;
   margin: 0px;
@@ -548,9 +561,9 @@ button{
   filter: grayscale(0%) opacity(1);
 }
 
-#selected-area-img{
+.selected-area-img{
   position: absolute;
-  z-index: 5;
+  z-index: 1;
   border: 2px dashed rgb(172, 172, 172);
   cursor: grab;
   -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);

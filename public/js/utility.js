@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable no-restricted-properties */
 /* eslint-disable import/extensions */
 /* eslint-disable import/no-absolute-path */
@@ -22,8 +23,14 @@ export function findDistance(point1, point2) { // coord1 ==> start, coord2 ==> f
 }
 
 export function removeSelectedRegion() {
-  const selectedRegion = document.querySelector('#selected-area-img');
-  if (selectedRegion != null) {
-    selectedRegion.parentNode.removeChild(selectedRegion);
-  }
+  document.querySelectorAll('.selected-area-img').forEach((elem) => {
+    elem.parentNode.removeChild(elem);
+  });
+}
+
+export function dragifyImage(imgElem) {
+  imgElem.classList.add('selected-area-img');
+  imgElem.draggable = true;
+  imgElem.ondragstart = (ev) => ev.dataTransfer.setDragImage(ev.target, 10, 10);
+  document.getElementsByTagName('BODY')[0].appendChild(imgElem);
 }
