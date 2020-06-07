@@ -1,9 +1,18 @@
-/* create page */
-
 #create-lecture-graphic {
     /* margin-top: -10px;       */
     width: 600px;
     /* height: auto; */
+  }
+
+  .survey-button {
+    margin: 10px 10px 40px 10px;
+  }
+
+  .survey-button img{
+    height: 20px;
+    position: relative;
+    top: 12px;
+    filter: brightness(0%) invert(90%);
   }
 
   .infoBoard{
