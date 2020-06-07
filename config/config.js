@@ -15,4 +15,7 @@ module.exports = {
   emailPassword: process.env.EMAIL_PASSWORD,
   emailService: process.env.EMAIL_SERVICE,
   loggerFlag: (process.env.LOGGER === 'true'),
+  sessionSecret: process.env.SESSION_SECRET,
+  sessionName: process.env.SESSION_NAME,
+  sessionTTL: process.env.SESSION_TTL,
 };
