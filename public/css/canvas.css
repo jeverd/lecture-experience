@@ -548,6 +548,13 @@ button{
   filter: grayscale(0%) opacity(1);
 }
 
+.selected-area-img{
+  position: absolute;
+  z-index: 5;
+  border: 2px dashed rgb(172, 172, 172);
+  cursor: grab;
+}
+
 .tool-active-svg{
   filter: grayscale(100%) opacity(1) !important;
 }
