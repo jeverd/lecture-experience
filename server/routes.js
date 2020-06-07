@@ -44,7 +44,7 @@ app.get('/lecture/:id', (req, res) => {
   const urlId = req.params.id;
   logger.info(`GET request received: /lecture for lecture id: ${urlId}`);
   if (req.session.inRoom) {
-    logger.info('SESSION: User already in session');
+    logger.info('SESSION: User already in room for current session');
     res.status(404);
     res.sendFile('error.html', { root: path.join(publicPath) });
   } else {
