@@ -1,8 +1,5 @@
-/* eslint-disable import/extensions */
 /* eslint-disable no-undef */
 /* eslint-disable no-param-reassign */
-import { removeSelectedRegion } from './utility.js';
-
 export const TOOL_SQUARE = 'square';
 export const TOOL_TRIANGLE = 'triangle';
 export const TOOL_PAINT_BUCKET = 'paint-bucket';
@@ -41,7 +38,7 @@ export default function initializeToolsMenu(whiteboard) {
   document.querySelectorAll('[data-tool]').forEach(
     (item) => (
       item.addEventListener('click', () => {
-        removeSelectedRegion();
+        whiteboard.removeSelectedRegion();
         $('[data-tool]').find('.tool-active-svg').removeClass('tool-active-svg');
         $('[data-tool]').find('.tool-active').removeClass('tool-active');
 
@@ -75,7 +72,6 @@ export default function initializeToolsMenu(whiteboard) {
   );
 
   window.addEventListener('keydown', (e) => {
-    removeSelectedRegion();
     // paint.tool is the one that stores the current paint tool
     if (whiteboard.tool === 'select-area') {
       if (e.key === 'Backspace' || e.key === 'Delete') {
@@ -98,14 +94,7 @@ export default function initializeToolsMenu(whiteboard) {
           whiteboard.context.fillRect(end.x - 2, end.y - 2,
             (start.x - end.x) + 3, (start.y - end.y) + 3);
         }
-
-        // if there is a select area square on the canvas, remove it from the undo stack
-        if (whiteboard.isSelectionActive) {
-          // this makes it so returning to the deleted drawing requires the redo button
-          whiteboard.undoStack.pop();
-        }
-        whiteboard.isSelectionActive = false;
-
+        whiteboard.removeSelectedRegion();
 
         // if the user presses ctrl + c, copy the image inside of the dotted rectangle
       } else if (e.key === 'c' && e.ctrlKey) {

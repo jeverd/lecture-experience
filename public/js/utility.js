@@ -22,12 +22,6 @@ export function findDistance(point1, point2) { // coord1 ==> start, coord2 ==> f
   return distance;
 }
 
-export function removeSelectedRegion() {
-  document.querySelectorAll('.selected-area-img').forEach((elem) => {
-    elem.parentNode.removeChild(elem);
-  });
-}
-
 export function dragifyImage(imgElem) {
   imgElem.classList.add('selected-area-img');
   imgElem.draggable = true;

@@ -11,7 +11,7 @@ import {
 } from '../tools.js';
 
 import {
-  getMouseCoordsOnCanvas, findDistance, removeSelectedRegion, dragifyImage,
+  getMouseCoordsOnCanvas, findDistance, dragifyImage,
 } from '../utility.js';
 import Fill from './fill.js';
 import Point from './point.js';
@@ -31,11 +31,10 @@ export default class Whiteboard {
     this.paintWhite();
     this.boards = [];
     this.undoStack = [];
-    this.undoLimit = 40; // limit for the stack
-    this.startingPoint = new Point(); // operations with delete, copy, and paste functionalities
+    this.startingPoint = new Point();
     this.endPoint = new Point();
     this.isSelectionActive = false;
-    this.rectDeleted = false;
+    // window.onkeydown = this.handleShortcutKeys.bind(this);
   }
 
   selectionTransformation() {
@@ -83,6 +82,7 @@ export default class Whiteboard {
     ctx.putImageData(imgData, 0, 0);
     imgElem.src = canvas.toDataURL();
     dragifyImage(imgElem);
+    this.isSelectionActive = true;
   }
 
   set activeTool(tool) {
@@ -122,12 +122,7 @@ export default class Whiteboard {
   }
 
   onMouseDown(e) {
-    removeSelectedRegion();
-
-    if (this.isSelectionActive && this.undoStack.length > 0) {
-      this.isSelectionActive = false;
-      this.undoPaint();
-    }
+    this.removeSelectedRegion();
 
     this.pushToUndoStack();
 
@@ -203,12 +198,8 @@ export default class Whiteboard {
     canvas.height = img.height;
     context.drawImage(img, 0, 0);
     const imgData = context.getImageData(0, 0, img.width, img.height);
-    if (this.isSelectionActive) {
-      this.isSelectionActive = false;
-      this.undoPaint();
-    }
     this.context.putImageData(imgData, ev.clientX, ev.clientY);
-    removeSelectedRegion();
+    this.removeSelectedRegion();
     switch (this.selectionDirection) {
       case 'DOWN_RIGHT':
         this.context.fillRect(this.startingPoint.x, this.startingPoint.y,
@@ -232,6 +223,7 @@ export default class Whiteboard {
     this.endPoint = new Point(ev.clientX + img.width, ev.clientY + img.height);
     this.selectionDirection = 'DOWN_RIGHT';
     dragifyImage(img);
+    this.isSelectionActive = true;
     this.pushToUndoStack();
   }
 
@@ -290,7 +282,8 @@ export default class Whiteboard {
   }
 
   undoPaint() {
-    this.isSelectionActive = this.isSelectionActive && false; // careful to not be a boolean value
+    this.removeSelectedRegion();
+    this.isSelectionActive = false;
     if (this.undoStack.length > 0) {
       this.context.putImageData(this.undoStack.pop(), 0, 0);
     }
@@ -307,9 +300,17 @@ export default class Whiteboard {
   }
 
   pushToUndoStack() {
+    const undoLimit = 40;
     this.saveData = this.context.getImageData(0, 0, this.canvas.width, this.canvas.height);
-    if (this.undoStack.length >= this.undoLimit) this.undoStack.shift();
+    if (this.undoStack.length >= undoLimit) this.undoStack.shift();
     this.undoStack.push(this.saveData);
+  }
+
+  removeSelectedRegion() {
+    document.querySelectorAll('.selected-area-img').forEach((elem) => {
+      elem.parentNode.removeChild(elem);
+    });
+    this.isSelectionActive = false;
   }
 
   updateSelectionDirection() {
