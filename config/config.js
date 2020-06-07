@@ -31,4 +31,7 @@ module.exports = {
   emailService: process.env.EMAIL_SERVICE,
   loggerFlag: (process.env.LOGGER === 'true'),
   iceServers: ICE_PUBLIC_SERVERS,
+  sessionSecret: process.env.SESSION_SECRET,
+  sessionName: process.env.SESSION_NAME,
+  sessionTTL: process.env.SESSION_TTL,
 };
