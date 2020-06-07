@@ -1,6 +1,8 @@
+/* eslint-disable import/extensions */
 /* eslint-disable no-undef */
-/* eslint-disable no-unused-vars */
 /* eslint-disable no-param-reassign */
+import { removeSelectedRegion } from './utility.js';
+
 export const TOOL_SQUARE = 'square';
 export const TOOL_TRIANGLE = 'triangle';
 export const TOOL_PAINT_BUCKET = 'paint-bucket';
@@ -39,7 +41,7 @@ export default function initializeToolsMenu(whiteboard) {
   document.querySelectorAll('[data-tool]').forEach(
     (item) => (
       item.addEventListener('click', () => {
-        $('.selected-area-img').remove();
+        removeSelectedRegion();
         $('[data-tool]').find('.tool-active-svg').removeClass('tool-active-svg');
         $('[data-tool]').find('.tool-active').removeClass('tool-active');
 
@@ -73,7 +75,7 @@ export default function initializeToolsMenu(whiteboard) {
   );
 
   window.addEventListener('keydown', (e) => {
-    $('.selected-area-img').remove();
+    removeSelectedRegion();
     // paint.tool is the one that stores the current paint tool
     if (whiteboard.tool === 'select-area') {
       if (e.key === 'Backspace' || e.key === 'Delete') {
