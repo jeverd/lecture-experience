@@ -6,7 +6,7 @@ services:
       ports:
         - 6379:6379
       volumes:
-        - ./docker-config/redis.conf:/redis.conf
+        - ./docker-config/redis_prod.conf:/redis.conf
       command: [ "redis-server", "/redis.conf" ]
     web-server:
       image: jeverd/liteboard-ngnix:latest
