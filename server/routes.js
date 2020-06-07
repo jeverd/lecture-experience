@@ -43,21 +43,27 @@ app.post('/create', (req, res) => {
 app.get('/lecture/:id', (req, res) => {
   const urlId = req.params.id;
   logger.info(`GET request received: /lecture for lecture id: ${urlId}`);
-
-  redisClient.hmget('managers', urlId, (err, object) => {
-    const isGuest = object[0] === null;
-    const roomId = !isGuest && JSON.parse(object[0]).roomId;
-    redisClient.hexists('rooms', isGuest ? urlId : roomId, (err, roomExist) => {
-      if (roomExist) {
-        res.sendFile(isGuest
-          ? 'lecture.html' : 'whiteboard.html',
-        { root: publicPath });
-      } else {
-        res.status(404);
-        res.sendFile('error.html', { root: path.join(publicPath) });
-      }
+  if (req.session.inRoom) {
+    logger.info('SESSION: User already in room for current session');
+    res.status(404);
+    res.sendFile('error.html', { root: path.join(publicPath) });
+  } else {
+    redisClient.hmget('managers', urlId, (err, object) => {
+      const isGuest = object[0] === null;
+      const roomId = !isGuest && JSON.parse(object[0]).roomId;
+      redisClient.hexists('rooms', isGuest ? urlId : roomId, (err, roomExist) => {
+        if (roomExist) {
+          req.session.inRoom = true;
+          res.sendFile(isGuest
+            ? 'lecture.html' : 'whiteboard.html',
+          { root: publicPath });
+        } else {
+          res.status(404);
+          res.sendFile('error.html', { root: path.join(publicPath) });
+        }
+      });
     });
-  });
+  }
 });
 
 app.get('/lecture/stats/:id', (req, res) => {

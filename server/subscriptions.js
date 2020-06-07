@@ -78,6 +78,7 @@ io.sockets.on('connection', (socket) => {
       socket.on('disconnect', () => {
         logger.info(`SOCKET: Manager of room ${roomToJoin} disconnected`);
         managerObj.sockedId = null;
+        if (socket.handshake.session.inRoom) delete socket.handshake.session.inRoom; socket.handshake.session.save();
         redisClient.hmset('managers', {
           [urlUuid]: JSON.stringify(managerObj),
         });
