@@ -273,22 +273,23 @@ export default class Whiteboard {
     const imgElem = document.createElement('img');
     imgElem.src = canvas.toDataURL();
     imgElem.classList.add('selected-area-img');
+    const correctionOffset = 0.5;
     switch (selectionDirection) {
       case 'DOWN_RIGHT':
-        imgElem.style.top = `${this.startingPoint.y}px`;
-        imgElem.style.left = `${this.startingPoint.x}px`;
+        imgElem.style.top = `${this.startingPoint.y - correctionOffset}px`;
+        imgElem.style.left = `${this.startingPoint.x - correctionOffset}px`;
         break;
       case 'UP_RIGHT':
-        imgElem.style.top = `${this.endPoint.y}px`;
-        imgElem.style.left = `${this.startingPoint.x}px`;
+        imgElem.style.top = `${this.endPoint.y - correctionOffset}px`;
+        imgElem.style.left = `${this.startingPoint.x - correctionOffset}px`;
         break;
       case 'DOWN_LEFT':
-        imgElem.style.top = `${this.startingPoint.y}px`;
-        imgElem.style.left = `${this.endPoint.x}px`;
+        imgElem.style.top = `${this.startingPoint.y - correctionOffset}px`;
+        imgElem.style.left = `${this.endPoint.x - correctionOffset}px`;
         break;
       case 'UP_LEFT':
-        imgElem.style.top = `${this.endPoint.y}px`;
-        imgElem.style.left = `${this.endPoint.x}px`;
+        imgElem.style.top = `${this.endPoint.y - correctionOffset}px`;
+        imgElem.style.left = `${this.endPoint.x - correctionOffset}px`;
         break;
       default: break;
     }

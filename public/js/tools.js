@@ -39,6 +39,7 @@ export default function initializeToolsMenu(whiteboard) {
   document.querySelectorAll('[data-tool]').forEach(
     (item) => (
       item.addEventListener('click', () => {
+        $('.selected-area-img').remove();
         $('[data-tool]').find('.tool-active-svg').removeClass('tool-active-svg');
         $('[data-tool]').find('.tool-active').removeClass('tool-active');
 
