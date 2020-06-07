@@ -1,10 +1,10 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-undef */
 /* eslint-disable-next-line import/extensions */
-import { CONFIG } from './peerConfig.js';
 
-window.onload = () => {
-  const peer = new Peer(CONFIG);
+window.onload = async () => {
+  const peerjsConfig = await fetch('/peerjs/config').then((r) => r.json());
+  const peer = new Peer(peerjsConfig);
   const url = window.location.pathname;
   const lastSlash = url.lastIndexOf('/');
   const roomId = url.substr(lastSlash + 1);

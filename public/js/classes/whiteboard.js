@@ -10,8 +10,11 @@ import {
   TOOL_SQUARE, TOOL_TRIANGLE, TOOL_SELECTAREA,
 } from '../tools.js';
 
-import { getMouseCoordsOnCanvas, findDistance } from '../utility.js';
+import {
+  getMouseCoordsOnCanvas, findDistance, removeSelectedRegion, dragifyImage,
+} from '../utility.js';
 import Fill from './fill.js';
+import Point from './point.js';
 
 const DEFAULT_COLOR = '#424242';
 
@@ -22,33 +25,64 @@ export default class Whiteboard {
     this.canvas.width = window.innerWidth;
     this.context = this.canvas.getContext('2d');
     this.canvas.ondragover = (ev) => ev.preventDefault();
-    this.canvas.ondrop = (ev) => {
-      ev.preventDefault();
-      const img = new Image();
-      img.src = ev.dataTransfer.getData('text/plain');
-      const canvas = document.createElement('canvas');
-      const context = canvas.getContext('2d');
-      canvas.width = img.width;
-      canvas.height = img.height;
-      context.drawImage(img, 0, 0);
-      const imgData = context.getImageData(0, 0, img.width, img.height);
-      if (this.isSelectionActive) {
-        this.isSelectionActive = false;
-        this.undoPaint();
-      }
-      this.context.putImageData(imgData, ev.clientX, ev.clientY);
-      this.pushToUndoStack();
-    };
+    this.canvas.ondrop = this.onDrop.bind(this);
     this.canvas.style.cursor = 'crosshair';
     this.currentBoard = 0;
     this.paintWhite();
     this.boards = [];
     this.undoStack = [];
     this.undoLimit = 40; // limit for the stack
-    this.startingPoint = { x: 0, y: 0 }; // operations with delete, copy, and paste functionalities
-    this.endPoint = { x: 0, y: 0 };
+    this.startingPoint = new Point(); // operations with delete, copy, and paste functionalities
+    this.endPoint = new Point();
     this.isSelectionActive = false;
     this.rectDeleted = false;
+  }
+
+  selectionTransformation() {
+    if (this.isSelectionActive) {
+      this.isSelectionActive = false;
+      this.undoPaint();
+    }
+
+    let imgData;
+    this.updateSelectionDirection();
+    const imgElem = document.createElement('img');
+    const correctionOffset = 0.5;
+    switch (this.selectionDirection) {
+      case 'DOWN_RIGHT':
+        imgData = this.context.getImageData(this.startingPoint.x + 1, this.startingPoint.y + 1,
+          (this.endPoint.x - this.startingPoint.x) - 2, this.endPoint.y - this.startingPoint.y - 2);
+        imgElem.style.top = `${this.startingPoint.y - correctionOffset}px`;
+        imgElem.style.left = `${this.startingPoint.x - correctionOffset}px`;
+        break;
+      case 'UP_RIGHT':
+        imgData = this.context.getImageData(this.startingPoint.x + 1, this.endPoint.y + 1,
+          (this.endPoint.x - this.startingPoint.x) - 2, this.startingPoint.y - this.endPoint.y - 2);
+        imgElem.style.top = `${this.endPoint.y - correctionOffset}px`;
+        imgElem.style.left = `${this.startingPoint.x - correctionOffset}px`;
+        break;
+      case 'DOWN_LEFT':
+        imgData = this.context.getImageData(this.endPoint.x + 1, this.startingPoint.y + 1,
+          (this.startingPoint.x - this.endPoint.x) - 2, this.endPoint.y - this.startingPoint.y - 2);
+        imgElem.style.top = `${this.startingPoint.y - correctionOffset}px`;
+        imgElem.style.left = `${this.endPoint.x - correctionOffset}px`;
+        break;
+      case 'UP_LEFT':
+        imgData = this.context.getImageData(this.endPoint.x + 1, this.endPoint.y + 1,
+          (this.startingPoint.x - this.endPoint.x) - 2, this.startingPoint.y - this.endPoint.y - 2);
+        imgElem.style.top = `${this.endPoint.y - correctionOffset}px`;
+        imgElem.style.left = `${this.endPoint.x - correctionOffset}px`;
+        break;
+      default: return;
+    }
+
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = imgData.width;
+    canvas.height = imgData.height;
+    ctx.putImageData(imgData, 0, 0);
+    imgElem.src = canvas.toDataURL();
+    dragifyImage(imgElem);
   }
 
   set activeTool(tool) {
@@ -88,9 +122,7 @@ export default class Whiteboard {
   }
 
   onMouseDown(e) {
-    document.querySelectorAll('.selected-area-img').forEach((elem) => {
-      elem.parentNode.removeChild(elem);
-    });
+    removeSelectedRegion();
 
     if (this.isSelectionActive && this.undoStack.length > 0) {
       this.isSelectionActive = false;
@@ -157,6 +189,50 @@ export default class Whiteboard {
       }
       this.selectionTransformation();
     }
+  }
+
+  onDrop(ev) {
+    ev.preventDefault();
+    const img = new Image();
+    img.style.top = `${ev.clientY}px`;
+    img.style.left = `${ev.clientX}px`;
+    img.src = ev.dataTransfer.getData('text/plain');
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+    canvas.width = img.width;
+    canvas.height = img.height;
+    context.drawImage(img, 0, 0);
+    const imgData = context.getImageData(0, 0, img.width, img.height);
+    if (this.isSelectionActive) {
+      this.isSelectionActive = false;
+      this.undoPaint();
+    }
+    this.context.putImageData(imgData, ev.clientX, ev.clientY);
+    removeSelectedRegion();
+    switch (this.selectionDirection) {
+      case 'DOWN_RIGHT':
+        this.context.fillRect(this.startingPoint.x, this.startingPoint.y,
+          img.width, img.height);
+        break;
+      case 'UP_RIGHT':
+        this.context.fillRect(this.startingPoint.x, this.endPoint.y,
+          img.width, img.height);
+        break;
+      case 'DOWN_LEFT':
+        this.context.fillRect(this.endPoint.x, this.startingPoint.y,
+          img.width, img.height);
+        break;
+      case 'UP_LEFT':
+        this.context.fillRect(this.endPoint.x, this.endPoint.y,
+          img.width, img.height);
+        break;
+      default: break;
+    }
+    this.startingPoint = new Point(ev.clientX, ev.clientY);
+    this.endPoint = new Point(ev.clientX + img.width, ev.clientY + img.height);
+    this.selectionDirection = 'DOWN_RIGHT';
+    dragifyImage(img);
+    this.pushToUndoStack();
   }
 
   // shape drawing functions
@@ -236,69 +312,19 @@ export default class Whiteboard {
     this.undoStack.push(this.saveData);
   }
 
-  selectionTransformation() {
-    if (this.isSelectionActive) {
-      this.isSelectionActive = false;
-      this.undoPaint();
-    }
+  updateSelectionDirection() {
     const start = this.startingPoint;
     const end = this.endPoint;
-    let selectionDirection;
+    this.selectionDirection = null;
     /* TAKE CARE OF ALL DIRECTIONS POSSIBLE FOR DRAG AND DROP COPYING FUNCIOTIONALITY */
-    let imgData;
-    if (start.x < end.x && start.y < end.y) { // start high go down, right (good)
-      imgData = this.context.getImageData(start.x + 1, start.y + 1,
-        (end.x - start.x) - 2, (end.y - start.y) - 2);
-      selectionDirection = 'DOWN_RIGHT';
-      // context.putImageData(test, start.x + 20, start.y + 20); (this works...... ish)
-    } else if (start.x < end.x && start.y > end.y) { // start low, go up, right (good)
-      imgData = this.context.getImageData(start.x + 1, end.y + 1,
-        (end.x - start.x) - 2, (start.y - end.y) - 2);
-      selectionDirection = 'UP_RIGHT';
-    } else if (start.x > end.x && start.y < end.y) { // start high, go down, left (good)
-      imgData = this.context.getImageData(end.x + 1, start.y + 1,
-        (start.x - end.x) - 2, (end.y - start.y) - 2);
-      selectionDirection = 'DOWN_LEFT';
-    } else if (start.x > end.x && start.y > end.y) { // start low, go up, left (good)
-      imgData = this.context.getImageData(end.x + 1, end.y + 1,
-        (start.x - end.x) - 2, (start.y - end.y) - 2);
-      selectionDirection = 'UP_LEFT';
+    if (start.x < end.x && start.y < end.y) {
+      this.selectionDirection = 'DOWN_RIGHT';
+    } else if (start.x < end.x && start.y > end.y) {
+      this.selectionDirection = 'UP_RIGHT';
+    } else if (start.x > end.x && start.y < end.y) {
+      this.selectionDirection = 'DOWN_LEFT';
+    } else if (start.x > end.x && start.y > end.y) {
+      this.selectionDirection = 'UP_LEFT';
     }
-
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    canvas.width = imgData.width;
-    canvas.height = imgData.height;
-    ctx.putImageData(imgData, 0, 0);
-    const imgElem = document.createElement('img');
-    imgElem.src = canvas.toDataURL();
-    imgElem.classList.add('selected-area-img');
-    const correctionOffset = 0.5;
-    switch (selectionDirection) {
-      case 'DOWN_RIGHT':
-        imgElem.style.top = `${this.startingPoint.y - correctionOffset}px`;
-        imgElem.style.left = `${this.startingPoint.x - correctionOffset}px`;
-        break;
-      case 'UP_RIGHT':
-        imgElem.style.top = `${this.endPoint.y - correctionOffset}px`;
-        imgElem.style.left = `${this.startingPoint.x - correctionOffset}px`;
-        break;
-      case 'DOWN_LEFT':
-        imgElem.style.top = `${this.startingPoint.y - correctionOffset}px`;
-        imgElem.style.left = `${this.endPoint.x - correctionOffset}px`;
-        break;
-      case 'UP_LEFT':
-        imgElem.style.top = `${this.endPoint.y - correctionOffset}px`;
-        imgElem.style.left = `${this.endPoint.x - correctionOffset}px`;
-        break;
-      default: break;
-    }
-
-    imgElem.draggable = true;
-    imgElem.ondragstart = (ev) => {
-      ev.dataTransfer.setDragImage(ev.target, 10, 10);
-      ev.dataTransfer.dropEffect = 'move';
-    };
-    document.getElementsByTagName('BODY')[0].appendChild(imgElem);
   }
 }
