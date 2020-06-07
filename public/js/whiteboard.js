@@ -1,15 +1,13 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable no-fallthrough */
-/* eslint-disable default-case */
 /* eslint-disable no-undef */
 /* eslint-disable import/extensions */
 import Whiteboard from './classes/whiteboard.js';
-import { CONFIG } from './peerConfig.js';
 import initializeToolsMenu from './tools.js';
 
-
-window.onload = () => {
-  const peer = new Peer(CONFIG);
+window.onload = async () => {
+  const peerjsConfig = await fetch('/peerjs/config').then((r) => r.json());
+  const peer = new Peer(peerjsConfig);
   let calls = [];
   const url = window.location.pathname;
   const lastSlash = url.lastIndexOf('/');
@@ -26,7 +24,11 @@ window.onload = () => {
       || navigator.msGetUserMedia;
 
     getUserMedia({ audio: true })
-      .then(startLecture);
+      .then(startLecture)
+      .catch((error) => {
+        // handle error properly here.
+        console.log(`Media error: ${error}`);
+      });
   });
 
   function startLecture(stream) {
@@ -203,6 +205,7 @@ window.onload = () => {
             case 'clear-page':
               whiteboard.clearCanvas();
               break;
+            default: break;
           }
         });
       });
