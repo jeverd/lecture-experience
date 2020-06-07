@@ -10,7 +10,7 @@ const sharedSession = require('express-socket.io-session');
 
 const RedisStore = require('connect-redis')(session);
 const {
-  redisHost, redisPort, expressPort, environment, redisUrl, loggerFlag, sessionSecret, sessionName, sessionTTL
+  redisHost, redisPort, expressPort, environment, redisUrl, loggerFlag, sessionSecret, sessionName, sessionTTL,
 } = require('../config/config');
 const { logger } = require('./services/logger/logger');
 const { logMiddleWare } = require('./services/logger/loggingMiddleware');
