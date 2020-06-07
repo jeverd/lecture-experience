@@ -28,6 +28,13 @@ services:
         - PT_HOST=${PT_HOST}
         - PT_PORT=${PT_PORT}
         - REDIS_URL=${REDIS_URL}
+        - SESSION_SECRET=${SESSION_SECRET}
+        - SESSION_NAME=${SESSION_NAME}
+        - SESSION_TTLE=${SESSION_TTLE}
+        - LOGGER= ${LOGGER}
+        - EMAIL=${EMAIL}
+        - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+        - EMAIL_SERVICE=${EMAIL_SERVICE}
       depends_on:
         - redis_db
         - web-server
