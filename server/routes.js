@@ -44,6 +44,7 @@ app.get('/lecture/:id', (req, res) => {
     logger.info('!!User already in room!! Rendering Error page');
     res.status(404);
     res.sendFile('error.html', { root: path.join(publicPath) });
+  } else {
     redisClient.hmget('managers', urlId, (err, object) => {
       const isGuest = object[0] === null;
       const roomId = !isGuest && JSON.parse(object[0]).roomId;
