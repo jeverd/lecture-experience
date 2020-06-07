@@ -1,6 +1,9 @@
 /* eslint-disable no-shadow */
 const path = require('path');
 const { v4: uuidv4 } = require('uuid');
+const {
+  iceServers, expressPort, environment,
+} = require('../config/config');
 const { app } = require('./servers');
 const redisClient = require('./servers').client;
 const { logger } = require('./services/logger/logger');
@@ -82,6 +85,16 @@ app.get('/lecture/stats/:id', (req, res) => {
   logger.info(`GET request received: /lecture/stats for lecture id: ${urlId}`);
 });
 
+app.get('/peerjs/config', (req, res) => {
+  const peerjsConfig = {
+    secure: environment === 'PRODUCTION',
+    host: environment === 'DEVELOPMENT' ? 'localhost' : 'liteboard.io',
+    path: '/peerjs',
+    port: environment === 'DEVELOPMENT' ? expressPort : 443,
+    iceServers,
+  };
+  res.send(JSON.stringify(peerjsConfig));
+});
 
 app.get('*', (req, res) => {
   res.sendFile('/', { root: path.join(publicPath) });
