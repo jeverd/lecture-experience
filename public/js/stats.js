@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 
 const url = window.location.pathname;
 const lastSlash = url.lastIndexOf('/');
