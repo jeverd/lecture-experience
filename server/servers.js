@@ -5,7 +5,10 @@ const { ExpressPeerServer } = require('peer');
 const redis = require('redis');
 const socketio = require('socket.io');
 const bodyParser = require('body-parser');
+const session = require('express-session');
+const sharedSession = require('express-socket.io-session');
 
+const RedisStore = require('connect-redis')(session);
 const {
   redisHost, redisPort, expressPort, environment, redisUrl, loggerFlag,
 } = require('../config/config');
@@ -15,8 +18,12 @@ const { logMiddleWare } = require('./services/logger/loggingMiddleware');
 
 const app = express();
 const expressServer = app.listen(expressPort);
-const io = socketio(expressServer);
+
+const io = socketio(expressServer, { cookie: false });
+
+
 const peerServer = ExpressPeerServer(expressServer);
+
 
 app.use('/peerjs', peerServer);
 app.use(express.static('public/js'));
@@ -34,7 +41,21 @@ if (environment === 'DEVELOPMENT') {
 } else {
   client = redis.createClient(redisUrl);
 }
+app.set('trust proxy', 1); // trust first proxy, if not set, ngnix ip will be considered by same as clients, !!!!set production flag!!!!!
 
+const expressSession = session(
+  {
+    store: new RedisStore({ client }),
+    secret: 'keyboard cat',
+    resave: false,
+    // should be production only thing !!!!set production flag!!!!!
+  },
+);
+app.use(expressSession);
+
+io.use(sharedSession(expressSession, {
+  autoSave: true,
+}));
 
 logger.info(`Express and socketio are listening on port: ${expressPort}`);
 
