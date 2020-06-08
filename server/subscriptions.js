@@ -198,7 +198,9 @@ io.sockets.on('connection', (socket) => {
         roomObject.managerId,
         (error, managerObject) => {
           const { socketId } = JSON.parse(managerObject.pop());
-          io.in(room).connected[socketId].emit('send-to-manager', message);
+          if (socketId in io.in(room).connected) {
+            io.in(room).connected[socketId].emit('send-to-manager', message);
+          }
         },
       );
     });
