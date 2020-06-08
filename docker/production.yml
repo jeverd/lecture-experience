@@ -6,7 +6,7 @@ services:
       ports:
         - 6379:6379
       volumes:
-        - ./docker-config/redis.conf:/redis.conf
+        - ./docker-config/redis_prod.conf:/redis.conf
       command: [ "redis-server", "/redis.conf" ]
     web-server:
       image: jeverd/liteboard-ngnix:latest
@@ -28,6 +28,13 @@ services:
         - PT_HOST=${PT_HOST}
         - PT_PORT=${PT_PORT}
         - REDIS_URL=${REDIS_URL}
+        - SESSION_SECRET=${SESSION_SECRET}
+        - SESSION_NAME=${SESSION_NAME}
+        - SESSION_TTLE=${SESSION_TTLE}
+        - LOGGER= ${LOGGER}
+        - EMAIL=${EMAIL}
+        - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+        - EMAIL_SERVICE=${EMAIL_SERVICE}
       depends_on:
         - redis_db
         - web-server
