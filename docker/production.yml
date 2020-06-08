@@ -20,8 +20,6 @@ services:
       links:
         - redis_db
         - web-server
-      ports:
-        - ${EXPRESS_PORT}:${EXPRESS_PORT}
       environment: 
         - NODE_ENV=${NODE_ENV}
         - EXPRESS_PORT=${EXPRESS_PORT}
