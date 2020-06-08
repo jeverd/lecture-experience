@@ -67,6 +67,10 @@ window.onload = async () => {
     const socket = io('/', {
       query: `id=${roomId}&peer_id=${peerId}`,
     });
+    window.onbeforeunload = (e) => {
+      e.preventDefault();
+      socket.disconnect();
+    };
 
     socket.on('ready', (room) => {
       const { boards, boardActive } = room.lecture_details;

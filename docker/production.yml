@@ -38,3 +38,4 @@ services:
       depends_on:
         - redis_db
         - web-server
+      restart: always
