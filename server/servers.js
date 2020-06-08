@@ -37,7 +37,8 @@ if (loggerFlag) app.use(logMiddleWare);
 
 let client = null;
 if (environment === 'DEVELOPMENT') {
-  client = redis.createClient(redisPort, redisHost);
+  const redisConnect = `redis://REDIS_PASSWORD_IMPORTANT_KEEP_SAFE@${redisHost}:${redisPort}`;
+  client = redis.createClient(redisConnect); // use envir var TODO.
 } else {
   app.set('trust proxy', 1); // trust first proxy, if not set, ngnix ip will be considered by same as clients
   client = redis.createClient(redisUrl);
