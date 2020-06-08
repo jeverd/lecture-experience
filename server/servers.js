@@ -38,8 +38,8 @@ if (loggerFlag) app.use(logMiddleWare);
 let client = null;
 if (environment === 'DEVELOPMENT') {
   client = redis.createClient(redisPort, redisHost);
-  app.set('trust proxy', 1); // trust first proxy, if not set, ngnix ip will be considered by same as clients
 } else {
+  app.set('trust proxy', 1); // trust first proxy, if not set, ngnix ip will be considered by same as clients
   client = redis.createClient(redisUrl);
 }
 
