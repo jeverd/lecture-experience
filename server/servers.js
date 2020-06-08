@@ -10,7 +10,7 @@ const sharedSession = require('express-socket.io-session');
 
 const RedisStore = require('connect-redis')(session);
 const {
-  redisHost, redisPort, expressPort, environment, redisUrl, loggerFlag, sessionSecret, sessionName, sessionTTL,
+  redisHost, redisPort, expressPort, environment, redisUrl, loggerFlag, sessionSecret, sessionName,
 } = require('../config/config');
 const { logger } = require('./services/logger/logger');
 const { logMiddleWare } = require('./services/logger/loggingMiddleware');
@@ -53,7 +53,7 @@ const expressSession = session(
     cookie: {
       secure: (environment === 'PRODUCTION'),
       sameSite: true,
-      maxAge: sessionTTL,
+      domain: (environment === 'PRODUCTION') ? 'liteboard.io' : null,
     },
   },
 );
