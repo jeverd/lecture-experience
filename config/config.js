@@ -33,5 +33,4 @@ module.exports = {
   iceServers: ICE_PUBLIC_SERVERS,
   sessionSecret: process.env.SESSION_SECRET,
   sessionName: process.env.SESSION_NAME,
-  sessionTTL: process.env.SESSION_TTL,
 };
