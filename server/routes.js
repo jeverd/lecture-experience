@@ -1,6 +1,9 @@
 /* eslint-disable no-shadow */
 const path = require('path');
 const { v4: uuidv4 } = require('uuid');
+const {
+  iceServers, expressPort, environment,
+} = require('../config/config');
 const { app } = require('./servers');
 const redisClient = require('./servers').client;
 const { logger } = require('./services/logger/logger');
@@ -41,21 +44,26 @@ app.post('/create', (req, res) => {
 app.get('/lecture/:id', (req, res) => {
   const urlId = req.params.id;
   logger.info(`GET request received: /lecture for lecture id: ${urlId}`);
-
-  redisClient.hmget('managers', urlId, (err, object) => {
-    const isGuest = object[0] === null;
-    const roomId = !isGuest && JSON.parse(object[0]).roomId;
-    redisClient.hexists('rooms', isGuest ? urlId : roomId, (err, roomExist) => {
-      if (roomExist) {
-        res.sendFile(isGuest
-          ? 'lecture.html' : 'whiteboard.html',
-        { root: publicPath });
-      } else {
-        res.status(404);
-        res.sendFile('error.html', { root: path.join(publicPath) });
-      }
+  if (req.session.inRoom) {
+    logger.info('SESSION: User already in room for current session');
+    res.status(404);
+    res.sendFile('error.html', { root: path.join(publicPath) });
+  } else {
+    redisClient.hmget('managers', urlId, (err, object) => {
+      const isGuest = object[0] === null;
+      const roomId = !isGuest && JSON.parse(object[0]).roomId;
+      redisClient.hexists('rooms', isGuest ? urlId : roomId, (err, roomExist) => {
+        if (roomExist) {
+          res.sendFile(isGuest
+            ? 'lecture.html' : 'whiteboard.html',
+          { root: publicPath });
+        } else {
+          res.status(404);
+          res.sendFile('error.html', { root: path.join(publicPath) });
+        }
+      });
     });
-  });
+  }
 });
 
 app.get('/lecture/stats/:id', (req, res) => {
@@ -89,6 +97,16 @@ app.post('/lecture/stats/:id', (req, res) => {
   });
 });
 
+app.get('/peerjs/config', (req, res) => {
+  const peerjsConfig = {
+    secure: environment === 'PRODUCTION',
+    host: environment === 'DEVELOPMENT' ? 'localhost' : 'liteboard.io',
+    path: '/peerjs',
+    port: environment === 'DEVELOPMENT' ? expressPort : 443,
+    iceServers,
+  };
+  res.send(JSON.stringify(peerjsConfig));
+});
 
 app.get('*', (req, res) => {
   res.sendFile('/', { root: path.join(publicPath) });
