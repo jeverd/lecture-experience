@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 
 const url = window.location.pathname;
 const lastSlash = url.lastIndexOf('/');
@@ -23,11 +24,30 @@ function buildGraph(statsObj) {
   const lectureDurationInSeconds = getSecondsBetweenTwoTimes(new Date(timeTracks[0]),
     new Date(timeTracks[timeTracks.length - 1]));
 
-  // const lectureDurationInMinutes = Math.ceil(lectureDurationInSeconds / 60);
-  const timeIntervalInSeconds = lectureDurationInSeconds / 10;
-  const watchers = Array(10).fill(0);
-  const average = Array(10).fill(0);
-  const time = Array(10).fill(0);
+  let graphSize;
+
+  if (lectureDurationInSeconds > 1800) {
+    graphSize = 20;
+  } else {
+    graphSize = 10;
+  }
+
+  for (let i = 0; i < graphSize; i++) {
+    const proressBar = document.createElement('div');
+    proressBar.classList.add('myProgress');
+    // setting the class to item and active
+    const inner = document.createElement('div');
+    inner.classList.add('myBar');
+
+    proressBar.appendChild(inner);
+
+    document.getElementById('graph').appendChild(proressBar);
+  }
+
+  const timeIntervalInSeconds = lectureDurationInSeconds / graphSize;
+  const watchers = Array(graphSize).fill(0);
+  const numberOfInputs = Array(graphSize).fill(0);
+  const time = Array(timeTracks.length).fill(0);
 
   for (let i = 0; i < timeTracks.length; i++) {
     time[i] = getSecondsBetweenTwoTimes(new Date(timeTracks[0]),
@@ -39,38 +59,57 @@ function buildGraph(statsObj) {
 
     if (index <= (i)) {
       watchers[index] += watchersTracks[i];
-      average[index] += 1;
+      numberOfInputs[index] += 1;
     }
   }
 
   const averageWatchers = [];
 
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < graphSize; i++) {
     if (watchers[i] === 0) {
       if (i === 0) {
         averageWatchers[i] = 0;
-      } else if (average[i] === 0) {
+      } else if (numberOfInputs[i] === 0) {
         averageWatchers[i] = averageWatchers[i - 1];
       } else {
         averageWatchers[i] = 0;
       }
     } else {
-      averageWatchers[i] = Math.ceil(watchers[i] / average[i]);
+      averageWatchers[i] = Math.ceil(watchers[i] / numberOfInputs[i]);
     }
   }
+
 
   const elem = document.getElementsByClassName('myBar');
 
   const maxStudents = Math.max.apply(null, averageWatchers);
 
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < graphSize; i++) {
     if (averageWatchers[i] === 0) {
       elem[i].style.height = `${1}%`;
     } else {
       elem[i].style.height = `${(averageWatchers[i] / maxStudents) * 100}%`;
     }
   }
+
+  let averageNumOfUsers = 0;
+  for (let i = 0; i < graphSize; i++) {
+    averageNumOfUsers += averageWatchers[i];
+  }
+
+  document.getElementById('lecture-stats-title').innerHTML = statsObj.lectureName;
+  document.getElementById('max-specs').innerHTML = maxStudents;
+  document.getElementById('avg-specs').innerHTML = Math.ceil(averageNumOfUsers / graphSize);
+  document.getElementById('boards-used').innerHTML = statsObj.numOfBoards;
+
+  const hours = Math.floor(lectureDurationInSeconds / 60 / 60);
+  const minutes = Math.floor(lectureDurationInSeconds / 60) - (hours * 60);
+  const seconds = Number((lectureDurationInSeconds % 60).toPrecision(2));
+
+  const formatted = hours.toString().padStart(2, '0') + ':' + minutes.toString().padStart(2, '0') + ':' + seconds.toString().padStart(2, '0');
+  document.getElementById('lecture-duration').innerHTML = formatted;
 }
+
 
 fetch(`/lecture/stats/${urlId}`, requestOpts)
   .then((response) => {

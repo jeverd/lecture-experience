@@ -272,9 +272,9 @@ border-color: red;
         
 }
 
-#myProgress {
+.myProgress {
   height: 350px;
-  width: 20px;
+  width: 30px;
   /* background-color: grey; */
 }
 
