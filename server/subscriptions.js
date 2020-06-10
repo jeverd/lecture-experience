@@ -30,6 +30,14 @@ function call(room, managerSocketId, peerId) {
 
 io.sockets.on('connection', (socket) => {
   const urlUuid = socket.handshake.query.id;
+  socket.handshake.session.inRoom = true;
+  socket.handshake.session.save();
+  const deletedSession = () => {
+    if (socket.handshake.session.inRoom) {
+      delete socket.handshake.session.inRoom;
+      socket.handshake.session.save();
+    }
+  };
   redisClient.hmget('managers', urlUuid, (error, manager) => {
     if (error) {
       logger.warn(`SOCKET: ON CONNECTION: attempting to get managers from redis- failed, socket_id: ${socket.id} emitting dbError now`);
@@ -78,8 +86,12 @@ io.sockets.on('connection', (socket) => {
         });
       }
       socket.on('disconnect', () => {
+        deletedSession();
+      });
+      socket.on('disconnecting', () => {
         logger.info(`SOCKET: Manager of room ${roomToJoin} disconnected`);
         managerObj.sockedId = null;
+        deletedSession();
         redisClient.hmset('managers', {
           [urlUuid]: JSON.stringify(managerObj),
         });
@@ -121,7 +133,9 @@ io.sockets.on('connection', (socket) => {
       });
       socket.on('currentBoard', (obj) => {
         const { studentSocket, board } = obj;
-        io.in(roomToJoin).connected[studentSocket].emit('currentBoard', board);
+        if (studentSocket in io.in(roomToJoin).connected) {
+          io.in(roomToJoin).connected[studentSocket].emit('currentBoard', board);
+        }
       });
       logger.info(`SOCKET: Initializing ${roomToJoin}  - manager joined`);
       managerObj.socketId = socket.id;
@@ -144,7 +158,10 @@ io.sockets.on('connection', (socket) => {
         call(roomToJoin, managerSocketId, myPeerId);
       });
       roomToJoin = urlUuid;
-      socket.on('disconnect', () => updateNumOfStudents(roomToJoin));
+      socket.on('disconnect', () => {
+        deletedSession();
+        updateNumOfStudents(roomToJoin);
+      });
       logger.info(`SOCKET: Student joining room ${roomToJoin}`);
       isIncomingStudent = true;
       socket.join(roomToJoin);
@@ -183,7 +200,9 @@ io.sockets.on('connection', (socket) => {
         roomObject.managerId,
         (error, managerObject) => {
           const { socketId } = JSON.parse(managerObject.pop());
-          io.in(room).connected[socketId].emit('send-to-manager', message);
+          if (socketId in io.in(room).connected) {
+            io.in(room).connected[socketId].emit('send-to-manager', message);
+          }
         },
       );
     });

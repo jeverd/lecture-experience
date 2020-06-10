@@ -1,0 +1,37 @@
+version: '3.3'
+services:
+    redis_db:
+      image: redis:4.0-alpine
+      command: redis-server --requirepass ${REDIS_PASSWORD}
+      volumes:
+        - ./docker-config/redis_prod.conf:/redis.conf
+      command: [ "redis-server", "/redis.conf" ]
+    web-server:
+      image: jeverd/liteboard-ngnix:latest
+      ports:
+        - ${WEB_SERVER_PORT_HTTP}:${WEB_SERVER_PORT_HTTP}
+        - ${WEB_SERVER_PORT_HTTPS}:${WEB_SERVER_PORT_HTTPS}
+      volumes:
+        - ./letsencrypt:/etc/letsencrypt
+    app:
+      image: jeverd/liteboard-express:latest
+      links:
+        - redis_db
+        - web-server
+      environment: 
+        - NODE_ENV=${NODE_ENV}
+        - EXPRESS_PORT=${EXPRESS_PORT}
+        - PT_HOST=${PT_HOST}
+        - PT_PORT=${PT_PORT}
+        - REDIS_URL=${REDIS_URL}
+        - SESSION_SECRET=${SESSION_SECRET}
+        - SESSION_NAME=${SESSION_NAME}
+        - SESSION_TTLE=${SESSION_TTLE}
+        - LOGGER= ${LOGGER}
+        - EMAIL=${EMAIL}
+        - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+        - EMAIL_SERVICE=${EMAIL_SERVICE}
+      depends_on:
+        - redis_db
+        - web-server
+      restart: always
