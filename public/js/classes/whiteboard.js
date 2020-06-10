@@ -203,6 +203,7 @@ export default class Whiteboard {
         imgElem.style.left = `${this.startingPoint.x}px`;
         imgElem.style.top = `${this.startingPoint.y}px`;
         dragifyImage(imgElem);
+        this.isSelectionActive = true;
       }
     }
   }
