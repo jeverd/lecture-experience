@@ -53,7 +53,6 @@ app.get('/lecture/:id', (req, res) => {
       const roomId = !isGuest && JSON.parse(object[0]).roomId;
       redisClient.hexists('rooms', isGuest ? urlId : roomId, (err, roomExist) => {
         if (roomExist) {
-          req.session.inRoom = true;
           res.sendFile(isGuest
             ? 'lecture.html' : 'whiteboard.html',
           { root: publicPath });
