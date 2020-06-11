@@ -63,6 +63,10 @@ window.onload = async () => {
 
     stream.addTrack(whiteboard.getStream().getTracks()[0]);
     const socket = io('/', { query: `id=${managerId}` });
+    $(window).on('beforeunload', (e) => {
+      e.preventDefault();
+      socket.disconnect();
+    });
     socket.on('call', (remotePeerId) => {
       const call = peer.call(remotePeerId, stream);
       calls.push(call);
