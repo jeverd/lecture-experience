@@ -7,10 +7,19 @@
 import Point from '/classes/point.js';
 
 export function getMouseCoordsOnCanvas(e, canvas) {
+  let x; let y;
+  // handle tablet/phone
+  if (e.touches) {
+    x = e.touches[0].clientX;
+    y = e.touches[0].clientY;
+  } else {
+    x = e.clientX;
+    y = e.clientY;
+  }
   const rect = canvas.getBoundingClientRect();
-  const x = Math.round(e.clientX - rect.left);
-  const y = Math.round(e.clientY - rect.top);
-  return new Point(x, y); // (x:x, y:y) previously
+  x = Math.round(x - rect.left);
+  y = Math.round(y - rect.top);
+  return new Point(x, y);
 }
 
 // This will find the distance for the drawing of the circle in the canvas
