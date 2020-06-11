@@ -97,7 +97,8 @@ export default class Whiteboard {
     this.activeTool = TOOL_PENCIL;
     this.lineWidth = 3;
     this.selectedColor = DEFAULT_COLOR;
-    this.canvas.onmousedown = (e) => this.onMouseDown(e);
+    this.canvas.onmousedown = this.onMouseDown.bind(this);
+    this.canvas.ontouchstart = this.onMouseDown.bind(this);
   }
 
   paintWhite() {
@@ -110,8 +111,10 @@ export default class Whiteboard {
 
     this.pushToUndoStack();
 
-    this.canvas.onmousemove = (e) => this.onMouseMove(e);
-    document.onmouseup = (e) => this.onMouseUp(e);
+    this.canvas.onmousemove = this.onMouseMove.bind(this);
+    this.canvas.addEventListener('touchmove', this.onMouseMove.bind(this), false);
+    document.onmouseup = this.onMouseUp.bind(this);
+    document.ontouchend = this.onMouseUp.bind(this);
 
     this.startPos = getMouseCoordsOnCanvas(e, this.canvas); // NaN here
 
@@ -130,6 +133,7 @@ export default class Whiteboard {
   }
 
   onMouseMove(e) {
+    e.preventDefault();
     this.currentPos = getMouseCoordsOnCanvas(e, this.canvas);
 
     // loop for every shape at the user's disposal
@@ -158,7 +162,11 @@ export default class Whiteboard {
     this.canvas.onmousemove = (e) => {
       this.currentPos = getMouseCoordsOnCanvas(e, this.canvas);
     };
+    this.canvas.ontouchmove = (e) => {
+      this.currentPos = getMouseCoordsOnCanvas(e, this.canvas);
+    };
     document.onmouseup = null;
+    document.ontouchend = null;
 
     if (this.tool === TOOL_SELECTAREA) {
       this.context.strokeStyle = this._color;
@@ -283,7 +291,6 @@ export default class Whiteboard {
       default:
         break;
     }
-
     this.context.stroke();
   }
 
