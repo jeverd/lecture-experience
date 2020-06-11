@@ -4,6 +4,7 @@
 /* eslint-disable import/extensions */
 import Whiteboard from './classes/whiteboard.js';
 import initializeToolsMenu from './tools.js';
+import { showInfoMessage } from './utility.js';
 
 window.onload = async () => {
   const peerjsConfig = await fetch('/peerjs/config').then((r) => r.json());
@@ -109,12 +110,7 @@ window.onload = async () => {
         document.body.appendChild(tmpInput);
         tmpInput.select();
         document.execCommand('copy');
-        // eslint-disable-next-line func-names
-        $('#copied-popup').fadeIn(200, function () {
-          setTimeout(() => {
-            $(this).fadeOut(300);
-          }, 2000);
-        });
+        showInfoMessage('Link Copied!');
         document.body.removeChild(tmpInput);
       });
 
