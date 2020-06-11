@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-restricted-properties */
 /* eslint-disable import/extensions */
@@ -22,17 +23,6 @@ export function findDistance(point1, point2) { // coord1 ==> start, coord2 ==> f
   return distance;
 }
 
-export function dragifyImage(imgElem) {
-  imgElem.classList.add('selected-area-img');
-  imgElem.draggable = true;
-  imgElem.oncontextmenu = (ev) => {
-    ev.preventDefault();
-    console.log('I right clicked');
-  };
-  imgElem.ondragstart = (ev) => ev.dataTransfer.setDragImage(ev.target, 10, 10);
-  document.getElementsByTagName('BODY')[0].appendChild(imgElem);
-}
-
 export function getImgElemFromImgData(imgData) {
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
@@ -51,4 +41,14 @@ export function getImgDataFromImgElem(imgElem) {
   canvas.height = imgElem.height;
   context.drawImage(imgElem, 0, 0);
   return context.getImageData(0, 0, imgElem.width, imgElem.height);
+}
+
+export function showInfoMessage(message) {
+  const popupId = '#info-popup';
+  $(popupId).html(message);
+  $(popupId).fadeIn(200, function () {
+    setTimeout(() => {
+      $(this).fadeOut(300);
+    }, 2000);
+  });
 }

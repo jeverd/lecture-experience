@@ -104,7 +104,7 @@ div.messages {
 
 
 
-#copied-popup{
+#info-popup{
   position: absolute;
   transform: translateX(-50%);
   left: 50%;

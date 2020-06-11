@@ -11,8 +11,9 @@ import {
 } from '../tools.js';
 
 import {
-  getMouseCoordsOnCanvas, findDistance, dragifyImage,
+  getMouseCoordsOnCanvas, findDistance,
   getImgElemFromImgData, getImgDataFromImgElem,
+  showInfoMessage,
 } from '../utility.js';
 import Fill from './fill.js';
 import Point from './point.js';
@@ -154,41 +155,45 @@ export default class Whiteboard {
   }
 
   onMouseUp() {
-    this.canvas.onmousemove = null;
+    this.canvas.onmousemove = (e) => {
+      this.currentPos = getMouseCoordsOnCanvas(e, this.canvas);
+    };
     document.onmouseup = null;
 
     if (this.tool === TOOL_SELECTAREA) {
       this.context.strokeStyle = this._color;
       this.context.setLineDash([]);
       this.context.lineWidth = this._lineWidth;
-      if (!this.isSelectionActive) {
-        this.isSelectionActive = true;
-      }
       this.selectionTransformation();
     }
   }
 
-  onDrop(ev) {
-    ev.preventDefault();
-    const img = new Image();
-    img.style.top = `${ev.clientY}px`;
-    img.style.left = `${ev.clientX}px`;
-    img.src = ev.dataTransfer.getData('text/plain');
+  pasteRegion(img, x, y) {
     const imgData = getImgDataFromImgElem(img);
-    this.context.putImageData(imgData, ev.clientX, ev.clientY);
+    this.context.putImageData(imgData, x, y);
     this.removeSelectedRegion();
-    this.selectedRegionActionMap[this.selectionDirection].CLEAR();
-    this.startingPoint = new Point(ev.clientX, ev.clientY);
-    this.endPoint = new Point(ev.clientX + img.width, ev.clientY + img.height);
+    this.startingPoint = new Point(x, y);
+    this.endPoint = new Point(x + img.width, y + img.height);
     this.selectionDirection = 'DOWN_RIGHT';
-    dragifyImage(img);
-    this.isSelectionActive = true;
+    img.style.left = `${x}px`;
+    img.style.top = `${y}px`;
+    this.dragifySelectedRegion(img);
     this.pushToUndoStack();
   }
 
+  onDrop(ev) {
+    ev.preventDefault();
+    if (this.selectionDirection) {
+      const img = new Image();
+      img.src = ev.dataTransfer.getData('text/plain');
+      this.selectedRegionActionMap[this.selectionDirection].CLEAR();
+      this.pasteRegion(img, ev.clientX, ev.clientY);
+    }
+  }
+
   handleShortcutKeys(e) {
-    if (this.isSelectionActive) {
-      this.updateSelectionDirection();
+    this.updateSelectionDirection();
+    if (this.isSelectionActive && this.selectionDirection !== null) {
       if (e.key === 'Backspace' || e.key === 'Delete') {
         this.selectedRegionActionMap[this.selectionDirection].CLEAR();
         this.removeSelectedRegion();
@@ -197,30 +202,41 @@ export default class Whiteboard {
         const imgData = this.selectedRegionActionMap[this.selectionDirection].COPY();
         this.removeSelectedRegion();
         const imgElem = getImgElemFromImgData(imgData);
-        this.startingPoint = new Point(this.canvas.width / 2, this.canvas.height / 2);
+        this.startingPoint = new Point(this.canvas.width / 2 + 100, this.canvas.height / 2 - 50);
         this.endPoint = new Point(this.startingPoint.x + imgElem.width,
           this.startingPoint.y + imgElem.height);
         imgElem.style.left = `${this.startingPoint.x}px`;
         imgElem.style.top = `${this.startingPoint.y}px`;
-        dragifyImage(imgElem);
-        this.isSelectionActive = true;
+        this.dragifySelectedRegion(imgElem);
+        this.context.putImageData(imgData, this.startingPoint.x, this.startingPoint.y);
+      } else if (e.key === 'c' && e.ctrlKey) {
+        this.copiedRegionData = this.selectedRegionActionMap[this.selectionDirection].COPY();
+        showInfoMessage('Copied! Press Ctrl + V to paste');
+      } else if (e.key === 'x' && e.ctrlKey) {
+        this.copiedRegionData = this.selectedRegionActionMap[this.selectionDirection].COPY();
+        this.selectedRegionActionMap[this.selectionDirection].CLEAR();
+        this.removeSelectedRegion();
       }
+    }
+    if (e.key === 'v' && e.ctrlKey && this.copiedRegionData) {
+      const img = getImgElemFromImgData(this.copiedRegionData);
+      this.pasteRegion(img, this.currentPos.x, this.currentPos.y);
     }
   }
 
   selectionTransformation() {
-    if (this.isSelectionActive) {
-      this.isSelectionActive = false;
-      this.undoPaint();
-    }
+    this.undoPaint();
     this.updateSelectionDirection();
-    const imgData = this.selectedRegionActionMap[this.selectionDirection].COPY();
-    const imgElem = getImgElemFromImgData(imgData);
-    const point = this.selectedRegionActionMap[this.selectionDirection].GET_STARTING_POINT();
-    imgElem.style.top = `${point.y}px`;
-    imgElem.style.left = `${point.x}px`;
-    dragifyImage(imgElem);
-    this.isSelectionActive = true;
+    if (this.selectionDirection) {
+      const imgData = this.selectedRegionActionMap[this.selectionDirection].COPY();
+      const imgElem = getImgElemFromImgData(imgData);
+      const point = this.selectedRegionActionMap[this.selectionDirection].GET_STARTING_POINT();
+      imgElem.style.top = `${point.y}px`;
+      imgElem.style.left = `${point.x}px`;
+      this.dragifySelectedRegion(imgElem);
+    } else {
+      this.removeSelectedRegion();
+    }
   }
 
   // shape drawing functions
@@ -307,6 +323,18 @@ export default class Whiteboard {
       elem.parentNode.removeChild(elem);
     });
     this.isSelectionActive = false;
+  }
+
+  dragifySelectedRegion(imgElem) {
+    imgElem.classList.add('selected-area-img');
+    imgElem.draggable = true;
+    imgElem.oncontextmenu = (ev) => {
+      ev.preventDefault();
+      console.log('I right clicked');
+    };
+    imgElem.ondragstart = (ev) => ev.dataTransfer.setDragImage(ev.target, 10, 10);
+    document.getElementsByTagName('BODY')[0].appendChild(imgElem);
+    this.isSelectionActive = true;
   }
 
   updateSelectionDirection() {
