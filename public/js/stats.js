@@ -19,10 +19,13 @@ function getSecondsBetweenTwoTimes(start, end) {
 }
 
 function buildGraph(statsObj) {
+  console.log(statsObj);
   const timeTracks = statsObj.userTracker.map((obj) => obj.time);
   const watchersTracks = statsObj.userTracker.map((obj) => obj.numberOfUser);
   const lectureDurationInSeconds = getSecondsBetweenTwoTimes(new Date(timeTracks[0]),
     new Date(timeTracks[timeTracks.length - 1]));
+
+ console.log(lectureDurationInSeconds);
 
   let graphSize;
 
@@ -49,6 +52,8 @@ function buildGraph(statsObj) {
   const numberOfInputs = Array(graphSize).fill(0);
   const time = Array(timeTracks.length).fill(0);
 
+  console.log(timeIntervalInSeconds);
+
   for (let i = 0; i < timeTracks.length; i++) {
     time[i] = getSecondsBetweenTwoTimes(new Date(timeTracks[0]),
       new Date(timeTracks[i]));
@@ -56,14 +61,20 @@ function buildGraph(statsObj) {
 
   for (let i = 1; i < watchersTracks.length - 1; i++) {
     const index = Math.floor(time[i] / timeIntervalInSeconds);
-
-    if (index <= (i)) {
+    if (watchersTracks[i] === 0) {
       watchers[index] += watchersTracks[i];
-      numberOfInputs[index] += 1;
+    } else {
+      watchers[index] += watchersTracks[i] - 1;
     }
+    // watchers[index] += watchersTracks[i];
+    numberOfInputs[index] += 1;
   }
 
   const averageWatchers = [];
+
+  console.log(averageWatchers);
+
+  console.log(time);
 
   for (let i = 0; i < graphSize; i++) {
     if (watchers[i] === 0) {
@@ -83,6 +94,8 @@ function buildGraph(statsObj) {
   const elem = document.getElementsByClassName('myBar');
 
   const maxStudents = Math.max.apply(null, averageWatchers);
+
+  console.log(averageWatchers);
 
   for (let i = 0; i < graphSize; i++) {
     if (averageWatchers[i] === 0) {
