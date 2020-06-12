@@ -28,10 +28,11 @@ app.post('/create', (req, res) => {
   const managerId = uuidv4();
   logger.info(`POST /create roomId generated: ${roomId}`);
   logger.info(`POST /create managerId generated: ${managerId}`);
-
   const { name, email } = req.body;
-  redisClient.hmset('stats', { [roomId]: JSON.stringify(new Stats()) });
-  redisClient.hmset('rooms', { [roomId]: JSON.stringify(new Room(name, managerId, new Date())) });
+  const newLectureStats = new Stats(name);
+  newLectureStats.addUserTrack(new Date(), 0);
+  redisClient.hmset('stats', { [roomId]: JSON.stringify(newLectureStats) });
+  redisClient.hmset('rooms', { [roomId]: JSON.stringify(new Room(name, managerId)) });
   redisClient.hmset('managers', { [managerId]: JSON.stringify(new Manager(roomId, email)) });
 
   logger.info('POST /create successfully added room and manager id to redis');
@@ -67,6 +68,7 @@ app.get('/lecture/:id', (req, res) => {
 
 app.get('/lecture/stats/:id', (req, res) => {
   const urlId = req.params.id;
+  logger.info(`GET request received: /lecture/stats for lecture id: ${urlId}`);
   const renderNotFound = () => res.status(404).sendFile('error.html', { root: path.join(publicPath) });
   redisClient.hexists('rooms', urlId, (er, roomExist) => {
     if (roomExist) {
@@ -81,7 +83,18 @@ app.get('/lecture/stats/:id', (req, res) => {
       });
     }
   });
-  logger.info(`GET request received: /lecture/stats for lecture id: ${urlId}`);
+});
+
+app.post('/lecture/stats/:id', (req, res) => {
+  const urlId = req.params.id;
+  logger.info(`POST request received: /lecture/stats for lecture id: ${urlId}`);
+  redisClient.hmget('stats', urlId, (err, statsJson) => {
+    if (err === null) {
+      res.send(statsJson.pop());
+    } else {
+      res.status(404);
+    }
+  });
 });
 
 app.get('/peerjs/config', (req, res) => {
