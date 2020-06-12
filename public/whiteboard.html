@@ -29,6 +29,25 @@
       </p>
     <![endif]-->
 
+    <div id="area-selection-menu">
+      <div class="area-selection-menu-row">
+        <span>Copy</span>
+        <span>Ctrl + C</span>
+      </div>
+      <div class="area-selection-menu-row">
+        <span>Cut</span>
+        <span>Ctrl + X</span>
+      </div>
+      <div>
+        <span>Duplicate</span>
+        <span>Ctrl + D</span>
+      </div>
+      <div class="area-selection-menu-row">
+        <span>Delete</span>
+        <span>Backspace</span>
+      </div>
+    </div>
+
     <!--start whiteboard topbar-->
     <div class="classroom-info">
       <div class="classroom-info-flexbox">
@@ -93,15 +112,7 @@
       </div>
     </div>
 
-    <div id="copied-popup">Copied!</div>
-    <!-- <div style="position:absolute;bottom:30px;left:50%;z-index:10;">
-      Chat:
-      <form id="send-container">
-        <input type="text" id="message-input">
-        <button type="submit" id="send-button">Send</button>
-      </form>
-      <div id="message-container"></div>
-    </div> -->
+    <div id="info-popup"></div>
 
     <div class="messages">
       <button type="button" id="toggle-messages" class="collapsible">Messages</button>
@@ -118,8 +129,10 @@
           <!--start show-bar-button-->
     <div class="show-bar-button-container">
       <button class="show-bar-button">
-        <i class="fas fa-level-up-alt"></i></button>
-      </div>
+        <i class="fa fa-bars" aria-hidden="true"></i>
+        <!-- <i class="fas fa-level-up-alt"></i> -->
+      </button>
+    </div>
               <!--end show-bar-button-->
 
 
