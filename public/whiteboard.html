@@ -43,7 +43,11 @@
           ><span class="divider"></span>
         </div>
 
-        <div title="Click to end lecture" id="end-lecture" class="end-lecture-container">
+        <div
+          title="Click to end lecture"
+          id="end-lecture"
+          class="end-lecture-container"
+        >
           <i class="fas fa-sign-out-alt end-lecture-icon"></i>
           &nbsp;
           <span class="end-lecture-text">End Lecture</span>
@@ -52,7 +56,11 @@
 
         <span class="divider"></span>
 
-        <div title="Share lecture link" id="copy-share-link" class="copy-link-container">
+        <div
+          title="Share lecture link"
+          id="copy-share-link"
+          class="copy-link-container"
+        >
           <i class="fas fa-link sharelink-info-icon"></i>
           &nbsp;
           <span class="copy-link-text">Share Link</span>
@@ -62,13 +70,12 @@
         <span class="divider"></span>
 
         <div title="Open Board View" class="my-boards-button-container">
-          <img src="/whiteboard.svg"/>
-            &nbsp;
+          <img src="/whiteboard.svg" />
+          &nbsp;
           <span>My Boards</span>
         </div>
 
         <span class="divider"></span>
-
 
         <div title="Open Chat View" class="chat-button-container">
           <span>
@@ -94,29 +101,28 @@
             <i class="fas fa-level-up-alt"></i>
           </button>
         </div>
-
       </div>
     </div>
 
     <div id="copied-popup">Copied!</div>
-    <div style="position:absolute;bottom:30px;left:50%;z-index:10;">
+    <div style="position: absolute; bottom: 30px; left: 50%; z-index: 10;">
       Chat:
       <form id="send-container">
-        <input type="text" id="message-input">
+        <input type="text" id="message-input" />
         <button type="submit" id="send-button">Send</button>
       </form>
       <div id="message-container"></div>
     </div>
 
-       <!--end whiteboard topbar-->
+    <!--end whiteboard topbar-->
 
-          <!--start show-bar-button-->
+    <!--start show-bar-button-->
     <div class="show-bar-button-container">
       <button class="show-bar-button">
-        <i class="fas fa-level-up-alt"></i></button>
-      </div>
-              <!--end show-bar-button-->
-
+        <i class="fas fa-level-up-alt"></i>
+      </button>
+    </div>
+    <!--end show-bar-button-->
 
     <canvas id="canvas"> </canvas>
 
@@ -148,7 +154,7 @@
           <div class="item" data-tool="select-area" title="Select Area">
             <li class="left-bar-item">
               <a class="left-bar-link">
-                <img class="menu-select-svg" src="/area.svg"/>
+                <img class="menu-select-svg" src="/area.svg" />
               </a>
             </li>
           </div>
@@ -162,14 +168,14 @@
           <div class="item" data-main="thickness" title="Stroke Thickness">
             <li class="left-bar-item">
               <a class="left-bar-link">
-                <img class="menu-thickness-svg" src="/width.svg"/>
+                <img class="menu-thickness-svg" src="/width.svg" />
               </a>
             </li>
           </div>
           <div class="item" data-main="shapes" title="Shapes">
             <li class="left-bar-item">
               <a class="left-bar-link">
-                <img class="menu-shapes-svg" src="/shape.svg"/>
+                <img class="menu-shapes-svg" src="/shape.svg" />
               </a>
             </li>
           </div>
@@ -185,25 +191,25 @@
               <div class="black"></div>
             </a>
           </li>
-  
+
           <li data-color="#ff4136" class="right-bar-item">
             <a class="right-bar-link">
               <div class="red"></div>
             </a>
           </li>
-  
+
           <li data-color="#0074d9" class="right-bar-item">
             <a class="right-bar-link">
               <div class="blue"></div>
             </a>
           </li>
-  
+
           <li data-color="#01ff70" class="right-bar-item">
             <a class="right-bar-link">
               <div class="lime"></div>
             </a>
           </li>
-  
+
           <li data-color="#b10dc9" class="right-bar-item">
             <a class="right-bar-link">
               <div class="purple"></div>
@@ -220,7 +226,7 @@
           <div class="item active" data-line-width="1" title="3 Pixel">
             <li class="left-bar-item">
               <a class="left-bar-link">
-                <div class="linewidth" style="width: 3px;height: 3px"></div>
+                <div class="linewidth" style="width: 3px; height: 3px;"></div>
               </a>
             </li>
           </div>
@@ -228,7 +234,7 @@
           <div class="item" data-line-width="3" title="6 Pixel">
             <li class="left-bar-item">
               <a class="left-bar-link">
-                <div class="linewidth" style="width: 6px;height: 6px"></div>
+                <div class="linewidth" style="width: 6px; height: 6px;"></div>
               </a>
             </li>
           </div>
@@ -236,7 +242,7 @@
           <div class="item" data-line-width="6" title="9 Pixel">
             <li class="left-bar-item">
               <a class="left-bar-link">
-                <div class="linewidth" style="width: 9px;height: 9px"></div>
+                <div class="linewidth" style="width: 9px; height: 9px;"></div>
               </a>
             </li>
           </div>
@@ -244,7 +250,7 @@
           <div class="item" data-line-width="9" title="12 Pixel">
             <li class="left-bar-item">
               <a class="left-bar-link">
-                <div class="linewidth" style="width: 12px;height: 12px"></div>
+                <div class="linewidth" style="width: 12px; height: 12px;"></div>
               </a>
             </li>
           </div>
@@ -252,53 +258,53 @@
           <div class="item" data-line-width="12" title="15 Pixel">
             <li class="left-bar-item">
               <a class="left-bar-link">
-                <div class="linewidth" style="width: 15px;height: 15px"></div>
+                <div class="linewidth" style="width: 15px; height: 15px;"></div>
               </a>
             </li>
           </div>
-      </div>
-
-       <!--start whiteboard draw tools-->
-       <div id="right-bar-shapes" class="group shapes">
-        <li class="left-bar-item back-to-tool-menu">
-          <a class="left-bar-link">
-            <i class="fas fa-arrow-left"></i>
-          </a>
-        </li>
-        <div class="item active" data-tool="line" title="Line Tool">
-          <li class="left-bar-item">
-            <a class="left-bar-link-svg">
-              <img src="/dash.svg"/>
-              <!-- <i class="fas fa-grip-lines"></i> -->
-            </a>
-          </li>
         </div>
 
-        <div class="item" data-tool="circle" title="Circle Tool">
-          <li class="left-bar-item">
+        <!--start whiteboard draw tools-->
+        <div id="right-bar-shapes" class="group shapes">
+          <li class="left-bar-item back-to-tool-menu">
             <a class="left-bar-link">
-              <i class="far fa-circle"></i>
+              <i class="fas fa-arrow-left"></i>
             </a>
           </li>
-        </div>
+          <div class="item active" data-tool="line" title="Line Tool">
+            <li class="left-bar-item">
+              <a class="left-bar-link-svg">
+                <img src="/dash.svg" />
+                <!-- <i class="fas fa-grip-lines"></i> -->
+              </a>
+            </li>
+          </div>
 
-        <div class="item" data-tool="square" title="Square Tool">
-          <li class="left-bar-item">
-            <a class="left-bar-link">
-              <i class="far fa-square"></i>
-            </a>
-          </li>
-        </div>
+          <div class="item" data-tool="circle" title="Circle Tool">
+            <li class="left-bar-item">
+              <a class="left-bar-link">
+                <i class="far fa-circle"></i>
+              </a>
+            </li>
+          </div>
 
-        <div class="item" data-tool="triangle" title="Triangle Tool">
-          <li class="left-bar-item">
-            <a class="left-bar-link">
-              <img src="/triangle.svg"/>
-            </a>
-          </li>
+          <div class="item" data-tool="square" title="Square Tool">
+            <li class="left-bar-item">
+              <a class="left-bar-link">
+                <i class="far fa-square"></i>
+              </a>
+            </li>
+          </div>
+
+          <div class="item" data-tool="triangle" title="Triangle Tool">
+            <li class="left-bar-item">
+              <a class="left-bar-link">
+                <img src="/triangle.svg" />
+              </a>
+            </li>
+          </div>
         </div>
-    </div>
-            <!--end whiteboard draw tools-->
+        <!--end whiteboard draw tools-->
 
         <!-- <li class="nav-item" id="themeButton"> shifts last child to bottom of side bar
               <a href="#" class="nav-link">
@@ -310,7 +316,9 @@
       </ul>
     </nav>
 
-    <button title="Tools" class="hide-options-right"><i class="fas fa-palette"></i></button>
+    <button title="Tools" class="hide-options-right">
+      <i class="fas fa-palette"></i>
+    </button>
 
     <!--end right sidebar-->
 
@@ -359,8 +367,7 @@
             </li>
           </div>
 
-
-        <!-- <div class="group linewidths for-brush" style="display: none;">
+          <!-- <div class="group linewidths for-brush" style="display: none;">
 
             <div class="item active" data-brush-size="4" title="4 Pixel">
               <li class="left-bar-item">
@@ -405,38 +412,186 @@
     <button class="hide-options-left"><i class="fas fa-info"></i></button>
     <div class="group swatches" id="pagelist"></div>
 
-        <!--end right sidebar-->
+    <!--end left sidebar-->
 
-    <div class="group swatches" id="pagelist"> </div>
+    <!--start canvas image toggle bar-->
+
+    <nav class="canvas-toggle-bar">
+      <ul class="canvas-toggle-nav">
+        <!--group commands-->
+        <div
+          class="item"
+          data-command="undo"
+          title="Undo"
+          id="canvas-toggle-left"
+        >
+          <li class="canvas-toggle-item">
+            <a href="#" class="canvas-toggle-link" id="canvas-toggle-link-left">
+              <i class="fas fa-long-arrow-alt-left"></i>
+            </a>
+          </li>
+        </div>
+
+        <div class="group swatches" id="pagelist"></div>
+
+        <div class="item" data-command="save" title="Save">
+          <li class="canvas-toggle-item">
+            <a href="#" class="canvas-toggle-link">
+              <img
+                class="canvas-image-preview"
+                src="https://dataliteframes.co.uk/panel-white-red-674x432.gif"
+                id="img-display-1"
+              />
+            </a>
+          </li>
+        </div>
+        <div class="item" data-command="add-page" title="Add Page">
+          <li class="canvas-toggle-item">
+            <a href="#" class="canvas-toggle-link">
+              <img
+                class="canvas-image-preview"
+                src="https://dataliteframes.co.uk/panel-white-red-674x432.gif"
+                id="img-display-2"
+              />
+            </a>
+          </li>
+        </div>
+        <div
+          class="item"
+          data-command="undo"
+          title="Undo"
+          id="canvas-toggle-right"
+        >
+          <li class="canvas-toggle-item">
+            <a
+              href="#"
+              class="canvas-toggle-link"
+              id="canvas-toggle-link-right"
+            >
+              <i class="fas fa-long-arrow-alt-right"></i>
+            </a>
+          </li>
+        </div>
+      </ul>
+    </nav>
+
+    <!--end canvas image toggle bar-->
+    <!-- Start Modal -->
+    <div id="myModal" class="modal">
+      <!-- Start Modal content -->
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <p id="modal-content-header">Canvas Preview</p>
+        <img id="modal-image" />
+        <div id="modal-buttons-container">
+          <button id="modal-close-button">Close</button>
+          <button id="modal-select-button">Select</button>
+        </div>
+      </div>
+      <!-- End Modal content -->
+    </div>
+    <!-- End Modal -->
+
+    <div class="group swatches" id="pagelist">
+      <div class="item">
+        <div class="swatch">
+          <div data-page="page">
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Pittsburgh_toilet.jpg/1200px-Pittsburgh_toilet.jpg"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="swatch">
+          <div data-page="page">
+            <img src="https://i.stack.imgur.com/KagOh.png" />
+          </div>
+        </div>
+      </div>
+      <!-- <div class="item">
+        <div class="swatch">
+          <div data-page="page">
+            <img
+              src="https://thumbs.dreamstime.com/b/asian-big-fat-guy-wearing-t-shirt-color-pants-122386588.jpg"
+            />
+          </div>
+        </div>
+      </div> -->
+      <div class="item">
+        <div class="swatch">
+          <div data-page="page">
+            <img
+              src="https://css-tricks.com/wp-content/uploads/2016/11/basic-idea.jpg"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="swatch">
+          <div data-page="page">
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Pittsburgh_toilet.jpg/1200px-Pittsburgh_toilet.jpg"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="swatch">
+          <div data-page="page">
+            <img
+              src="https://thumbs.dreamstime.com/b/asian-big-fat-guy-wearing-t-shirt-color-pants-122386588.jpg"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="swatch">
+          <div data-page="page">
+            <img
+              src="https://thumbs.dreamstime.com/b/asian-big-fat-guy-wearing-t-shirt-color-pants-122386588.jpg"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script src="https://unpkg.com/peerjs@1.2.0/dist/peerjs.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/whiteboard.js" type="module"></script>
+    <script defer src="/canvasList.js"></script>
     <!--start jquery tobpar toggle animations-->
     <script>
       $(document).ready(function () {
         //loads after html
-        $(".hide-options-right").click(function () {
-          $(".right-bar").fadeToggle();
+        $('.hide-options-right').click(function () {
+          $('.right-bar').fadeToggle();
         });
 
-        $(".hide-options-left").click(function () {
-          $(".left-bar").fadeToggle();
+        $('.hide-options-left').click(function () {
+          $('.left-bar').fadeToggle();
         });
 
-        $(".hide-bar-button").click(function () {
-          $(".classroom-info-flexbox").fadeToggle(500);
-          $(".show-bar-button-container").delay(500).fadeToggle();
+        $('.my-boards-button-container').click(function () {
+          $('.canvas-toggle-bar').fadeToggle();
         });
 
-        $(".show-bar-button").click(function () {
-          $(".show-bar-button-container").fadeToggle();
-          $(".classroom-info-flexbox").delay().fadeToggle();
+        $('.hide-bar-button').click(function () {
+          $('.classroom-info-flexbox').fadeToggle(500);
+          $('.show-bar-button-container').delay(500).fadeToggle();
+        });
+
+        $('.show-bar-button').click(function () {
+          $('.show-bar-button-container').fadeToggle();
+          $('.classroom-info-flexbox').delay().fadeToggle();
+        });
+
+        $('#yeet').click(function () {
+          myFunction();
         });
       });
     </script>
-        <!--end jquery tobpar toggle animations-->
+    <!--end jquery tobpar toggle animations-->
   </body>
-
 </html>
