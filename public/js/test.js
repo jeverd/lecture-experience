@@ -1,4 +1,14 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
 var path;
+
+var rect = new Path.Rectangle({
+  point: [0, 0],
+  size: [view.size.width, view.size.height],
+  strokeColor: 'white',
+});
+rect.fillColor = 'white';
+rect.sendToBack();
 
 function onMouseDown(event) {
   // If we produced a path before, deselect it:
@@ -9,9 +19,9 @@ function onMouseDown(event) {
   // Create a new path and set its stroke color to black:
   path = new Path({
     segments: [event.point],
-    strokeColor: 'black',
+    strokeColor: 'red',
     strokeCap: 'round',
-    strokeWidth: 15,
+    strokeWidth: 5,
   });
 }
 
@@ -23,6 +33,7 @@ function onMouseDrag(event) {
 
 // When the mouse is released, we simplify the path:
 function onMouseUp(event) {
+  // project.clear();
   // When the mouse is released, simplify it:
   path.simplify(10);
 }

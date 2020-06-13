@@ -33,7 +33,7 @@ window.onload = async () => {
   });
 
   function startLecture(stream) {
-    const whiteboard = new Whiteboard('canvas');
+    const whiteboard = new Whiteboard('whiteboard');
 
     function handleWindowResize() {
       let timeout;
@@ -60,7 +60,6 @@ window.onload = async () => {
     }
 
     handleWindowResize();
-
     stream.addTrack(whiteboard.getStream().getTracks()[0]);
     const socket = io('/', { query: `id=${managerId}` });
     $(window).on('beforeunload', (e) => {
