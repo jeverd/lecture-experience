@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Mulitple Tools</title>
+<style>
+  html,
+  body {
+      margin: 0;
+      overflow: hidden;
+      height: 100%;
+  }
+
+  /* Scale canvas with resize attribute to full size */
+  canvas[resize] {
+      width: 100%;
+      height: 100%;
+  }
+</style>
+<script type="text/javascript" src="/paper/paper-full.js"></script>
+<script src="test.js" type="text/paperscript" canvas="canvas"></script>
+</head>
+<body>
+    <a href="#" onclick="app.tool1.activate(); return false;">Lines</a>
+    <a href="#" onclick="app.tool2.activate(); return false;">Clouds</a>
+    <canvas id="canvas" resize></canvas>
+</body>
+</html>
