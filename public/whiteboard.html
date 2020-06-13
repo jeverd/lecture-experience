@@ -20,7 +20,6 @@
       crossorigin="anonymous"
     />
     <script type="text/javascript" src="/paper/paper-full.js"></script>
-    <script src="/test.js" type="text/paperscript" canvas="whiteboard"></script>
   </head>
 
   <body style="background-color: #ffffff;">
@@ -237,42 +236,42 @@
               <i class="fas fa-arrow-left"></i>
             </a>
           </li>
-          <div class="item" data-line-width="1" title="3 Pixel">
+          <div class="item" data-line-width="2" title="2 Pixel">
             <li class="left-bar-item">
               <a class="left-bar-link">
-                <div class="linewidth" style="width: 3px;height: 3px"></div>
+                <div class="linewidth" style="width: 2px;height: 2px"></div>
               </a>
             </li>
           </div>
 
-          <div class="item" data-line-width="3" title="6 Pixel">
+          <div class="item" data-line-width="4" title="4 Pixel">
             <li class="left-bar-item">
               <a class="left-bar-link tool-active">
+                <div class="linewidth" style="width: 4px;height: 4px"></div>
+              </a>
+            </li>
+          </div>
+
+          <div class="item" data-line-width="6" title="6 Pixel">
+            <li class="left-bar-item">
+              <a class="left-bar-link">
                 <div class="linewidth" style="width: 6px;height: 6px"></div>
               </a>
             </li>
           </div>
 
-          <div class="item" data-line-width="6" title="9 Pixel">
+          <div class="item" data-line-width="8" title="8 Pixel">
             <li class="left-bar-item">
               <a class="left-bar-link">
-                <div class="linewidth" style="width: 9px;height: 9px"></div>
+                <div class="linewidth" style="width: 8px;height: 8px"></div>
               </a>
             </li>
           </div>
 
-          <div class="item" data-line-width="9" title="12 Pixel">
+          <div class="item" data-line-width="10" title="10 Pixel">
             <li class="left-bar-item">
               <a class="left-bar-link">
-                <div class="linewidth" style="width: 12px;height: 12px"></div>
-              </a>
-            </li>
-          </div>
-
-          <div class="item" data-line-width="12" title="15 Pixel">
-            <li class="left-bar-item">
-              <a class="left-bar-link">
-                <div class="linewidth" style="width: 15px;height: 15px"></div>
+                <div class="linewidth" style="width: 10px;height: 10px"></div>
               </a>
             </li>
           </div>
@@ -302,7 +301,7 @@
           </li>
         </div>
 
-        <div class="item" data-tool="square" title="Square Tool">
+        <div class="item" data-tool="rectangle" title="Rectangle Tool">
           <li class="left-bar-item">
             <a class="left-bar-link">
               <i class="far fa-square"></i>
@@ -393,6 +392,10 @@
     <script src="https://unpkg.com/peerjs@1.2.0/dist/peerjs.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/whiteboard.js" type="module"></script>
+    <script>
+      var activeColor = '#424242'; var activeWidth = 4;
+    </script>
+    <script src="/test.js" type="text/paperscript" canvas="whiteboard"></script>
     <!--start jquery tobpar toggle animations-->
     <script>
       $(document).ready(function () {
