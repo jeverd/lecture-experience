@@ -1,5 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 const express = require('express');
+const path = require('path');
 const helmet = require('helmet');
 const { ExpressPeerServer } = require('peer');
 const redis = require('redis');
@@ -26,6 +27,7 @@ const peerServer = ExpressPeerServer(expressServer);
 
 
 app.use('/peerjs', peerServer);
+app.use('/paper', express.static(path.join(__dirname, '../node_modules/paper/dist')));
 app.use(express.static('public/js'));
 app.use(express.static('public/css'));
 app.use(express.static('public/images'));

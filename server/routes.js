@@ -17,6 +17,10 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(publicPath, 'index.html'));
 });
 
+app.get('/test', (req, res) => {
+  res.sendFile(path.join(publicPath, 'test.html'));
+});
+
 app.get('/create', (req, res) => {
   res.sendFile('create.html', { root: path.join(publicPath) });
 });
@@ -95,6 +99,6 @@ app.get('/peerjs/config', (req, res) => {
   res.send(JSON.stringify(peerjsConfig));
 });
 
-app.get('*', (req, res) => {
-  res.sendFile('/', { root: path.join(publicPath) });
-});
+// app.get('*', (req, res) => {
+//   res.sendFile('/', { root: path.join(publicPath) });
+// });
