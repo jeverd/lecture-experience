@@ -2,8 +2,8 @@
 /* eslint-disable no-fallthrough */
 /* eslint-disable no-undef */
 /* eslint-disable import/extensions */
-import Whiteboard from './classes/whiteboard.js';
-import initializeToolsMenu from './tools.js';
+import Whiteboard from './classes/Whiteboard.js';
+import initializeToolsMenu from './toolsMenu.js';
 import { showInfoMessage } from './utility.js';
 
 window.onload = async () => {
@@ -26,10 +26,10 @@ window.onload = async () => {
 
     getUserMedia({ audio: true })
       .then(startLecture)
-      .catch((error) => {
-        // handle error properly here.
-        console.log(`Media error: ${error}`);
-      });
+      // .catch((error) => {
+      //   // handle error properly here.
+      //   console.log(`Media error: ${error}`);
+      // });
   });
 
   function startLecture(stream) {
@@ -37,25 +37,12 @@ window.onload = async () => {
 
     function handleWindowResize() {
       let timeout;
-      let isStartingToResize = true;
-      const inMemCanvas = document.createElement('canvas');
-      const inMemCtx = inMemCanvas.getContext('2d');
       const onResizeDone = () => {
-        whiteboard.canvas.height = window.innerHeight;
-        whiteboard.canvas.width = window.innerWidth;
         whiteboard.paintWhite();
-        whiteboard.setCurrentBoard(inMemCanvas);
-        isStartingToResize = true;
       };
       $(window).on('resize', () => {
-        if (isStartingToResize) {
-          inMemCanvas.width = whiteboard.canvas.width;
-          inMemCanvas.height = whiteboard.canvas.height;
-          inMemCtx.drawImage(whiteboard.canvas, 0, 0);
-          isStartingToResize = false;
-        }
         clearTimeout(timeout);
-        timeout = setTimeout(onResizeDone, 100);
+        timeout = setTimeout(onResizeDone, 20);
       });
     }
 

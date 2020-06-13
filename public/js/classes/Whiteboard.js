@@ -8,15 +8,16 @@ import {
   TOOL_CIRCLE, TOOL_LINE,
   TOOL_ERASER, TOOL_PAINT_BUCKET, TOOL_PENCIL,
   TOOL_SQUARE, TOOL_TRIANGLE, TOOL_SELECTAREA,
-} from '../tools.js';
+} from '../toolsMenu.js';
 
 import {
   getMouseCoordsOnCanvas, findDistance,
   getImgElemFromImgData, getImgDataFromImgElem,
   showInfoMessage,
 } from '../utility.js';
-import Fill from './fill.js';
-import Point from './point.js';
+import Fill from './Fill.js';
+import Point from './Point.js';
+import Tools from './Tools.js';
 
 const DEFAULT_COLOR = '#424242';
 
@@ -27,6 +28,7 @@ export default class Whiteboard {
     this.canvas.width = window.innerWidth;
     this.context = this.canvas.getContext('2d');
     this.canvas.style.cursor = 'crosshair';
+    this.tools = new Tools();
     this.currentBoard = 0;
     this.paintWhite();
     this.boards = [];
@@ -97,13 +99,15 @@ export default class Whiteboard {
     // this.activeTool = TOOL_PENCIL;
     // this.lineWidth = 3;
     // this.selectedColor = DEFAULT_COLOR;
-    // this.canvas.onmousedown = this.onMouseDown.bind(this);
-    // this.canvas.ontouchstart = this.onMouseDown.bind(this);
+    this.canvas.onmousedown = this.onMouseDown.bind(this);
+    this.canvas.ontouchstart = this.onMouseDown.bind(this);
+    // window.app.tools.pencil.activate();
   }
 
   paintWhite() {
-    this.context.fillStyle = 'white';
-    this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    // this.context.fillStyle = 'white';
+    // this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    window.app.paintBackgroundWhite();
   }
 
   onMouseDown(e) {
@@ -111,25 +115,25 @@ export default class Whiteboard {
 
     this.pushToUndoStack();
 
-    this.canvas.onmousemove = this.onMouseMove.bind(this);
-    this.canvas.addEventListener('touchmove', this.onMouseMove.bind(this), false);
-    document.onmouseup = this.onMouseUp.bind(this);
-    document.ontouchend = this.onMouseUp.bind(this);
+    // this.canvas.onmousemove = this.onMouseMove.bind(this);
+    // this.canvas.addEventListener('touchmove', this.onMouseMove.bind(this), false);
+    // document.onmouseup = this.onMouseUp.bind(this);
+    // document.ontouchend = this.onMouseUp.bind(this);
 
     this.startPos = getMouseCoordsOnCanvas(e, this.canvas); // NaN here
 
-    switch (this.tool) {
-      case TOOL_PENCIL:
-        // begin path again and again for good quality
-        this.context.beginPath();
-        this.context.moveTo(this.startPos.x, this.startPos.y);
-        break;
-      case TOOL_PAINT_BUCKET:
-        // in this case, we will implement the flood fill algorithm
-        new Fill(this.canvas, this.startPos, this._color);
-        break;
-      default: break;
-    }
+    // switch (this.tool) {
+    //   case TOOL_PENCIL:
+    //     // begin path again and again for good quality
+    //     this.context.beginPath();
+    //     this.context.moveTo(this.startPos.x, this.startPos.y);
+    //     break;
+    //   case TOOL_PAINT_BUCKET:
+    //     // in this case, we will implement the flood fill algorithm
+    //     new Fill(this.canvas, this.startPos, this._color);
+    //     break;
+    //   default: break;
+    // }
   }
 
   onMouseMove(e) {
@@ -304,7 +308,10 @@ export default class Whiteboard {
     this.removeSelectedRegion();
     this.isSelectionActive = false;
     if (this.undoStack.length > 0) {
-      this.context.putImageData(this.undoStack.pop(), 0, 0);
+      // this.context.putImageData(this.undoStack.pop(), 0, 0);
+      const imgData = this.undoStack.pop();
+      const imgElem = getImgElemFromImgData(imgData);
+      window.app.setBackground(imgElem.src);
     }
   }
 
