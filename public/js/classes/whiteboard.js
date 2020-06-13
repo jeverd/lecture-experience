@@ -94,11 +94,11 @@ export default class Whiteboard {
   }
 
   initialize() {
-    this.activeTool = TOOL_PENCIL;
-    this.lineWidth = 3;
-    this.selectedColor = DEFAULT_COLOR;
-    this.canvas.onmousedown = this.onMouseDown.bind(this);
-    this.canvas.ontouchstart = this.onMouseDown.bind(this);
+    // this.activeTool = TOOL_PENCIL;
+    // this.lineWidth = 3;
+    // this.selectedColor = DEFAULT_COLOR;
+    // this.canvas.onmousedown = this.onMouseDown.bind(this);
+    // this.canvas.ontouchstart = this.onMouseDown.bind(this);
   }
 
   paintWhite() {
