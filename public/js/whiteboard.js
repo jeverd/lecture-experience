@@ -5,7 +5,7 @@
 import Whiteboard from './classes/whiteboard.js';
 import initializeToolsMenu from './tools.js';
 import initializeCanvasTopMenu from './canvasTopMenu.js';
-import { showInfoMessage, handleBoardsViewButtonsDisplay, createBadgeElem } from './utility.js';
+import { showInfoMessage, handleBoardsViewButtonsDisplay, updateBoardsBadge } from './utility.js';
 
 window.onload = async () => {
   const peerjsConfig = await fetch('/peerjs/config').then((r) => r.json());
@@ -237,6 +237,7 @@ window.onload = async () => {
                 $('.canvas-toggle-bar').hide();
               }
               handleBoardsViewButtonsDisplay();
+              updateBoardsBadge();
               emitBoards();
               break;
             case 'clear-page':
@@ -286,7 +287,9 @@ window.onload = async () => {
       outer.appendChild(inner);
       const pageList = document.getElementById('pagelist');
       pageList.appendChild(outer);
-      inner.appendChild(createBadgeElem($(outer).index() + 1));
+      const boardBadge = document.createElement('div');
+      boardBadge.classList.add('board-badge');
+      inner.appendChild(boardBadge);
       whiteboard.boards[whiteboard.boards.length] = img;
       newBoardImg.addEventListener('click', onClickNonActiveBoardElem.bind(outer));
       if (isActive) {
@@ -298,8 +301,11 @@ window.onload = async () => {
           socket.emit('currentBoardToAll', img);
         }, 0);
       }
-
-      handleBoardsViewButtonsDisplay();
+      // must defer this for DOM to have time to update
+      setTimeout(() => {
+        updateBoardsBadge();
+        handleBoardsViewButtonsDisplay();
+      }, 0);
     }
 
     function emitBoards() {

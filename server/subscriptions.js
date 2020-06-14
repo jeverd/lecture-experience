@@ -25,7 +25,9 @@ function updateNumOfStudents(room) {
 }
 
 function call(room, managerSocketId, peerId) {
-  io.in(room).connected[managerSocketId].emit('call', peerId);
+  if (managerSocketId in io.in(room).connected) {
+    io.in(room).connected[managerSocketId].emit('call', peerId);
+  }
 }
 
 io.sockets.on('connection', (socket) => {
@@ -76,7 +78,7 @@ io.sockets.on('connection', (socket) => {
               if (roomToJoin in io.sockets.adapter.rooms) {
                 const connectedSockets = io.sockets.adapter.rooms[roomToJoin].sockets;
                 Object.keys(connectedSockets).forEach((cliId) => {
-                  if (cliId !== socket.id) {
+                  if (cliId !== socket.id && cliId in io.in(roomToJoin).connected) {
                     io.in(roomToJoin).connected[cliId].disconnect();
                   }
                 });

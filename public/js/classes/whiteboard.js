@@ -136,6 +136,9 @@ export default class Whiteboard {
   onMouseMove(e) {
     e.preventDefault();
     this.currentPos = getMouseCoordsOnCanvas(e, this.canvas);
+    if (this.tool !== TOOL_SELECTAREA) {
+      this.redoStack = [];
+    }
 
     // loop for every shape at the user's disposal
     switch (this.tool) {
@@ -193,6 +196,7 @@ export default class Whiteboard {
   onDrop(ev) {
     ev.preventDefault();
     if (this.selectionDirection) {
+      this.redoStack = [];
       const img = new Image();
       img.src = ev.dataTransfer.getData('text/plain');
       this.selectedRegionActionMap[this.selectionDirection].CLEAR();
@@ -220,7 +224,7 @@ export default class Whiteboard {
         this.context.putImageData(imgData, this.startingPoint.x, this.startingPoint.y);
       } else if (e.key === 'c' && e.ctrlKey) {
         this.copiedRegionData = this.selectedRegionActionMap[this.selectionDirection].COPY();
-        showInfoMessage('Copied! Press Ctrl + V to paste');
+        showInfoMessage('Copied! Press Ctrl + V to paste.');
       } else if (e.key === 'x' && e.ctrlKey) {
         this.copiedRegionData = this.selectedRegionActionMap[this.selectionDirection].COPY();
         this.selectedRegionActionMap[this.selectionDirection].CLEAR();
@@ -230,6 +234,10 @@ export default class Whiteboard {
     if (e.key === 'v' && e.ctrlKey && this.copiedRegionData) {
       const img = getImgElemFromImgData(this.copiedRegionData);
       this.pasteRegion(img, this.currentPos.x, this.currentPos.y);
+    } else if (e.key === 'z' && e.ctrlKey) {
+      this.undoPaint();
+    } else if (e.key === 'y' && e.ctrlKey) {
+      this.redoPaint();
     }
   }
 
@@ -308,15 +316,19 @@ export default class Whiteboard {
     if (this.undoStack.length > 0) {
       this.redoStack.push(currentBoard);
       this.context.putImageData(this.undoStack.pop(), 0, 0);
+    } else {
+      showInfoMessage('Nothing to redo.');
     }
   }
 
   redoPaint() {
-    this.removeSelectedRegion();
-    const currentBoard = this.context.getImageData(0, 0, this.canvas.width, this.canvas.height);
     if (this.redoStack.length > 0) {
+      this.removeSelectedRegion();
+      const currentBoard = this.context.getImageData(0, 0, this.canvas.width, this.canvas.height);
       this.undoStack.push(currentBoard);
       this.context.putImageData(this.redoStack.pop(), 0, 0);
+    } else {
+      showInfoMessage('Nothing to undo.');
     }
   }
 
