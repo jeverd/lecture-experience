@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/lecture.css">
     <title>Document</title>
 </head>
 
@@ -15,11 +16,14 @@
         <div id="non-active-boards"></div>
     </div>
 
-    <div id="message-container">
-        <form id="send-container">
-            <input type="text" id="message-input">
-            <button type="submit" id="send-button">Send</button>
-        </form>
+    <div class="spectator-messages">
+        <button type="button" id="toggle-messages" class="collapsible">Messages</button>
+        <div class="spectator-message-container" id="message-container">Welcome to Liteboard!</div>
+            <form id="send-container">
+                <input type="text" id="message-input">
+                <input type="file" id="file-input" name="img" accept="image/*">
+                <button type="submit" id="send-button">Send</button>
+            </form>
     </div>
     <div id="test">
     </div>

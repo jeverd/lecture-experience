@@ -14,8 +14,10 @@ function updateNumOfStudents(room) {
     const numOfStudents = clients.length + (room in roomsTimeout ? 0 : -1);
     io.in(room).emit('updateNumOfStudents', numOfStudents);
     redisClient.hmget('stats', room, (error, stats) => {
-      const { userTracker, maxNumOfUsers, numOfBoards } = JSON.parse(stats);
-      const updatedStat = new Stats(userTracker, maxNumOfUsers, numOfBoards);
+      const {
+        lectureName, userTracker, maxNumOfUsers, numOfBoards,
+      } = JSON.parse(stats);
+      const updatedStat = new Stats(lectureName, userTracker, maxNumOfUsers, numOfBoards);
       updatedStat.addUserTrack(new Date(), clients.length);
       redisClient.hmset('stats', { [room]: JSON.stringify(updatedStat) });
     });
@@ -28,6 +30,14 @@ function call(room, managerSocketId, peerId) {
 
 io.sockets.on('connection', (socket) => {
   const urlUuid = socket.handshake.query.id;
+  socket.handshake.session.inRoom = true;
+  socket.handshake.session.save();
+  const deletedSession = () => {
+    if (socket.handshake.session.inRoom) {
+      delete socket.handshake.session.inRoom;
+      socket.handshake.session.save();
+    }
+  };
   redisClient.hmget('managers', urlUuid, (error, manager) => {
     if (error) {
       logger.warn(`SOCKET: ON CONNECTION: attempting to get managers from redis- failed, socket_id: ${socket.id} emitting dbError now`);
@@ -62,22 +72,26 @@ io.sockets.on('connection', (socket) => {
             socket.leave(roomToJoin, () => {
               // Call this just to get last piece of stats about this lecture.
               updateNumOfStudents(roomToJoin);
-            });
-          });
-          logger.info(`SOCKET: Successfully deleted room from redis, room_id: ${roomToJoin}`);
-          if (roomToJoin in io.sockets.adapter.rooms) {
-            const connectedSockets = io.sockets.adapter.rooms[roomToJoin].sockets;
-            Object.keys(connectedSockets).forEach((cliId) => {
-              if (cliId !== socket.id) {
-                io.in(roomToJoin).connected[cliId].disconnect();
+              logger.info(`SOCKET: Successfully deleted room from redis, room_id: ${roomToJoin}`);
+              if (roomToJoin in io.sockets.adapter.rooms) {
+                const connectedSockets = io.sockets.adapter.rooms[roomToJoin].sockets;
+                Object.keys(connectedSockets).forEach((cliId) => {
+                  if (cliId !== socket.id) {
+                    io.in(roomToJoin).connected[cliId].disconnect();
+                  }
+                });
               }
             });
-          }
+          });
         });
       }
       socket.on('disconnect', () => {
+        deletedSession();
+      });
+      socket.on('disconnecting', () => {
         logger.info(`SOCKET: Manager of room ${roomToJoin} disconnected`);
         managerObj.sockedId = null;
+        deletedSession();
         redisClient.hmset('managers', {
           [urlUuid]: JSON.stringify(managerObj),
         });
@@ -87,7 +101,11 @@ io.sockets.on('connection', (socket) => {
             // Terminate lecture if manager is away for 15 minutes.
             roomsTimeout[roomToJoin] = setTimeout(() => {
               const { email } = managerObj;
-              sendManagerDisconnectEmail(email, urlUuid);
+              if (email !== '') {
+                sendManagerDisconnectEmail(email, urlUuid);
+              } else {
+                logger.info(`EMAIL: Not sending email to manager of room ${roomToJoin} as no email was provided`);
+              }
               roomsTimeout[roomToJoin] = setTimeout(terminateLecture, 15 * 60 * 1000);
             }, 1000 * 60 * 3);
             logger.info(`SOCKET: Timeout on room ${roomToJoin} started`);
@@ -115,7 +133,9 @@ io.sockets.on('connection', (socket) => {
       });
       socket.on('currentBoard', (obj) => {
         const { studentSocket, board } = obj;
-        io.in(roomToJoin).connected[studentSocket].emit('currentBoard', board);
+        if (studentSocket in io.in(roomToJoin).connected) {
+          io.in(roomToJoin).connected[studentSocket].emit('currentBoard', board);
+        }
       });
       logger.info(`SOCKET: Initializing ${roomToJoin}  - manager joined`);
       managerObj.socketId = socket.id;
@@ -138,7 +158,10 @@ io.sockets.on('connection', (socket) => {
         call(roomToJoin, managerSocketId, myPeerId);
       });
       roomToJoin = urlUuid;
-      socket.on('disconnect', () => updateNumOfStudents(roomToJoin));
+      socket.on('disconnect', () => {
+        deletedSession();
+        updateNumOfStudents(roomToJoin);
+      });
       logger.info(`SOCKET: Student joining room ${roomToJoin}`);
       isIncomingStudent = true;
       socket.join(roomToJoin);
@@ -154,7 +177,7 @@ io.sockets.on('connection', (socket) => {
         redisClient.hmget('managers', managerId, (error, manager) => {
           const studentPeerId = socket.handshake.query.peer_id;
           const { socketId } = JSON.parse(manager);
-          if (socketId) {
+          if (socketId in io.in(roomToJoin).connected) {
             // Notify prof to send student back the currentBoard
             io.in(roomToJoin).connected[socketId].emit('currentBoard', socket.id);
             // add incoming student to call
@@ -177,7 +200,9 @@ io.sockets.on('connection', (socket) => {
         roomObject.managerId,
         (error, managerObject) => {
           const { socketId } = JSON.parse(managerObject.pop());
-          io.in(room).connected[socketId].emit('send-to-manager', message);
+          if (socketId in io.in(room).connected) {
+            io.in(room).connected[socketId].emit('send-to-manager', message);
+          }
         },
       );
     });

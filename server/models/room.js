@@ -1,8 +1,7 @@
 class Room {
-  constructor(name, managerId, timeCreated) {
+  constructor(name, managerId) {
     this.name = name;
     this.managerId = managerId;
-    this.timeCreated = timeCreated;
     this.boards = [];
     this.boardActive = 0;
   }
