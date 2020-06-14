@@ -191,6 +191,9 @@ window.onload = async () => {
           const command = item.getAttribute('data-command'); // not doing shit here still
           const currImage = whiteboard.getImage();
           switch (command) {
+            case 'redo':
+              whiteboard.redoPaint();
+              break;
             case 'undo':
               whiteboard.undoPaint();
               break;
