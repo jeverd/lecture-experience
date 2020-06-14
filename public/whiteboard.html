@@ -295,37 +295,21 @@
           </li>
         </div>
 
-        <!--start whiteboard draw tools-->
-        <div id="right-bar-shapes" class="group shapes">
-          <li class="left-bar-item back-to-tool-menu">
+        <div class="item" data-tool="circle" title="Circle Tool">
+          <li class="left-bar-item">
             <a class="left-bar-link">
-              <i class="fas fa-arrow-left"></i>
+              <i class="far fa-circle"></i>
             </a>
           </li>
-          <div class="item active" data-tool="line" title="Line Tool">
-            <li class="left-bar-item">
-              <a class="left-bar-link-svg">
-                <img src="/dash.svg" />
-                <!-- <i class="fas fa-grip-lines"></i> -->
-              </a>
-            </li>
-          </div>
+        </div>
 
-          <div class="item" data-tool="circle" title="Circle Tool">
-            <li class="left-bar-item">
-              <a class="left-bar-link">
-                <i class="far fa-circle"></i>
-              </a>
-            </li>
-          </div>
-
-          <div class="item" data-tool="square" title="Square Tool">
-            <li class="left-bar-item">
-              <a class="left-bar-link">
-                <i class="far fa-square"></i>
-              </a>
-            </li>
-          </div>
+        <div class="item" data-tool="square" title="Square Tool">
+          <li class="left-bar-item">
+            <a class="left-bar-link">
+              <i class="far fa-square"></i>
+            </a>
+          </li>
+        </div>
 
         <div class="item" data-tool="triangle" title="Triangle Tool">
           <li class="left-bar-item">
@@ -393,69 +377,20 @@
     </nav>
 
     <button class="hide-options-left"><i class="fas fa-info"></i></button>
-    <div class="group swatches" id="pagelist"></div>
+    <!-- <div class="group swatches" id="pagelist"></div> -->
 
     <!--end left sidebar-->
 
     <!--start canvas image toggle bar-->
-
+    <div class="boards-view-title">My Boards:</div>
     <nav class="canvas-toggle-bar">
-      <ul class="canvas-toggle-nav">
-        <!--group commands-->
-        <div
-          class="item"
-          data-command="undo"
-          title="Undo"
-          id="canvas-toggle-left"
-        >
-          <li class="canvas-toggle-item">
-            <a href="#" class="canvas-toggle-link" id="canvas-toggle-link-left">
-              <i class="fas fa-long-arrow-alt-left"></i>
-            </a>
-          </li>
-        </div>
-
-        <div class="group swatches" id="pagelist"></div>
-
-        <div class="item" data-command="save" title="Save">
-          <li class="canvas-toggle-item">
-            <a href="#" class="canvas-toggle-link">
-              <img
-                class="canvas-image-preview"
-                src="https://dataliteframes.co.uk/panel-white-red-674x432.gif"
-                id="img-display-1"
-              />
-            </a>
-          </li>
-        </div>
-        <div class="item" data-command="add-page" title="Add Page">
-          <li class="canvas-toggle-item">
-            <a href="#" class="canvas-toggle-link">
-              <img
-                class="canvas-image-preview"
-                src="https://dataliteframes.co.uk/panel-white-red-674x432.gif"
-                id="img-display-2"
-              />
-            </a>
-          </li>
-        </div>
-        <div
-          class="item"
-          data-command="undo"
-          title="Undo"
-          id="canvas-toggle-right"
-        >
-          <li class="canvas-toggle-item">
-            <a
-              href="#"
-              class="canvas-toggle-link"
-              id="canvas-toggle-link-right"
-            >
-              <i class="fas fa-long-arrow-alt-right"></i>
-            </a>
-          </li>
-        </div>
-      </ul>
+      <button class="scroll-boards-view-left">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      <ul class="canvas-toggle-nav" id="pagelist"></ul>
+      <button class="scroll-boards-view-right">
+        <i class="fas fa-chevron-right"></i>
+      </button>
     </nav>
 
     <!--end canvas image toggle bar-->
@@ -475,66 +410,10 @@
     </div>
     <!-- End Modal -->
 
-    <div class="group swatches" id="pagelist">
-      <!-- <div class="item">
-        <div class="swatch">
-          <div data-page="page">
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Pittsburgh_toilet.jpg/1200px-Pittsburgh_toilet.jpg"
-            />
-          </div>
-        </div>
-      </div>
-      <div class="item">
-        <div class="swatch">
-          <div data-page="page">
-            <img src="https://i.stack.imgur.com/KagOh.png" />
-          </div>
-        </div>
-      </div>
-      <div class="item">
-        <div class="swatch">
-          <div data-page="page">
-            <img
-              src="https://css-tricks.com/wp-content/uploads/2016/11/basic-idea.jpg"
-            />
-          </div>
-        </div>
-      </div>
-      <div class="item">
-        <div class="swatch">
-          <div data-page="page">
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Pittsburgh_toilet.jpg/1200px-Pittsburgh_toilet.jpg"
-            />
-          </div>
-        </div>
-      </div>
-      <div class="item">
-        <div class="swatch">
-          <div data-page="page">
-            <img
-              src="https://thumbs.dreamstime.com/b/asian-big-fat-guy-wearing-t-shirt-color-pants-122386588.jpg"
-            />
-          </div>
-        </div>
-      </div>
-      <div class="item">
-        <div class="swatch">
-          <div data-page="page">
-            <img
-              src="https://thumbs.dreamstime.com/b/asian-big-fat-guy-wearing-t-shirt-color-pants-122386588.jpg"
-            />
-          </div>
-        </div>
-      </div> -->
-    </div>
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script src="https://unpkg.com/peerjs@1.2.0/dist/peerjs.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/whiteboard.js" type="module"></script>
-    <script defer src="/canvasList.js"></script>
     <!--start jquery tobpar toggle animations-->
     <script>
       $(document).ready(function () {
@@ -549,6 +428,7 @@
 
         $('.my-boards-button-container').click(function () {
           $('.canvas-toggle-bar').fadeToggle();
+          $('.boards-view-title').fadeToggle();
         });
 
         $('.hide-bar-button').click(function () {
