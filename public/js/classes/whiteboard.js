@@ -302,7 +302,7 @@ export default class Whiteboard {
   }
 
   undoPaint() {
-    this.currentBoard = this.context.getImageData(0, 0, this.canvas.width, this.canvas.height);
+    const currentBoard = this.context.getImageData(0, 0, this.canvas.width, this.canvas.height);
 
     this.removeSelectedRegion();
     if (this.undoStack.length > 0) {
@@ -311,12 +311,12 @@ export default class Whiteboard {
     }
   }
 
-  redoPaint(){
+  redoPaint() {
     this.removeSelectedRegion();
-
-    if(this.redoStack.length > 0){
-        this.undoStack.push(this.currentBoard);
-        this.context.putImageData(this.redoStack.pop(), 0, 0);
+    const currentBoard = this.context.getImageData(0, 0, this.canvas.width, this.canvas.height);
+    if (this.redoStack.length > 0) {
+      this.undoStack.push(currentBoard);
+      this.context.putImageData(this.redoStack.pop(), 0, 0);
     }
   }
 
