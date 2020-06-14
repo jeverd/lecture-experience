@@ -58,7 +58,11 @@
           ><span class="divider"></span>
         </div>
 
-        <div title="Click to end lecture" id="end-lecture" class="end-lecture-container">
+        <div
+          title="Click to end lecture"
+          id="end-lecture"
+          class="end-lecture-container"
+        >
           <i class="fas fa-sign-out-alt end-lecture-icon"></i>
           &nbsp;
           <span class="end-lecture-text">End Lecture</span>
@@ -67,7 +71,11 @@
 
         <span class="divider"></span>
 
-        <div title="Share lecture link" id="copy-share-link" class="copy-link-container">
+        <div
+          title="Share lecture link"
+          id="copy-share-link"
+          class="copy-link-container"
+        >
           <i class="fas fa-link sharelink-info-icon"></i>
           &nbsp;
           <span class="copy-link-text">Share Link</span>
@@ -77,13 +85,12 @@
         <span class="divider"></span>
 
         <div title="Open Board View" class="my-boards-button-container">
-          <img src="/whiteboard.svg"/>
-            &nbsp;
+          <img src="/whiteboard.svg" />
+          &nbsp;
           <span>My Boards</span>
         </div>
 
         <span class="divider"></span>
-
 
         <div title="Open Chat View" class="chat-button-container">
           <span>
@@ -109,7 +116,6 @@
             <i class="fas fa-level-up-alt"></i>
           </button>
         </div>
-
       </div>
     </div>
 
@@ -124,10 +130,7 @@
       </form>
     </div>
 
-    <!-- <div style="position:relative;" id="test-img"></div> -->
-       <!--end whiteboard topbar-->
-
-          <!--start show-bar-button-->
+    <!--start show-bar-button-->
     <div class="show-bar-button-container">
       <button class="show-bar-button">
         <i class="fa fa-bars" aria-hidden="true"></i>
@@ -204,25 +207,25 @@
               <div class="black"></div>
             </a>
           </li>
-  
+
           <li data-color="#ff4136" class="right-bar-item">
             <a class="right-bar-link">
               <div class="red"></div>
             </a>
           </li>
-  
+
           <li data-color="#0074d9" class="right-bar-item">
             <a class="right-bar-link">
               <div class="blue"></div>
             </a>
           </li>
-  
+
           <li data-color="#01ff70" class="right-bar-item">
             <a class="right-bar-link">
               <div class="lime"></div>
             </a>
           </li>
-  
+
           <li data-color="#b10dc9" class="right-bar-item">
             <a class="right-bar-link">
               <div class="purple"></div>
@@ -316,20 +319,13 @@
             </a>
           </li>
         </div>
-    </div>
-            <!--end whiteboard draw tools-->
-
-        <!-- <li class="nav-item" id="themeButton"> shifts last child to bottom of side bar
-              <a href="#" class="nav-link">
-                <div
-                  style="width: 20px; height: 20px; background-color: white;"
-                ></div>
-              </a>
-            </li> -->
+       
       </ul>
     </nav>
 
-    <button title="Tools" class="hide-options-right"><i class="fas fa-palette"></i></button>
+    <button title="Tools" class="hide-options-right">
+      <i class="fas fa-palette"></i>
+    </button>
 
     <!--end right sidebar-->
 
@@ -382,11 +378,40 @@
     </nav>
 
     <button class="hide-options-left"><i class="fas fa-info"></i></button>
-    <div class="group swatches" id="pagelist"></div>
+    <!-- <div class="group swatches" id="pagelist"></div> -->
 
-        <!--end right sidebar-->
+    <!--end left sidebar-->
 
-    <div class="group swatches" id="pagelist"> </div>
+    <!--start canvas image toggle bar-->
+    <div class="canvas-toggle-bar">
+      <div class="boards-view-title">My Boards:</div>
+      <nav>
+        <button class="scroll-boards-view-left">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <ul class="canvas-toggle-nav" id="pagelist"></ul>
+        <button class="scroll-boards-view-right">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </nav>
+    </div>
+
+    <!--end canvas image toggle bar-->
+    <!-- Start Modal -->
+    <div id="myModal" class="modal">
+      <!-- Start Modal content -->
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <p id="modal-content-header">Canvas Preview</p>
+        <img id="modal-image" />
+        <div id="modal-buttons-container">
+          <button id="modal-close-button">Close</button>
+          <button id="modal-select-button">Select</button>
+        </div>
+      </div>
+      <!-- End Modal content -->
+    </div>
+    <!-- End Modal -->
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script src="https://unpkg.com/peerjs@1.2.0/dist/peerjs.min.js"></script>
@@ -396,30 +421,5 @@
       var activeColor = '#424242'; var activeWidth = 4;
     </script>
     <script src="/test.js" type="text/paperscript" canvas="whiteboard"></script>
-    <!--start jquery tobpar toggle animations-->
-    <script>
-      $(document).ready(function () {
-        //loads after html
-        $(".hide-options-right").click(function () {
-          $(".right-bar").fadeToggle();
-        });
-
-        $(".hide-options-left").click(function () {
-          $(".left-bar").fadeToggle();
-        });
-
-        $(".hide-bar-button").click(function () {
-          $(".classroom-info-flexbox").fadeToggle(500);
-          $(".show-bar-button-container").delay(500).fadeToggle();
-        });
-
-        $(".show-bar-button").click(function () {
-          $(".show-bar-button-container").fadeToggle();
-          $(".classroom-info-flexbox").delay().fadeToggle();
-        });
-      });
-    </script>
-        <!--end jquery tobpar toggle animations-->
   </body>
-
 </html>
