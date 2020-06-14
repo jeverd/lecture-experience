@@ -61,3 +61,41 @@ export function showInfoMessage(message) {
     }, 2000);
   });
 }
+
+export function appendFile(file, fileType, fileName, identifier) {
+  const messageContainer = document.getElementById('message-container');
+  const messageElement = document.createElement('tr');
+  let fileElement = null;
+
+  // Doesn't work - need some kind of file upload
+  if (fileType.includes('image')) {
+    fileElement = document.createElement('img');
+    fileElement.src = (identifier === 'sender') ? URL.createObjectURL(file) : file;
+  } else {
+    fileElement = document.createElement('a');
+    fileElement.href = (identifier === 'sender') ? URL.createObjectURL(file) : file;
+    fileElement.download = fileName;
+    fileElement.innerText = fileName;
+  }
+
+  messageElement.append(fileElement);
+  messageContainer.append(messageElement);
+
+  const messageToggle = document.getElementById('toggle-messages');
+  const event = new Event('redraw');
+  messageToggle.dispatchEvent(event);
+}
+
+export function appendMessage(message) {
+  const messageContainer = document.getElementById('message-container');
+  const messageElement = document.createElement('tr');
+  const tableData = document.createElement('td');
+  tableData.innerText = message;
+
+  messageElement.append(tableData);
+  messageContainer.append(messageElement);
+
+  const messageToggle = document.getElementById('toggle-messages');
+  const event = new Event('redraw');
+  messageToggle.dispatchEvent(event);
+}
