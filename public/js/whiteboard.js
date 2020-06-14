@@ -4,7 +4,7 @@
 /* eslint-disable import/extensions */
 import Whiteboard from './classes/whiteboard.js';
 import initializeToolsMenu from './tools.js';
-import { showInfoMessage } from './utility.js';
+import { showInfoMessage, appendFile, appendMessage } from './utility.js';
 
 window.onload = async () => {
   const peerjsConfig = await fetch('/peerjs/config').then((r) => r.json());
@@ -16,6 +16,8 @@ window.onload = async () => {
   const messageContainer = document.getElementById('message-container');
   const sendContainer = document.getElementById('send-container');
   const messageInput = document.getElementById('message-input');
+  const fileInput = document.getElementById('file-input');
+
 
   peer.on('open', () => {
     const getUserMedia = navigator.mediaDevices.getUserMedia
@@ -90,8 +92,9 @@ window.onload = async () => {
       alert('There is already a manager');
     });
 
-    socket.on('send-to-manager', (message) => {
+    socket.on('send-to-manager', (message, file, fileType, fileName) => {
       appendMessage(message);
+      if (file) appendFile(file, fileType, fileName, 'receiver');
     });
 
     socket.on('ready', (room) => {
@@ -117,14 +120,26 @@ window.onload = async () => {
         showInfoMessage('Link Copied!');
         document.body.removeChild(tmpInput);
       });
-
       sendContainer.addEventListener('submit', (e) => {
         e.preventDefault();
-
         const message = messageInput.value;
-        appendMessage(`You: ${message}`);
-        socket.emit('send-to-guests', room.lecture_details.id, message);
+        const newFile = document.getElementById('file-input').files[0];
+        if (newFile === undefined) {
+          appendMessage(`You: ${message}`);
+          socket.emit('send-to-guests', room.lecture_details.id, message);
+        } else {
+          appendMessage(`You: ${message}`);
+          appendFile(newFile, newFile.type, newFile.name, 'sender');
+  
+          // Need to send object with file URL, mime type, and message
+          const reader = new FileReader();
+          reader.readAsDataURL(newFile);
+          reader.onload = function (e) {
+            socket.emit('send-to-guests', room.lecture_details.id, message, e.target.result, newFile.type, newFile.name);
+          };
+        }
         messageInput.value = '';
+        fileInput.value = '';
       });
 
       // On click for display messages button

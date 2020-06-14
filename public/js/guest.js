@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-undef */
 /* eslint-disable-next-line import/extensions */
+import { appendFile, appendMessage } from './utility.js';
 
 window.onload = async () => {
   const peerjsConfig = await fetch('/peerjs/config').then((r) => r.json());
@@ -22,34 +23,6 @@ window.onload = async () => {
       imgElem.height = 75;
       boardsDiv.appendChild(imgElem);
     });
-  }
-
-  function appendMessage(message) {
-    const messageElement = document.createElement('tr');
-    const tableData = document.createElement('td');
-    tableData.innerText = message;
-
-    messageElement.append(tableData);
-    messageContainer.append(messageElement);
-
-    const messageToggle = document.getElementById('toggle-messages');
-    const event = new Event('redraw');
-    messageToggle.dispatchEvent(event);
-  }
-
-  function appendImage(image) {
-    const messageElement = document.createElement('tr');
-    const img = document.createElement('img');
-
-    // Doesn't work - need some kind of file upload
-    img.src = image;
-
-    messageElement.append(img);
-    messageContainer.append(messageElement);
-
-    const messageToggle = document.getElementById('toggle-messages');
-    const event = new Event('redraw');
-    messageToggle.dispatchEvent(event);
   }
 
   function startStream(htmlElem, streamTrack) {
@@ -89,8 +62,9 @@ window.onload = async () => {
       socket.emit('notify', managerSocketId);
     });
 
-    socket.on('send-to-guests', (message) => {
+    socket.on('send-to-guests', (message, file, fileType, fileName) => {
       appendMessage(`Manager: ${message}`);
+      if (file) appendFile(file, fileType, fileName, 'receiver');
     });
 
     socket.on('boards', setNonActiveBoards);
@@ -111,20 +85,24 @@ window.onload = async () => {
 
     sendContainer.addEventListener('submit', (e) => {
       e.preventDefault();
-
       const message = messageInput.value;
-      const file = fileInput.value;
-      console.log(file);
-      if (file === '') {
+      const newFile = document.getElementById('file-input').files[0];
+      if (newFile === undefined) {
         appendMessage(`You: ${message}`);
         socket.emit('send-to-manager', roomId, message);
       } else {
         appendMessage(`You: ${message}`);
-        appendImage(file);
+        appendFile(newFile, newFile.type, newFile.name, 'sender');
+
         // Need to send object with file URL, mime type, and message
-        socket.emit('send-to-manager', roomId, message);
+        const reader = new FileReader();
+        reader.readAsDataURL(newFile);
+        reader.onload = function (e) {
+          socket.emit('send-to-manager', roomId, message, e.target.result, newFile.type, newFile.name);
+        };
       }
       messageInput.value = '';
+      fileInput.value = '';
     });
 
     document.querySelector('button#toggle-messages').addEventListener('click', (e) => {
