@@ -31,6 +31,7 @@ export default class Whiteboard {
     this.paintWhite();
     this.boards = [];
     this.undoStack = [];
+    this.redoStack = [];
     this.startingPoint = new Point();
     this.endPoint = new Point();
     this.isSelectionActive = false;
@@ -301,10 +302,21 @@ export default class Whiteboard {
   }
 
   undoPaint() {
+    this.currentBoard = this.context.getImageData(0, 0, this.canvas.width, this.canvas.height);
+
     this.removeSelectedRegion();
-    this.isSelectionActive = false;
     if (this.undoStack.length > 0) {
+      this.redoStack.push(currentBoard);
       this.context.putImageData(this.undoStack.pop(), 0, 0);
+    }
+  }
+
+  redoPaint(){
+    this.removeSelectedRegion();
+
+    if(this.redoStack.length > 0){
+        this.undoStack.push(this.currentBoard);
+        this.context.putImageData(this.redoStack.pop(), 0, 0);
     }
   }
 
