@@ -1,8 +1,9 @@
 body {
   margin: 0px;
   background-color: #283333;
-  overflow-y: hidden;
+  overflow: hidden;
   max-width: 100vh;
+  font-family: 'Lato', 'Lucida Grande', 'Lucida Sans Unicode', Tahoma, Sans-Serif;
 }
 /* start top panel styling */
 
@@ -611,28 +612,36 @@ button {
 /* start canvas toggle bar */
 
 .canvas-toggle-bar {
-  position: absolute; /* fixed */
+  position: absolute;
   background-color: var(--bg-primary);
   transition: width 600ms ease;
-  overflow: scroll;
-  margin: 0px;
   bottom: 0;
   left: 0;
-  width: 4.2rem;
   border: none;
   outline: none;
-  margin-top: 75px;
   border-top-right-radius: 27px;
   -webkit-box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3),
     0 15px 12px rgba(0, 0, 0, 0.22);
   box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
-
-  /*testing */
-  bottom: 0;
   width: auto;
-  height: 3.5rem; /* originally 5rem */
+  max-width: 45%;
+  height: auto;
   padding: none;
   margin: none;
+  overflow: hidden;
+  z-index:11;
+}
+
+.boards-view-title{
+  display:none;
+  position: absolute;
+  bottom: 5.15rem;
+  left: -7.5px;
+  color: var(--bg-primary);
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 0px 10px;
+  z-index:20;
 }
 
 .canvas-toggle-bar::-webkit-scrollbar {
@@ -655,7 +664,8 @@ button {
 /* start right sidebar colors */
 .canvas-toggle-link {
   transition: 1s;
-  padding: 3.5rem;
+  padding: 0.05rem 2.5rem;
+  position: relative;
 }
 
 /* end sidebar colors */
@@ -669,7 +679,7 @@ button {
   justify-content: space-between;
   align-items: center;
   height: 100%;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 /* .nav-item:last-child { shifts last child to bottom of side
@@ -683,13 +693,21 @@ button {
   height: 5rem;
   color: var(--text-primary);
   text-decoration: none;
-  filter: grayscale(50%) opacity(0.5);
+  /* filter: grayscale(50%) opacity(0.5); */
   transition: var(--transition-speed);
 }
 
 .canvas-toggle-link img {
-  width: 40px;
-  height: 20px;
+  height: 30px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: 0.25s ease;
+  opacity: 0.75;
+}
+
+.canvas-toggle-link img:hover{
+  opacity: 1;
+  transform: scale(1.15);
 }
 
 /* end canvas toggle bar */
@@ -926,4 +944,53 @@ button {
   to {
     opacity: 1;
   }
+}
+
+
+.scroll-boards-view-left,
+.scroll-boards-view-right{
+  position: absolute;
+  height: 100%;
+  background-color: var(--bg-primary);
+  outline: none;
+  border: none;
+  z-index: 4;
+  display:none;
+}
+
+.scroll-boards-view-left i,
+.scroll-boards-view-right i{
+  opacity: 0.75;
+  transition: 0.4s ease;
+  color: white;
+}
+
+.scroll-boards-view-left{
+  left:0;
+}
+
+.scroll-boards-view-right{
+  top: 0;
+  right:0;
+}
+
+.scroll-boards-view-left:hover i,
+.scroll-boards-view-right:hover i{
+  opacity: 1;
+}
+
+.badge{
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 10;
+  padding:2px 6px;
+  color: white;
+  margin: auto;
+  font-weight: 500;
+  font-size: .75rem;
+  border-radius: 0 0 2.5px 0;
+  background: linear-gradient(135deg, #b10dc9 0%, #85144b 100%);
+  border-bottom: 0.25px solid lightgray;
+  border-right: 0.25px solid lightgray;
 }

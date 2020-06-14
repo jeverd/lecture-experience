@@ -55,9 +55,31 @@ export function getImgDataFromImgElem(imgElem) {
 export function showInfoMessage(message) {
   const popupId = '#info-popup';
   $(popupId).html(message);
-  $(popupId).fadeIn(200, function () {
+  $(popupId).fadeIn(200, () => {
     setTimeout(() => {
       $(this).fadeOut(300);
     }, 2000);
   });
+}
+
+export function handleBoardsViewButtonsDisplay() {
+  const boardView = document.querySelector('.canvas-toggle-nav');
+  if (boardView.offsetWidth < boardView.scrollWidth) {
+    if ($(boardView).scrollLeft() > 0) {
+      $('.scroll-boards-view-left').show();
+    } else {
+      $('.scroll-boards-view-left').hide();
+    }
+    $('.scroll-boards-view-right').show();
+    if ($(boardView).scrollLeft() + boardView.offsetWidth >= boardView.scrollWidth - 30) {
+      $('.scroll-boards-view-right').hide();
+    }
+  }
+}
+
+export function createBadgeElem(msg) {
+  const badge = document.createElement('div');
+  badge.classList.add('badge');
+  badge.innerHTML = msg;
+  return badge;
 }
