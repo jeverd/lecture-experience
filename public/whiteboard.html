@@ -382,16 +382,18 @@
     <!--end left sidebar-->
 
     <!--start canvas image toggle bar-->
-    <div class="boards-view-title">My Boards:</div>
-    <nav class="canvas-toggle-bar">
-      <button class="scroll-boards-view-left">
-        <i class="fas fa-chevron-left"></i>
-      </button>
-      <ul class="canvas-toggle-nav" id="pagelist"></ul>
-      <button class="scroll-boards-view-right">
-        <i class="fas fa-chevron-right"></i>
-      </button>
-    </nav>
+    <div class="canvas-toggle-bar">
+      <div class="boards-view-title">My Boards:</div>
+      <nav>
+        <button class="scroll-boards-view-left">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <ul class="canvas-toggle-nav" id="pagelist"></ul>
+        <button class="scroll-boards-view-right">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </nav>
+    </div>
 
     <!--end canvas image toggle bar-->
     <!-- Start Modal -->
@@ -414,34 +416,5 @@
     <script src="https://unpkg.com/peerjs@1.2.0/dist/peerjs.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/whiteboard.js" type="module"></script>
-    <!--start jquery tobpar toggle animations-->
-    <script>
-      $(document).ready(function () {
-        //loads after html
-        $('.hide-options-right').click(function () {
-          $('.right-bar').fadeToggle();
-        });
-
-        $('.hide-options-left').click(function () {
-          $('.left-bar').fadeToggle();
-        });
-
-        $('.my-boards-button-container').click(function () {
-          $('.canvas-toggle-bar').fadeToggle();
-          $('.boards-view-title').fadeToggle();
-        });
-
-        $('.hide-bar-button').click(function () {
-          $('.classroom-info-flexbox').fadeToggle(500);
-          $('.show-bar-button-container').delay(500).fadeToggle();
-        });
-
-        $('.show-bar-button').click(function () {
-          $('.show-bar-button-container').fadeToggle();
-          $('.classroom-info-flexbox').delay().fadeToggle();
-        });
-      });
-    </script>
-    <!--end jquery tobpar toggle animations-->
   </body>
 </html>
