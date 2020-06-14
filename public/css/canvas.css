@@ -612,6 +612,7 @@ button {
 /* start canvas toggle bar */
 
 .canvas-toggle-bar {
+  display:none;
   position: absolute;
   background-color: var(--bg-primary);
   transition: width 600ms ease;
@@ -633,10 +634,10 @@ button {
 }
 
 .boards-view-title{
-  display:none;
-  position: absolute;
+  /* display:none; */
+  position: fixed;
   bottom: 5.15rem;
-  left: -7.5px;
+  left: -7.5px; 
   color: var(--bg-primary);
   font-weight: 700;
   font-size: 1rem;

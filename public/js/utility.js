@@ -55,7 +55,8 @@ export function getImgDataFromImgElem(imgElem) {
 export function showInfoMessage(message) {
   const popupId = '#info-popup';
   $(popupId).html(message);
-  $(popupId).fadeIn(200, () => {
+  // do not change to arrow function! Or else it loses "this" context.
+  $(popupId).fadeIn(200, function () {
     setTimeout(() => {
       $(this).fadeOut(300);
     }, 2000);

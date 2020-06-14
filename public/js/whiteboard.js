@@ -4,7 +4,7 @@
 /* eslint-disable import/extensions */
 import Whiteboard from './classes/whiteboard.js';
 import initializeToolsMenu from './tools.js';
-// import makeBoardView from './canvasList.js';
+import initializeCanvasTopMenu from './canvasTopMenu.js';
 import { showInfoMessage, handleBoardsViewButtonsDisplay, createBadgeElem } from './utility.js';
 
 window.onload = async () => {
@@ -108,7 +108,7 @@ window.onload = async () => {
       }
 
       if (boards.length > 1) {
-        $('.boards-view-title').show();
+        $('.canvas-toggle-bar').show();
       }
 
       let sharableUrl = window.location.href;
@@ -212,7 +212,7 @@ window.onload = async () => {
               whiteboard.clearCanvas();
               createNonActiveBoardElem(whiteboard.getImage(), true);
               if (whiteboard.boards.length > 1) {
-                $('.boards-view-title').show();
+                $('.canvas-toggle-bar').show();
               }
               emitBoards();
               break;
@@ -231,7 +231,7 @@ window.onload = async () => {
                 $('[data-page=page]').eq(`${whiteboard.currentBoard}`).hide();
               }
               if (whiteboard.boards.length <= 1) {
-                $('.boards-view-title').hide();
+                $('.canvas-toggle-bar').hide();
               }
               handleBoardsViewButtonsDisplay();
               emitBoards();
@@ -244,6 +244,7 @@ window.onload = async () => {
         });
       });
       initializeToolsMenu(whiteboard);
+      initializeCanvasTopMenu(whiteboard);
 
       console.log(room);
     });
