@@ -14,8 +14,10 @@ function updateNumOfStudents(room) {
     const numOfStudents = clients.length + (room in roomsTimeout ? 0 : -1);
     io.in(room).emit('updateNumOfStudents', numOfStudents);
     redisClient.hmget('stats', room, (error, stats) => {
-      const { userTracker, maxNumOfUsers, numOfBoards } = JSON.parse(stats);
-      const updatedStat = new Stats(userTracker, maxNumOfUsers, numOfBoards);
+      const {
+        lectureName, userTracker, maxNumOfUsers, numOfBoards,
+      } = JSON.parse(stats);
+      const updatedStat = new Stats(lectureName, userTracker, maxNumOfUsers, numOfBoards);
       updatedStat.addUserTrack(new Date(), clients.length);
       redisClient.hmset('stats', { [room]: JSON.stringify(updatedStat) });
     });
@@ -70,17 +72,17 @@ io.sockets.on('connection', (socket) => {
             socket.leave(roomToJoin, () => {
               // Call this just to get last piece of stats about this lecture.
               updateNumOfStudents(roomToJoin);
-            });
-          });
-          logger.info(`SOCKET: Successfully deleted room from redis, room_id: ${roomToJoin}`);
-          if (roomToJoin in io.sockets.adapter.rooms) {
-            const connectedSockets = io.sockets.adapter.rooms[roomToJoin].sockets;
-            Object.keys(connectedSockets).forEach((cliId) => {
-              if (cliId !== socket.id) {
-                io.in(roomToJoin).connected[cliId].disconnect();
+              logger.info(`SOCKET: Successfully deleted room from redis, room_id: ${roomToJoin}`);
+              if (roomToJoin in io.sockets.adapter.rooms) {
+                const connectedSockets = io.sockets.adapter.rooms[roomToJoin].sockets;
+                Object.keys(connectedSockets).forEach((cliId) => {
+                  if (cliId !== socket.id) {
+                    io.in(roomToJoin).connected[cliId].disconnect();
+                  }
+                });
               }
             });
-          }
+          });
         });
       }
       socket.on('disconnect', () => {

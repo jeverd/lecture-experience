@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-restricted-properties */
 /* eslint-disable import/extensions */
@@ -6,10 +7,19 @@
 import Point from '/classes/point.js';
 
 export function getMouseCoordsOnCanvas(e, canvas) {
+  let x; let y;
+  // handle tablet/phone
+  if (e.touches) {
+    x = e.touches[0].clientX;
+    y = e.touches[0].clientY;
+  } else {
+    x = e.clientX;
+    y = e.clientY;
+  }
   const rect = canvas.getBoundingClientRect();
-  const x = Math.round(e.clientX - rect.left);
-  const y = Math.round(e.clientY - rect.top);
-  return new Point(x, y); // (x:x, y:y) previously
+  x = Math.round(x - rect.left);
+  y = Math.round(y - rect.top);
+  return new Point(x, y);
 }
 
 // This will find the distance for the drawing of the circle in the canvas
@@ -22,9 +32,55 @@ export function findDistance(point1, point2) { // coord1 ==> start, coord2 ==> f
   return distance;
 }
 
-export function dragifyImage(imgElem) {
-  imgElem.classList.add('selected-area-img');
-  imgElem.draggable = true;
-  imgElem.ondragstart = (ev) => ev.dataTransfer.setDragImage(ev.target, 10, 10);
-  document.getElementsByTagName('BODY')[0].appendChild(imgElem);
+export function getImgElemFromImgData(imgData) {
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = imgData.width;
+  canvas.height = imgData.height;
+  ctx.putImageData(imgData, 0, 0);
+  const imgElem = document.createElement('img');
+  imgElem.src = canvas.toDataURL();
+  return imgElem;
+}
+
+export function getImgDataFromImgElem(imgElem) {
+  const canvas = document.createElement('canvas');
+  const context = canvas.getContext('2d');
+  canvas.width = imgElem.width;
+  canvas.height = imgElem.height;
+  context.drawImage(imgElem, 0, 0);
+  return context.getImageData(0, 0, imgElem.width, imgElem.height);
+}
+
+export function showInfoMessage(message) {
+  const popupId = '#info-popup';
+  $(popupId).html(message);
+  // do not change to arrow function! Or else it loses "this" context.
+  $(popupId).fadeIn(200, function () {
+    setTimeout(() => {
+      $(this).fadeOut(300);
+    }, 2000);
+  });
+}
+
+export function handleBoardsViewButtonsDisplay() {
+  const boardView = document.querySelector('.canvas-toggle-nav');
+  if (boardView.offsetWidth < boardView.scrollWidth) {
+    if ($(boardView).scrollLeft() > 0) {
+      $('.scroll-boards-view-left').show();
+    } else {
+      $('.scroll-boards-view-left').hide();
+    }
+    $('.scroll-boards-view-right').show();
+    if ($(boardView).scrollLeft() + boardView.offsetWidth >= boardView.scrollWidth - 30) {
+      $('.scroll-boards-view-right').hide();
+    }
+  }
+}
+
+export function createBadgeElem(msg) {
+  const badge = document.createElement('div');
+  badge.classList.add('badge');
+  badge.innerHTML = msg;
+  return badge;
 }

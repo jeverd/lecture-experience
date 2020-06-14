@@ -4,6 +4,8 @@
 /* eslint-disable import/extensions */
 import Whiteboard from './classes/whiteboard.js';
 import initializeToolsMenu from './tools.js';
+import initializeCanvasTopMenu from './canvasTopMenu.js';
+import { showInfoMessage, handleBoardsViewButtonsDisplay, createBadgeElem } from './utility.js';
 
 window.onload = async () => {
   const peerjsConfig = await fetch('/peerjs/config').then((r) => r.json());
@@ -44,6 +46,7 @@ window.onload = async () => {
         whiteboard.canvas.width = window.innerWidth;
         whiteboard.paintWhite();
         whiteboard.setCurrentBoard(inMemCanvas);
+        handleBoardsViewButtonsDisplay();
         isStartingToResize = true;
       };
       $(window).on('resize', () => {
@@ -104,6 +107,10 @@ window.onload = async () => {
         createNonActiveBoardElem(whiteboard.getImage(), true);
       }
 
+      if (boards.length > 1) {
+        $('.canvas-toggle-bar').show();
+      }
+
       let sharableUrl = window.location.href;
       sharableUrl = sharableUrl.substr(0, sharableUrl.lastIndexOf('/') + 1);
       sharableUrl += room.lecture_details.id;
@@ -113,12 +120,7 @@ window.onload = async () => {
         document.body.appendChild(tmpInput);
         tmpInput.select();
         document.execCommand('copy');
-        // eslint-disable-next-line func-names
-        $('#copied-popup').fadeIn(200, function () {
-          setTimeout(() => {
-            $(this).fadeOut(300);
-          }, 2000);
-        });
+        showInfoMessage('Link Copied!');
         document.body.removeChild(tmpInput);
       });
 
@@ -161,7 +163,6 @@ window.onload = async () => {
         }
       });
 
-
       document.querySelector('#end-lecture').addEventListener('click', () => {
         calls.forEach((call) => {
           call.close();
@@ -171,6 +172,19 @@ window.onload = async () => {
           window.location = `/lecture/stats/${room.lecture_details.id}`;
         });
       });
+
+      document.querySelector('.scroll-boards-view-right').addEventListener('click', () => {
+        $('.canvas-toggle-nav').animate({ scrollLeft: '+=120px' }, 150, () => {
+          handleBoardsViewButtonsDisplay();
+        });
+      });
+
+      document.querySelector('.scroll-boards-view-left').addEventListener('click', () => {
+        $('.canvas-toggle-nav').animate({ scrollLeft: '-=120px' }, 150, () => {
+          handleBoardsViewButtonsDisplay();
+        });
+      });
+
 
       document.querySelectorAll('[data-command]').forEach((item) => {
         item.addEventListener('click', () => {
@@ -182,15 +196,24 @@ window.onload = async () => {
               break;
             case 'save':
               whiteboard.boards[whiteboard.currentBoard] = currImage;
-              $('[data-page=page]').eq(`${whiteboard.currentBoard}`).find('img').attr('src', currImage);
+              $('[data-page=page]')
+                .eq(`${whiteboard.currentBoard}`)
+                .find('img')
+                .attr('src', currImage);
               emitBoards();
               break;
             case 'add-page':
               whiteboard.boards[whiteboard.currentBoard] = currImage;
-              $('[data-page=page]').eq(`${whiteboard.currentBoard}`).find('img').attr('src', currImage);
+              $('[data-page=page]')
+                .eq(`${whiteboard.currentBoard}`)
+                .find('img')
+                .attr('src', currImage);
               $('[data-page=page]').eq(`${whiteboard.currentBoard}`).show();
               whiteboard.clearCanvas();
               createNonActiveBoardElem(whiteboard.getImage(), true);
+              if (whiteboard.boards.length > 1) {
+                $('.canvas-toggle-bar').show();
+              }
               emitBoards();
               break;
             case 'remove-page':
@@ -200,10 +223,17 @@ window.onload = async () => {
                 $('[data-page=page]').eq(`${whiteboard.currentBoard}`).remove();
                 whiteboard.currentBoard = whiteboard.boards.length - 1;
                 const newBoardImg = document.createElement('img');
-                newBoardImg.setAttribute('src', whiteboard.boards[whiteboard.currentBoard]);
+                newBoardImg.setAttribute(
+                  'src',
+                  whiteboard.boards[whiteboard.currentBoard],
+                );
                 whiteboard.setCurrentBoard(newBoardImg);
                 $('[data-page=page]').eq(`${whiteboard.currentBoard}`).hide();
               }
+              if (whiteboard.boards.length <= 1) {
+                $('.canvas-toggle-bar').hide();
+              }
+              handleBoardsViewButtonsDisplay();
               emitBoards();
               break;
             case 'clear-page':
@@ -214,15 +244,18 @@ window.onload = async () => {
         });
       });
       initializeToolsMenu(whiteboard);
+      initializeCanvasTopMenu(whiteboard);
 
       console.log(room);
     });
 
-
     function onClickNonActiveBoardElem() {
       const currentBoardImage = whiteboard.getImage();
       whiteboard.boards[whiteboard.currentBoard] = currentBoardImage;
-      $('[data-page=page]').eq(`${whiteboard.currentBoard}`).find('img').attr('src', currentBoardImage);
+      $('[data-page=page]')
+        .eq(`${whiteboard.currentBoard}`)
+        .find('img')
+        .attr('src', currentBoardImage);
       $('[data-page=page]').eq(`${whiteboard.currentBoard}`).show();
 
       const clickedBoardIndex = $(this).index();
@@ -239,20 +272,20 @@ window.onload = async () => {
       const newBoardImg = document.createElement('img');
       newBoardImg.setAttribute('src', img);
       // setting the class to item and active
-      const outer = document.createElement('div');
-      outer.classList.add('item');
+      const outer = document.createElement('li');
+      outer.classList.add('canvas-toggle-item');
 
       outer.setAttribute('data-page', 'page');
 
-      const inner = document.createElement('div');
-      inner.classList.add('swatch');
-      inner.style.backgroundColor = '#ffffff';
-
+      const inner = document.createElement('a');
+      inner.classList.add('canvas-toggle-link');
       inner.appendChild(newBoardImg);
       outer.appendChild(inner);
-      document.getElementById('pagelist').appendChild(outer);
+      const pageList = document.getElementById('pagelist');
+      pageList.appendChild(outer);
+      inner.appendChild(createBadgeElem($(outer).index() + 1));
       whiteboard.boards[whiteboard.boards.length] = img;
-      outer.addEventListener('click', onClickNonActiveBoardElem.bind(outer));
+      newBoardImg.addEventListener('click', onClickNonActiveBoardElem.bind(outer));
       if (isActive) {
         $(outer).hide();
         whiteboard.currentBoard = whiteboard.boards.length - 1;
@@ -262,6 +295,8 @@ window.onload = async () => {
           socket.emit('currentBoardToAll', img);
         }, 0);
       }
+
+      handleBoardsViewButtonsDisplay();
     }
 
     function emitBoards() {
