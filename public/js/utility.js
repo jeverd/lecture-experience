@@ -78,9 +78,8 @@ export function handleBoardsViewButtonsDisplay() {
   }
 }
 
-export function createBadgeElem(msg) {
-  const badge = document.createElement('div');
-  badge.classList.add('badge');
-  badge.innerHTML = msg;
-  return badge;
+export function updateBoardsBadge() {
+  document.querySelectorAll('.board-badge').forEach((badge, i) => {
+    badge.innerHTML = i + 1;
+  });
 }
