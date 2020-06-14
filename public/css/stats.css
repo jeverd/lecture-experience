@@ -1,22 +1,51 @@
-/* create page */
-
-#create-lecture-graphic{
-  margin: auto auto;
-    padding-top: 1%;
+#create-lecture-graphic {
+    /* margin-top: -10px;*/
+    width: 600px;
+    /* height: auto; */
   }
-  
-  #create-lecture-info{
+
+  .survey-button {
+    margin: 10px 10px 40px 10px;
+  }
+
+  .survey-button img{
+    height: 20px;
+    position: relative;
+    top: 12px;
+    filter: brightness(0%) invert(90%);
+  }
+
+  .infoBoard{
     background-color:#21212e;
-    height: 200px;
-    width: 450px;
-    margin: 0 auto;
+    height: 500px;
+    width: 50%;
     border-radius: 25px;
     box-shadow: 10px 10px 54px -6px rgba(0,0,0,0.75);
+    margin-bottom: 50px;
+    margin-top: 50px;
     display: flex;
+    flex-direction: row;
+    padding: 15px;
+  }
+  
+  #stats-graph{
     justify-content: center;
     align-items: center;
-    margin-bottom: 50px;
     position: relative;
+    float: right;
+  }
+
+  @media only screen and (max-width: 1000px) {
+    .infoBoard{
+      width: 80%;
+      
+    }
+  }
+
+  .infoText{
+    color: white;
+    float: left;
+    font-size: 18px
   }
   
   .inputText{
@@ -58,7 +87,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    text-align: center;
+    /* text-align: center; */
     min-height: 100vh;
     margin-top: -80px;
   }
@@ -230,3 +259,44 @@
   .relative{
     position: relative;
   }
+
+.graph {
+-webkit-transform: rotate(180deg);
+transform: rotate(180deg);
+height: 400px;
+display: flex;
+flex-direction:row;
+-moz-transform: scale(1, -1);
+-webkit-transform: scale(1, -1);
+-o-transform: scale(1, -1);
+-ms-transform: scale(1, -1);
+transform: scale(1, -1);
+
+border-style: solid;
+border-width: 3px;
+border-left-width: 10px;
+border-right-width: 10px;
+border-color: red;
+            
+        
+}
+
+.myProgress {
+  height: 350px;
+  width: 30px;
+  /* background-color: grey; */
+}
+
+.myBar {
+  /* background-color: green; */
+  color: white;
+  background: rgb(70, 194, 255);
+  background: linear-gradient(
+    135deg,
+    rgba(70, 194, 255, 1) 0%,
+    rgba(189, 31, 250, 1) 100%
+  );
+  border: none;
+  /* border-radius: 2px; */
+  outline: none;
+}
