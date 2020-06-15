@@ -55,6 +55,7 @@ export function getImgDataFromImgElem(imgElem) {
 export function showInfoMessage(message) {
   const popupId = '#info-popup';
   $(popupId).html(message);
+  // do not change to arrow function! Or else it loses "this" context.
   $(popupId).fadeIn(200, function () {
     setTimeout(() => {
       $(this).fadeOut(300);
@@ -98,4 +99,25 @@ export function appendMessage(message) {
   const messageToggle = document.getElementById('toggle-messages');
   const event = new Event('redraw');
   messageToggle.dispatchEvent(event);
+}
+
+export function handleBoardsViewButtonsDisplay() {
+  const boardView = document.querySelector('.canvas-toggle-nav');
+  if (boardView.offsetWidth < boardView.scrollWidth) {
+    if ($(boardView).scrollLeft() > 0) {
+      $('.scroll-boards-view-left').show();
+    } else {
+      $('.scroll-boards-view-left').hide();
+    }
+    $('.scroll-boards-view-right').show();
+    if ($(boardView).scrollLeft() + boardView.offsetWidth >= boardView.scrollWidth - 30) {
+      $('.scroll-boards-view-right').hide();
+    }
+  }
+}
+
+export function updateBoardsBadge() {
+  document.querySelectorAll('.board-badge').forEach((badge, i) => {
+    badge.innerHTML = i + 1;
+  });
 }
