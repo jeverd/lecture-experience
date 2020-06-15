@@ -7,6 +7,7 @@ const { logger } = require('./services/logger/logger');
 const { sendManagerDisconnectEmail } = require('./services/emailer');
 const Stats = require('./models/stats');
 
+
 const roomsTimeout = {};
 
 function updateNumOfStudents(room) {
@@ -190,11 +191,11 @@ io.sockets.on('connection', (socket) => {
       socket.emit('ready', { lecture_details: lectureObj });
     });
   });
-  socket.on('send-to-guests', (room, message) => {
-    socket.broadcast.to(room).emit('send-to-guests', message);
+  socket.on('send-to-guests', (room, message, file, fileType, fileName) => {
+    socket.broadcast.to(room).emit('send-to-guests', message, file, fileType, fileName);
   });
 
-  socket.on('send-to-manager', (room, message) => {
+  socket.on('send-to-manager', (room, message, file, fileType, fileName) => {
     redisClient.hmget('rooms', room, (error, roomObject) => {
       roomObject = JSON.parse(roomObject.pop());
       redisClient.hmget(
@@ -203,7 +204,7 @@ io.sockets.on('connection', (socket) => {
         (error, managerObject) => {
           const { socketId } = JSON.parse(managerObject.pop());
           if (socketId in io.in(room).connected) {
-            io.in(room).connected[socketId].emit('send-to-manager', message);
+            io.in(room).connected[socketId].emit('send-to-manager', message, file, fileType, fileName);
           }
         },
       );
