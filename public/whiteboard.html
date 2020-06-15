@@ -57,7 +57,11 @@
           ><span class="divider"></span>
         </div>
 
-        <div title="Click to end lecture" id="end-lecture" class="end-lecture-container">
+        <div
+          title="Click to end lecture"
+          id="end-lecture"
+          class="end-lecture-container"
+        >
           <i class="fas fa-sign-out-alt end-lecture-icon"></i>
           &nbsp;
           <span class="end-lecture-text">End Lecture</span>
@@ -66,7 +70,11 @@
 
         <span class="divider"></span>
 
-        <div title="Share lecture link" id="copy-share-link" class="copy-link-container">
+        <div
+          title="Share lecture link"
+          id="copy-share-link"
+          class="copy-link-container"
+        >
           <i class="fas fa-link sharelink-info-icon"></i>
           &nbsp;
           <span class="copy-link-text">Share Link</span>
@@ -76,13 +84,12 @@
         <span class="divider"></span>
 
         <div title="Open Board View" class="my-boards-button-container">
-          <img src="/whiteboard.svg"/>
-            &nbsp;
+          <img src="/whiteboard.svg" />
+          &nbsp;
           <span>My Boards</span>
         </div>
 
         <span class="divider"></span>
-
 
         <div title="Open Chat View" class="chat-button-container">
           <span>
@@ -108,7 +115,6 @@
             <i class="fas fa-level-up-alt"></i>
           </button>
         </div>
-
       </div>
     </div>
 
@@ -124,10 +130,7 @@
       </form>
     </div>
 
-    <!-- <div style="position:relative;" id="test-img"></div> -->
-       <!--end whiteboard topbar-->
-
-          <!--start show-bar-button-->
+    <!--start show-bar-button-->
     <div class="show-bar-button-container">
       <button class="show-bar-button">
         <i class="fa fa-bars" aria-hidden="true"></i>
@@ -204,25 +207,25 @@
               <div class="black"></div>
             </a>
           </li>
-  
+
           <li data-color="#ff4136" class="right-bar-item">
             <a class="right-bar-link">
               <div class="red"></div>
             </a>
           </li>
-  
+
           <li data-color="#0074d9" class="right-bar-item">
             <a class="right-bar-link">
               <div class="blue"></div>
             </a>
           </li>
-  
+
           <li data-color="#01ff70" class="right-bar-item">
             <a class="right-bar-link">
               <div class="lime"></div>
             </a>
           </li>
-  
+
           <li data-color="#b10dc9" class="right-bar-item">
             <a class="right-bar-link">
               <div class="purple"></div>
@@ -239,7 +242,7 @@
           <div class="item" data-line-width="1" title="3 Pixel">
             <li class="left-bar-item">
               <a class="left-bar-link">
-                <div class="linewidth" style="width: 3px;height: 3px"></div>
+                <div class="linewidth" style="width: 3px; height: 3px;"></div>
               </a>
             </li>
           </div>
@@ -255,7 +258,7 @@
           <div class="item" data-line-width="6" title="9 Pixel">
             <li class="left-bar-item">
               <a class="left-bar-link">
-                <div class="linewidth" style="width: 9px;height: 9px"></div>
+                <div class="linewidth" style="width: 9px; height: 9px;"></div>
               </a>
             </li>
           </div>
@@ -263,7 +266,7 @@
           <div class="item" data-line-width="9" title="12 Pixel">
             <li class="left-bar-item">
               <a class="left-bar-link">
-                <div class="linewidth" style="width: 12px;height: 12px"></div>
+                <div class="linewidth" style="width: 12px; height: 12px;"></div>
               </a>
             </li>
           </div>
@@ -271,7 +274,7 @@
           <div class="item" data-line-width="12" title="15 Pixel">
             <li class="left-bar-item">
               <a class="left-bar-link">
-                <div class="linewidth" style="width: 15px;height: 15px"></div>
+                <div class="linewidth" style="width: 15px; height: 15px;"></div>
               </a>
             </li>
           </div>
@@ -316,20 +319,13 @@
             </a>
           </li>
         </div>
-    </div>
-            <!--end whiteboard draw tools-->
-
-        <!-- <li class="nav-item" id="themeButton"> shifts last child to bottom of side bar
-              <a href="#" class="nav-link">
-                <div
-                  style="width: 20px; height: 20px; background-color: white;"
-                ></div>
-              </a>
-            </li> -->
+       
       </ul>
     </nav>
 
-    <button title="Tools" class="hide-options-right"><i class="fas fa-palette"></i></button>
+    <button title="Tools" class="hide-options-right">
+      <i class="fas fa-palette"></i>
+    </button>
 
     <!--end right sidebar-->
 
@@ -338,7 +334,15 @@
       <ul class="left-bar-nav">
         <!--group commands-->
         <div class="group commands">
-          <div class="item" data-command="undo" title="Undo">
+          <div class="item" data-command="redo" title="Redo - Ctrl + Y">
+            <li class="left-bar-item">
+              <a class="left-bar-link">
+                <i style="transform: scaleX(-1);" class="fas fa-undo"></i>
+              </a>
+            </li>
+          </div>
+
+          <div class="item" data-command="undo" title="Undo - Ctrl + Z">
             <li class="left-bar-item">
               <a class="left-bar-link">
                 <i class="fas fa-undo"></i>
@@ -346,34 +350,34 @@
             </li>
           </div>
 
-          <div class="item" data-command="save" title="Save">
+          <div class="item" data-command="save" title="Save Boards">
             <li class="left-bar-item">
-              <a class="left-bar-link">
-                <i class="fas fa-download"></i>
+              <a class="left-bar-img">
+                <img src="https://img.icons8.com/nolan/64/save.png"/>
               </a>
             </li>
           </div>
 
-          <div class="item" data-command="add-page" title="Add Page">
+          <div class="item" data-command="add-page" title="Add New Board">
             <li class="left-bar-item">
-              <a class="left-bar-link">
-                <i class="fas fa-plus"></i>
+              <a class="left-bar-img">
+                <img src="https://img.icons8.com/nolan/64/plus-2-math.png"/>
               </a>
             </li>
           </div>
 
-          <div class="item" data-command="remove-page" title="Delete Board">
+          <div class="item" data-command="remove-page" title="Delete Current Board">
             <li class="left-bar-item">
-              <a class="left-bar-link">
-                <i class="fas fa-minus"></i>
+              <a class="left-bar-img">
+                <img src="https://img.icons8.com/nolan/64/delete-forever.png"/>
               </a>
             </li>
           </div>
 
           <div class="item" data-command="clear-page" title="Clear Board">
             <li class="left-bar-item">
-              <a class="left-bar-link">
-                <i class="fas fa-backspace"></i>
+              <a class="left-bar-img">
+                <img style="position:relative;left:-4px;" src="https://img.icons8.com/nolan/64/erase.png"/>
               </a>
             </li>
           </div>
@@ -382,40 +386,43 @@
     </nav>
 
     <button class="hide-options-left"><i class="fas fa-info"></i></button>
-    <div class="group swatches" id="pagelist"></div>
 
-        <!--end right sidebar-->
+    <!--end left sidebar-->
 
-    <div class="group swatches" id="pagelist"> </div>
+    <!--start canvas image toggle bar-->
+    <div class="canvas-toggle-bar">
+      <div class="boards-view-title">My Boards:</div>
+      <nav>
+        <button class="scroll-boards-view-left">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <ul class="canvas-toggle-nav" id="pagelist"></ul>
+        <button class="scroll-boards-view-right">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </nav>
+    </div>
+
+    <!--end canvas image toggle bar-->
+    <!-- Start Modal -->
+    <div id="myModal" class="modal">
+      <!-- Start Modal content -->
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <p id="modal-content-header">Canvas Preview</p>
+        <img id="modal-image" />
+        <div id="modal-buttons-container">
+          <button id="modal-close-button">Close</button>
+          <button id="modal-select-button">Select</button>
+        </div>
+      </div>
+      <!-- End Modal content -->
+    </div>
+    <!-- End Modal -->
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script src="https://unpkg.com/peerjs@1.2.0/dist/peerjs.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/whiteboard.js" type="module"></script>
-    <!--start jquery tobpar toggle animations-->
-    <script>
-      $(document).ready(function () {
-        //loads after html
-        $(".hide-options-right").click(function () {
-          $(".right-bar").fadeToggle();
-        });
-
-        $(".hide-options-left").click(function () {
-          $(".left-bar").fadeToggle();
-        });
-
-        $(".hide-bar-button").click(function () {
-          $(".classroom-info-flexbox").fadeToggle(500);
-          $(".show-bar-button-container").delay(500).fadeToggle();
-        });
-
-        $(".show-bar-button").click(function () {
-          $(".show-bar-button-container").fadeToggle();
-          $(".classroom-info-flexbox").delay().fadeToggle();
-        });
-      });
-    </script>
-        <!--end jquery tobpar toggle animations-->
   </body>
-
 </html>
