@@ -121,11 +121,19 @@
     <div id="info-popup"></div>
 
     <div class="messages">
-      <button type="button" id="toggle-messages" class="collapsible">Messages</button>
-      <div class="message-container" id="message-container">Welcome to Liteboard!</div>
+      <button type="button" id="toggle-messages" class="collapsible">
+        <div style="display: flex; justify-content: space-between;">
+          <div>Messages</div>
+          <div><i class="fas fa-times"></i></div>
+        </div>
+      </button>
+      <div id='wrapper'>
+        <div class="message-container" id="message-container">Welcome to Liteboard!</div>
+      </div>
       <form id="send-container">
           <input type="text" id="message-input">
-          <button type="submit" id="send-button">Send</button>
+          <i class="fas fa-paperclip"></i>
+          <button type="submit" id="send-button"><i class="fas fa-chevron-right"></i></button>
       </form>
     </div>
 
@@ -414,6 +422,7 @@
     <script src="https://unpkg.com/peerjs@1.2.0/dist/peerjs.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/whiteboard.js" type="module"></script>
+    <script defer src="/chatBox.js"></script>
     <!--start jquery tobpar toggle animations-->
     <script>
       $(document).ready(function () {
@@ -429,6 +438,10 @@
         $('.my-boards-button-container').click(function () {
           $('.canvas-toggle-bar').fadeToggle();
           $('.boards-view-title').fadeToggle();
+        });
+
+        $('.chat-button-container').click(function () {
+          $('div.messages').fadeToggle();
         });
 
         $('.hide-bar-button').click(function () {
