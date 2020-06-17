@@ -132,7 +132,10 @@
       </div>
       <form id="send-container">
           <input type="text" id="message-input">
-          <i class="fas fa-paperclip"></i>
+          <div style="position: relative">
+            <input class="file-input" type="file" id="file-input" name="img">
+            <i class="fas fa-paperclip add-attachment"></i>
+          </div>
           <button type="submit" id="send-button"><i class="fas fa-chevron-right"></i></button>
       </form>
     </div>
@@ -341,7 +344,15 @@
       <ul class="left-bar-nav">
         <!--group commands-->
         <div class="group commands">
-          <div class="item" data-command="undo" title="Undo">
+          <div class="item" data-command="redo" title="Redo - Ctrl + Y">
+            <li class="left-bar-item">
+              <a class="left-bar-link">
+                <i style="transform: scaleX(-1);" class="fas fa-undo"></i>
+              </a>
+            </li>
+          </div>
+
+          <div class="item" data-command="undo" title="Undo - Ctrl + Z">
             <li class="left-bar-item">
               <a class="left-bar-link">
                 <i class="fas fa-undo"></i>
@@ -349,34 +360,34 @@
             </li>
           </div>
 
-          <div class="item" data-command="save" title="Save">
+          <div class="item" data-command="save" title="Save Boards">
             <li class="left-bar-item">
-              <a class="left-bar-link">
-                <i class="fas fa-download"></i>
+              <a class="left-bar-img">
+                <img src="https://img.icons8.com/nolan/64/save.png"/>
               </a>
             </li>
           </div>
 
-          <div class="item" data-command="add-page" title="Add Page">
+          <div class="item" data-command="add-page" title="Add New Board">
             <li class="left-bar-item">
-              <a class="left-bar-link">
-                <i class="fas fa-plus"></i>
+              <a class="left-bar-img">
+                <img src="https://img.icons8.com/nolan/64/plus-2-math.png"/>
               </a>
             </li>
           </div>
 
-          <div class="item" data-command="remove-page" title="Delete Board">
+          <div class="item" data-command="remove-page" title="Delete Current Board">
             <li class="left-bar-item">
-              <a class="left-bar-link">
-                <i class="fas fa-minus"></i>
+              <a class="left-bar-img">
+                <img src="https://img.icons8.com/nolan/64/delete-forever.png"/>
               </a>
             </li>
           </div>
 
           <div class="item" data-command="clear-page" title="Clear Board">
             <li class="left-bar-item">
-              <a class="left-bar-link">
-                <i class="fas fa-backspace"></i>
+              <a class="left-bar-img">
+                <img style="position:relative;left:-4px;" src="https://img.icons8.com/nolan/64/erase.png"/>
               </a>
             </li>
           </div>
@@ -385,21 +396,22 @@
     </nav>
 
     <button class="hide-options-left"><i class="fas fa-info"></i></button>
-    <!-- <div class="group swatches" id="pagelist"></div> -->
 
     <!--end left sidebar-->
 
     <!--start canvas image toggle bar-->
-    <div class="boards-view-title">My Boards:</div>
-    <nav class="canvas-toggle-bar">
-      <button class="scroll-boards-view-left">
-        <i class="fas fa-chevron-left"></i>
-      </button>
-      <ul class="canvas-toggle-nav" id="pagelist"></ul>
-      <button class="scroll-boards-view-right">
-        <i class="fas fa-chevron-right"></i>
-      </button>
-    </nav>
+    <div class="canvas-toggle-bar">
+      <div class="boards-view-title">My Boards:</div>
+      <nav>
+        <button class="scroll-boards-view-left">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <ul class="canvas-toggle-nav" id="pagelist"></ul>
+        <button class="scroll-boards-view-right">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </nav>
+    </div>
 
     <!--end canvas image toggle bar-->
     <!-- Start Modal -->
@@ -422,39 +434,5 @@
     <script src="https://unpkg.com/peerjs@1.2.0/dist/peerjs.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/whiteboard.js" type="module"></script>
-    <script defer src="/chatBox.js"></script>
-    <!--start jquery tobpar toggle animations-->
-    <script>
-      $(document).ready(function () {
-        //loads after html
-        $('.hide-options-right').click(function () {
-          $('.right-bar').fadeToggle();
-        });
-
-        $('.hide-options-left').click(function () {
-          $('.left-bar').fadeToggle();
-        });
-
-        $('.my-boards-button-container').click(function () {
-          $('.canvas-toggle-bar').fadeToggle();
-          $('.boards-view-title').fadeToggle();
-        });
-
-        $('.chat-button-container').click(function () {
-          $('div.messages').fadeToggle();
-        });
-
-        $('.hide-bar-button').click(function () {
-          $('.classroom-info-flexbox').fadeToggle(500);
-          $('.show-bar-button-container').delay(500).fadeToggle();
-        });
-
-        $('.show-bar-button').click(function () {
-          $('.show-bar-button-container').fadeToggle();
-          $('.classroom-info-flexbox').delay().fadeToggle();
-        });
-      });
-    </script>
-    <!--end jquery tobpar toggle animations-->
   </body>
 </html>

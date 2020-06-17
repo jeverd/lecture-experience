@@ -4,8 +4,8 @@
 /* eslint-disable import/extensions */
 import Whiteboard from './classes/whiteboard.js';
 import initializeToolsMenu from './tools.js';
-// import makeBoardView from './canvasList.js';
-import { showInfoMessage, handleBoardsViewButtonsDisplay, createBadgeElem } from './utility.js';
+import initializeCanvasTopMenu from './canvasTopMenu.js';
+import { showInfoMessage, appendFile, appendMessage, handleBoardsViewButtonsDisplay, updateBoardsBadge } from './utility.js';
 
 window.onload = async () => {
   const peerjsConfig = await fetch('/peerjs/config').then((r) => r.json());
@@ -17,6 +17,8 @@ window.onload = async () => {
   const messageContainer = document.getElementById('message-container');
   const sendContainer = document.getElementById('send-container');
   const messageInput = document.getElementById('message-input');
+  const fileInput = document.getElementById('file-input');
+
 
   peer.on('open', () => {
     const getUserMedia = navigator.mediaDevices.getUserMedia
@@ -92,8 +94,9 @@ window.onload = async () => {
       alert('There is already a manager');
     });
 
-    socket.on('send-to-manager', (message) => {
+    socket.on('send-to-manager', (message, file, fileType, fileName) => {
       appendMessage(message);
+      if (file) appendFile(file, fileType, fileName, 'receiver');
     });
 
     socket.on('ready', (room) => {
@@ -108,7 +111,7 @@ window.onload = async () => {
       }
 
       if (boards.length > 1) {
-        $('.boards-view-title').show();
+        $('.canvas-toggle-bar').show();
       }
 
       let sharableUrl = window.location.href;
@@ -123,14 +126,26 @@ window.onload = async () => {
         showInfoMessage('Link Copied!');
         document.body.removeChild(tmpInput);
       });
-
       sendContainer.addEventListener('submit', (e) => {
         e.preventDefault();
-
         const message = messageInput.value;
-        appendMessage(`You: ${message}`);
-        socket.emit('send-to-guests', room.lecture_details.id, message);
+        const newFile = document.getElementById('file-input').files[0];
+        if (newFile === undefined) {
+          appendMessage(`You: ${message}`);
+          socket.emit('send-to-guests', room.lecture_details.id, message);
+        } else {
+          appendMessage(`You: ${message}`);
+          appendFile(newFile, newFile.type, newFile.name, 'sender');
+  
+          // Need to send object with file URL, mime type, and message
+          const reader = new FileReader();
+          reader.readAsDataURL(newFile);
+          reader.onload = function (e) {
+            socket.emit('send-to-guests', room.lecture_details.id, message, e.target.result, newFile.type, newFile.name);
+          };
+        }
         messageInput.value = '';
+        fileInput.value = '';
       });
 
       // On click for display messages button
@@ -191,6 +206,9 @@ window.onload = async () => {
           const command = item.getAttribute('data-command'); // not doing shit here still
           const currImage = whiteboard.getImage();
           switch (command) {
+            case 'redo':
+              whiteboard.redoPaint();
+              break;
             case 'undo':
               whiteboard.undoPaint();
               break;
@@ -212,7 +230,7 @@ window.onload = async () => {
               whiteboard.clearCanvas();
               createNonActiveBoardElem(whiteboard.getImage(), true);
               if (whiteboard.boards.length > 1) {
-                $('.boards-view-title').show();
+                $('.canvas-toggle-bar').show();
               }
               emitBoards();
               break;
@@ -231,9 +249,10 @@ window.onload = async () => {
                 $('[data-page=page]').eq(`${whiteboard.currentBoard}`).hide();
               }
               if (whiteboard.boards.length <= 1) {
-                $('.boards-view-title').hide();
+                $('.canvas-toggle-bar').hide();
               }
               handleBoardsViewButtonsDisplay();
+              updateBoardsBadge();
               emitBoards();
               break;
             case 'clear-page':
@@ -244,6 +263,7 @@ window.onload = async () => {
         });
       });
       initializeToolsMenu(whiteboard);
+      initializeCanvasTopMenu(whiteboard);
 
       console.log(room);
     });
@@ -282,7 +302,9 @@ window.onload = async () => {
       outer.appendChild(inner);
       const pageList = document.getElementById('pagelist');
       pageList.appendChild(outer);
-      inner.appendChild(createBadgeElem($(outer).index() + 1));
+      const boardBadge = document.createElement('div');
+      boardBadge.classList.add('board-badge');
+      inner.appendChild(boardBadge);
       whiteboard.boards[whiteboard.boards.length] = img;
       newBoardImg.addEventListener('click', onClickNonActiveBoardElem.bind(outer));
       if (isActive) {
@@ -294,8 +316,11 @@ window.onload = async () => {
           socket.emit('currentBoardToAll', img);
         }, 0);
       }
-
-      handleBoardsViewButtonsDisplay();
+      // must defer this for DOM to have time to update
+      setTimeout(() => {
+        updateBoardsBadge();
+        handleBoardsViewButtonsDisplay();
+      }, 0);
     }
 
     function emitBoards() {

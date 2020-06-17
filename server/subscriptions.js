@@ -7,6 +7,7 @@ const { logger } = require('./services/logger/logger');
 const { sendManagerDisconnectEmail } = require('./services/emailer');
 const Stats = require('./models/stats');
 
+
 const roomsTimeout = {};
 
 function updateNumOfStudents(room) {
@@ -25,7 +26,9 @@ function updateNumOfStudents(room) {
 }
 
 function call(room, managerSocketId, peerId) {
-  io.in(room).connected[managerSocketId].emit('call', peerId);
+  if (managerSocketId in io.in(room).connected) {
+    io.in(room).connected[managerSocketId].emit('call', peerId);
+  }
 }
 
 io.sockets.on('connection', (socket) => {
@@ -76,7 +79,7 @@ io.sockets.on('connection', (socket) => {
               if (roomToJoin in io.sockets.adapter.rooms) {
                 const connectedSockets = io.sockets.adapter.rooms[roomToJoin].sockets;
                 Object.keys(connectedSockets).forEach((cliId) => {
-                  if (cliId !== socket.id) {
+                  if (cliId !== socket.id && cliId in io.in(roomToJoin).connected) {
                     io.in(roomToJoin).connected[cliId].disconnect();
                   }
                 });
@@ -188,11 +191,11 @@ io.sockets.on('connection', (socket) => {
       socket.emit('ready', { lecture_details: lectureObj });
     });
   });
-  socket.on('send-to-guests', (room, message) => {
-    socket.broadcast.to(room).emit('send-to-guests', message);
+  socket.on('send-to-guests', (room, message, file, fileType, fileName) => {
+    socket.broadcast.to(room).emit('send-to-guests', message, file, fileType, fileName);
   });
 
-  socket.on('send-to-manager', (room, message) => {
+  socket.on('send-to-manager', (room, message, file, fileType, fileName) => {
     redisClient.hmget('rooms', room, (error, roomObject) => {
       roomObject = JSON.parse(roomObject.pop());
       redisClient.hmget(
@@ -201,7 +204,7 @@ io.sockets.on('connection', (socket) => {
         (error, managerObject) => {
           const { socketId } = JSON.parse(managerObject.pop());
           if (socketId in io.in(room).connected) {
-            io.in(room).connected[socketId].emit('send-to-manager', message);
+            io.in(room).connected[socketId].emit('send-to-manager', message, file, fileType, fileName);
           }
         },
       );
