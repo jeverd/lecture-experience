@@ -518,7 +518,31 @@ button {
   transition: var(--transition-speed);
 }
 
-.tool-active {
+.left-bar-img{
+  text-decoration: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 1s;
+  height: 3.75rem;
+}
+
+.left-bar-img img {
+  filter: grayscale(100%);
+  opacity: 0.75;
+  transition: var(--transition-speed);
+  height: 30px;
+}
+
+.left-bar-img img:hover,
+.left-bar-img img:focus{
+  transform: scale(1.2);
+  opacity: 1;
+  filter: grayscale(0%);
+}
+
+.tool-active{
   transform: scale(1.25);
   transition: 1s;
   width: 100%;
@@ -570,6 +594,7 @@ button {
 /* start canvas toggle bar */
 
 .canvas-toggle-bar {
+  display:none;
   position: absolute;
   background-color: var(--bg-primary);
   transition: width 600ms ease;
@@ -591,10 +616,10 @@ button {
 }
 
 .boards-view-title{
-  display:none;
-  position: absolute;
+  /* display:none; */
+  position: fixed;
   bottom: 5.15rem;
-  left: -7.5px;
+  left: -7.5px; 
   color: var(--bg-primary);
   font-weight: 700;
   font-size: 1rem;
@@ -937,7 +962,7 @@ button {
   opacity: 1;
 }
 
-.badge{
+.board-badge{
   position: absolute;
   top: 0px;
   left: 0px;
@@ -1024,4 +1049,13 @@ div.messages {
   border: none;
 }
 
+.file-input{
+  opacity: 0;
+  position: relative;
+}
+
+.add-attachment{
+  position: absolute;
+  z-index:2;
+}
 /* End chat menu */
