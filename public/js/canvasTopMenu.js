@@ -32,4 +32,10 @@ export default function initializeCanvasTopMenu(whiteboard) {
   $('.chat-button-container').click(() => {
     $('div.messages').fadeToggle();
   });
+
+  // On click for display messages button
+  $('#toggle-messages').click((e) => {
+    e.preventDefault();
+    $('div.messages').toggleClass('active-chat');
+  });
 }

@@ -982,39 +982,42 @@ button {
 /* Wrapper for button and messages */
 div.messages {
   /* display: none; */
-
   position: fixed;
   bottom: 0;
   right: 50px;
-  z-index: 1000;
+  z-index: 5;
   width: 280px;
-  height: 300px;
-
+  height: 30px;
+  transition: 0.25s ease;
   -webkit-box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3),
     0 15px 12px rgba(0, 0, 0, 0.22);
   box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
 }
 
+div.messages.active-chat{
+  height: 300px;
+}
+
 #toggle-messages {
   height: 30px;
   width: 100%;
-
   background-color: #21212e;
   border: none;
   color: white;
-
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-
+  cursor: pointer;
   outline: none;
 }
 
-#wrapper {
+.messages-main{
   position: relative;
-  width: 100%;
   height: 240px;
-  overflow-y: hidden;
+  overflow: hidden;
+  padding: 0px 13px;
+  background: white;
 }
+
 
 #message-container {
   position: absolute;
@@ -1035,8 +1038,9 @@ div.messages {
 }
 
 #message-input {
-  width: 160px;
-
+  width: 175px;
+  position: relative;
+  left: -3px;
   border-radius: 2px;
 }
 
@@ -1049,13 +1053,32 @@ div.messages {
   border: none;
 }
 
-.file-input{
-  opacity: 0;
-  position: relative;
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
 }
 
-.add-attachment{
-  position: absolute;
-  z-index:2;
+.inputfile + label {
+  /* font-size: 1.25em;
+  font-weight: 700; */
+  /* color: white; */
+
+  display: inline-block;
+}
+
+.inputfile + label {
+	cursor: pointer; /* "hand" cursor */
+}
+
+.inputfile + label * {
+	pointer-events: none;
+}
+
+.fileinput::-webkit-file-upload-button {
+  visibility: hidden;
 }
 /* End chat menu */
