@@ -119,23 +119,22 @@
     </div>
 
     <div id="info-popup"></div>
-
+    
     <div class="messages">
-      <button type="button" id="toggle-messages" class="collapsible">
-        <div style="display: flex; justify-content: space-between;">
-          <div>Messages</div>
-          <div><i class="fas fa-times"></i></div>
+      <div id="toggle-messages">
+        <div style="position:relative; left: 5px; top:4px; display: flex; justify-content: flex-start;">
+          <span>Messages</span>
         </div>
-      </button>
-      <div id='wrapper'>
+      </div>
+      <div id="wrapper" class="messages-main">
         <div class="message-container" id="message-container">Welcome to Liteboard!</div>
       </div>
       <form id="send-container">
-          <input type="text" id="message-input">
-          <div style="position: relative">
-            <input class="file-input" type="file" id="file-input" name="img">
-            <i class="fas fa-paperclip add-attachment"></i>
-          </div>
+          <input autocomplete="off" type="text" id="message-input">
+          <input type="file" name="file" id="file-input" class="inputfile" />
+          <label for="file-input">
+            <i class="fas fa-paperclip"></i>
+          </label>
           <button type="submit" id="send-button"><i class="fas fa-chevron-right"></i></button>
       </form>
     </div>
@@ -429,10 +428,9 @@
       <!-- End Modal content -->
     </div>
     <!-- End Modal -->
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script src="https://unpkg.com/peerjs@1.2.0/dist/peerjs.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="/whiteboard.js" type="module"></script>
+    <script src="/whiteboard.js" type="module"></script> 
   </body>
 </html>
