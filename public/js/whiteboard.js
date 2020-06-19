@@ -325,8 +325,16 @@ window.onload = () => {
   $('#welcome-lecture-modal').show();
   $('#modal-select-button').click(() => {
     // call endpoint to validade session
+    fetch('/session').then(req =>{
+      if(req.status==200){
+        beginLecture();
+      }
+      if(req.status==404){
+        window.location.replace('/');
+      }
+    })
+
     // if valid run the functions below
     $('#welcome-lecture-modal').hide();
-    beginLecture();
   });
 };
