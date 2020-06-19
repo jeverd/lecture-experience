@@ -126,6 +126,7 @@
       <div class="message-container" id="message-container">Welcome to Liteboard!</div>
       <form id="send-container">
           <input type="text" id="message-input">
+          <input type="file" id="file-input" name="img">
           <button type="submit" id="send-button">Send</button>
       </form>
     </div>
@@ -334,7 +335,15 @@
       <ul class="left-bar-nav">
         <!--group commands-->
         <div class="group commands">
-          <div class="item" data-command="undo" title="Undo">
+          <div class="item" data-command="redo" title="Redo - Ctrl + Y">
+            <li class="left-bar-item">
+              <a class="left-bar-link">
+                <i style="transform: scaleX(-1);" class="fas fa-undo"></i>
+              </a>
+            </li>
+          </div>
+
+          <div class="item" data-command="undo" title="Undo - Ctrl + Z">
             <li class="left-bar-item">
               <a class="left-bar-link">
                 <i class="fas fa-undo"></i>
@@ -342,34 +351,34 @@
             </li>
           </div>
 
-          <div class="item" data-command="save" title="Save">
+          <div class="item" data-command="save" title="Save Boards">
             <li class="left-bar-item">
-              <a class="left-bar-link">
-                <i class="fas fa-download"></i>
+              <a class="left-bar-img">
+                <img src="https://img.icons8.com/nolan/64/save.png"/>
               </a>
             </li>
           </div>
 
-          <div class="item" data-command="add-page" title="Add Page">
+          <div class="item" data-command="add-page" title="Add New Board">
             <li class="left-bar-item">
-              <a class="left-bar-link">
-                <i class="fas fa-plus"></i>
+              <a class="left-bar-img">
+                <img src="https://img.icons8.com/nolan/64/plus-2-math.png"/>
               </a>
             </li>
           </div>
 
-          <div class="item" data-command="remove-page" title="Delete Board">
+          <div class="item" data-command="remove-page" title="Delete Current Board">
             <li class="left-bar-item">
-              <a class="left-bar-link">
-                <i class="fas fa-minus"></i>
+              <a class="left-bar-img">
+                <img src="https://img.icons8.com/nolan/64/delete-forever.png"/>
               </a>
             </li>
           </div>
 
           <div class="item" data-command="clear-page" title="Clear Board">
             <li class="left-bar-item">
-              <a class="left-bar-link">
-                <i class="fas fa-backspace"></i>
+              <a class="left-bar-img">
+                <img style="position:relative;left:-4px;" src="https://img.icons8.com/nolan/64/erase.png"/>
               </a>
             </li>
           </div>
@@ -378,7 +387,6 @@
     </nav>
 
     <button class="hide-options-left"><i class="fas fa-info"></i></button>
-    <!-- <div class="group swatches" id="pagelist"></div> -->
 
     <!--end left sidebar-->
 
