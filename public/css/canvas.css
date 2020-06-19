@@ -567,6 +567,30 @@ button {
   transition: var(--transition-speed);
 }
 
+.left-bar-img{
+  text-decoration: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 1s;
+  height: 3.75rem;
+}
+
+.left-bar-img img {
+  filter: grayscale(100%);
+  opacity: 0.75;
+  transition: var(--transition-speed);
+  height: 30px;
+}
+
+.left-bar-img img:hover,
+.left-bar-img img:focus{
+  transform: scale(1.2);
+  opacity: 1;
+  filter: grayscale(0%);
+}
+
 .tool-active{
   transform: scale(1.25);
   transition: 1s;
@@ -1028,7 +1052,7 @@ button {
   opacity: 1;
 }
 
-.badge{
+.board-badge{
   position: absolute;
   top: 0px;
   left: 0px;
