@@ -19,6 +19,7 @@
       integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
       crossorigin="anonymous"
     />
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet"></link>
   </head>
 
   <body style="background-color: #ffffff;">
@@ -400,12 +401,135 @@
     <div id="welcome-lecture-modal" class="modal">
       <!-- Start Modal content -->
       <div class="modal-content">
-        <span class="close">&times;</span>
-        <p id="modal-content-header">Canvas Preview</p>
-        <img id="modal-image" />
-        <div id="modal-buttons-container">
-          <!-- <button id="modal-close-button">Close</button> -->
-          <button id="modal-select-button">Go live</button>
+        <div id="join-content">
+          <p id="modal-content-header">Ready to Join?</p>
+          <img id="modal-image" />
+          <div id="modal-buttons-container">
+           
+            
+            <button id="modal-select-button" class = "modal-select-button live_button">Go live</button>
+  
+            <div
+              title="Test your microphone"
+              id="test-mic"
+              class="test-mic-container mic-button "
+            >
+              <i class="fa fa-cog cog"></i>
+              &nbsp;
+              <span class="test-mic">Test Microphone</span>
+              &nbsp;
+            </div>
+  
+  
+  
+            <!--<button class = "modal-select-button mic_button">Test Mic</button>-->
+          </div>
+          <!--Share Container-->
+          <div class="share-container">
+            <div
+              title="Copy lecture link"
+              id="copy-link"
+              class="copy-link-container copy-button "
+            >
+              <i class="fas fa-link sharelink-info-icon"></i>
+              &nbsp;
+              <span class="copy-link-modal">Copy Link</span>
+              &nbsp;
+            </div>
+            
+            <div class="share">
+             <!--Share button-->
+  
+             <!-- facebook -->
+             <a class="facebook" href="#" target="blank"><i class="fa fa-facebook"></i></a>
+          
+             <!-- twitter -->
+             <a class="twitter" href="#" target="blank"><i class="fa fa-twitter"></i></a>
+          
+             <!-- google plus -->
+             <a class="googleplus" href="#" target="blank"><i class="fa fa-google-plus"></i></a>
+            </div>
+          </div>  
+        </div>
+        <!--Start Mic content-->
+        <div id="mic-content" class="mic-content">
+          <div
+              id="go-back"
+              class="go-back back-button"
+            >
+              <i class="fa fa-arrow-left arrow-back"></i>
+              &nbsp;
+              <span class="go-back-modal">Go Live</span>
+              &nbsp;
+          </div>
+          <p id="mic-content-header">Voice Settings</p>
+          <div>
+            <p class="device-header">Input Device</p>
+          </div>
+          <div id="input-container">
+  
+            <div class="custom-select-wrapper">
+              <div class="custom-select">
+                  <div class="custom-select__trigger"><span>Tesla</span>
+                      <div class="arrow"></div>
+                  </div>
+                  <div class="custom-options">
+                      <span class="custom-option selected" data-value="tesla">Tesla</span>
+                      <span class="custom-option" data-value="volvo">Volvo</span>
+                      <span class="custom-option" data-value="mercedes">Mercedes</span>
+                  </div>
+              </div>
+
+            </div>
+          </div>
+          <div id="volume-header">
+            <p class="volume-header">Input Volume</p>
+          </div>
+          <div id="volume input">
+            <div class="range-wrap">
+              <div class="range-value" id="rangeV"></div>
+              <input id="range" type="range" min="0" max="100" value="0" step="1">
+            </div>
+          </div>
+          <div>
+            <div id="mic-test-header">
+              <p class="mic-test-header">Mic Test</p>
+              <p class="mic-test-comment">Start a test to check up your mic!</p>
+            </div>
+            <div id="mic-test">
+              <div id="mic-buttons-container">
+                <button class = "modal-select-button test-mic-button">Check mic</button>
+                <div id="myProgress">
+                  <div class="myProgress"></div>
+                  <div class="myProgress"></div>
+                  <div class="myProgress"></div>
+                  <div class="myProgress"></div>
+                  <div class="myProgress"></div>
+                  <div class="myProgress"></div>
+                  <div class="myProgress"></div>
+                  <div class="myProgress"></div>
+                  <div class="myProgress"></div>
+                  <div class="myProgress"></div>
+                  <div class="myProgress"></div>
+                  <div class="myProgress"></div>
+                  <div class="myProgress"></div>
+                  <div class="myProgress"></div>
+                  <div class="myProgress"></div>
+                  <div class="myProgress"></div>
+                  <div class="myProgress"></div>
+                  <div class="myProgress"></div>
+                  <div class="myProgress"></div>
+                  <div class="myProgress"></div>
+                  <div class="myProgress"></div>
+                  <div class="myProgress"></div>
+                  <div class="myProgress"></div>
+                  <div class="myProgress"></div>
+                  <div class="myProgress"></div>             
+                  <!--<div id="myBar"></div>-->
+                </div>
+              </div>  
+            </div>
+          </div>
         </div>
       </div>
       <!-- End Modal content -->
@@ -416,5 +540,6 @@
     <script src="https://unpkg.com/peerjs@1.2.0/dist/peerjs.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/whiteboard.js" type="module"></script>
+    <script src="/canvasModal.js" type="text/javascript"></scriptsrc></script>
   </body>
 </html>
