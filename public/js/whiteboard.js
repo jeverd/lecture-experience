@@ -100,8 +100,6 @@ window.onload = () => {
         alert('There is already a manager');
       });
 
-      socket.on('send-to-manager', (message) => appendMessage(message));
-
       socket.on('ready', (room) => {
         whiteboard.initialize();
         const { boards, boardActive } = room.lecture_details;
