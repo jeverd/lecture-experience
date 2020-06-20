@@ -5,7 +5,9 @@
 import Whiteboard from './classes/whiteboard.js';
 import initializeToolsMenu from './tools.js';
 import initializeCanvasTopMenu from './canvasTopMenu.js';
-import { showInfoMessage, appendFile, appendMessage, handleBoardsViewButtonsDisplay, updateBoardsBadge } from './utility.js';
+import {
+  showInfoMessage, appendFile, appendMessage, handleBoardsViewButtonsDisplay, updateBoardsBadge,
+} from './utility.js';
 
 window.onload = () => {
   async function beginLecture() {
@@ -19,7 +21,7 @@ window.onload = () => {
     const sendContainer = document.getElementById('send-container');
     const messageInput = document.getElementById('message-input');
     const fileInput = document.getElementById('file-input');
-    
+
     peer.on('open', () => {
       const getUserMedia = navigator.mediaDevices.getUserMedia
         || navigator.getUserMedia
@@ -33,11 +35,11 @@ window.onload = () => {
           // handle error properly here.
           console.log(`Media error: ${error}`);
         });
-    });  
+    });
 
     function broadcastLecture(stream) {
       const whiteboard = new Whiteboard('canvas');
-  
+
       function handleWindowResize() {
         let timeout;
         let isStartingToResize = true;
@@ -62,9 +64,9 @@ window.onload = () => {
           timeout = setTimeout(onResizeDone, 100);
         });
       }
-  
+
       handleWindowResize();
-  
+
       stream.addTrack(whiteboard.getStream().getTracks()[0]);
       const socket = io('/', { query: `id=${managerId}` });
       $(window).on('beforeunload', (e) => {
@@ -75,7 +77,7 @@ window.onload = () => {
         const call = peer.call(remotePeerId, stream);
         calls.push(call);
       });
-  
+
       socket.on('updateNumOfStudents', (num) => {
         document.getElementById('specs').innerHTML = num;
       });
@@ -83,23 +85,23 @@ window.onload = () => {
         appendMessage(message);
         if (file) appendFile(file, fileType, fileName, 'receiver');
       });
-  
+
       socket.on('currentBoard', (studentSocketId) => {
         socket.emit('currentBoard', {
           board: whiteboard.getImage(),
           studentSocket: studentSocketId,
         });
       });
-  
+
       socket.on('attemptToConnectMultipleManagers', () => {
         stream.getTracks().forEach((track) => {
           track.stop();
         });
         alert('There is already a manager');
       });
-  
-      socket.on('send-to-manager', (message) => appendMessage(message))
-  
+
+      socket.on('send-to-manager', (message) => appendMessage(message));
+
       socket.on('ready', (room) => {
         whiteboard.initialize();
         const { boards, boardActive } = room.lecture_details;
@@ -110,11 +112,11 @@ window.onload = () => {
         } else {
           createNonActiveBoardElem(whiteboard.getImage(), true);
         }
-  
+
         if (boards.length > 1) {
           $('.canvas-toggle-bar').show();
         }
-  
+
         let sharableUrl = window.location.href;
         sharableUrl = sharableUrl.substr(0, sharableUrl.lastIndexOf('/') + 1);
         sharableUrl += room.lecture_details.id;
@@ -127,7 +129,7 @@ window.onload = () => {
           showInfoMessage('Link Copied!');
           document.body.removeChild(tmpInput);
         });
-        
+
         sendContainer.addEventListener('submit', (e) => {
           e.preventDefault();
           const message = messageInput.value;
@@ -138,7 +140,7 @@ window.onload = () => {
           } else {
             appendMessage(`You: ${message}`);
             appendFile(newFile, newFile.type, newFile.name, 'sender');
-    
+
             // Need to send object with file URL, mime type, and message
             const reader = new FileReader();
             reader.readAsDataURL(newFile);
@@ -165,11 +167,11 @@ window.onload = () => {
             messagesChild.style.maxHeight = `${messagesChild.scrollHeight}px`;
           }
         });
-  
+
         // Refresh the chat window for the new message
         document.querySelector('button#toggle-messages').addEventListener('redraw', (e) => {
           e.preventDefault();
-  
+
           const messagesChild = e.target.nextElementSibling;
           e.target.classList.add('active-chat');
           if (messagesChild.scrollHeight >= 300) {
@@ -179,7 +181,7 @@ window.onload = () => {
             messagesChild.style.maxHeight = `${messagesChild.scrollHeight}px`;
           }
         });
-  
+
         document.querySelector('#end-lecture').addEventListener('click', () => {
           calls.forEach((call) => {
             call.close();
@@ -189,13 +191,13 @@ window.onload = () => {
             window.location = `/lecture/stats/${room.lecture_details.id}`;
           });
         });
-  
+
         document.querySelector('.scroll-boards-view-right').addEventListener('click', () => {
           $('.canvas-toggle-nav').animate({ scrollLeft: '+=120px' }, 150, () => {
             handleBoardsViewButtonsDisplay();
           });
         });
-  
+
         document.querySelectorAll('[data-command]').forEach((item) => {
           item.addEventListener('click', () => {
             const command = item.getAttribute('data-command'); // not doing shit here still
@@ -257,20 +259,20 @@ window.onload = () => {
             }
           });
         });
-        
-  
+
+
         document.querySelector('.scroll-boards-view-left').addEventListener('click', () => {
           $('.canvas-toggle-nav').animate({ scrollLeft: '-=120px' }, 150, () => {
             handleBoardsViewButtonsDisplay();
           });
         });
-  
+
         initializeToolsMenu(whiteboard);
         initializeCanvasTopMenu(whiteboard);
-  
+
         console.log(room);
       });
-  
+
       function onClickNonActiveBoardElem() {
         const currentBoardImage = whiteboard.getImage();
         whiteboard.boards[whiteboard.currentBoard] = currentBoardImage;
@@ -279,7 +281,7 @@ window.onload = () => {
           .find('img')
           .attr('src', currentBoardImage);
         $('[data-page=page]').eq(`${whiteboard.currentBoard}`).show();
-  
+
         const clickedBoardIndex = $(this).index();
         whiteboard.currentBoard = clickedBoardIndex;
         emitBoards();
@@ -288,7 +290,7 @@ window.onload = () => {
         newBoardImg.setAttribute('src', whiteboard.boards[clickedBoardIndex]);
         whiteboard.setCurrentBoard(newBoardImg);
       }
-  
+
       function createNonActiveBoardElem(img, isActive) {
         // making the new page image
         const newBoardImg = document.createElement('img');
@@ -296,9 +298,9 @@ window.onload = () => {
         // setting the class to item and active
         const outer = document.createElement('li');
         outer.classList.add('canvas-toggle-item');
-  
+
         outer.setAttribute('data-page', 'page');
-  
+
         const inner = document.createElement('a');
         inner.classList.add('canvas-toggle-link');
         inner.appendChild(newBoardImg);
@@ -325,40 +327,27 @@ window.onload = () => {
           handleBoardsViewButtonsDisplay();
         }, 0);
       }
-  
+
       function emitBoards() {
         socket.emit('updateBoards', {
           boards: whiteboard.boards,
           activeBoardIndex: whiteboard.currentBoard,
         });
       }
-  
-      function appendMessage(message) {
-        const messageElement = document.createElement('tr');
-        const tableData = document.createElement('td');
-        tableData.innerText = message;
-  
-        messageElement.append(tableData);
-        messageContainer.append(messageElement);
-  
-        const messageToggle = document.getElementById('toggle-messages');
-        const event = new Event('redraw');
-        messageToggle.dispatchEvent(event);
-      }
-    }  
-  };     
-    
+    }
+  }
+
   $('#welcome-lecture-modal').show();
   $('#modal-select-button').click(() => {
     // call endpoint to validade session
-    fetch('/session').then(req =>{
-      if(req.status==200){
+    fetch('/session').then((req) => {
+      if (req.status === 200) {
         beginLecture();
       }
-      if(req.status==404){
+      if (req.status === 401) {
         window.location.replace('/');
       }
-    })
+    });
 
     // if valid run the functions below
     $('#welcome-lecture-modal').hide();

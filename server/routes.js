@@ -42,10 +42,12 @@ app.post('/create', (req, res) => {
 });
 
 app.get('/session', (req, res) => {
+  logger.info(`GET request received: /session for sessionId ${req.sessionId}`);
   if (req.session.inRoom) {
-    res.status(404);
+    res.status(401);
     res.json({ error: 'User already in a room' });
   } else {
+    res.status(200);
     res.json({ success: 'User is ready to be connected' });
   }
 });
