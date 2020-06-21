@@ -156,36 +156,6 @@ window.onload = () => {
           fileInput.value = '';
         });
 
-        // On click for display messages button
-        document.querySelector('button#toggle-messages').addEventListener('click', (e) => {
-          e.preventDefault();
-          // If we want to include multiple separate chat windows, this is an easy way of doing that
-          const messagesChild = e.target.nextElementSibling;
-          e.target.classList.toggle('active-chat');
-          if (messagesChild.style.maxHeight) {
-            messagesChild.style.maxHeight = null;
-          } else if (messagesChild.scrollHeight >= 300) {
-            messagesChild.style.maxHeight = '300px';
-            messagesChild.style.overflow = 'scroll';
-          } else {
-            messagesChild.style.maxHeight = `${messagesChild.scrollHeight}px`;
-          }
-        });
-
-        // Refresh the chat window for the new message
-        document.querySelector('button#toggle-messages').addEventListener('redraw', (e) => {
-          e.preventDefault();
-
-          const messagesChild = e.target.nextElementSibling;
-          e.target.classList.add('active-chat');
-          if (messagesChild.scrollHeight >= 300) {
-            messagesChild.style.maxHeight = '300px';
-            messagesChild.style.overflow = 'scroll';
-          } else {
-            messagesChild.style.maxHeight = `${messagesChild.scrollHeight}px`;
-          }
-        });
-
         document.querySelector('#end-lecture').addEventListener('click', () => {
           calls.forEach((call) => {
             call.close();
