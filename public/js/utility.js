@@ -110,9 +110,11 @@ export function handleBoardsViewButtonsDisplay() {
       $('.scroll-boards-view-left').hide();
     }
     $('.scroll-boards-view-right').show();
-    if ($(boardView).scrollLeft() + boardView.offsetWidth >= boardView.scrollWidth - 30) {
+    if ($(boardView).scrollLeft() + boardView.offsetWidth >= boardView.scrollWidth - 15) {
       $('.scroll-boards-view-right').hide();
     }
+  } else {
+    $('.scroll-boards-view-left').hide();
   }
 }
 

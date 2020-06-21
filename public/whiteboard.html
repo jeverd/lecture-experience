@@ -120,14 +120,33 @@
     </div>
 
     <div id="info-popup"></div>
-
+    
     <div class="messages">
-      <button type="button" id="toggle-messages" class="collapsible">Messages</button>
-      <div class="message-container" id="message-container">Welcome to Liteboard!</div>
+      <div id="toggle-messages">
+        <div>
+          <div class="chat-title-wrap">
+            <div class="new-messages-badge">0</div>
+            <span class="chat-title">Lecture Chat</span>
+          </div>
+          <i class="fa fa-times close-chat" aria-hidden="true"></i>
+        </div>
+      </div>
+      <div id="wrapper" class="messages-main">
+        <div class="message-container" id="message-container">
+          <div class="message-lecture-name">
+            <span>
+              <span lecture-name></span> chat room
+            </span>
+          </div>
+        </div>
+      </div>
       <form id="send-container">
-          <input type="text" id="message-input">
-          <input type="file" id="file-input" name="img">
-          <button type="submit" id="send-button">Send</button>
+          <input autocomplete="off" type="text" id="message-input">
+          <input type="file" name="file" id="file-input" class="inputfile" />
+          <label for="file-input">
+            <i class="fas fa-paperclip"></i>
+          </label>
+          <button type="submit" id="send-button"><i class="fas fa-chevron-right"></i></button>
       </form>
     </div>
 
@@ -324,7 +343,7 @@
       </ul>
     </nav>
 
-    <button title="Tools" class="hide-options-right">
+    <button title="Toggle Tools Menu" class="hide-options-right">
       <i class="fas fa-palette"></i>
     </button>
 
@@ -337,7 +356,7 @@
         <div class="group commands">
           <div class="item" data-command="redo" title="Redo - Ctrl + Y">
             <li class="left-bar-item">
-              <a class="left-bar-link">
+              <a style="height: 3rem" class="left-bar-link">
                 <i style="transform: scaleX(-1);" class="fas fa-undo"></i>
               </a>
             </li>
@@ -345,7 +364,7 @@
 
           <div class="item" data-command="undo" title="Undo - Ctrl + Z">
             <li class="left-bar-item">
-              <a class="left-bar-link">
+              <a style="height: 3rem" class="left-bar-link">
                 <i class="fas fa-undo"></i>
               </a>
             </li>
@@ -354,7 +373,7 @@
           <div class="item" data-command="save" title="Save Boards">
             <li class="left-bar-item">
               <a class="left-bar-img">
-                <img src="https://img.icons8.com/nolan/64/save.png"/>
+                <img src="https://img.icons8.com/fluent/48/000000/save.png"/>
               </a>
             </li>
           </div>
@@ -362,7 +381,7 @@
           <div class="item" data-command="add-page" title="Add New Board">
             <li class="left-bar-item">
               <a class="left-bar-img">
-                <img src="https://img.icons8.com/nolan/64/plus-2-math.png"/>
+                <img src="https://img.icons8.com/fluent/48/000000/plus-2-math.png"/>
               </a>
             </li>
           </div>
@@ -370,7 +389,7 @@
           <div class="item" data-command="remove-page" title="Delete Current Board">
             <li class="left-bar-item">
               <a class="left-bar-img">
-                <img src="https://img.icons8.com/nolan/64/delete-forever.png"/>
+                <img src="https://img.icons8.com/color/48/000000/delete-forever.png"/>
               </a>
             </li>
           </div>
@@ -378,7 +397,7 @@
           <div class="item" data-command="clear-page" title="Clear Board">
             <li class="left-bar-item">
               <a class="left-bar-img">
-                <img style="position:relative;left:-4px;" src="https://img.icons8.com/nolan/64/erase.png"/>
+                <img style="position:relative;left:-2px;" src="https://img.icons8.com/dusk/64/000000/broom.png"/>
               </a>
             </li>
           </div>
@@ -386,13 +405,12 @@
       </ul>
     </nav>
 
-    <button class="hide-options-left"><i class="fas fa-info"></i></button>
+    <button title="Toggle Board Action Menu" class="hide-options-left"><i class="fas fa-info"></i></button>
 
     <!--end left sidebar-->
 
     <!--start canvas image toggle bar-->
     <div class="canvas-toggle-bar">
-      <div class="boards-view-title">My Boards:</div>
       <nav>
         <button class="scroll-boards-view-left">
           <i class="fas fa-chevron-left"></i>
@@ -413,14 +431,13 @@
           <p id="modal-content-header">Ready to Join?</p>
           <img id="modal-image" />
           <div id="modal-buttons-container">
-           
-            
-            <button id="modal-select-button" class = "modal-select-button live_button">Go live</button>
-  
+
+            <button id="modal-select-button" class="live-button">Go live</button>
+
             <div
               title="Test your microphone"
               id="test-mic"
-              class="test-mic-container mic-button "
+              class="test-mic-container mic-button"
             >
               <i class="fa fa-cog cog"></i>
               &nbsp;
@@ -513,7 +530,7 @@
             </div>
             <div id="mic-test">
               <div id="mic-buttons-container">
-                <button class = "modal-select-button test-mic-button" id="test-mic-button">Check mic</button>
+                <button class = "test-mic-button">Check mic</button>
                 <span id="audio-value" style="color:white; position:relative ;left:100px;top: -50px;">null</span>
                 <div id="myProgress">
                   <div class="myProgress" id="myProgress1"></div>
@@ -552,7 +569,6 @@
       <!-- End Modal content -->
     </div>
     <!-- End Modal -->
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script src="https://unpkg.com/peerjs@1.2.0/dist/peerjs.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
