@@ -317,7 +317,7 @@ export default class Whiteboard {
       this.redoStack.push(currentBoard);
       this.context.putImageData(this.undoStack.pop(), 0, 0);
     } else {
-      showInfoMessage('Nothing to redo.');
+      showInfoMessage('Nothing to undo.');
     }
   }
 
@@ -328,7 +328,7 @@ export default class Whiteboard {
       this.undoStack.push(currentBoard);
       this.context.putImageData(this.redoStack.pop(), 0, 0);
     } else {
-      showInfoMessage('Nothing to undo.');
+      showInfoMessage('Nothing to redo.');
     }
   }
 

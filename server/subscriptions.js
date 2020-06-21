@@ -35,7 +35,7 @@ io.sockets.on('connection', (socket) => {
   const urlUuid = socket.handshake.query.id;
   socket.handshake.session.inRoom = true;
   socket.handshake.session.save();
-  const deletedSession = () => {
+  const deleteSession = () => {
     if (socket.handshake.session.inRoom) {
       delete socket.handshake.session.inRoom;
       socket.handshake.session.save();
@@ -88,13 +88,11 @@ io.sockets.on('connection', (socket) => {
           });
         });
       }
-      socket.on('disconnect', () => {
-        deletedSession();
-      });
+      socket.on('disconnect', deleteSession);
       socket.on('disconnecting', () => {
         logger.info(`SOCKET: Manager of room ${roomToJoin} disconnected`);
         managerObj.sockedId = null;
-        deletedSession();
+        deleteSession();
         redisClient.hmset('managers', {
           [urlUuid]: JSON.stringify(managerObj),
         });
@@ -162,7 +160,7 @@ io.sockets.on('connection', (socket) => {
       });
       roomToJoin = urlUuid;
       socket.on('disconnect', () => {
-        deletedSession();
+        deleteSession();
         updateNumOfStudents(roomToJoin);
       });
       logger.info(`SOCKET: Student joining room ${roomToJoin}`);
@@ -191,11 +189,12 @@ io.sockets.on('connection', (socket) => {
       socket.emit('ready', { lecture_details: lectureObj });
     });
   });
-  socket.on('send-to-guests', (room, message, file, fileType, fileName) => {
-    socket.broadcast.to(room).emit('send-to-guests', message, file, fileType, fileName);
+
+  socket.on('send-to-guests', (room, message) => {
+    socket.broadcast.to(room).emit('send-to-guests', message);
   });
 
-  socket.on('send-to-manager', (room, message, file, fileType, fileName) => {
+  socket.on('send-to-manager', (room, message) => {
     redisClient.hmget('rooms', room, (error, roomObject) => {
       roomObject = JSON.parse(roomObject.pop());
       redisClient.hmget(
@@ -204,7 +203,7 @@ io.sockets.on('connection', (socket) => {
         (error, managerObject) => {
           const { socketId } = JSON.parse(managerObject.pop());
           if (socketId in io.in(room).connected) {
-            io.in(room).connected[socketId].emit('send-to-manager', message, file, fileType, fileName);
+            io.in(room).connected[socketId].emit('send-to-manager', message);
           }
         },
       );

@@ -5,7 +5,11 @@
 import Whiteboard from './classes/whiteboard.js';
 import initializeToolsMenu from './tools.js';
 import initializeCanvasTopMenu from './canvasTopMenu.js';
-import { showInfoMessage, appendFile, appendMessage, handleBoardsViewButtonsDisplay, updateBoardsBadge } from './utility.js';
+import Message from './classes/Message.js';
+import Chat from './classes/Chat.js';
+import {
+  showInfoMessage, handleBoardsViewButtonsDisplay, updateBoardsBadge,
+} from './utility.js';
 
 window.onload = async () => {
   const peerjsConfig = await fetch('/peerjs/config').then((r) => r.json());
@@ -14,7 +18,6 @@ window.onload = async () => {
   const url = window.location.pathname;
   const lastSlash = url.lastIndexOf('/');
   const managerId = url.substr(lastSlash + 1);
-  const messageContainer = document.getElementById('message-container');
   const sendContainer = document.getElementById('send-container');
   const messageInput = document.getElementById('message-input');
   const fileInput = document.getElementById('file-input');
@@ -37,6 +40,7 @@ window.onload = async () => {
 
   function startLecture(stream) {
     const whiteboard = new Whiteboard('canvas');
+    const chat = new Chat('message-container');
 
     function handleWindowResize() {
       let timeout;
@@ -94,9 +98,23 @@ window.onload = async () => {
       alert('There is already a manager');
     });
 
-    socket.on('send-to-manager', (message, file, fileType, fileName) => {
-      appendMessage(message);
-      if (file) appendFile(file, fileType, fileName, 'receiver');
+    socket.on('send-to-manager', (message) => {
+      chat.appendMessage(message, true);
+      const messagesDiv = $('div.messages');
+      if (!messagesDiv.hasClass('active-chat')) {
+        chat.unreadCount += 1;
+        $('.new-messages-badge').html(chat.unreadCount);
+      }
+    });
+
+    $('#toggle-messages').click((e) => {
+      e.preventDefault();
+      const messagesDiv = $('div.messages');
+      messagesDiv.toggleClass('active-chat');
+      if (messagesDiv.hasClass('active-chat')) {
+        chat.unreadCount = 0;
+        $('.new-messages-badge').html(chat.unreadCount);
+      }
     });
 
     socket.on('ready', (room) => {
@@ -126,27 +144,18 @@ window.onload = async () => {
         showInfoMessage('Link Copied!');
         document.body.removeChild(tmpInput);
       });
+
       sendContainer.addEventListener('submit', (e) => {
         e.preventDefault();
-        const message = messageInput.value;
+        const messageContent = messageInput.value;
         const newFile = document.getElementById('file-input').files[0];
-        if (newFile === undefined) {
-          appendMessage(`You: ${message}`);
-          socket.emit('send-to-guests', room.lecture_details.id, message);
-        } else {
-          appendMessage(`You: ${message}`);
-          appendFile(newFile, newFile.type, newFile.name, 'sender');
-
-          // Need to send object with file URL, mime type, and message
-          const reader = new FileReader();
-          reader.readAsDataURL(newFile);
-          reader.onload = (e) => {
-            socket.emit('send-to-guests', room.lecture_details.id, message, e.target.result, newFile.type, newFile.name);
-          };
-        }
+        const message = new Message(messageContent, newFile);
+        socket.emit('send-to-guests', room.lecture_details.id, message);
+        chat.appendMessage(message, false);
         messageInput.value = '';
         fileInput.value = '';
       });
+
 
       document.querySelector('#end-lecture').addEventListener('click', () => {
         calls.forEach((call) => {
@@ -189,6 +198,7 @@ window.onload = async () => {
                 .find('img')
                 .attr('src', currImage);
               emitBoards();
+              showInfoMessage(`Saved - Boards Count: ${whiteboard.boards.length}`);
               break;
             case 'add-page':
               whiteboard.boards[whiteboard.currentBoard] = currImage;
@@ -221,8 +231,10 @@ window.onload = async () => {
               if (whiteboard.boards.length <= 1) {
                 $('.canvas-toggle-bar').hide();
               }
-              handleBoardsViewButtonsDisplay();
-              updateBoardsBadge();
+              setTimeout(() => {
+                handleBoardsViewButtonsDisplay();
+                updateBoardsBadge();
+              }, 0);
               emitBoards();
               break;
             case 'clear-page':
@@ -236,6 +248,7 @@ window.onload = async () => {
       initializeCanvasTopMenu(whiteboard);
 
       console.log(room);
+      $('[lecture-name]').html(room.lecture_details.name);
     });
 
     function onClickNonActiveBoardElem() {
