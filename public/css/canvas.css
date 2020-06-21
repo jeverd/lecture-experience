@@ -1261,7 +1261,7 @@ button {
   position: relative;
   display: block;
   padding: 0 22px 0 22px;
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 300;
   color: white;
   line-height: 45px;
@@ -1399,6 +1399,7 @@ input[type=range]:focus::-webkit-slider-runnable-track {
 #myProgress{
   display: inline-block;
   position: relative;
+  border-color: blue;
   left: 20px;
   top: 10px;
 }
