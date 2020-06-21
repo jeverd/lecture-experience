@@ -1,7 +1,9 @@
+/* eslint-disable import/extensions */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-undef */
-/* eslint-disable-next-line import/extensions */
 import { appendFile, appendMessage } from './utility.js';
+import Chat from './classes/Chat.js';
+import Message from './classes/Message.js';
 
 window.onload = async () => {
   const peerjsConfig = await fetch('/peerjs/config').then((r) => r.json());
@@ -12,7 +14,6 @@ window.onload = async () => {
   const sendContainer = document.getElementById('send-container');
   const messageInput = document.getElementById('message-input');
   const fileInput = document.getElementById('file-input');
-  const messageContainer = document.getElementById('message-container');
 
   function setNonActiveBoards(boards) {
     const boardsDiv = document.getElementById('non-active-boards');
@@ -37,6 +38,7 @@ window.onload = async () => {
   }
 
   peer.on('open', (peerId) => {
+    const chat = new Chat('message-container');
     const socket = io('/', {
       query: `id=${roomId}&peer_id=${peerId}`,
     });
@@ -48,6 +50,17 @@ window.onload = async () => {
     socket.on('ready', (room) => {
       const { boards, boardActive } = room.lecture_details;
       setNonActiveBoards(boards.filter((e, i) => i !== boardActive));
+
+      sendContainer.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const messageContent = messageInput.value;
+        const newFile = document.getElementById('file-input').files[0];
+        const message = new Message(messageContent, newFile);
+        socket.emit('send-to-manager', room.lecture_details.id, message);
+        chat.appendMessage(message, false);
+        messageInput.value = '';
+        fileInput.value = '';
+      });
     });
 
     socket.on('disconnect', (e) => {
@@ -62,9 +75,9 @@ window.onload = async () => {
       socket.emit('notify', managerSocketId);
     });
 
-    socket.on('send-to-guests', (message, file, fileType, fileName) => {
-      appendMessage(`Manager: ${message}`);
-      if (file) appendFile(file, fileType, fileName, 'receiver');
+    socket.on('send-to-guests', (message) => {
+      chat.appendMessage(message, true);
+      // if (file) appendFile(file, fileType, fileName, 'receiver');
     });
 
     socket.on('boards', setNonActiveBoards);
@@ -81,28 +94,6 @@ window.onload = async () => {
         startStream(whiteboard, stream.getVideoTracks()[0]);
       });
       call.answer(null);
-    });
-
-    sendContainer.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const message = messageInput.value;
-      const newFile = document.getElementById('file-input').files[0];
-      if (newFile === undefined) {
-        appendMessage(`You: ${message}`);
-        socket.emit('send-to-manager', roomId, message);
-      } else {
-        appendMessage(`You: ${message}`);
-        appendFile(newFile, newFile.type, newFile.name, 'sender');
-
-        // Need to send object with file URL, mime type, and message
-        const reader = new FileReader();
-        reader.readAsDataURL(newFile);
-        reader.onload = function (e) {
-          socket.emit('send-to-manager', roomId, message, e.target.result, newFile.type, newFile.name);
-        };
-      }
-      messageInput.value = '';
-      fileInput.value = '';
     });
 
     document.querySelector('button#toggle-messages').addEventListener('click', (e) => {
