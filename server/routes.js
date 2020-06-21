@@ -17,6 +17,10 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(publicPath, 'index.html'));
 });
 
+app.get('/testjanus', (req, res) => {
+  res.sendFile('testjanus.html', { root: path.join(publicPath) });
+});
+
 app.get('/create', (req, res) => {
   res.sendFile('create.html', { root: path.join(publicPath) });
 });
@@ -55,21 +59,21 @@ app.get('/session', (req, res) => {
 app.get('/lecture/:id', (req, res) => {
   const urlId = req.params.id;
   logger.info(`GET request received: /lecture for lecture id: ${urlId}`);
-    
+
   redisClient.hmget('managers', urlId, (err, object) => {
-      const isGuest = object[0] === null;
-      const roomId = !isGuest && JSON.parse(object[0]).roomId;
-      redisClient.hexists('rooms', isGuest ? urlId : roomId, (err, roomExist) => {
-        if (roomExist) {
-          res.sendFile(isGuest
-            ? 'lecture.html' : 'whiteboard.html',
-          { root: publicPath });
-        } else {
-          res.status(404);
-          res.sendFile('error.html', { root: path.join(publicPath) });
-        }
-      });
+    const isGuest = object[0] === null;
+    const roomId = !isGuest && JSON.parse(object[0]).roomId;
+    redisClient.hexists('rooms', isGuest ? urlId : roomId, (err, roomExist) => {
+      if (roomExist) {
+        res.sendFile(isGuest
+          ? 'lecture.html' : 'whiteboard.html',
+        { root: publicPath });
+      } else {
+        res.status(404);
+        res.sendFile('error.html', { root: path.join(publicPath) });
+      }
     });
+  });
 });
 
 app.get('/lecture/stats/:id', (req, res) => {

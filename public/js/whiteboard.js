@@ -15,72 +15,7 @@ window.onload = () => {
   async function beginLecture() {
     const peerjsConfig = await fetch('/peerjs/config').then((r) => r.json());
     const peer = new Peer(peerjsConfig);
-    var server = null;
-    if(window.location.protocol === 'http:')
-	    server = "http://" + window.location.hostname + ":8088/janus";
-    else
-	    server = "https://" + window.location.hostname + ":8089/janus";
-    Janus.init({debug: "all", callback: function() {
-      janus = new Janus(
-				{
-					server: server,
-					success: function() {
-						// Attach to VideoRoom plugin
-						janus.attach(
-							{
-								plugin: "janus.plugin.videoroom",
-								success: function(pluginHandle) {
-                  screentest = pluginHandle;
-                  console.log('success plugin')
-								},
-								error: function(error) {
-                  console.log('error plugin conenciton')
-								},
-								onmessage: function(msg, jsep) {
-                  console.log(msg)
-								},
-								onlocalstream: function(stream) {
-									Janus.debug(" ::: Got a local stream :::", stream);
-									$('#screenmenu').hide();
-									$('#room').removeClass('hide').show();
-									if($('#screenvideo').length === 0) {
-										$('#screencapture').append('<video class="rounded centered" id="screenvideo" width="100%" height="100%" autoplay playsinline muted="muted"/>');
-									}
-									Janus.attachMediaStream($('#screenvideo').get(0), stream);
-									if(screentest.webrtcStuff.pc.iceConnectionState !== "completed" &&
-											screentest.webrtcStuff.pc.iceConnectionState !== "connected") {
-										$("#screencapture").parent().block({
-											message: '<b>Publishing...</b>',
-											css: {
-												border: 'none',
-												backgroundColor: 'transparent',
-												color: 'white'
-											}
-										});
-									}
-								},
-								onremotestream: function(stream) {
-									// The publisher stream is sendonly, we don't expect anything here
-								},
-								oncleanup: function() {
-									Janus.log(" ::: Got a cleanup notification :::");
-									$('#screencapture').empty();
-									$("#screencapture").parent().unblock();
-									$('#room').hide();
-								}
-							});
-					},
-					error: function(error) {
-						Janus.error(error);
-						bootbox.alert(error, function() {
-							window.location.reload();
-						});
-					},
-					destroyed: function() {
-						window.location.reload();
-					}
-				});
-    });
+
     let calls = [];
     const url = window.location.pathname;
     const lastSlash = url.lastIndexOf('/');
