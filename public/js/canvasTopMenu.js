@@ -13,7 +13,7 @@ export default function initializeCanvasTopMenu(whiteboard) {
 
   $('.my-boards-button-container').click(() => {
     if (whiteboard.boards.length <= 1) {
-      showInfoMessage('You have no other boards saved.');
+      showInfoMessage('You have only one board.');
     } else {
       $('.canvas-toggle-bar').fadeToggle();
     }
@@ -27,5 +27,16 @@ export default function initializeCanvasTopMenu(whiteboard) {
   $('.show-bar-button').click(() => {
     $('.show-bar-button-container').fadeToggle();
     $('.classroom-info-flexbox').delay().fadeToggle();
+  });
+
+  $('.close-chat').click((e) => {
+    e.stopPropagation();
+    $('div.messages').fadeOut();
+  });
+
+  // On click for display messages button
+  $('.chat-button-container').click(() => {
+    const messagesDiv = $('div.messages');
+    messagesDiv.fadeToggle();
   });
 }

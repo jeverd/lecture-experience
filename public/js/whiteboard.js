@@ -5,8 +5,10 @@
 import Whiteboard from './classes/whiteboard.js';
 import initializeToolsMenu from './tools.js';
 import initializeCanvasTopMenu from './canvasTopMenu.js';
+import Message from './classes/Message.js';
+import Chat from './classes/Chat.js';
 import {
-  showInfoMessage, appendFile, appendMessage, handleBoardsViewButtonsDisplay, updateBoardsBadge,
+  showInfoMessage, handleBoardsViewButtonsDisplay, updateBoardsBadge,
 } from './utility.js';
 
 window.onload = () => {
@@ -17,7 +19,6 @@ window.onload = () => {
     const url = window.location.pathname;
     const lastSlash = url.lastIndexOf('/');
     const managerId = url.substr(lastSlash + 1);
-    const messageContainer = document.getElementById('message-container');
     const sendContainer = document.getElementById('send-container');
     const messageInput = document.getElementById('message-input');
     const fileInput = document.getElementById('file-input');
@@ -39,6 +40,7 @@ window.onload = () => {
 
     function broadcastLecture(stream) {
       const whiteboard = new Whiteboard('canvas');
+      const chat = new Chat('message-container');
 
       function handleWindowResize() {
         let timeout;
@@ -78,12 +80,27 @@ window.onload = () => {
         calls.push(call);
       });
 
+      socket.on('send-to-manager', (message) => {
+        chat.appendMessage(message, true);
+        const messagesDiv = $('div.messages');
+        if (!messagesDiv.hasClass('active-chat')) {
+          chat.unreadCount += 1;
+          $('.new-messages-badge').html(chat.unreadCount);
+        }
+      });
+
+      $('#toggle-messages').click((e) => {
+        e.preventDefault();
+        const messagesDiv = $('div.messages');
+        messagesDiv.toggleClass('active-chat');
+        if (messagesDiv.hasClass('active-chat')) {
+          chat.unreadCount = 0;
+          $('.new-messages-badge').html(chat.unreadCount);
+        }
+      });
+
       socket.on('updateNumOfStudents', (num) => {
         document.getElementById('specs').innerHTML = num;
-      });
-      socket.on('send-to-manager', (message, file, fileType, fileName) => {
-        appendMessage(message);
-        if (file) appendFile(file, fileType, fileName, 'receiver');
       });
 
       socket.on('currentBoard', (studentSocketId) => {
@@ -130,54 +147,13 @@ window.onload = () => {
 
         sendContainer.addEventListener('submit', (e) => {
           e.preventDefault();
-          const message = messageInput.value;
+          const messageContent = messageInput.value;
           const newFile = document.getElementById('file-input').files[0];
-          if (newFile === undefined) {
-            appendMessage(`You: ${message}`);
-            socket.emit('send-to-guests', room.lecture_details.id, message);
-          } else {
-            appendMessage(`You: ${message}`);
-            appendFile(newFile, newFile.type, newFile.name, 'sender');
-
-            // Need to send object with file URL, mime type, and message
-            const reader = new FileReader();
-            reader.readAsDataURL(newFile);
-            reader.onload = function (e) {
-              socket.emit('send-to-guests', room.lecture_details.id, message, e.target.result, newFile.type, newFile.name);
-            };
-          }
+          const message = new Message(messageContent, newFile);
+          socket.emit('send-to-guests', room.lecture_details.id, message);
+          chat.appendMessage(message, false);
           messageInput.value = '';
           fileInput.value = '';
-        });
-
-        // On click for display messages button
-        document.querySelector('button#toggle-messages').addEventListener('click', (e) => {
-          e.preventDefault();
-          // If we want to include multiple separate chat windows, this is an easy way of doing that
-          const messagesChild = e.target.nextElementSibling;
-          e.target.classList.toggle('active-chat');
-          if (messagesChild.style.maxHeight) {
-            messagesChild.style.maxHeight = null;
-          } else if (messagesChild.scrollHeight >= 300) {
-            messagesChild.style.maxHeight = '300px';
-            messagesChild.style.overflow = 'scroll';
-          } else {
-            messagesChild.style.maxHeight = `${messagesChild.scrollHeight}px`;
-          }
-        });
-
-        // Refresh the chat window for the new message
-        document.querySelector('button#toggle-messages').addEventListener('redraw', (e) => {
-          e.preventDefault();
-
-          const messagesChild = e.target.nextElementSibling;
-          e.target.classList.add('active-chat');
-          if (messagesChild.scrollHeight >= 300) {
-            messagesChild.style.maxHeight = '300px';
-            messagesChild.style.overflow = 'scroll';
-          } else {
-            messagesChild.style.maxHeight = `${messagesChild.scrollHeight}px`;
-          }
         });
 
         document.querySelector('#end-lecture').addEventListener('click', () => {
@@ -214,6 +190,7 @@ window.onload = () => {
                   .find('img')
                   .attr('src', currImage);
                 emitBoards();
+                showInfoMessage(`Saved - Boards Count: ${whiteboard.boards.length}`);
                 break;
               case 'add-page':
                 whiteboard.boards[whiteboard.currentBoard] = currImage;
@@ -246,8 +223,10 @@ window.onload = () => {
                 if (whiteboard.boards.length <= 1) {
                   $('.canvas-toggle-bar').hide();
                 }
-                handleBoardsViewButtonsDisplay();
-                updateBoardsBadge();
+                setTimeout(() => {
+                  handleBoardsViewButtonsDisplay();
+                  updateBoardsBadge();
+                }, 0);
                 emitBoards();
                 break;
               case 'clear-page':
@@ -258,13 +237,13 @@ window.onload = () => {
           });
         });
 
-
         document.querySelector('.scroll-boards-view-left').addEventListener('click', () => {
           $('.canvas-toggle-nav').animate({ scrollLeft: '-=120px' }, 150, () => {
             handleBoardsViewButtonsDisplay();
           });
         });
 
+        $('[lecture-name]').html(room.lecture_details.name);
         initializeToolsMenu(whiteboard);
         initializeCanvasTopMenu(whiteboard);
 
