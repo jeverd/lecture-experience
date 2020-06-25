@@ -495,25 +495,24 @@
   
             <div class="custom-select-wrapper">
               <div class="custom-select">
-                  <div class="custom-select__trigger"><span>Tesla</span>
+                  <div class="custom-select__trigger"><span></span>
                       <div class="arrow"></div>
                   </div>
-                  <div class="custom-options">
-                      <span class="custom-option selected" data-value="tesla">Tesla</span>
-                      <span class="custom-option" data-value="volvo">Volvo</span>
-                      <span class="custom-option" data-value="mercedes">Mercedes</span>
+                  <div class="custom-options" id="select-options">
+            
                   </div>
               </div>
-
-            </div>
           </div>
-          <div id="volume-header">
-            <p class="volume-header">Input Volume</p>
-          </div>
-          <div id="volume input">
-            <div class="range-wrap">
-              <div class="range-value" id="rangeV"></div>
-              <input id="range" type="range" min="0" max="100" value="0" step="1">
+            <div
+              title="Mute your microphone"
+              id="mute-mic"
+              class="copy-link-container copy-button "
+            >
+            <i id="mute-icon" class="fa fa-microphone microphone" data-value=""></i>
+            <i id="muted-icon" class="fa fa-microphone-slash microphone" style='display: none;'></i>
+              &nbsp;
+              <span class="copy-link-modal"></span>
+              &nbsp;
             </div>
           </div>
           <div>
@@ -523,35 +522,36 @@
             </div>
             <div id="mic-test">
               <div id="mic-buttons-container">
-                <button class = "test-mic-button">Check mic</button>
+                <button id = "test-mic-button" class = "test-mic-button">Check Mic</button>
                 <div id="myProgress">
-                  <div class="myProgress"></div>
-                  <div class="myProgress"></div>
-                  <div class="myProgress"></div>
-                  <div class="myProgress"></div>
-                  <div class="myProgress"></div>
-                  <div class="myProgress"></div>
-                  <div class="myProgress"></div>
-                  <div class="myProgress"></div>
-                  <div class="myProgress"></div>
-                  <div class="myProgress"></div>
-                  <div class="myProgress"></div>
-                  <div class="myProgress"></div>
-                  <div class="myProgress"></div>
-                  <div class="myProgress"></div>
-                  <div class="myProgress"></div>
-                  <div class="myProgress"></div>
-                  <div class="myProgress"></div>
-                  <div class="myProgress"></div>
-                  <div class="myProgress"></div>
-                  <div class="myProgress"></div>
-                  <div class="myProgress"></div>
-                  <div class="myProgress"></div>
-                  <div class="myProgress"></div>
-                  <div class="myProgress"></div>
-                  <div class="myProgress"></div>             
+                  <div class="myProgress" id="myProgress1"></div>
+                  <div class="myProgress" id="myProgress2"></div>
+                  <div class="myProgress" id="myProgress3"></div>
+                  <div class="myProgress" id="myProgress4" ></div>
+                  <div class="myProgress" id="myProgress5"></div>
+                  <div class="myProgress" id="myProgress6"></div>
+                  <div class="myProgress" id="myProgress7"></div>
+                  <div class="myProgress" id="myProgress8"></div>
+                  <div class="myProgress" id="myProgress9"></div>
+                  <div class="myProgress" id="myProgress10"></div>
+                  <div class="myProgress" id="myProgress11"></div>
+                  <div class="myProgress" id="myProgress12"></div>
+                  <div class="myProgress" id="myProgress13"></div>
+                  <div class="myProgress" id="myProgress14"></div>
+                  <div class="myProgress" id="myProgress15"></div>
+                  <div class="myProgress" id="myProgress16"></div>
+                  <div class="myProgress" id="myProgress17"></div>
+                  <div class="myProgress" id="myProgress18"></div>
+                  <div class="myProgress" id="myProgress19"></div>
+                  <div class="myProgress" id="myProgress20"></div>
+                  <div class="myProgress" id="myProgress21"></div>
+                  <div class="myProgress" id="myProgress22"></div>
+                  <div class="myProgress" id="myProgress23"></div>
+                  <div class="myProgress" id="myProgress24"></div>
+                  <div class="myProgress" id="myProgress25"></div>             
                   <!--<div id="myBar"></div>-->
                 </div>
+
               </div>  
             </div>
           </div>
@@ -564,6 +564,5 @@
     <script src="https://unpkg.com/peerjs@1.2.0/dist/peerjs.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/whiteboard.js" type="module"></script>
-    <script src="/canvasModal.js" type="text/javascript"></script>
   </body>
 </html>
