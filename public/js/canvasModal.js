@@ -37,7 +37,6 @@ export default function initModal(stream){
 
   })
   
- 
   
   //test mic
   let test=false
@@ -153,7 +152,7 @@ export default function initModal(stream){
     }
   });
   
-//chenge the current mic device
+//change the current mic device
 /*
   function chengeTrack(currentDeviceId){
     var mediaParams = {video:false,
@@ -207,8 +206,21 @@ export default function initModal(stream){
     this.querySelector('.custom-select').classList.toggle('open');
   });
   
+  let click=0;
   window.addEventListener('click', (e) => {
     const select = document.querySelector('.custom-select');
+    const modal = document.querySelector('.modal-content');
+
+    if(!select.classList.contains('open') && modal.classList.contains('lecture') && !modal.contains(e.target)){
+      if(click>0){
+        $('#welcome-lecture-modal').hide();
+        modal.classList.remove('lecture');
+        click=0;
+      }
+      else{
+        click++;
+      }
+    }
     if (!select.contains(e.target)) {
       select.classList.remove('open');
     }
