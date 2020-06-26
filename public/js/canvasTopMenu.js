@@ -11,6 +11,15 @@ export default function initializeCanvasTopMenu(whiteboard) {
     $('.left-bar').fadeToggle();
   });
 
+  document.querySelector('#mic-config').addEventListener('click', () => {
+    $('#welcome-lecture-modal').show();
+    $('#join-content').hide();
+    $('#mic-content').show();
+    $('#go-back').hide();
+    document.querySelector('.modal-content').classList.add('lecture');
+      
+  });
+
   $('.my-boards-button-container').click(() => {
     if (whiteboard.boards.length <= 1) {
       showInfoMessage('You have only one board.');

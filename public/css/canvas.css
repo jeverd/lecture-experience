@@ -88,6 +88,12 @@ body {
   color: #ef5350;
 }
 
+.mic-config-icon{
+  width: 22%;
+  height: 22%;
+  position: relative;
+}
+
 .chat-button-container > span > span {
   position: relative;
   bottom: 2px;
@@ -96,6 +102,7 @@ body {
 .chat-button-container,
 .my-boards-button-container,
 .end-lecture-container,
+.mic-config-container,
 .copy-link-container,
 .test-mic-container,
 .go-back {
@@ -107,6 +114,7 @@ body {
 .chat-button-container:hover,
 .my-boards-button-container:hover,
 .end-lecture-container:hover,
+.mic-config-container:hover,
 .copy-link-container:hover,
 .test-mic-container:hover,
 .go-back:hover {
@@ -115,6 +123,7 @@ body {
 
 .lecture-running,
 .end-lecture-container,
+.mic-config-container,
 .lecture-spectators,
 .copy-link-container,
 .test-mic-container,
@@ -184,6 +193,7 @@ body {
   .lecture-running-text,
   .spectators-count-text,
   .end-lecture-text,
+  .mic-config-text,
   .copy-link-text {
     display: none;
   }
@@ -1321,6 +1331,7 @@ div.messages.active-chat{
 
 .mic-content{
   display: none;
+  padding-bottom: 15px;
 }
 
 .arrow-back{
@@ -1507,3 +1518,4 @@ div.messages.active-chat{
   position: relative;
   left: -10px;  
 }
+
