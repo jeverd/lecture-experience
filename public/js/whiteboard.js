@@ -235,8 +235,6 @@ window.onload = () => {
         $('[lecture-name]').html(room.lecture_details.name);
         initializeToolsMenu(whiteboard);
         initializeCanvasTopMenu(whiteboard);
-  
-        console.log(room);
       });
   
       function onClickNonActiveBoardElem() {
