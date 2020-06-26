@@ -331,7 +331,7 @@ window.onload = () => {
   })
     .catch((error) => {
       // handle error properly here.
-      consolFe.log(`Media error: ${error}`);
+      console.log(`Media error: ${error}`);
     });
 
 };
