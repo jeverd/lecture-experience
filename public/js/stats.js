@@ -30,9 +30,9 @@ function buildGraph(statsObj) {
   let graphSize;
 
   if (lectureDurationInSeconds > 1800) {
-    graphSize = 20;
+    graphSize = 30;
   } else {
-    graphSize = 10;
+    graphSize = 25;
   }
 
   for (let i = 0; i < graphSize; i++) {
@@ -112,6 +112,7 @@ function buildGraph(statsObj) {
 
   document.getElementById('lecture-stats-title').innerHTML = statsObj.lectureName;
   document.getElementById('max-specs').innerHTML = maxStudents;
+  document.getElementById('max-specss').innerHTML = maxStudents;
   document.getElementById('avg-specs').innerHTML = Math.ceil(averageNumOfUsers / graphSize);
   document.getElementById('boards-used').innerHTML = statsObj.numOfBoards;
 
@@ -121,6 +122,8 @@ function buildGraph(statsObj) {
 
   const formatted = hours.toString().padStart(2, '0') + ':' + minutes.toString().padStart(2, '0') + ':' + seconds.toString().padStart(2, '0');
   document.getElementById('lecture-duration').innerHTML = formatted;
+  document.getElementById('lecture-durationn').innerHTML = formatted;
+  console.log(formatted);
 }
 
 
@@ -133,3 +136,26 @@ fetch(`/lecture/stats/${urlId}`, requestOpts)
     }
     // else display error loading stats
   });
+
+const avgBut = document.querySelector('#average');
+const statsBut = document.querySelector('#stats');
+
+const graph = document.querySelector('#stats-graph');
+const statsInfo = document.querySelector('#stats-info');
+
+
+avgBut.addEventListener('click', (e) => {
+  e.preventDefault();
+  avgBut.classList.add('activeStat');
+  statsBut.classList.remove('activeStat');
+  graph.style.display = "";
+  statsInfo.style.display = "none";
+});
+
+statsBut.addEventListener('click', (e) => {
+  e.preventDefault();
+  avgBut.classList.remove('activeStat');
+  statsBut.classList.add('activeStat');
+  statsInfo.style.display = "";
+  graph.style.display = "none";
+});
