@@ -7,6 +7,7 @@ const { logger } = require('./services/logger/logger');
 const { sendManagerDisconnectEmail } = require('./services/emailer');
 const Stats = require('./models/stats');
 
+
 const roomsTimeout = {};
 
 function updateNumOfStudents(room) {
@@ -25,14 +26,16 @@ function updateNumOfStudents(room) {
 }
 
 function call(room, managerSocketId, peerId) {
-  io.in(room).connected[managerSocketId].emit('call', peerId);
+  if (managerSocketId in io.in(room).connected) {
+    io.in(room).connected[managerSocketId].emit('call', peerId);
+  }
 }
 
 io.sockets.on('connection', (socket) => {
   const urlUuid = socket.handshake.query.id;
   socket.handshake.session.inRoom = true;
   socket.handshake.session.save();
-  const deletedSession = () => {
+  const deleteSession = () => {
     if (socket.handshake.session.inRoom) {
       delete socket.handshake.session.inRoom;
       socket.handshake.session.save();
@@ -76,7 +79,7 @@ io.sockets.on('connection', (socket) => {
               if (roomToJoin in io.sockets.adapter.rooms) {
                 const connectedSockets = io.sockets.adapter.rooms[roomToJoin].sockets;
                 Object.keys(connectedSockets).forEach((cliId) => {
-                  if (cliId !== socket.id) {
+                  if (cliId !== socket.id && cliId in io.in(roomToJoin).connected) {
                     io.in(roomToJoin).connected[cliId].disconnect();
                   }
                 });
@@ -85,13 +88,11 @@ io.sockets.on('connection', (socket) => {
           });
         });
       }
-      socket.on('disconnect', () => {
-        deletedSession();
-      });
+      socket.on('disconnect', deleteSession);
       socket.on('disconnecting', () => {
         logger.info(`SOCKET: Manager of room ${roomToJoin} disconnected`);
         managerObj.sockedId = null;
-        deletedSession();
+        deleteSession();
         redisClient.hmset('managers', {
           [urlUuid]: JSON.stringify(managerObj),
         });
@@ -159,7 +160,7 @@ io.sockets.on('connection', (socket) => {
       });
       roomToJoin = urlUuid;
       socket.on('disconnect', () => {
-        deletedSession();
+        deleteSession();
         updateNumOfStudents(roomToJoin);
       });
       logger.info(`SOCKET: Student joining room ${roomToJoin}`);
@@ -188,6 +189,7 @@ io.sockets.on('connection', (socket) => {
       socket.emit('ready', { lecture_details: lectureObj });
     });
   });
+
   socket.on('send-to-guests', (room, message) => {
     socket.broadcast.to(room).emit('send-to-guests', message);
   });

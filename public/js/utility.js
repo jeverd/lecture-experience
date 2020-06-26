@@ -55,9 +55,71 @@ export function getImgDataFromImgElem(imgElem) {
 export function showInfoMessage(message) {
   const popupId = '#info-popup';
   $(popupId).html(message);
+  // do not change to arrow function! Or else it loses "this" context.
   $(popupId).fadeIn(200, function () {
     setTimeout(() => {
       $(this).fadeOut(300);
     }, 2000);
+  });
+}
+
+export function appendFile(file, fileType, fileName, identifier) {
+  const messageContainer = document.getElementById('message-container');
+  const messageElement = document.createElement('tr');
+  let fileElement = null;
+
+  // Doesn't work - need some kind of file upload
+  if (fileType.includes('image')) {
+    fileElement = document.createElement('img');
+    fileElement.src = (identifier === 'sender') ? URL.createObjectURL(file) : file;
+  } else {
+    fileElement = document.createElement('a');
+    fileElement.href = (identifier === 'sender') ? URL.createObjectURL(file) : file;
+    fileElement.download = fileName;
+    fileElement.innerText = fileName;
+  }
+
+  messageElement.append(fileElement);
+  messageContainer.append(messageElement);
+
+  const messageToggle = document.getElementById('toggle-messages');
+  const event = new Event('redraw');
+  messageToggle.dispatchEvent(event);
+}
+
+export function appendMessage(message) {
+  const messageContainer = document.getElementById('message-container');
+  const messageElement = document.createElement('tr');
+  const tableData = document.createElement('td');
+  tableData.innerText = message;
+
+  messageElement.append(tableData);
+  messageContainer.append(messageElement);
+
+  const messageToggle = document.getElementById('toggle-messages');
+  const event = new Event('redraw');
+  messageToggle.dispatchEvent(event);
+}
+
+export function handleBoardsViewButtonsDisplay() {
+  const boardView = document.querySelector('.canvas-toggle-nav');
+  if (boardView.offsetWidth < boardView.scrollWidth) {
+    if ($(boardView).scrollLeft() > 0) {
+      $('.scroll-boards-view-left').show();
+    } else {
+      $('.scroll-boards-view-left').hide();
+    }
+    $('.scroll-boards-view-right').show();
+    if ($(boardView).scrollLeft() + boardView.offsetWidth >= boardView.scrollWidth - 15) {
+      $('.scroll-boards-view-right').hide();
+    }
+  } else {
+    $('.scroll-boards-view-left').hide();
+  }
+}
+
+export function updateBoardsBadge() {
+  document.querySelectorAll('.board-badge').forEach((badge, i) => {
+    badge.innerHTML = i + 1;
   });
 }

@@ -33,4 +33,5 @@ module.exports = {
   iceServers: ICE_PUBLIC_SERVERS,
   sessionSecret: process.env.SESSION_SECRET,
   sessionName: process.env.SESSION_NAME,
+  redisTest: process.env.REDIS_TEST,
 };
