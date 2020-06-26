@@ -168,15 +168,12 @@ export default function initModal(stream){
   stream.getAudioTracks().forEach(e=>currentDevice = e.getCapabilities().deviceId);
 
   navigator.mediaDevices.enumerateDevices().then(gotDevices);
-  console.log(HTMLMediaElement.setSinkId)
   
   function gotDevices(deviceInfos) {
-    console.log(deviceInfos)
     for (let i = 0; i !== deviceInfos.length; ++i) {
       const deviceInfo = deviceInfos[i];
       const newSpan = document.createElement('span');
       newSpan.value = deviceInfo.deviceId;
-      console.log(deviceInfo.id);
       
       if (deviceInfo.kind === 'audioinput') {
         newSpan.textContent = deviceInfo.label;
