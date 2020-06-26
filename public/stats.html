@@ -30,20 +30,54 @@
       </div>
 
       <div class="infoBoard">
+
+        <div class="titleText">
+            <div><span id="lecture-stats-title"></span>'s Analytics</div>
+        </div>
+
+        <div style="padding-top: 0px; margin-top: -10px; margin-bottom: 15px;" class = "dividerBox">
+            <div class = "divider">
+              </div>
+        </div>
+
         <div class="infoText">
-          <div><span id="lecture-stats-title"></span> Stats</div>
-          <div>Max # of spectators: <span id="max-specs"></span></div>
-          <div>Average # of spectators: <span id="avg-specs"></span></div>
-          <div>Boards used: <span id="boards-used"></span></div>
-          <div>Lecture Duration: <span id="lecture-duration"></span></div>
+          <div class="info" >
+              <div  class="left" >Max # of spectators:  <span class="right" id="max-specs"></span></div>
+              <div class="left" >Average # of spectators:  <span class="right" id="avg-specs"></span></div>
+          </div>
+          <div class="info infoleft">
+              <div class="left" >Boards used:  <span  class="right"id="boards-used"></span></div>
+              <div class="left" >Lecture Duration:  <span class="right" id="lecture-duration"></span></div>
+          </div>
         </div>
 
         <div id="stats-graph">
-          <div class="graph" id="graph">
-              
+          <div class="graphLabels">
+            <div class="yAxis">
+                <div class="maxText">
+                    <div><span id="max-specss"></span></div>   
+                    <div style="margin-top: 320px;"><span >0</span></div>      
+                </div>
+              </div>
+            <div class="graph" id="graph">
+          </div>
+          </div>
+          <div style="margin-top: 20px;" class="durationText">
+              <div><span id="lecture-durationn"></span></div> 
           </div>
         </div>
+
+        
+
+      <div class = "dividerBox">
+          <div class = "divider">
+            </div>
       </div>
+
+      <div class="surveyText">
+          <div><span id="lecture-stats-title"></span>Please rate your experience</div>
+      </div>
+      
 
       <div class="survey-button">
         <div class="buttons">
@@ -52,12 +86,21 @@
           </a>
         </div>
       </div>
+
+      <div class="home-button-container">
+        <a href="/">
+            <button class="home-button">
+              <i class="fas fa-home"></i>
+            </button>
+        </a>
+      </div>
     </div>
+  </div>
 
     <div id="ex1" class="modal">
       <script>(function(t,e,s,n){var o,a,c;t.SMCX=t.SMCX||[],e.getElementById(n)||(o=e.getElementsByTagName(s),a=o[o.length-1],c=e.createElement(s),c.type="text/javascript",c.async=!0,c.id=n,c.src="https://widget.surveymonkey.com/collect/website/js/tRaiETqnLgj758hTBazgd_2FDSmBqhj1UGu7c9_2BT6uS3gb_2BvW67W9_2FxWQF4zA46dFe.js",a.parentNode.insertBefore(c,a))})(window,document,"script","smcx-sdk");</script>
     </div>
-  
+    
     <div class="footer fixed-footer">
       <div class="footer-grid">
         <div class="footer-grid-left">
@@ -71,7 +114,7 @@
       </div>
     </div>
 
-      </div>
+  </div>
 
   <h2 class="responsive-condition">
     Sorry, Liteboard isn't supported on this device yet
