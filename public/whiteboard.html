@@ -19,6 +19,7 @@
       integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
       crossorigin="anonymous"
     />
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet"></link>
   </head>
 
   <body style="background-color: #ffffff;">
@@ -66,6 +67,20 @@
           &nbsp;
           <span class="end-lecture-text">End Lecture</span>
           &nbsp;
+        </div>
+
+        <span class="divider"></span>
+
+        <div
+        title="Change microphone configuration"
+        id="mic-config"
+        class="mic-config-container"
+        >
+        <img src="https://img.icons8.com/color/48/000000/microphone.png" class="mic-config-icon"/>
+        &nbsp;
+        <span class="mic-config-text">Mic Config</span>
+          &nbsp;
+
         </div>
 
         <span class="divider"></span>
@@ -119,13 +134,33 @@
     </div>
 
     <div id="info-popup"></div>
-
+    
     <div class="messages">
-      <button type="button" id="toggle-messages" class="collapsible">Messages</button>
-      <div class="message-container" id="message-container">Welcome to Liteboard!</div>
+      <div id="toggle-messages">
+        <div>
+          <div class="chat-title-wrap">
+            <div class="new-messages-badge">0</div>
+            <span class="chat-title">Lecture Chat</span>
+          </div>
+          <i class="fa fa-times close-chat" aria-hidden="true"></i>
+        </div>
+      </div>
+      <div id="wrapper" class="messages-main">
+        <div class="message-container" id="message-container">
+          <div class="message-lecture-name">
+            <span>
+              <span lecture-name></span> chat room
+            </span>
+          </div>
+        </div>
+      </div>
       <form id="send-container">
-          <input type="text" id="message-input">
-          <button type="submit" id="send-button">Send</button>
+          <input autocomplete="off" type="text" id="message-input">
+          <input type="file" name="file" id="file-input" class="inputfile" />
+          <label for="file-input">
+            <i class="fas fa-paperclip"></i>
+          </label>
+          <button type="submit" id="send-button"><i class="fas fa-chevron-right"></i></button>
       </form>
     </div>
 
@@ -322,7 +357,7 @@
       </ul>
     </nav>
 
-    <button title="Tools" class="hide-options-right">
+    <button title="Toggle Tools Menu" class="hide-options-right">
       <i class="fas fa-palette"></i>
     </button>
 
@@ -333,42 +368,50 @@
       <ul class="left-bar-nav">
         <!--group commands-->
         <div class="group commands">
-          <div class="item" data-command="undo" title="Undo">
+          <div class="item" data-command="redo" title="Redo - Ctrl + Y">
             <li class="left-bar-item">
-              <a class="left-bar-link">
+              <a style="height: 3rem" class="left-bar-link">
+                <i style="transform: scaleX(-1);" class="fas fa-undo"></i>
+              </a>
+            </li>
+          </div>
+
+          <div class="item" data-command="undo" title="Undo - Ctrl + Z">
+            <li class="left-bar-item">
+              <a style="height: 3rem" class="left-bar-link">
                 <i class="fas fa-undo"></i>
               </a>
             </li>
           </div>
 
-          <div class="item" data-command="save" title="Save">
+          <div class="item" data-command="save" title="Save Boards">
             <li class="left-bar-item">
-              <a class="left-bar-link">
-                <i class="fas fa-download"></i>
+              <a class="left-bar-img">
+                <img src="https://img.icons8.com/fluent/48/000000/save.png"/>
               </a>
             </li>
           </div>
 
-          <div class="item" data-command="add-page" title="Add Page">
+          <div class="item" data-command="add-page" title="Add New Board">
             <li class="left-bar-item">
-              <a class="left-bar-link">
-                <i class="fas fa-plus"></i>
+              <a class="left-bar-img">
+                <img src="https://img.icons8.com/fluent/48/000000/plus-2-math.png"/>
               </a>
             </li>
           </div>
 
-          <div class="item" data-command="remove-page" title="Delete Board">
+          <div class="item" data-command="remove-page" title="Delete Current Board">
             <li class="left-bar-item">
-              <a class="left-bar-link">
-                <i class="fas fa-minus"></i>
+              <a class="left-bar-img">
+                <img src="https://img.icons8.com/color/48/000000/delete-forever.png"/>
               </a>
             </li>
           </div>
 
           <div class="item" data-command="clear-page" title="Clear Board">
             <li class="left-bar-item">
-              <a class="left-bar-link">
-                <i class="fas fa-backspace"></i>
+              <a class="left-bar-img">
+                <img style="position:relative;left:-2px;" src="https://img.icons8.com/dusk/64/000000/broom.png"/>
               </a>
             </li>
           </div>
@@ -376,14 +419,12 @@
       </ul>
     </nav>
 
-    <button class="hide-options-left"><i class="fas fa-info"></i></button>
-    <!-- <div class="group swatches" id="pagelist"></div> -->
+    <button title="Toggle Board Action Menu" class="hide-options-left"><i class="fas fa-info"></i></button>
 
     <!--end left sidebar-->
 
     <!--start canvas image toggle bar-->
     <div class="canvas-toggle-bar">
-      <div class="boards-view-title">My Boards:</div>
       <nav>
         <button class="scroll-boards-view-left">
           <i class="fas fa-chevron-left"></i>
@@ -397,21 +438,142 @@
 
     <!--end canvas image toggle bar-->
     <!-- Start Modal -->
-    <div id="myModal" class="modal">
+    <div id="welcome-lecture-modal" class="modal">
       <!-- Start Modal content -->
       <div class="modal-content">
-        <span class="close">&times;</span>
-        <p id="modal-content-header">Canvas Preview</p>
-        <img id="modal-image" />
-        <div id="modal-buttons-container">
-          <button id="modal-close-button">Close</button>
-          <button id="modal-select-button">Select</button>
+        <div id="join-content">
+          <p id="modal-content-header">Ready to Join?</p>
+          <img id="modal-image" />
+          <div id="modal-buttons-container">
+
+            <button id="modal-select-button" class="live-button">Go live</button>
+
+            <div
+              title="Test your microphone"
+              id="test-mic"
+              class="test-mic-container mic-button"
+            >
+              <i class="fa fa-cog cog"></i>
+              &nbsp;
+              <span class="test-mic">Test Microphone</span>
+              &nbsp;
+            </div>
+  
+  
+  
+            <!--<button class = "modal-select-button mic_button">Test Mic</button>-->
+          </div>
+          <!--Share Container-->
+          <div class="share-container">
+            <div
+              title="Copy lecture link"
+              id="copy-link"
+              class="copy-link-container copy-button "
+            >
+              <i class="fas fa-link sharelink-info-icon"></i>
+              &nbsp;
+              <span class="copy-link-modal">Copy Link</span>
+              &nbsp;
+            </div>
+            
+            <div class="share">
+             <!--Share button-->
+  
+             <!-- facebook -->
+             <a class="facebook" href="#" target="blank"><i class="fa fa-facebook"></i></a>
+          
+             <!-- twitter -->
+             <a class="twitter" href="#" target="blank"><i class="fa fa-twitter"></i></a>
+          
+             <!-- google plus -->
+             <a class="googleplus" href="#" target="blank"><i class="fa fa-google-plus"></i></a>
+            </div>
+          </div>  
+        </div>
+        <!--Start Mic content-->
+        <div id="mic-content" class="mic-content">
+          <div
+              id="go-back"
+              class="go-back back-button"
+            >
+              <i class="fa fa-arrow-left arrow-back"></i>
+              &nbsp;
+              <span class="go-back-modal">Go Live</span>
+              &nbsp;
+          </div>
+          <p id="mic-content-header">Voice Settings</p>
+          <div>
+            <p class="device-header">Input Device</p>
+          </div>
+          <div id="input-container">
+  
+            <div class="custom-select-wrapper">
+              <div class="custom-select">
+                  <div class="custom-select__trigger"><span></span>
+                      <div class="arrow"></div>
+                  </div>
+                  <div class="custom-options" id="select-options">
+            
+                  </div>
+              </div>
+          </div>
+            <div
+              title="Mute your microphone"
+              id="mute-mic"
+              class="copy-link-container copy-button "
+            >
+            <i id="mute-icon" class="fa fa-microphone microphone" data-value=""></i>
+            <i id="muted-icon" class="fa fa-microphone-slash microphone" style='display: none;'></i>
+              &nbsp;
+              <span class="copy-link-modal"></span>
+              &nbsp;
+            </div>
+          </div>
+          <div>
+            <div id="mic-test-header">
+              <p class="mic-test-header">Mic Test</p>
+              <p class="mic-test-comment">Start a test to check up your mic!</p>
+            </div>
+            <div id="mic-test">
+              <div id="mic-buttons-container">
+                <button id = "test-mic-button" class = "test-mic-button">Check Mic</button>
+                <div id="myProgress">
+                  <div class="myProgress" id="myProgress1"></div>
+                  <div class="myProgress" id="myProgress2"></div>
+                  <div class="myProgress" id="myProgress3"></div>
+                  <div class="myProgress" id="myProgress4" ></div>
+                  <div class="myProgress" id="myProgress5"></div>
+                  <div class="myProgress" id="myProgress6"></div>
+                  <div class="myProgress" id="myProgress7"></div>
+                  <div class="myProgress" id="myProgress8"></div>
+                  <div class="myProgress" id="myProgress9"></div>
+                  <div class="myProgress" id="myProgress10"></div>
+                  <div class="myProgress" id="myProgress11"></div>
+                  <div class="myProgress" id="myProgress12"></div>
+                  <div class="myProgress" id="myProgress13"></div>
+                  <div class="myProgress" id="myProgress14"></div>
+                  <div class="myProgress" id="myProgress15"></div>
+                  <div class="myProgress" id="myProgress16"></div>
+                  <div class="myProgress" id="myProgress17"></div>
+                  <div class="myProgress" id="myProgress18"></div>
+                  <div class="myProgress" id="myProgress19"></div>
+                  <div class="myProgress" id="myProgress20"></div>
+                  <div class="myProgress" id="myProgress21"></div>
+                  <div class="myProgress" id="myProgress22"></div>
+                  <div class="myProgress" id="myProgress23"></div>
+                  <div class="myProgress" id="myProgress24"></div>
+                  <div class="myProgress" id="myProgress25"></div>             
+                  <!--<div id="myBar"></div>-->
+                </div>
+
+              </div>  
+            </div>
+          </div>
         </div>
       </div>
       <!-- End Modal content -->
     </div>
     <!-- End Modal -->
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script src="https://unpkg.com/peerjs@1.2.0/dist/peerjs.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>

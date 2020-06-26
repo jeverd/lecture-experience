@@ -1,6 +1,9 @@
+/* eslint-disable import/extensions */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-undef */
-/* eslint-disable-next-line import/extensions */
+import { appendFile, appendMessage } from './utility.js';
+import Chat from './classes/Chat.js';
+import Message from './classes/Message.js';
 
 window.onload = async () => {
   const peerjsConfig = await fetch('/peerjs/config').then((r) => r.json());
@@ -11,7 +14,6 @@ window.onload = async () => {
   const sendContainer = document.getElementById('send-container');
   const messageInput = document.getElementById('message-input');
   const fileInput = document.getElementById('file-input');
-  const messageContainer = document.getElementById('message-container');
 
   function setNonActiveBoards(boards) {
     const boardsDiv = document.getElementById('non-active-boards');
@@ -22,34 +24,6 @@ window.onload = async () => {
       imgElem.height = 75;
       boardsDiv.appendChild(imgElem);
     });
-  }
-
-  function appendMessage(message) {
-    const messageElement = document.createElement('tr');
-    const tableData = document.createElement('td');
-    tableData.innerText = message;
-
-    messageElement.append(tableData);
-    messageContainer.append(messageElement);
-
-    const messageToggle = document.getElementById('toggle-messages');
-    const event = new Event('redraw');
-    messageToggle.dispatchEvent(event);
-  }
-
-  function appendImage(image) {
-    const messageElement = document.createElement('tr');
-    const img = document.createElement('img');
-
-    // Doesn't work - need some kind of file upload
-    img.src = image;
-
-    messageElement.append(img);
-    messageContainer.append(messageElement);
-
-    const messageToggle = document.getElementById('toggle-messages');
-    const event = new Event('redraw');
-    messageToggle.dispatchEvent(event);
   }
 
   function startStream(htmlElem, streamTrack) {
@@ -64,6 +38,7 @@ window.onload = async () => {
   }
 
   peer.on('open', (peerId) => {
+    const chat = new Chat('message-container');
     const socket = io('/', {
       query: `id=${roomId}&peer_id=${peerId}`,
     });
@@ -75,6 +50,17 @@ window.onload = async () => {
     socket.on('ready', (room) => {
       const { boards, boardActive } = room.lecture_details;
       setNonActiveBoards(boards.filter((e, i) => i !== boardActive));
+
+      sendContainer.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const messageContent = messageInput.value;
+        const newFile = document.getElementById('file-input').files[0];
+        const message = new Message(messageContent, newFile);
+        socket.emit('send-to-manager', room.lecture_details.id, message);
+        chat.appendMessage(message, false);
+        messageInput.value = '';
+        fileInput.value = '';
+      });
     });
 
     socket.on('disconnect', (e) => {
@@ -90,7 +76,8 @@ window.onload = async () => {
     });
 
     socket.on('send-to-guests', (message) => {
-      appendMessage(`Manager: ${message}`);
+      chat.appendMessage(message, true);
+      // if (file) appendFile(file, fileType, fileName, 'receiver');
     });
 
     socket.on('boards', setNonActiveBoards);
@@ -107,24 +94,6 @@ window.onload = async () => {
         startStream(whiteboard, stream.getVideoTracks()[0]);
       });
       call.answer(null);
-    });
-
-    sendContainer.addEventListener('submit', (e) => {
-      e.preventDefault();
-
-      const message = messageInput.value;
-      const file = fileInput.value;
-      console.log(file);
-      if (file === '') {
-        appendMessage(`You: ${message}`);
-        socket.emit('send-to-manager', roomId, message);
-      } else {
-        appendMessage(`You: ${message}`);
-        appendImage(file);
-        // Need to send object with file URL, mime type, and message
-        socket.emit('send-to-manager', roomId, message);
-      }
-      messageInput.value = '';
     });
 
     document.querySelector('button#toggle-messages').addEventListener('click', (e) => {
