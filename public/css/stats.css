@@ -1,11 +1,12 @@
 #create-lecture-graphic {
-    /* margin-top: -10px;*/
+    margin-top: 20px;
     width: 600px;
     /* height: auto; */
   }
 
   .survey-button {
     margin: 10px 10px 40px 10px;
+    padding-bottom: 30px;
   }
 
   .survey-button img{
@@ -17,40 +18,105 @@
 
   .infoBoard{
     background-color:#21212e;
-    height: 500px;
     width: 50%;
     border-radius: 25px;
     box-shadow: 10px 10px 54px -6px rgba(0,0,0,0.75);
     margin-bottom: 50px;
     margin-top: 50px;
-    display: flex;
-    flex-direction: row;
+    /* display: flex;
+    flex-direction: row; */
     padding: 15px;
-  }
-  
-  #stats-graph{
+
+    display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+
     position: relative;
-    float: right;
+  }
+  
+  
+  #stats-graph{
+    width: 90%;
+    margin-top: 50px;
+    margin-left: 10px;
   }
 
-  @media only screen and (max-width: 1000px) {
+  @media only screen and (max-width: 1200px) {
     .infoBoard{
       width: 80%;
       
     }
   }
 
-  .infoText{
+  .titleText{
     color: white;
+    font-size: 25px;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 20px;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+
+  .infoText {
+    width: 90%;
+    color: white;
+    font-size: 18px;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: -20px;
+  }
+  .left{
+    width: 100%;
     float: left;
-    font-size: 18px
+    margin-bottom: 10px;
+  }
+
+  .right{
+    float: right;
+  }
+
+  .info{
+    width: 250px;
+  }
+
+  .infoleft{
+    margin-left: auto; 
+  }
+
+  @media only screen and (max-width: 800px) {
+    .infoText {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* text-align: center; */
+    }
+    .infoleft{
+      margin-left: 0px; 
+    }
+  }
+
+
+
+  .surveyText {
+    color: white;
+    font-size: 22px;
+    padding-bottom: 20px;
+    font-weight: bold;
   }
   
+  .durationText{
+    color: white;
+    font-size: 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
   .inputText{
     color: white;
-    float: left;
     font-size: 18px
   }
   
@@ -66,7 +132,6 @@
     font-size: 18px;
     outline: none;
   }
-  
   
   #info{
     width: 80%;
@@ -89,7 +154,7 @@
     align-items: center;
     /* text-align: center; */
     min-height: 100vh;
-    margin-top: -80px;
+    /* margin-top: -80px; */
   }
   
   .tooltip {
@@ -263,7 +328,8 @@
 .graph {
 -webkit-transform: rotate(180deg);
 transform: rotate(180deg);
-height: 400px;
+height: 100%;
+width: 100%;
 display: flex;
 flex-direction:row;
 -moz-transform: scale(1, -1);
@@ -274,17 +340,24 @@ transform: scale(1, -1);
 
 border-style: solid;
 border-width: 3px;
-border-left-width: 10px;
-border-right-width: 10px;
-border-color: red;
+border-bottom-width: 0px;
+border-right-width: 0px;
+border-color: white;
             
-        
 }
 
 .myProgress {
   height: 350px;
-  width: 30px;
+  width: 5%;
+  padding-left: 10px;
   /* background-color: grey; */
+}
+
+/* Responsive portion*/
+@media only screen and (max-width: 600px) {
+  .myProgress {
+    padding-left: 5px;
+  }
 }
 
 .myBar {
@@ -296,7 +369,75 @@ border-color: red;
     rgba(70, 194, 255, 1) 0%,
     rgba(189, 31, 250, 1) 100%
   );
+  
+  /* background-color: #8989bb;
+  background-image: linear-gradient(315deg, #8989bb 0%, #a5a4cb 74%);
+   */
   border: none;
-  /* border-radius: 2px; */
+  border-radius: 0px 0px 20px 20px;
   outline: none;
+  width: 100%;
+  
+}
+
+.graphLabels {
+  display: flex;
+  flex-direction: row;
+}
+
+.maxText {
+  color: white;
+  font-size: 15px;
+  float: left;
+  padding-right: 10px;
+  margin-left: -20px;
+}
+
+.yAxis {
+  display: flex;
+  flex-direction: row;  
+}
+
+.divider {
+  background: rgb(70, 194, 255);
+  background: linear-gradient(
+    135deg,
+    rgba(70, 194, 255, 1) 0%,
+    rgba(189, 31, 250, 1) 100%
+  );
+  height: 3px;
+  border-radius: 10px;
+}
+
+.dividerBox {
+  width: 50%;
+  padding-top: 30px;
+  padding-bottom: 15px;
+}
+
+.home-button {
+  text-decoration: none;
+  color: white;
+  background: linear-gradient(135deg, #b10dc9 0%, #85144b 100%);
+  opacity: 0.85;
+  border: none;
+  outline: none;
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+  text-align: center;
+  margin: auto;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: all 1.5s cubic-bezier(.25,.8,.25,1);
+}
+
+.home-button i {
+ font-size: 1.3rem;
+ text-decoration: none;
+}
+
+.home-button-container {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
 }
