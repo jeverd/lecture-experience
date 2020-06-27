@@ -89,9 +89,9 @@ body {
 }
 
 .mic-config-icon{
-  width: 22%;
-  height: 22%;
+  height: 20.5px;
   position: relative;
+  top: -2.4px;
 }
 
 .chat-button-container > span > span {
