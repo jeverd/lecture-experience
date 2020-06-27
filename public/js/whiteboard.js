@@ -13,8 +13,6 @@ import {
 } from './utility.js';
 
 
-
-
 window.onload = () => {
   async function beginLecture(stream) {
     const peerjsConfig = await fetch('/peerjs/config').then((r) => r.json());
@@ -30,7 +28,7 @@ window.onload = () => {
     peer.on('open', () => {
       const whiteboard = new Whiteboard('canvas');
       const chat = new Chat('message-container');
-  
+
       function handleWindowResize() {
         let timeout;
         let isStartingToResize = true;
@@ -55,9 +53,9 @@ window.onload = () => {
           timeout = setTimeout(onResizeDone, 100);
         });
       }
-  
+
       handleWindowResize();
-  
+
       stream.addTrack(whiteboard.getStream().getTracks()[0]);
       const socket = io('/', { query: `id=${managerId}` });
       $(window).on('beforeunload', (e) => {
@@ -68,7 +66,7 @@ window.onload = () => {
         const call = peer.call(remotePeerId, stream);
         calls.push(call);
       });
-  
+
       socket.on('send-to-manager', (message) => {
         chat.appendMessage(message, true);
         const messagesDiv = $('div.messages');
@@ -77,7 +75,7 @@ window.onload = () => {
           $('.new-messages-badge').html(chat.unreadCount);
         }
       });
-  
+
       $('#toggle-messages').click((e) => {
         e.preventDefault();
         const messagesDiv = $('div.messages');
@@ -87,25 +85,25 @@ window.onload = () => {
           $('.new-messages-badge').html(chat.unreadCount);
         }
       });
-  
+
       socket.on('updateNumOfStudents', (num) => {
         document.getElementById('specs').innerHTML = num;
       });
-  
+
       socket.on('currentBoard', (studentSocketId) => {
         socket.emit('currentBoard', {
           board: whiteboard.getImage(),
           studentSocket: studentSocketId,
         });
       });
-  
+
       socket.on('attemptToConnectMultipleManagers', () => {
         stream.getTracks().forEach((track) => {
           track.stop();
         });
         alert('There is already a manager');
       });
-  
+
       socket.on('ready', (room) => {
         whiteboard.initialize();
         const { boards, boardActive } = room.lecture_details;
@@ -116,11 +114,11 @@ window.onload = () => {
         } else {
           createNonActiveBoardElem(whiteboard.getImage(), true);
         }
-  
+
         if (boards.length > 1) {
           $('.canvas-toggle-bar').show();
         }
-  
+
         let sharableUrl = window.location.href;
         sharableUrl = sharableUrl.substr(0, sharableUrl.lastIndexOf('/') + 1);
         sharableUrl += room.lecture_details.id;
@@ -133,18 +131,20 @@ window.onload = () => {
           showInfoMessage('Link Copied!');
           document.body.removeChild(tmpInput);
         });
-  
+
         sendContainer.addEventListener('submit', (e) => {
           e.preventDefault();
-          const messageContent = messageInput.value;
+          const messageContent = messageInput.value.trim();
           const newFile = document.getElementById('file-input').files[0];
-          const message = new Message(messageContent, newFile);
-          socket.emit('send-to-guests', room.lecture_details.id, message);
-          chat.appendMessage(message, false);
-          messageInput.value = '';
-          fileInput.value = '';
+          if (!(messageContent === '' && typeof newFile === 'undefined')) {
+            const message = new Message(messageContent, newFile);
+            socket.emit('send-to-guests', room.lecture_details.id, message);
+            chat.appendMessage(message, false);
+            messageInput.value = '';
+            fileInput.value = '';
+          }
         });
-  
+
         document.querySelector('#end-lecture').addEventListener('click', () => {
           calls.forEach((call) => {
             call.close();
@@ -154,13 +154,13 @@ window.onload = () => {
             window.location = `/lecture/stats/${room.lecture_details.id}`;
           });
         });
-  
+
         document.querySelector('.scroll-boards-view-right').addEventListener('click', () => {
           $('.canvas-toggle-nav').animate({ scrollLeft: '+=120px' }, 150, () => {
             handleBoardsViewButtonsDisplay();
           });
         });
-  
+
         document.querySelectorAll('[data-command]').forEach((item) => {
           item.addEventListener('click', () => {
             const command = item.getAttribute('data-command'); // not doing shit here still
@@ -225,18 +225,18 @@ window.onload = () => {
             }
           });
         });
-  
+
         document.querySelector('.scroll-boards-view-left').addEventListener('click', () => {
           $('.canvas-toggle-nav').animate({ scrollLeft: '-=120px' }, 150, () => {
             handleBoardsViewButtonsDisplay();
           });
         });
-  
+
         $('[lecture-name]').html(room.lecture_details.name);
         initializeToolsMenu(whiteboard);
         initializeCanvasTopMenu(whiteboard);
       });
-  
+
       function onClickNonActiveBoardElem() {
         const currentBoardImage = whiteboard.getImage();
         whiteboard.boards[whiteboard.currentBoard] = currentBoardImage;
@@ -245,7 +245,7 @@ window.onload = () => {
           .find('img')
           .attr('src', currentBoardImage);
         $('[data-page=page]').eq(`${whiteboard.currentBoard}`).show();
-  
+
         const clickedBoardIndex = $(this).index();
         whiteboard.currentBoard = clickedBoardIndex;
         emitBoards();
@@ -254,7 +254,7 @@ window.onload = () => {
         newBoardImg.setAttribute('src', whiteboard.boards[clickedBoardIndex]);
         whiteboard.setCurrentBoard(newBoardImg);
       }
-  
+
       function createNonActiveBoardElem(img, isActive) {
         // making the new page image
         const newBoardImg = document.createElement('img');
@@ -262,9 +262,9 @@ window.onload = () => {
         // setting the class to item and active
         const outer = document.createElement('li');
         outer.classList.add('canvas-toggle-item');
-  
+
         outer.setAttribute('data-page', 'page');
-  
+
         const inner = document.createElement('a');
         inner.classList.add('canvas-toggle-link');
         inner.appendChild(newBoardImg);
@@ -291,16 +291,14 @@ window.onload = () => {
           handleBoardsViewButtonsDisplay();
         }, 0);
       }
-  
+
       function emitBoards() {
         socket.emit('updateBoards', {
           boards: whiteboard.boards,
           activeBoardIndex: whiteboard.currentBoard,
         });
       }
-      
-
-    });  
+    });
   }
 
   $('#welcome-lecture-modal').show();
@@ -311,7 +309,7 @@ window.onload = () => {
                       || navigator.mozGetUserMedia
                       || navigator.msGetUserMedia;
 
-  getUserMedia({ audio: true }).then((stream)=>{
+  getUserMedia({ audio: true }).then((stream) => {
     initModal(stream);
     $('#modal-select-button').click(() => {
       // call endpoint to validade session
@@ -322,18 +320,14 @@ window.onload = () => {
         if (req.status === 401) {
           window.location.replace('/');
         }
-        });
-  
+      });
+
       // if valid run the functions below
       $('#welcome-lecture-modal').hide();
-    }); 
-
+    });
   })
     .catch((error) => {
       // handle error properly here.
       console.log(`Media error: ${error}`);
     });
-
 };
-
-

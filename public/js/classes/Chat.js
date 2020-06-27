@@ -18,8 +18,7 @@ export default class Chat {
     const tableData = document.createElement('div');
     tableData.innerText = message.content;
     if (message.attachment !== null) {
-      
-      messageElement.append();
+      console.log(message.attachment);
     }
     messageElement.append(tableData);
     this.container.append(messageElement);
