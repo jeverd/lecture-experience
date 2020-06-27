@@ -88,6 +88,12 @@ body {
   color: #ef5350;
 }
 
+.mic-config-icon{
+  height: 20.5px;
+  position: relative;
+  top: -2.4px;
+}
+
 .chat-button-container > span > span {
   position: relative;
   bottom: 2px;
@@ -96,6 +102,7 @@ body {
 .chat-button-container,
 .my-boards-button-container,
 .end-lecture-container,
+.mic-config-container,
 .copy-link-container,
 .test-mic-container,
 .go-back {
@@ -107,6 +114,7 @@ body {
 .chat-button-container:hover,
 .my-boards-button-container:hover,
 .end-lecture-container:hover,
+.mic-config-container:hover,
 .copy-link-container:hover,
 .test-mic-container:hover,
 .go-back:hover {
@@ -115,6 +123,7 @@ body {
 
 .lecture-running,
 .end-lecture-container,
+.mic-config-container,
 .lecture-spectators,
 .copy-link-container,
 .test-mic-container,
@@ -184,6 +193,7 @@ body {
   .lecture-running-text,
   .spectators-count-text,
   .end-lecture-text,
+  .mic-config-text,
   .copy-link-text {
     display: none;
   }
@@ -1321,6 +1331,7 @@ div.messages.active-chat{
 
 .mic-content{
   display: none;
+  padding-bottom: 15px;
 }
 
 .arrow-back{
@@ -1336,7 +1347,6 @@ div.messages.active-chat{
 }
 
 .device-header,
-.volume-header,
 .mic-test-header{
   position: relative;
   font-size: 17px;
@@ -1359,11 +1369,16 @@ div.messages.active-chat{
   left: 20px;
 }
 
+#input-container div{
+  /*display: inline-block;*/
+}
+
 /* Start Select input*/
 .custom-select-wrapper {
   position: relative;
+  display: inline-block;
   user-select: none;
-  width: 80%;
+  width: 87%;
   height: 80%;
 }
 .custom-select {
@@ -1406,6 +1421,11 @@ div.messages.active-chat{
   pointer-events: none;
   z-index: 2;
 }
+
+#welcome-lecture-modal{
+  display: block;
+}
+
 .custom-select.open .custom-options {
   opacity: 1;
   visibility: visible;
@@ -1415,7 +1435,7 @@ div.messages.active-chat{
   position: relative;
   display: block;
   padding: 0 22px 0 22px;
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 300;
   color: white;
   line-height: 45px;
@@ -1464,83 +1484,6 @@ div.messages.active-chat{
 }
 /*End SelectIn*/
 
-input[type=range] {
-  -webkit-appearance: none;
-  margin: 20px 0;
-  width: 100%;
-  cursor: pointer;
-  background:  rgba(0, 0, 0, 0.4);;
-}
-input[type=range]:focus {
-  outline: none;
-}
-input[type=range]::-webkit-slider-runnable-track {
-  width: 100%;
-  height: 10px;
-  cursor: pointer;
-  animate: 0.2s;
-  background: linear-gradient(
-    135deg,
-    rgba(70, 194, 255, 1) 0%,
-    rgba(189, 31, 250, 1) 100%
-  );
-  border-radius: 25px;
-}
-input[type=range]::-webkit-slider-thumb {
-  height: 30px;
-  width: 10px;
-  border-radius: 5%;
-  background: #fff;
-  box-shadow: 0 0 4px 0 rgba(0,0,0, 1);
-  cursor: pointer;
-  -webkit-appearance: none;
-  margin-top: -11px;
-}
-input[type=range]:focus::-webkit-slider-runnable-track {
-  background: linear-gradient(
-    135deg,
-    rgba(70, 194, 255, 1) 0%,
-    rgba(189, 31, 250, 1) 100%
-  );
-}
-.range-wrap{
-  left: 20px;
-  width: 476px;
-  position: relative;
-}
-.range-value{
-  display: none;
-  position: absolute;
-  top: -50%;
-}
-.range-value span{
-  width: 30px;
-  height: 24px;
-  line-height: 24px;
-  text-align: center;
-  background: #03a9f4;
-  color: #fff;
-  font-size: 12px;
-  display: block;
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, 0);
-  border-radius: 6px;
-}
-.range-value span:before{
-  content: "";
-  position: absolute;
-  width: 0;
-  height: 0;
-  border-top: 10px solid #03a9f4;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  top: 100%;
-  left: 50%;
-  margin-left: -5px;
-  margin-top: -1px;
-}
-
 .myProgress {
   position: relative;
   width: 10px;
@@ -1553,6 +1496,7 @@ input[type=range]:focus::-webkit-slider-runnable-track {
 #myProgress{
   display: inline-block;
   position: relative;
+  border-color: blue;
   left: 20px;
   top: 10px;
 }
@@ -1562,3 +1506,16 @@ input[type=range]:focus::-webkit-slider-runnable-track {
   position: relative;
 
 }
+
+.microphone{
+  position: relative;
+  color: grey;
+  font-size: 30px;
+  display: inline-block;
+}
+
+#mute-mic{
+  position: relative;
+  left: -10px;  
+}
+

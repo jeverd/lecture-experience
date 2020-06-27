@@ -7,12 +7,14 @@ import initializeToolsMenu from './tools.js';
 import initializeCanvasTopMenu from './canvasTopMenu.js';
 import Message from './classes/Message.js';
 import Chat from './classes/Chat.js';
+import initModal from './canvasModal.js';
 import {
   showInfoMessage, handleBoardsViewButtonsDisplay, updateBoardsBadge,
 } from './utility.js';
 
+
 window.onload = () => {
-  async function beginLecture() {
+  async function beginLecture(stream) {
     const peerjsConfig = await fetch('/peerjs/config').then((r) => r.json());
     const peer = new Peer(peerjsConfig);
 
@@ -25,21 +27,6 @@ window.onload = () => {
     const fileInput = document.getElementById('file-input');
 
     peer.on('open', () => {
-      const getUserMedia = navigator.mediaDevices.getUserMedia
-        || navigator.getUserMedia
-        || navigator.webkitGetUserMedia
-        || navigator.mozGetUserMedia
-        || navigator.msGetUserMedia;
-
-      getUserMedia({ audio: true })
-        .then(broadcastLecture)
-        .catch((error) => {
-          // handle error properly here.
-          console.log(`Media error: ${error}`);
-        });
-    });
-
-    function broadcastLecture(stream) {
       const whiteboard = new Whiteboard('canvas');
       const chat = new Chat('message-container');
 
@@ -148,13 +135,15 @@ window.onload = () => {
 
         sendContainer.addEventListener('submit', (e) => {
           e.preventDefault();
-          const messageContent = messageInput.value;
+          const messageContent = messageInput.value.trim();
           const newFile = document.getElementById('file-input').files[0];
-          const message = new Message(messageContent, newFile);
-          socket.emit('send-to-guests', room.lecture_details.id, message);
-          chat.appendMessage(message, false);
-          messageInput.value = '';
-          fileInput.value = '';
+          if (!(messageContent === '' && typeof newFile === 'undefined')) {
+            const message = new Message(messageContent, newFile);
+            socket.emit('send-to-guests', room.lecture_details.id, message);
+            chat.appendMessage(message, false);
+            messageInput.value = '';
+            fileInput.value = '';
+          }
         });
 
         document.querySelector('#end-lecture').addEventListener('click', () => {
@@ -247,8 +236,6 @@ window.onload = () => {
         $('[lecture-name]').html(room.lecture_details.name);
         initializeToolsMenu(whiteboard);
         initializeCanvasTopMenu(whiteboard);
-
-        console.log(room);
       });
 
       function onClickNonActiveBoardElem() {
@@ -312,22 +299,36 @@ window.onload = () => {
           activeBoardIndex: whiteboard.currentBoard,
         });
       }
-    }
+    });
   }
 
   $('#welcome-lecture-modal').show();
-  $('#modal-select-button').click(() => {
-    // call endpoint to validade session
-    fetch('/session').then((req) => {
-      if (req.status === 200) {
-        beginLecture();
-      }
-      if (req.status === 401) {
-        window.location.replace('/');
-      }
-    });
 
-    // if valid run the functions below
-    $('#welcome-lecture-modal').hide();
-  });
+  const getUserMedia = navigator.mediaDevices.getUserMedia
+                      || navigator.getUserMedia
+                      || navigator.webkitGetUserMedia
+                      || navigator.mozGetUserMedia
+                      || navigator.msGetUserMedia;
+
+  getUserMedia({ audio: true }).then((stream) => {
+    initModal(stream);
+    $('#modal-select-button').click(() => {
+      // call endpoint to validade session
+      fetch('/session').then((req) => {
+        if (req.status === 200) {
+          beginLecture(stream);
+        }
+        if (req.status === 401) {
+          window.location.replace('/');
+        }
+      });
+
+      // if valid run the functions below
+      $('#welcome-lecture-modal').hide();
+    });
+  })
+    .catch((error) => {
+      // handle error properly here.
+      console.log(`Media error: ${error}`);
+    });
 };

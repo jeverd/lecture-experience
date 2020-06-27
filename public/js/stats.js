@@ -19,20 +19,17 @@ function getSecondsBetweenTwoTimes(start, end) {
 }
 
 function buildGraph(statsObj) {
-  console.log(statsObj);
   const timeTracks = statsObj.userTracker.map((obj) => obj.time);
   const watchersTracks = statsObj.userTracker.map((obj) => obj.numberOfUser);
   const lectureDurationInSeconds = getSecondsBetweenTwoTimes(new Date(timeTracks[0]),
     new Date(timeTracks[timeTracks.length - 1]));
 
- console.log(lectureDurationInSeconds);
-
   let graphSize;
 
   if (lectureDurationInSeconds > 1800) {
-    graphSize = 20;
+    graphSize = 30;
   } else {
-    graphSize = 10;
+    graphSize = 25;
   }
 
   for (let i = 0; i < graphSize; i++) {
@@ -52,8 +49,6 @@ function buildGraph(statsObj) {
   const numberOfInputs = Array(graphSize).fill(0);
   const time = Array(timeTracks.length).fill(0);
 
-  console.log(timeIntervalInSeconds);
-
   for (let i = 0; i < timeTracks.length; i++) {
     time[i] = getSecondsBetweenTwoTimes(new Date(timeTracks[0]),
       new Date(timeTracks[i]));
@@ -71,10 +66,6 @@ function buildGraph(statsObj) {
   }
 
   const averageWatchers = [];
-
-  console.log(averageWatchers);
-
-  console.log(time);
 
   for (let i = 0; i < graphSize; i++) {
     if (watchers[i] === 0) {
@@ -95,8 +86,6 @@ function buildGraph(statsObj) {
 
   const maxStudents = Math.max.apply(null, averageWatchers);
 
-  console.log(averageWatchers);
-
   for (let i = 0; i < graphSize; i++) {
     if (averageWatchers[i] === 0) {
       elem[i].style.height = `${1}%`;
@@ -112,6 +101,7 @@ function buildGraph(statsObj) {
 
   document.getElementById('lecture-stats-title').innerHTML = statsObj.lectureName;
   document.getElementById('max-specs').innerHTML = maxStudents;
+  document.getElementById('max-specss').innerHTML = maxStudents;
   document.getElementById('avg-specs').innerHTML = Math.ceil(averageNumOfUsers / graphSize);
   document.getElementById('boards-used').innerHTML = statsObj.numOfBoards;
 
@@ -119,8 +109,9 @@ function buildGraph(statsObj) {
   const minutes = Math.floor(lectureDurationInSeconds / 60) - (hours * 60);
   const seconds = Number((lectureDurationInSeconds % 60).toPrecision(2));
 
-  const formatted = hours.toString().padStart(2, '0') + ':' + minutes.toString().padStart(2, '0') + ':' + seconds.toString().padStart(2, '0');
+  const formatted = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
   document.getElementById('lecture-duration').innerHTML = formatted;
+  document.getElementById('lecture-durationn').innerHTML = formatted;
 }
 
 
@@ -133,3 +124,26 @@ fetch(`/lecture/stats/${urlId}`, requestOpts)
     }
     // else display error loading stats
   });
+
+const avgBut = document.querySelector('#average');
+const statsBut = document.querySelector('#stats');
+
+const graph = document.querySelector('#stats-graph');
+const statsInfo = document.querySelector('#stats-info');
+
+
+avgBut.addEventListener('click', (e) => {
+  e.preventDefault();
+  avgBut.classList.add('activeStat');
+  statsBut.classList.remove('activeStat');
+  graph.style.display = '';
+  statsInfo.style.display = 'none';
+});
+
+statsBut.addEventListener('click', (e) => {
+  e.preventDefault();
+  avgBut.classList.remove('activeStat');
+  statsBut.classList.add('activeStat');
+  statsInfo.style.display = '';
+  graph.style.display = 'none';
+});
