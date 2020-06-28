@@ -1,17 +1,6 @@
+/* eslint-disable import/extensions */
 /* eslint-disable no-plusplus */
-
-const url = window.location.pathname;
-const lastSlash = url.lastIndexOf('/');
-const urlId = url.substr(lastSlash + 1);
-const requestOpts = {
-  method: 'POST',
-  mode: 'cors',
-  cache: 'no-cache',
-  credentials: 'same-origin',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-};
+import { getUrlId } from './utility.js';
 
 // getSecondsBetweenTwoTimes receives two Date objects
 function getSecondsBetweenTwoTimes(start, end) {
@@ -99,7 +88,7 @@ function buildGraph(statsObj) {
     averageNumOfUsers += averageWatchers[i];
   }
 
-  document.getElementById('lecture-stats-title').innerHTML = statsObj.lectureName;
+  document.getElementById('lecture-stats-title').innerHTML = `${statsObj.lectureName.charAt(0).toUpperCase()}${statsObj.lectureName.slice(1)}`;
   document.getElementById('max-specs').innerHTML = maxStudents;
   document.getElementById('max-specss').innerHTML = maxStudents;
   document.getElementById('avg-specs').innerHTML = Math.ceil(averageNumOfUsers / graphSize);
@@ -114,6 +103,16 @@ function buildGraph(statsObj) {
   document.getElementById('lecture-durationn').innerHTML = formatted;
 }
 
+const urlId = getUrlId();
+const requestOpts = {
+  method: 'POST',
+  mode: 'cors',
+  cache: 'no-cache',
+  credentials: 'same-origin',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+};
 
 fetch(`/lecture/stats/${urlId}`, requestOpts)
   .then((response) => {
@@ -124,26 +123,3 @@ fetch(`/lecture/stats/${urlId}`, requestOpts)
     }
     // else display error loading stats
   });
-
-const avgBut = document.querySelector('#average');
-const statsBut = document.querySelector('#stats');
-
-const graph = document.querySelector('#stats-graph');
-const statsInfo = document.querySelector('#stats-info');
-
-
-avgBut.addEventListener('click', (e) => {
-  e.preventDefault();
-  avgBut.classList.add('activeStat');
-  statsBut.classList.remove('activeStat');
-  graph.style.display = '';
-  statsInfo.style.display = 'none';
-});
-
-statsBut.addEventListener('click', (e) => {
-  e.preventDefault();
-  avgBut.classList.remove('activeStat');
-  statsBut.classList.add('activeStat');
-  statsInfo.style.display = '';
-  graph.style.display = 'none';
-});

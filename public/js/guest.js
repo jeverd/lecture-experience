@@ -1,16 +1,14 @@
 /* eslint-disable import/extensions */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-undef */
-import { appendFile, appendMessage } from './utility.js';
 import Chat from './classes/Chat.js';
 import Message from './classes/Message.js';
+import { getUrlId } from './utility.js';
 
 window.onload = async () => {
   const peerjsConfig = await fetch('/peerjs/config').then((r) => r.json());
   const peer = new Peer(peerjsConfig);
-  const url = window.location.pathname;
-  const lastSlash = url.lastIndexOf('/');
-  const roomId = url.substr(lastSlash + 1);
+  const roomId = getUrlId();
   const sendContainer = document.getElementById('send-container');
   const messageInput = document.getElementById('message-input');
   const fileInput = document.getElementById('file-input');

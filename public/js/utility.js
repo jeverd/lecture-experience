@@ -101,25 +101,8 @@ export function appendMessage(message) {
   messageToggle.dispatchEvent(event);
 }
 
-export function handleBoardsViewButtonsDisplay() {
-  const boardView = document.querySelector('.canvas-toggle-nav');
-  if (boardView.offsetWidth < boardView.scrollWidth) {
-    if ($(boardView).scrollLeft() > 0) {
-      $('.scroll-boards-view-left').show();
-    } else {
-      $('.scroll-boards-view-left').hide();
-    }
-    $('.scroll-boards-view-right').show();
-    if ($(boardView).scrollLeft() + boardView.offsetWidth >= boardView.scrollWidth - 15) {
-      $('.scroll-boards-view-right').hide();
-    }
-  } else {
-    $('.scroll-boards-view-left').hide();
-  }
-}
-
-export function updateBoardsBadge() {
-  document.querySelectorAll('.board-badge').forEach((badge, i) => {
-    badge.innerHTML = i + 1;
-  });
+export function getUrlId() {
+  const url = window.location.pathname;
+  const lastSlash = url.lastIndexOf('/');
+  return url.substr(lastSlash + 1);
 }

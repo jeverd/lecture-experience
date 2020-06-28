@@ -15,6 +15,7 @@ import {
   getImgElemFromImgData, getImgDataFromImgElem,
   showInfoMessage,
 } from '../utility.js';
+import { handleBoardsViewButtonsDisplay } from '../managerBoards.js';
 import Fill from './fill.js';
 import Point from './point.js';
 
@@ -38,6 +39,7 @@ export default class Whiteboard {
     window.onkeydown = this.handleShortcutKeys.bind(this);
     this.canvas.ondragover = (ev) => ev.preventDefault();
     this.canvas.ondrop = this.onDrop.bind(this);
+    this.handleResize();
     this.selectedRegionActionMap = {
       DOWN_RIGHT: {
         CLEAR: () => this.context.fillRect(this.startingPoint.x, this.startingPoint.y,
@@ -202,6 +204,32 @@ export default class Whiteboard {
       this.selectedRegionActionMap[this.selectionDirection].CLEAR();
       this.pasteRegion(img, ev.clientX, ev.clientY);
     }
+  }
+
+  handleResize() {
+    let timeout;
+    let isStartingToResize = true;
+    const inMemCanvas = document.createElement('canvas');
+    const inMemCtx = inMemCanvas.getContext('2d');
+    const onResizeDone = () => {
+      this.canvas.height = window.innerHeight;
+      this.canvas.width = window.innerWidth;
+      this.paintWhite();
+      this.setCurrentBoard(inMemCanvas);
+      handleBoardsViewButtonsDisplay();
+      isStartingToResize = true;
+    };
+    // eslint-disable-next-line no-undef
+    $(window).on('resize', () => {
+      if (isStartingToResize) {
+        inMemCanvas.width = this.canvas.width;
+        inMemCanvas.height = this.canvas.height;
+        inMemCtx.drawImage(this.canvas, 0, 0);
+        isStartingToResize = false;
+      }
+      clearTimeout(timeout);
+      timeout = setTimeout(onResizeDone, 100);
+    });
   }
 
   handleShortcutKeys(e) {
