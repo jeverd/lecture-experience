@@ -34,4 +34,10 @@ services:
       depends_on:
         - redis_db
         - web-server
+        - janus    # might want to add some checks to ensure janus is ready, instead of just waiting for the container to be up... TODO...
       restart: always
+    janus:
+      image: jeverd/janustest:production
+      links:
+        - web-server
+      

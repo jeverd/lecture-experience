@@ -45,5 +45,6 @@ workflows:
               only: 
                 - dev
                 - dockerUPdate
+                - janusAws
       - tests
           
