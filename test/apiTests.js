@@ -22,24 +22,24 @@ describe('Socket.io Tests', () => {
     });
   });
 
-  it('/lecture/managerId should return status 200 when managerId is valid', (done) => {
-    createLecture((error, response, body) => {
-      const { redirectUrl } = body;
-      const managerId = (redirectUrl.split('/'))[2];
-      const getEndPointOption = {
-        uri: `http://localhost:8080/lecture/${managerId}`, // note this is hardcoded in change this afterwards
-        method: 'GET',
-      };
-      request(getEndPointOption, (getErr, getResponse) => {
-        assert.equal(getResponse.statusCode, 200);
-        assert.equal(getErr, null);
-        done();
-      });
-      // const managerId = ((body.redirectUrl).split('/'))[2];
-      // const socket = io('http://localhost:8080', { query: `id=${managerId}` });
-      // done();
-    });
-  });
+  // it('/lecture/managerId should return status 200 when managerId is valid', (done) => {
+  //   createLecture((error, response, body) => {
+  //     const { redirectUrl } = body;
+  //     const managerId = (redirectUrl.split('/'))[2];
+  //     const getEndPointOption = {
+  //       uri: `http://localhost:8080/lecture/${managerId}`, // note this is hardcoded in change this afterwards
+  //       method: 'GET',
+  //     };
+  //     request(getEndPointOption, (getErr, getResponse) => {
+  //       assert.equal(getResponse.statusCode, 200);
+  //       assert.equal(getErr, null);
+  //       done();
+  //     });
+  //     // const managerId = ((body.redirectUrl).split('/'))[2];
+  //     // const socket = io('http://localhost:8080', { query: `id=${managerId}` });
+  //     // done();
+  //   });
+  // });
 
 
   it('/lecture/stats/:id should return status 404 when lecture id is not found', (done) => {
