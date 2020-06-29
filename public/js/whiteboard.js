@@ -86,6 +86,52 @@ window.onload = () => {
         }
       });
 
+      function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+    
+            reader.onload = function (e) {
+                $('#image-preview').attr('src', e.target.result);
+            }
+    
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+      fileInput.addEventListener('change',(e)=>{
+        document.querySelector('#message-container').appendChild(document.querySelector('#preview'))
+        const file = e.target.files[0]
+        if(file.type.includes('image')){
+          readURL(fileInput);
+          $('#file-preview').hide();
+          $('#preview').show();
+          $('#close-preview').css('bottom','55px');
+          //show image
+          let img_width = 0;
+          $("img").load(function() {
+            const img_width = ($(this).width());
+            const left = (15 + img_width + 15);
+            $('#close-preview').css('left',`${left}px`);
+        });
+        }
+        else{
+          $('#file-preview').show();
+          $('#name-file').html(file.name);
+          console.log(file.name.length);
+          $('#preview').show();
+          $('#close-preview').css('bottom','3px');
+        }
+        console.log(e.target.files[0]);
+      });
+      $("#close-preview").click((e)=>{
+        fileInput.value='';
+        $('#file-preview').hide();
+        $('#name-file').html("");
+        $('#image-preview').attr('src','')
+        $('#preview').hide();
+        $('#close-preview').css('right','15px');
+      })
+
       socket.on('updateNumOfStudents', (num) => {
         document.getElementById('specs').innerHTML = num;
       });

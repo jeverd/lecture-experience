@@ -147,6 +147,10 @@ body {
   padding: 0rem 1rem 0rem 1rem;
 }
 
+.v_divider{
+  padding: 1.2rem 0rem 1rem 0rem;
+}
+
 .status-dot {
   color: #2ecc40;
 }
@@ -642,13 +646,17 @@ button {
 }
 
 .incoming-message{
-  margin-top: 4px;
+  margin-bottom: 8px;
 }
 
 .outgoing-message{
-  margin-top: 4px;
+  margin-bottom: 8px;
   display: flex;
   justify-content: flex-end;
+}
+
+.image-preview{
+  height: 120px;
 }
 
 .outgoing-message div{
@@ -1118,8 +1126,13 @@ div.messages.active-chat{
   position: relative;
   height: 240px;
   overflow: hidden;
-  padding: 0px 7.5px;
+  padding: 0px;
   background: white;
+  display: flex;
+}
+
+.messages-main div{
+  
 }
 
 .message-lecture-name{
@@ -1135,15 +1148,14 @@ div.messages.active-chat{
   left: -10px;
 }
 
-
 .message-container {
-  position: absolute;
+  position: relative;
   bottom: 0;
   max-height: 240px;
   overflow-y: auto;
   word-wrap: break-word;
   margin: auto;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0rem;
   width: 100%;
 }
 
@@ -1151,14 +1163,44 @@ div.messages.active-chat{
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+  position: relative;
+  flex: 1;
+  background-color: rgba(33, 33, 46, 0.1);
+}
+
+.preview{
+  position: relative;
+  display: flex;
+  flex: 1;
+}
+
+.preview-content{
+  padding-top: 10px;  
+}
+
+.preview-content img{
+  position: relative;
+  left: 15px; 
+  border-radius: 0.25rem;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+#send-wrapper{
+  display: flex;
+  flex-direction: column-reverse;
+  position: relative;
+
 }
 
 #message-input {
   width: 175px;
   position: relative;
   left: -3px;
-  border-radius: 2px;
+  border-radius: 20px;
+  outline: none;
 }
+
+
 
 #send-button {
   width: 21px;
@@ -1518,4 +1560,42 @@ div.messages.active-chat{
   position: relative;
   left: -10px;  
 }
+
+.preview{
+  display: none;
+  background-color: rgb(236, 236, 236);
+  
+}
+
+.close-preview{
+  cursor: pointer;
+  position: absolute;
+  right: 15px;
+  bottom: 55px;
+  color: var(--bg-primary);
+  opacity: 0.8;
+  transition: 0.25 ease;
+}
+
+.close-preview:hover{
+  opacity: 1;
+  transform: translateY(-2px) ;
+}
+
+#name-file{
+  position: absolute;
+  left: 35px;
+  overflow: hidden;
+  text-overflow: ellipsis; 
+  white-space: nowrap;
+  width: 10rem;
+}
+
+#file-preview{
+  position: absolute;
+  left: 10px;
+  bottom: 5px;
+}
+
+
 
