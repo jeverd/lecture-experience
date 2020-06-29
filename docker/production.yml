@@ -40,6 +40,4 @@ services:
       image: jeverd/janustest:production
       links:
         - web-server
-      ports:
-        - "8088:8088"
       

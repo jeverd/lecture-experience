@@ -14,6 +14,7 @@ let janus;
 let handle;
 if (whoami === 'publisher') {
   Janus.init({
+    debug: 'all',
     callback() {
       janus = new Janus(
         {
