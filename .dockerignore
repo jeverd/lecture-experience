@@ -1,2 +1,9 @@
 .git
+
 node_modules
+
+test
+
+.circleci
+
+docker
