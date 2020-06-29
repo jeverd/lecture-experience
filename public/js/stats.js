@@ -1,6 +1,6 @@
 /* eslint-disable import/extensions */
 /* eslint-disable no-plusplus */
-import { getUrlId } from './utility.js';
+import { getUrlId, buildPostRequestOpts } from './utility.js';
 
 // getSecondsBetweenTwoTimes receives two Date objects
 function getSecondsBetweenTwoTimes(start, end) {
@@ -103,18 +103,7 @@ function buildGraph(statsObj) {
   document.getElementById('lecture-durationn').innerHTML = formatted;
 }
 
-const urlId = getUrlId();
-const requestOpts = {
-  method: 'POST',
-  mode: 'cors',
-  cache: 'no-cache',
-  credentials: 'same-origin',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-};
-
-fetch(`/lecture/stats/${urlId}`, requestOpts)
+fetch(`/lecture/stats/${getUrlId()}`, buildPostRequestOpts(''))
   .then((response) => {
     if (response.status === 200) {
       response.json().then((jsonResponse) => {

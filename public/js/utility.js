@@ -106,3 +106,16 @@ export function getUrlId() {
   const lastSlash = url.lastIndexOf('/');
   return url.substr(lastSlash + 1);
 }
+
+export function buildPostRequestOpts(body) {
+  return {
+    method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body,
+  };
+}

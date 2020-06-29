@@ -14,6 +14,7 @@ let janus;
 let handle;
 if (whoami === 'publisher') {
   Janus.init({
+    debug: 'all',
     callback() {
       janus = new Janus(
         {
@@ -107,6 +108,7 @@ if (whoami === 'publisher') {
     callback() {
       janus = new Janus(
         {
+          debug: 'all',
           server: 'http://localhost:8088/janus',
           success() {
             janus.attach(
