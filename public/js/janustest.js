@@ -18,7 +18,7 @@ if (whoami === 'publisher') {
     callback() {
       janus = new Janus(
         {
-          server: 'https://liteboard.io/rtc',
+          server: 'https://liteboard.io/janus',
           success() {
           // Attach to VideoRoom plugin
             janus.attach(
@@ -108,7 +108,7 @@ if (whoami === 'publisher') {
     callback() {
       janus = new Janus(
         {
-          server: 'https://liteboard.io/rtc',
+          server: 'https://liteboard.io/janus',
           success() {
             janus.attach(
               {
