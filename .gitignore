@@ -111,3 +111,6 @@ docker/letsencrypt/
 
 # ignoring .env file
 config/.env
+
+#janus config file
+/docker/docker-config/janus.jcfg

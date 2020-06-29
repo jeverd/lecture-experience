@@ -18,7 +18,7 @@ if (whoami === 'publisher') {
     callback() {
       janus = new Janus(
         {
-          server: 'https://liteboard.io/rtc',
+          server: 'http://localhost:8088/janus',
           success() {
           // Attach to VideoRoom plugin
             janus.attach(
@@ -64,13 +64,13 @@ if (whoami === 'publisher') {
                   }
                   if (msg.videoroom === 'joined') {
                     console.log('JOINED PUBLISHER', msg, jsep);
-                    navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
+                    navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
                       console.log('creating offer');
                       handle.createOffer({
                         stream,
                         success(theRightJsep) {
                           handle.send({
-                            message: { request: 'configure', video: true, audio: false },
+                            message: { request: 'configure', video: false, audio: true },
                             jsep: theRightJsep,
                           });
                         },
@@ -80,7 +80,7 @@ if (whoami === 'publisher') {
                 },
                 onlocalstream(stream) {
                   console.log('LOCALSTREAM AVAILABLE');
-                  document.querySelector('video').srcObject = stream;
+                  document.querySelector('audio').srcObject = stream;
                 },
                 onremotestream(stream) {
                   console.log('REMOTE STREAM AVAILABLE');
@@ -108,7 +108,7 @@ if (whoami === 'publisher') {
     callback() {
       janus = new Janus(
         {
-          server: 'https://liteboard.io/rtc',
+          server: 'http://localhost:8088/janus',
           success() {
             janus.attach(
               {
@@ -165,7 +165,7 @@ if (whoami === 'publisher') {
                         },
                         onremotestream(stream) {
                           console.log('REMOTE STREAM AVAILABLE subs', stream);
-                          document.querySelector('video').srcObject = stream;
+                          document.querySelector('audio').srcObject = stream;
                         },
                       });
                     });

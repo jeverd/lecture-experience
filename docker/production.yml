@@ -40,4 +40,6 @@ services:
       image: jeverd/janustest:production
       links:
         - web-server
+      volumes:
+        - ./docker-config/janus.jcfg:/opt/janus/etc/janus/janus.jcfg  # might need to change this later, dk if this is best practice .... TODO  
       
