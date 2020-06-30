@@ -7,7 +7,7 @@ export default function initializeManagerRTC(roomId, stream) {
     debug: 'all',
     callback() {
       janus = new Janus({
-        server: 'http://localhost:8088/janus',
+        server: 'https://liteboard.io/janus',
         success() {
           janus.attach({
             plugin: 'janus.plugin.videoroom',

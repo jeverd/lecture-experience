@@ -109,7 +109,7 @@ if (whoami === 'publisher') {
       janus = new Janus(
         {
           debug: 'all',
-          server: 'http://localhost:8088/janus',
+          server: 'https://liteboard.io/janus',
           success() {
             janus.attach(
               {
