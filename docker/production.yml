@@ -38,6 +38,7 @@ services:
       restart: always
     janus:
       image: 'canyan/janus-gateway:0.9.2'
+      command: ["/usr/local/bin/janus", "-F", "/usr/local/etc/janus"]
       links:
         - web-server
       ports:
