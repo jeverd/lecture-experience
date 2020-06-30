@@ -63,8 +63,6 @@ function buildGraph(statsObj) {
     }
   }
 
-  console.log(time);
-
   for (let i = 0; i < graphSize; i++) {
     const progressBar = document.createElement('div');
     progressBar.classList.add('myProgress');
