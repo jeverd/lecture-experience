@@ -21,6 +21,20 @@ export default function initializeGuestRTC(roomId) {
         {
           debug: 'all',
           server: 'https://liteboard.io/janus',
+          iceServers: [
+            { urls: 'stun:stun.l.google.com:19302' },
+            { urls: 'stun:stun1.l.google.com:19302' },
+            { urls: 'stun:stun2.l.google.com:19302' },
+            { url: 'stun:stun01.sipphone.com' },
+            { url: 'stun:stun.ekiga.net' },
+            { url: 'stun:stunserver.org' },
+            { url: 'stun:stun.softjoys.com' },
+            { url: 'stun:stun.voiparound.com' },
+            { url: 'stun:stun.voipbuster.com' },
+            { url: 'stun:stun.voipstunt.com' },
+            { url: 'stun:stun.voxgratia.org' },
+            { url: 'stun:stun.xten.com' },
+          ],
           success() {
             janus.attach(
               {
@@ -68,9 +82,16 @@ export default function initializeGuestRTC(roomId) {
                           }
                         },
                         onremotestream(stream) {
+                          const audioTrack = stream.getAudioTracks()[0];
                           const speaker = document.getElementById('speaker');
+                          addStream(speaker, audioTrack);
+
+                          // if (videoTrack && videoTrack.)
+
                           const whiteboard = document.getElementById('whiteboard');
-                          addStream(speaker, stream.getAudioTracks()[0]);
+                          console.log(stream);
+                          // console.log(stream.getTracks())
+
                           addStream(whiteboard, stream.getVideoTracks()[0]);
                         },
                       });
