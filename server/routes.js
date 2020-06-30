@@ -27,12 +27,8 @@ app.get('/create', (req, res) => {
 
 app.post('/create', (req, res) => {
   logger.info('POST request received: /create');
-
-  const roomId = uuidv4();
   const managerId = uuidv4();
-  logger.info(`POST /create roomId generated: ${roomId}`);
-  logger.info(`POST /create managerId generated: ${managerId}`);
-  const { name, email } = req.body;
+  const { name, email, roomId } = req.body;
   const newLectureStats = new Stats(name);
   newLectureStats.addUserTrack(new Date(), 0);
   redisClient.hmset('stats', { [roomId]: JSON.stringify(newLectureStats) });
@@ -105,17 +101,6 @@ app.post('/lecture/stats/:id', (req, res) => {
       res.status(404);
     }
   });
-});
-
-app.get('/peerjs/config', (req, res) => {
-  const peerjsConfig = {
-    secure: environment === 'PRODUCTION',
-    host: environment === 'DEVELOPMENT' ? 'localhost' : 'liteboard.io',
-    path: '/peerjs',
-    port: environment === 'DEVELOPMENT' ? expressPort : 443,
-    iceServers,
-  };
-  res.send(JSON.stringify(peerjsConfig));
 });
 
 app.get('*', (req, res) => {

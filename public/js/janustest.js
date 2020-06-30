@@ -108,7 +108,8 @@ if (whoami === 'publisher') {
     callback() {
       janus = new Janus(
         {
-          server: 'https://liteboard.io/janus',
+          debug: 'all',
+          server: 'http://localhost:8088/janus',
           success() {
             janus.attach(
               {
