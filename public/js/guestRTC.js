@@ -1,5 +1,17 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-undef */
+
+function addStream(htmlElem, streamTrack) {
+  const stream = new MediaStream();
+  stream.addTrack(streamTrack);
+  htmlElem.srcObject = stream;
+  if ('srcObject' in htmlElem) {
+    htmlElem.srcObject = stream;
+  } else {
+    htmlElem.src = window.URL.createObjURL(stream);
+  }
+}
+
 export default function initializeGuestRTC(roomId) {
   let janus;
   let handle;
@@ -56,8 +68,10 @@ export default function initializeGuestRTC(roomId) {
                           }
                         },
                         onremotestream(stream) {
-                          console.log(stream);
-                          document.getElementById('whiteboard').srcObject = stream;
+                          const speaker = document.getElementById('speaker');
+                          const whiteboard = document.getElementById('whiteboard');
+                          addStream(speaker, stream.getAudioTracks()[0]);
+                          addStream(whiteboard, stream.getVideoTracks()[0]);
                         },
                       });
                     });
