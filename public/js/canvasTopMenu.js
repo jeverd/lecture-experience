@@ -1,6 +1,7 @@
+/* eslint-disable import/extensions */
 /* eslint-disable no-undef */
-// eslint-disable-next-line import/extensions
 import { showInfoMessage } from './utility.js';
+import { handleBoardsViewButtonsDisplay } from './managerBoards.js';
 
 export default function initializeCanvasTopMenu(socket, whiteboard, roomId) {
   $('.hide-options-right').click(() => {
