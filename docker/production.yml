@@ -18,7 +18,7 @@ services:
       links:
         - redis_db
         - web-server
-      environment: 
+      environment:
         - NODE_ENV=${NODE_ENV}
         - EXPRESS_PORT=${EXPRESS_PORT}
         - PT_HOST=${PT_HOST}
@@ -37,7 +37,7 @@ services:
         - janus    # might want to add some checks to ensure janus is ready, instead of just waiting for the container to be up... TODO...
       restart: always
     janus:
-      image: 'canyan/janus-gateway:0.9.2'
+      image: canyan/janus-gateway:master_88df9449ac54f27afa29672cf092fac65a695c29
       command: ["/usr/local/bin/janus", "-F", "/usr/local/etc/janus"]
       links:
         - web-server
@@ -49,5 +49,4 @@ services:
         - "7088:7088"
         - "7089:7089"
       volumes:
-        - ./docker-config/janus.jcfg:/usr/local/etc/janus/janus.jcfg  # might need to change this later, dk if this is best practice .... TODO  
-      
+        - ./docker-config/janus.jcfg:/usr/local/etc/janus/janus.jcfg  # might need to change this later, dk if this is best practice .... TODO
