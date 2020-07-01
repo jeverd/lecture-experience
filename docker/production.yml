@@ -51,3 +51,4 @@ services:
         - "10000-10200:10000-10200/udp"
       volumes:
         - ./docker-config/janus.jcfg:/usr/local/etc/janus/janus.jcfg  # might need to change this later, dk if this is best practice .... TODO
+        - ./docker-config/janus.transport.http.jcfg:/usr/local/etc/janus/janus.transport.http.jcfg
