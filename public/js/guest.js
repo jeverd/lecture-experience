@@ -4,7 +4,7 @@
 /* eslint-disable no-undef */
 import Chat from './classes/Chat.js';
 import Message from './classes/Message.js';
-import { getUrlId } from './utility.js';
+import { getUrlId, redirectToStats } from './utility.js';
 import initializeGuestRTC from './guestRTC.js';
 
 window.onload = async () => {
@@ -53,8 +53,11 @@ window.onload = async () => {
     });
   });
 
-  socket.on('disconnect', (e) => {
-    console.log(e);
+  socket.on('disconnect', () => {
+    // Right now only redirect to stats
+    // But later we will display a modal saying
+    // That the lecture ended and then redirect them.
+    redirectToStats(roomId);
   });
 
   socket.on('updateNumOfStudents', (num) => {
