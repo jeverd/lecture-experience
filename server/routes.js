@@ -17,18 +17,18 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(publicPath, 'index.html'));
 });
 
+app.get('/testjanus', (req, res) => {
+  res.sendFile('testjanus.html', { root: path.join(publicPath) });
+});
+
 app.get('/create', (req, res) => {
   res.sendFile('create.html', { root: path.join(publicPath) });
 });
 
 app.post('/create', (req, res) => {
   logger.info('POST request received: /create');
-
-  const roomId = uuidv4();
   const managerId = uuidv4();
-  logger.info(`POST /create roomId generated: ${roomId}`);
-  logger.info(`POST /create managerId generated: ${managerId}`);
-  const { name, email } = req.body;
+  const { name, email, roomId } = req.body;
   const newLectureStats = new Stats(name);
   newLectureStats.addUserTrack(new Date(), 0);
   redisClient.hmset('stats', { [roomId]: JSON.stringify(newLectureStats) });
@@ -55,21 +55,21 @@ app.get('/session', (req, res) => {
 app.get('/lecture/:id', (req, res) => {
   const urlId = req.params.id;
   logger.info(`GET request received: /lecture for lecture id: ${urlId}`);
-    
+
   redisClient.hmget('managers', urlId, (err, object) => {
-      const isGuest = object[0] === null;
-      const roomId = !isGuest && JSON.parse(object[0]).roomId;
-      redisClient.hexists('rooms', isGuest ? urlId : roomId, (err, roomExist) => {
-        if (roomExist) {
-          res.sendFile(isGuest
-            ? 'lecture.html' : 'whiteboard.html',
-          { root: publicPath });
-        } else {
-          res.status(404);
-          res.sendFile('error.html', { root: path.join(publicPath) });
-        }
-      });
+    const isGuest = object[0] === null;
+    const roomId = !isGuest && JSON.parse(object[0]).roomId;
+    redisClient.hexists('rooms', isGuest ? urlId : roomId, (err, roomExist) => {
+      if (roomExist) {
+        res.sendFile(isGuest
+          ? 'lecture.html' : 'whiteboard.html',
+        { root: publicPath });
+      } else {
+        res.status(404);
+        res.sendFile('error.html', { root: path.join(publicPath) });
+      }
     });
+  });
 });
 
 app.get('/lecture/stats/:id', (req, res) => {
@@ -101,17 +101,6 @@ app.post('/lecture/stats/:id', (req, res) => {
       res.status(404);
     }
   });
-});
-
-app.get('/peerjs/config', (req, res) => {
-  const peerjsConfig = {
-    secure: environment === 'PRODUCTION',
-    host: environment === 'DEVELOPMENT' ? 'localhost' : 'liteboard.io',
-    path: '/peerjs',
-    port: environment === 'DEVELOPMENT' ? expressPort : 443,
-    iceServers,
-  };
-  res.send(JSON.stringify(peerjsConfig));
 });
 
 app.get('*', (req, res) => {

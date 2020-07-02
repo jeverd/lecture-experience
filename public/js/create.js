@@ -1,5 +1,8 @@
-/* eslint-disable no-useless-escape */
-/* eslint-disable func-names */
+/* eslint-disable no-undef */
+/* eslint-disable import/extensions */
+import { buildPostRequestOpts, getJanusUrl } from './utility.js';
+
+const janusUrl = getJanusUrl();
 const createBut = document.querySelector('#create-lecture');
 const invalidEmailDiv = document.getElementById('invalid-email');
 const invalidNameDiv = document.getElementById('invalid-lecturename');
@@ -11,26 +14,53 @@ function isValidEmail(email) {
 
 createBut.addEventListener('click', (e) => {
   e.preventDefault();
-  const xhr = new XMLHttpRequest();
   const lectureName = nameInput.value;
   const lectureEmail = emailInput.value;
   if (lectureName === '') {
     invalidEmailDiv.style.opacity = 0;
     invalidNameDiv.style.opacity = 1;
   } else if (lectureEmail === '' || isValidEmail(lectureEmail)) {
-    xhr.open('POST', '/create', true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.onreadystatechange = function () {
-      if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-        const response = JSON.parse(this.response);
-        window.location = response.redirectUrl;
-      }
-    };
-
-    xhr.send(JSON.stringify({
-      name: lectureName,
-      email: lectureEmail,
-    }));
+    Janus.init({
+      debug: 'all',
+      callback() {
+        const janus = new Janus({
+          server: janusUrl,
+          success() {
+            // Attach to VideoRoom plugin
+            janus.attach(
+              {
+                plugin: 'janus.plugin.videoroom',
+                success(pluginHandle) {
+                  pluginHandle.send({
+                    message: { request: 'create' },
+                    success(res) {
+                      if (res.videoroom === 'created') {
+                        const body = JSON.stringify({
+                          name: lectureName,
+                          email: lectureEmail,
+                          roomId: res.room,
+                        });
+                        fetch('/create', buildPostRequestOpts(body))
+                          .then((response) => {
+                            if (response.status === 200) {
+                              response.json().then((json) => {
+                                window.location = json.redirectUrl;
+                              });
+                            }
+                          });
+                      }
+                    },
+                  });
+                },
+                error(error) {
+                  console.log('error plugin connection');
+                },
+              },
+            );
+          },
+        });
+      },
+    });
   } else {
     invalidNameDiv.style.opacity = 0;
     invalidEmailDiv.style.opacity = 1;
