@@ -15,12 +15,15 @@ function updateNumOfStudents(room) {
     const numOfStudents = clients.length + (room in roomsTimeout ? 0 : -1);
     io.in(room).emit('updateNumOfStudents', numOfStudents);
     redisClient.hmget('stats', room, (error, stats) => {
-      const {
-        lectureName, userTracker, maxNumOfUsers, numOfBoards,
-      } = JSON.parse(stats);
-      const updatedStat = new Stats(lectureName, userTracker, maxNumOfUsers, numOfBoards);
-      updatedStat.addUserTrack(new Date(), clients.length);
-      redisClient.hmset('stats', { [room]: JSON.stringify(updatedStat) });
+      logger.info(`STATS: adding stats ${stats}`);
+      if (stats) {
+        const {
+          lectureName, userTracker, maxNumOfUsers, numOfBoards,
+        } = JSON.parse(stats);
+        const updatedStat = new Stats(lectureName, userTracker, maxNumOfUsers, numOfBoards);
+        updatedStat.addUserTrack(new Date(), clients.length);
+        redisClient.hmset('stats', { [room]: JSON.stringify(updatedStat) });
+      }
     });
   });
 }
@@ -62,24 +65,26 @@ io.sockets.on('connection', (socket) => {
       function terminateLecture() {
         logger.info(`SOCKET: Lecture ${roomToJoin} terminated`);
         redisClient.hmget('rooms', roomToJoin, (error, roomObj) => {
-          const { managerId } = JSON.parse(roomObj);
-          redisClient.hdel('managers', managerId);
-          logger.info(`SOCKET: Successfully deleted manager from redis, managerId: ${managerId}`);
-          redisClient.hdel('rooms', roomToJoin, () => {
-            socket.leave(roomToJoin, () => {
-              // Call this just to get last piece of stats about this lecture.
-              updateNumOfStudents(roomToJoin);
-              logger.info(`SOCKET: Successfully deleted room from redis, room_id: ${roomToJoin}`);
-              if (roomToJoin in io.sockets.adapter.rooms) {
-                const connectedSockets = io.sockets.adapter.rooms[roomToJoin].sockets;
-                Object.keys(connectedSockets).forEach((cliId) => {
-                  if (cliId !== socket.id && cliId in io.in(roomToJoin).connected) {
-                    io.in(roomToJoin).connected[cliId].disconnect();
-                  }
-                });
-              }
+          if (roomObj) {
+            const { managerId } = JSON.parse(roomObj);
+            redisClient.hdel('managers', managerId);
+            logger.info(`SOCKET: Successfully deleted manager from redis, managerId: ${managerId}`);
+            redisClient.hdel('rooms', roomToJoin, () => {
+              socket.leave(roomToJoin, () => {
+                // Call this just to get last piece of stats about this lecture.
+                updateNumOfStudents(roomToJoin);
+                logger.info(`SOCKET: Successfully deleted room from redis, room_id: ${roomToJoin}`);
+                if (roomToJoin in io.sockets.adapter.rooms) {
+                  const connectedSockets = io.sockets.adapter.rooms[roomToJoin].sockets;
+                  Object.keys(connectedSockets).forEach((cliId) => {
+                    if (cliId !== socket.id && cliId in io.in(roomToJoin).connected) {
+                      io.in(roomToJoin).connected[cliId].disconnect();
+                    }
+                  });
+                }
+              });
             });
-          });
+          }
         });
       }
       socket.on('disconnect', deleteSession);
@@ -113,14 +118,16 @@ io.sockets.on('connection', (socket) => {
       });
       socket.on('updateBoards', (boardObj) => {
         redisClient.hmget('rooms', roomToJoin, (err, roomObj) => {
-          roomObj = JSON.parse(roomObj);
-          roomObj.boards = boardObj.boards;
-          roomObj.boardActive = boardObj.activeBoardIndex;
-          redisClient.hmset('rooms', {
-            [roomToJoin]: JSON.stringify(roomObj),
-          });
-          socket.broadcast.to(roomToJoin).emit('boards',
-            boardObj.boards.filter((e, i) => i !== boardObj.activeBoardIndex));
+          if (roomObj) {
+            roomObj = JSON.parse(roomObj);
+            roomObj.boards = boardObj.boards;
+            roomObj.boardActive = boardObj.activeBoardIndex;
+            redisClient.hmset('rooms', {
+              [roomToJoin]: JSON.stringify(roomObj),
+            });
+            socket.broadcast.to(roomToJoin).emit('boards',
+              boardObj.boards.filter((e, i) => i !== boardObj.activeBoardIndex));
+          }
         });
       });
       socket.on('currentBoardToAll', (board) => {
@@ -151,21 +158,26 @@ io.sockets.on('connection', (socket) => {
       updateNumOfStudents(roomToJoin);
     }
     redisClient.hmget('rooms', roomToJoin, (error, roomObj) => {
-      const lectureObj = JSON.parse(roomObj);
-      lectureObj.id = roomToJoin;
-      const { managerId } = lectureObj;
-      if (isIncomingStudent) {
-        delete lectureObj.managerId;
-        // notify manager to about incoming student
-        redisClient.hmget('managers', managerId, (error, manager) => {
-          const { socketId } = JSON.parse(manager);
-          if (socketId in io.in(roomToJoin).connected) {
-            // Notify prof to send student back the currentBoard
-            io.in(roomToJoin).connected[socketId].emit('currentBoard', socket.id);
-          }
-        });
+      logger.info(`SOCKET: Retreiving room object ${roomObj}`);
+      if (roomObj) {
+        const lectureObj = JSON.parse(roomObj);
+        lectureObj.id = roomToJoin;
+        const { managerId } = lectureObj;
+        if (isIncomingStudent) {
+          delete lectureObj.managerId;
+          // notify manager to about incoming student
+          redisClient.hmget('managers', managerId, (error, manager) => {
+            if (manager) {
+              const { socketId } = JSON.parse(manager);
+              if (socketId in io.in(roomToJoin).connected) {
+                // Notify prof to send student back the currentBoard
+                io.in(roomToJoin).connected[socketId].emit('currentBoard', socket.id);
+              }
+            }
+          });
+        }
+        socket.emit('ready', { lecture_details: lectureObj });
       }
-      socket.emit('ready', { lecture_details: lectureObj });
     });
   });
 
@@ -175,17 +187,21 @@ io.sockets.on('connection', (socket) => {
 
   socket.on('send-to-manager', (room, message) => {
     redisClient.hmget('rooms', room, (error, roomObject) => {
-      roomObject = JSON.parse(roomObject.pop());
-      redisClient.hmget(
-        'managers',
-        roomObject.managerId,
-        (error, managerObject) => {
-          const { socketId } = JSON.parse(managerObject.pop());
-          if (socketId in io.in(room).connected) {
-            io.in(room).connected[socketId].emit('send-to-manager', message);
-          }
-        },
-      );
+      if (roomObject && roomObject.length > 0) {
+        roomObject = JSON.parse(roomObject.pop());
+        redisClient.hmget(
+          'managers',
+          roomObject.managerId,
+          (error, managerObject) => {
+            if (managerObject && managerObject.length > 0) {
+              const { socketId } = JSON.parse(managerObject.pop());
+              if (socketId in io.in(room).connected) {
+                io.in(room).connected[socketId].emit('send-to-manager', message);
+              }
+            }
+          },
+        );
+      }
     });
   });
 });
