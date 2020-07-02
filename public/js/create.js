@@ -8,7 +8,6 @@ const invalidEmailDiv = document.getElementById('invalid-email');
 const invalidNameDiv = document.getElementById('invalid-lecturename');
 const emailInput = document.querySelector('#email');
 const nameInput = document.querySelector('#lectureName');
-
 function isValidEmail(email) {
   return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
 }

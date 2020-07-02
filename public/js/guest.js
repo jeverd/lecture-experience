@@ -76,16 +76,6 @@ window.onload = async () => {
     document.querySelector('#whiteboard').poster = board;
   });
 
-  // peer.on('call', (call) => {
-  //   call.on('stream', (stream) => {
-  //     const speaker = document.getElementById('speaker');
-  //     const whiteboard = document.getElementById('whiteboard');
-  //     startStream(speaker, stream.getAudioTracks()[0]);
-  //     startStream(whiteboard, stream.getVideoTracks()[0]);
-  //   });
-  //   call.answer(null);
-  // });
-
   document.querySelector('button#toggle-messages').addEventListener('click', (e) => {
     e.preventDefault();
 

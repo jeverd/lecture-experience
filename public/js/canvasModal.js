@@ -14,7 +14,6 @@ export default function initModal(stream) {
     joinContent.style.display = 'none';
     micContent.style.display = 'block';
   });
-
   // back button
   document.getElementById('go-back').addEventListener('click', () => {
     const joinContent = document.getElementById('join-content');
@@ -88,7 +87,6 @@ export default function initModal(stream) {
         }
         return this.clipping;
       };
-
       processor.shutdown = function () {
         this.disconnect();
         this.onaudioprocess = null;
@@ -102,7 +100,6 @@ export default function initModal(stream) {
       const bufLength = buf.length;
       let sum = 0;
       let x;
-
       // Do a root-mean-square on the samples: sum up the squares...
       for (let i = 0; i < bufLength; i++) {
         x = buf[i];
@@ -166,7 +163,6 @@ export default function initModal(stream) {
       const deviceInfo = deviceInfos[i];
       const newSpan = document.createElement('span');
       newSpan.value = deviceInfo.deviceId;
-
       if (deviceInfo.kind === 'audioinput') {
         newSpan.textContent = deviceInfo.label;
         newSpan.classList.add('custom-option');
