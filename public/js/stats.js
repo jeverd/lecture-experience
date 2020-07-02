@@ -1,17 +1,6 @@
+/* eslint-disable import/extensions */
 /* eslint-disable no-plusplus */
-
-const url = window.location.pathname;
-const lastSlash = url.lastIndexOf('/');
-const urlId = url.substr(lastSlash + 1);
-const requestOpts = {
-  method: 'POST',
-  mode: 'cors',
-  cache: 'no-cache',
-  credentials: 'same-origin',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-};
+import { getUrlId, buildPostRequestOpts } from './utility.js';
 
 // getSecondsBetweenTwoTimes receives two Date objects
 function getSecondsBetweenTwoTimes(start, end) {
@@ -109,7 +98,7 @@ function buildGraph(statsObj) {
     averageNumOfUsers += averageWatchers[i];
   }
 
-  document.getElementById('lecture-stats-title').innerHTML = statsObj.lectureName;
+  document.getElementById('lecture-stats-title').innerHTML = `${statsObj.lectureName.charAt(0).toUpperCase()}${statsObj.lectureName.slice(1)}`;
   document.getElementById('max-specs').innerHTML = maxStudents;
   document.getElementById('max-specss').innerHTML = maxStudents;
   document.getElementById('avg-specs').innerHTML = Math.ceil(averageNumOfUsers / graphSize);
@@ -124,8 +113,7 @@ function buildGraph(statsObj) {
   document.getElementById('lecture-durationn').innerHTML = formatted;
 }
 
-
-fetch(`/lecture/stats/${urlId}`, requestOpts)
+fetch(`/lecture/stats/${getUrlId()}`, buildPostRequestOpts(''))
   .then((response) => {
     if (response.status === 200) {
       response.json().then((jsonResponse) => {

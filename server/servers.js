@@ -1,7 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 const express = require('express');
 const helmet = require('helmet');
-const { ExpressPeerServer } = require('peer');
 const redis = require('redis');
 const socketio = require('socket.io');
 const bodyParser = require('body-parser');
@@ -10,7 +9,8 @@ const sharedSession = require('express-socket.io-session');
 
 const RedisStore = require('connect-redis')(session);
 const {
-  redisHost, redisPort, redisTest, expressPort, environment, redisUrl, loggerFlag, sessionSecret, sessionName,
+  redisHost, redisPort, redisTest, expressPort, environment,
+  redisUrl, loggerFlag, sessionSecret, sessionName,
 } = require('../config/config');
 const { logger } = require('./services/logger/logger');
 const { logMiddleWare } = require('./services/logger/loggingMiddleware');
@@ -21,11 +21,6 @@ const expressServer = app.listen(expressPort);
 
 const io = socketio(expressServer, { cookie: false });
 
-
-const peerServer = ExpressPeerServer(expressServer);
-
-
-app.use('/peerjs', peerServer);
 app.use(express.static('public/js'));
 app.use(express.static('public/css'));
 app.use(express.static('public/images'));
