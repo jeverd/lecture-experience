@@ -89,7 +89,6 @@ export default function initializeGuestRTC(roomId) {
                     case 'event':
                       if (typeof msg.unpublished !== 'undefined' || typeof msg.leaving !== 'undefined') {
                         // Handle here properly when the manager disconnects
-                        remoteHandle.detach();
                       } else if (typeof msg.publishers !== 'undefined') {
                         joinFeed(msg.publishers);
                       }
