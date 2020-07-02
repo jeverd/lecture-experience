@@ -13,25 +13,7 @@ function buildGraph(statsObj) {
   const lectureDurationInSeconds = getSecondsBetweenTwoTimes(new Date(timeTracks[0]),
     new Date(timeTracks[timeTracks.length - 1]));
 
-  let graphSize;
-
-  if (lectureDurationInSeconds > 1800) {
-    graphSize = 30;
-  } else {
-    graphSize = 25;
-  }
-
-  for (let i = 0; i < graphSize; i++) {
-    const proressBar = document.createElement('div');
-    proressBar.classList.add('myProgress');
-    // setting the class to item and active
-    const inner = document.createElement('div');
-    inner.classList.add('myBar');
-
-    proressBar.appendChild(inner);
-
-    document.getElementById('graph').appendChild(proressBar);
-  }
+  const graphSize = 25;
 
   const timeIntervalInSeconds = lectureDurationInSeconds / graphSize;
   const watchers = Array(graphSize).fill(0);
@@ -68,6 +50,34 @@ function buildGraph(statsObj) {
     } else {
       averageWatchers[i] = Math.ceil(watchers[i] / numberOfInputs[i]);
     }
+  }
+
+  for (let i = 0; i < graphSize; i++) {
+    const progressBar = document.createElement('div');
+    progressBar.classList.add('myProgress');
+    // setting the class to item and active
+    const inner = document.createElement('div');
+    inner.classList.add('myBar');
+    inner.classList.add('tooltip');
+
+    const popup = document.createElement('div');
+    popup.classList.add('tooltiptext');
+
+    const timer = timeIntervalInSeconds * i;
+
+    const hours = Math.floor(timer / 60 / 60);
+    const minutes = Math.floor(timer / 60) - (hours * 60);
+    const seconds = Number((timer % 60).toPrecision(2));
+
+    const formatted = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+    popup.innerHTML = `Spectators:  ${averageWatchers[i]} <br/> Time:  ${formatted}`;
+
+    inner.appendChild(popup);
+
+    progressBar.appendChild(inner);
+
+    document.getElementById('graph').appendChild(progressBar);
   }
 
 

@@ -1,40 +1,73 @@
+/* eslint-disable import/extensions */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-undef */
-
-function addStream(htmlElem, streamTrack) {
-  const stream = new MediaStream();
-  stream.addTrack(streamTrack);
-  htmlElem.srcObject = stream;
-  if ('srcObject' in htmlElem) {
-    htmlElem.srcObject = stream;
-  } else {
-    htmlElem.src = window.URL.createObjURL(stream);
-  }
-}
+import { getJanusUrl } from './utility.js';
 
 export default function initializeGuestRTC(roomId) {
+  const janusUrl = getJanusUrl();
   let janus;
   let handle;
+  let remoteHandle;
+
+  function addStream(htmlElem, streamTrack) {
+    const stream = new MediaStream();
+    stream.addTrack(streamTrack);
+    htmlElem.srcObject = stream;
+    if ('srcObject' in htmlElem) {
+      htmlElem.srcObject = stream;
+    } else {
+      htmlElem.src = window.URL.createObjURL(stream);
+    }
+  }
+
+  function joinFeed(publishers) {
+    const publisher = publishers.length > 0 ? publishers[0] : null;
+    if (publisher) {
+      janus.attach({
+        plugin: 'janus.plugin.videoroom',
+        success(remHandle) {
+          remoteHandle = remHandle;
+          remoteHandle.send({
+            message: {
+              request: 'join', ptype: 'subscriber', room: roomId, feed: publisher.id,
+            },
+          });
+        },
+        onmessage(msg, offerJsep) {
+          const event = msg.videoroom;
+          if (event === 'attached') {
+            remoteHandle.rfid = msg.id;
+            remoteHandle.rfdisplay = msg.display;
+          }
+          if (offerJsep) {
+            remoteHandle.createAnswer({
+              jsep: offerJsep,
+              media: {
+                audioSend: false, videoSend: false,
+              },
+              success(answerJsep) {
+                remoteHandle.send({ message: { request: 'start', room: roomId }, jsep: answerJsep });
+              },
+            });
+          }
+        },
+        onremotestream(stream) {
+          const audioTrack = stream.getAudioTracks()[0];
+          const speaker = document.getElementById('speaker');
+          addStream(speaker, audioTrack);
+          const whiteboard = document.getElementById('whiteboard');
+          addStream(whiteboard, stream.getVideoTracks()[0]);
+        },
+      });
+    }
+  }
+
   Janus.init({
     callback() {
       janus = new Janus(
         {
           debug: 'all',
-          server: 'https://liteboard.io/janus',
-          iceServers: [
-            { urls: 'stun:stun.l.google.com:19302' },
-            { urls: 'stun:stun1.l.google.com:19302' },
-            { urls: 'stun:stun2.l.google.com:19302' },
-            { url: 'stun:stun01.sipphone.com' },
-            { url: 'stun:stun.ekiga.net' },
-            { url: 'stun:stunserver.org' },
-            { url: 'stun:stun.softjoys.com' },
-            { url: 'stun:stun.voiparound.com' },
-            { url: 'stun:stun.voipbuster.com' },
-            { url: 'stun:stun.voipstunt.com' },
-            { url: 'stun:stun.voxgratia.org' },
-            { url: 'stun:stun.xten.com' },
-          ],
+          server: janusUrl,
           success() {
             janus.attach(
               {
@@ -47,55 +80,21 @@ export default function initializeGuestRTC(roomId) {
                     },
                   });
                 },
-                onmessage(msg, jsep) {
-                  console.log(msg);
-                  if (msg.videoroom === 'joined') {
-                    msg.publishers.forEach((publisher) => {
-                      let remoteHandle;
-                      janus.attach({
-                        plugin: 'janus.plugin.videoroom',
-                        success(remHandle) {
-                          remoteHandle = remHandle;
-                          remoteHandle.send({
-                            message: {
-                              request: 'join', ptype: 'subscriber', room: roomId, feed: publisher.id,
-                            },
-                          });
-                        },
-                        onmessage(msg, offerJsep) {
-                          console.log(msg);
-                          const event = msg.videoroom;
-                          if (event === 'attached') {
-                            remoteHandle.rfid = msg.id;
-                            remoteHandle.rfdisplay = msg.display;
-                          }
-                          if (offerJsep) {
-                            remoteHandle.createAnswer({
-                              jsep: offerJsep,
-                              media: {
-                                audioSend: false, videoSend: false,
-                              },
-                              success(answerJsep) {
-                                remoteHandle.send({ message: { request: 'start', room: roomId }, jsep: answerJsep });
-                              },
-                            });
-                          }
-                        },
-                        onremotestream(stream) {
-                          const audioTrack = stream.getAudioTracks()[0];
-                          const speaker = document.getElementById('speaker');
-                          addStream(speaker, audioTrack);
-
-                          // if (videoTrack && videoTrack.)
-
-                          const whiteboard = document.getElementById('whiteboard');
-                          console.log(stream);
-                          // console.log(stream.getTracks())
-
-                          addStream(whiteboard, stream.getVideoTracks()[0]);
-                        },
-                      });
-                    });
+                onmessage(msg) {
+                  const status = msg.videoroom;
+                  switch (status) {
+                    case 'joined':
+                      joinFeed(msg.publishers);
+                      break;
+                    case 'event':
+                      if (typeof msg.unpublished !== 'undefined' || typeof msg.leaving !== 'undefined') {
+                        // Handle here properly when the manager disconnects
+                        remoteHandle.detach();
+                      } else if (typeof msg.publishers !== 'undefined') {
+                        joinFeed(msg.publishers);
+                      }
+                      break;
+                    default: break;
                   }
                 },
               },

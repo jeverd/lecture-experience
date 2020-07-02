@@ -1,5 +1,9 @@
+/* eslint-disable import/extensions */
 /* eslint-disable no-undef */
+import { getJanusUrl } from './utility.js';
+
 export default function initializeManagerRTC(roomId, stream) {
+  const janusUrl = getJanusUrl();
   let janus;
   let janusHandler;
 
@@ -7,21 +11,7 @@ export default function initializeManagerRTC(roomId, stream) {
     debug: 'all',
     callback() {
       janus = new Janus({
-        server: 'https://liteboard.io/janus',
-        iceServers: [
-          { urls: 'stun:stun.l.google.com:19302' },
-          { urls: 'stun:stun1.l.google.com:19302' },
-          { urls: 'stun:stun2.l.google.com:19302' },
-          { url: 'stun:stun01.sipphone.com' },
-          { url: 'stun:stun.ekiga.net' },
-          { url: 'stun:stunserver.org' },
-          { url: 'stun:stun.softjoys.com' },
-          { url: 'stun:stun.voiparound.com' },
-          { url: 'stun:stun.voipbuster.com' },
-          { url: 'stun:stun.voipstunt.com' },
-          { url: 'stun:stun.voxgratia.org' },
-          { url: 'stun:stun.xten.com' },
-        ],
+        server: janusUrl,
         success() {
           janus.attach({
             plugin: 'janus.plugin.videoroom',
@@ -34,7 +24,6 @@ export default function initializeManagerRTC(roomId, stream) {
               });
             },
             onmessage(msg, jsep) {
-              console.log(msg);
               if (jsep && jsep.type === 'answer') {
                 janusHandler.handleRemoteJsep({ jsep });
               }
