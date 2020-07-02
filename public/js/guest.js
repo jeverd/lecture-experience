@@ -62,7 +62,7 @@ window.onload = async () => {
         fileInput.value = '';
       });
     });
-
+ 
     socket.on('disconnect', (e) => {
       console.log(e);
     });
