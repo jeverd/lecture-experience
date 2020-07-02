@@ -27,6 +27,11 @@ function beginLecture(stream) {
     });
   });
 
+  socket.on('attemptToConnectMultipleManagers', () => {
+    // actually here redirects this user to the "seems like theres another tab opened page"
+    // alert('There is already a manager');
+  });
+
   $(window).on('beforeunload', (e) => {
     e.preventDefault();
     socket.disconnect();

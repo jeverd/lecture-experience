@@ -51,6 +51,12 @@ io.sockets.on('connection', (socket) => {
       isIncomingStudent = false;
       const managerObj = JSON.parse(manager);
       roomToJoin = managerObj.roomId;
+      if (socket.id !== managerObj.sockedId
+        && managerObj.socketId in io.in(roomToJoin).connected) {
+        logger.info(`SOCKET: ON CONNECTION: manager already exists, socket_id: ${socket.id}, emitting attemptToConnectMultipleManagers now`);
+        socket.emit('attemptToConnectMultipleManagers');
+        return;
+      }
       if (roomToJoin in roomsTimeout) {
         clearTimeout(roomsTimeout[roomToJoin]);
         delete roomsTimeout[roomToJoin];
