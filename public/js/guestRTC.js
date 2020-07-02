@@ -7,7 +7,6 @@ export default function initializeGuestRTC(roomId) {
   const janusUrl = getJanusUrl();
   let janus;
   let handle;
-  let remoteHandle;
 
   function addStream(htmlElem, streamTrack) {
     const stream = new MediaStream();
@@ -21,8 +20,8 @@ export default function initializeGuestRTC(roomId) {
   }
 
   function joinFeed(publishers) {
-    const publisher = publishers.length > 0 ? publishers[0] : null;
-    if (publisher) {
+    publishers.forEach((publisher) => {
+      let remoteHandle;
       janus.attach({
         plugin: 'janus.plugin.videoroom',
         success(remHandle) {
@@ -59,7 +58,7 @@ export default function initializeGuestRTC(roomId) {
           addStream(whiteboard, stream.getVideoTracks()[0]);
         },
       });
-    }
+    });
   }
 
   Janus.init({
