@@ -130,3 +130,7 @@ export function buildPostRequestOpts(body) {
     body,
   };
 }
+
+export function redirectToStats(roomId) {
+  window.location = `/lecture/stats/${roomId}`;
+}

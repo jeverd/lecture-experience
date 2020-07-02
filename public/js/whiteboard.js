@@ -20,27 +20,11 @@ function beginLecture(stream) {
   stream.addTrack(whiteboard.getStream().getTracks()[0]);
   const socket = io('/', { query: `id=${managerId}` });
 
-  // socket.on('call', (remotePeerId) => {
-  //   const call = peer.call(remotePeerId, stream);
-  //   calls.push(call);
-  // });
-
-  socket.on('updateNumOfStudents', (num) => {
-    document.getElementById('specs').innerHTML = num;
-  });
-
   socket.on('currentBoard', (studentSocketId) => {
     socket.emit('currentBoard', {
       board: whiteboard.getImage(),
       studentSocket: studentSocketId,
     });
-  });
-
-  socket.on('attemptToConnectMultipleManagers', () => {
-    stream.getTracks().forEach((track) => {
-      track.stop();
-    });
-    alert('There is already a manager');
   });
 
   $(window).on('beforeunload', (e) => {
@@ -52,10 +36,10 @@ function beginLecture(stream) {
     const { boards, boardActive } = room.lecture_details;
     $('[lecture-name]').html(room.lecture_details.name);
     whiteboard.initialize();
+    initializeCanvasTopMenu(socket, whiteboard, room.lecture_details.id);
     initializeToolsMenu(whiteboard);
     initializeActionsMenu(socket, whiteboard);
     initializeManagerRTC(room.lecture_details.id, stream);
-    initializeCanvasTopMenu(socket, whiteboard, room.lecture_details.id);
     initializeBoards(socket, whiteboard, boards, boardActive);
     initializeChat(socket, room.lecture_details.id);
   });

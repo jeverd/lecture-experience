@@ -51,12 +51,6 @@ io.sockets.on('connection', (socket) => {
       isIncomingStudent = false;
       const managerObj = JSON.parse(manager);
       roomToJoin = managerObj.roomId;
-      if (socket.id !== managerObj.sockedId
-        && managerObj.socketId in io.in(roomToJoin).connected) {
-        logger.info(`SOCKET: ON CONNECTION: manager already exists, socket_id: ${socket.id}, emitting attemptToConnectMultipleManagers now`);
-        socket.emit('attemptToConnectMultipleManagers');
-        return;
-      }
       if (roomToJoin in roomsTimeout) {
         clearTimeout(roomsTimeout[roomToJoin]);
         delete roomsTimeout[roomToJoin];
@@ -155,7 +149,6 @@ io.sockets.on('connection', (socket) => {
       logger.info(`SOCKET: Student joining room ${roomToJoin}`);
       isIncomingStudent = true;
       socket.join(roomToJoin);
-      updateNumOfStudents(roomToJoin);
     }
     redisClient.hmget('rooms', roomToJoin, (error, roomObj) => {
       logger.info(`SOCKET: Retreiving room object ${roomObj}`);
@@ -177,6 +170,7 @@ io.sockets.on('connection', (socket) => {
           });
         }
         socket.emit('ready', { lecture_details: lectureObj });
+        updateNumOfStudents(roomToJoin);
       }
     });
   });
