@@ -1,12 +1,14 @@
 /* eslint-disable no-undef */
 /* eslint-disable import/extensions */
-import { buildPostRequestOpts } from './utility.js';
+import { buildPostRequestOpts, getJanusUrl } from './utility.js';
 
+const janusUrl = getJanusUrl();
 const createBut = document.querySelector('#create-lecture');
 const invalidEmailDiv = document.getElementById('invalid-email');
 const invalidNameDiv = document.getElementById('invalid-lecturename');
 const emailInput = document.querySelector('#email');
 const nameInput = document.querySelector('#lectureName');
+
 function isValidEmail(email) {
   return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
 }
@@ -23,7 +25,7 @@ createBut.addEventListener('click', (e) => {
       debug: 'all',
       callback() {
         const janus = new Janus({
-          server: 'http://localhost:8088/janus',
+          server: janusUrl,
           success() {
             // Attach to VideoRoom plugin
             janus.attach(

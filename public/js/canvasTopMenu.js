@@ -22,10 +22,6 @@ export default function initializeCanvasTopMenu(socket, whiteboard, roomId) {
   });
 
   document.querySelector('#end-lecture').addEventListener('click', () => {
-    // calls.forEach((call) => {
-    //   call.close();
-    // });
-    // calls = [];
     socket.emit('lectureEnd', () => {
       window.location = `/lecture/stats/${roomId}`;
     });

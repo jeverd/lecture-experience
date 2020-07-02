@@ -1,5 +1,9 @@
+/* eslint-disable import/extensions */
 /* eslint-disable no-undef */
+import { getJanusUrl } from './utility.js';
+
 export default function initializeManagerRTC(roomId, stream) {
+  const janusUrl = getJanusUrl();
   let janus;
   let janusHandler;
 
@@ -7,7 +11,7 @@ export default function initializeManagerRTC(roomId, stream) {
     debug: 'all',
     callback() {
       janus = new Janus({
-        server: 'http://localhost:8088/janus',
+        server: janusUrl,
         success() {
           janus.attach({
             plugin: 'janus.plugin.videoroom',
@@ -20,7 +24,6 @@ export default function initializeManagerRTC(roomId, stream) {
               });
             },
             onmessage(msg, jsep) {
-              console.log(msg);
               if (jsep && jsep.type === 'answer') {
                 janusHandler.handleRemoteJsep({ jsep });
               }

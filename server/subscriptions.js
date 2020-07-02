@@ -25,12 +25,6 @@ function updateNumOfStudents(room) {
   });
 }
 
-function call(room, managerSocketId, peerId) {
-  if (managerSocketId in io.in(room).connected) {
-    io.in(room).connected[managerSocketId].emit('call', peerId);
-  }
-}
-
 io.sockets.on('connection', (socket) => {
   const urlUuid = socket.handshake.query.id;
   socket.handshake.session.inRoom = true;
@@ -145,19 +139,7 @@ io.sockets.on('connection', (socket) => {
       });
 
       socket.join(roomToJoin);
-      io.of('/').in(roomToJoin).clients((error, clients) => {
-        if (clients.length - 1 > 0) {
-          // if there are students in room -> call them all
-          logger.info('SOCKET: start calling all students already in lecture');
-          socket.broadcast.to(roomToJoin).emit('notifyPeerIdToManager', socket.id);
-        }
-      });
     } else {
-      socket.on('notify', (managerSocketId) => {
-        // professor have just reconnected -> tell him to call me
-        const myPeerId = socket.handshake.query.peer_id;
-        call(roomToJoin, managerSocketId, myPeerId);
-      });
       roomToJoin = urlUuid;
       socket.on('disconnect', () => {
         deleteSession();
@@ -174,15 +156,12 @@ io.sockets.on('connection', (socket) => {
       const { managerId } = lectureObj;
       if (isIncomingStudent) {
         delete lectureObj.managerId;
-        // notify manager to call incoming student
+        // notify manager to about incoming student
         redisClient.hmget('managers', managerId, (error, manager) => {
-          const studentPeerId = socket.handshake.query.peer_id;
           const { socketId } = JSON.parse(manager);
           if (socketId in io.in(roomToJoin).connected) {
             // Notify prof to send student back the currentBoard
             io.in(roomToJoin).connected[socketId].emit('currentBoard', socket.id);
-            // add incoming student to call
-            call(roomToJoin, socketId, studentPeerId);
           }
         });
       }

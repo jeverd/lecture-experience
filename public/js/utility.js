@@ -107,6 +107,17 @@ export function getUrlId() {
   return url.substr(lastSlash + 1);
 }
 
+export function getJanusUrl() {
+  let { host } = window.location;
+  let prefix = 'https';
+  if (host.includes('localhost')) {
+    prefix = 'http';
+    const collonIndex = host.indexOf(':');
+    host = `${host.slice(0, collonIndex + 1)}8088`;
+  }
+  return `${prefix}://${host}/janus`;
+}
+
 export function buildPostRequestOpts(body) {
   return {
     method: 'POST',
