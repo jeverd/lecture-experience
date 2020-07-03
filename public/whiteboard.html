@@ -530,7 +530,7 @@
               </div>
           </div>
             <div
-              title="Mute your microphone"
+              title="Mute"
               id="mute-mic"
               class="copy-link-container copy-button "
             >
@@ -588,11 +588,13 @@
     <!-- End Modal -->
     <!--Image Modal-->
     <div id="image-modal" style="display: none;" class="modal image-container">
-
+      <div class="wrap-div-message-image"></div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script src="https://unpkg.com/peerjs@1.2.0/dist/peerjs.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/6.4.0/adapter.min.js"></script>
+    <script src="/lib/janus.js"></script>
     <script src="/whiteboard.js" type="module"></script>
   </body>
 </html>

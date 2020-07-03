@@ -686,7 +686,7 @@ button {
 .in{
   padding: 6px;
   border: none;
-  background-color: #f5f5f5;
+  background: linear-gradient(135deg, rgba(70, 194, 255, 0.35) 0%, rgba(70, 194, 255, 0.9) 100%);
   width: auto;
   color: rgba(33,33,46, 1);
 }
@@ -947,22 +947,28 @@ button {
 }
 
 .image-container img{
-  position: absolute;
   height: 350px;
-  top: 50%;
-  left: 50%;
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
   border-radius: 0.75rem;
   box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
 }
 
+.wrap-div-message-image{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
 .download-container{
   position: absolute;
-  top: 70%;
+  bottom: -17.5px;
   left: 50%;
-  -ms-transform: translate(-50%, -40%);
-  transform: translate(-50%, -40%);
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%);
+  cursor: pointer;
+  opacity: 0.8;
+  transition: 0.25 ease;
 }
 
 .download-container span{
@@ -970,15 +976,8 @@ button {
   margin-left: 10px;
 }
 
-.download-icon{
-  cursor: pointer;
-  opacity: 0.8;
-  transition: 0.25 ease;
-}
-
-.download-icon:hover{
+.download-container:hover{
   opacity: 1;
-  transform: translateY(-2px) ;
 }
 
 #modal-content-header {

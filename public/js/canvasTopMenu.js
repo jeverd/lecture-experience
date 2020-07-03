@@ -1,10 +1,38 @@
+/* eslint-disable import/extensions */
 /* eslint-disable no-undef */
-// eslint-disable-next-line import/extensions
-import { showInfoMessage } from './utility.js';
+import { showInfoMessage, redirectToStats } from './utility.js';
+import { handleBoardsViewButtonsDisplay } from './managerBoards.js';
 
-export default function initializeCanvasTopMenu(whiteboard) {
+export default function initializeCanvasTopMenu(socket, whiteboard, roomId) {
   $('.hide-options-right').click(() => {
     $('.right-bar').fadeToggle();
+  });
+
+  let sharableUrl = window.location.href;
+  sharableUrl = sharableUrl.substr(0, sharableUrl.lastIndexOf('/') + 1);
+  sharableUrl += roomId;
+  document.getElementById('copy-share-link').addEventListener('click', () => {
+    const tmpInput = document.createElement('input');
+    tmpInput.value = sharableUrl;
+    document.body.appendChild(tmpInput);
+    tmpInput.select();
+    document.execCommand('copy');
+    showInfoMessage('Link Copied!');
+    document.body.removeChild(tmpInput);
+  });
+
+  socket.on('updateNumOfStudents', (num) => {
+    document.getElementById('specs').innerHTML = num;
+  });
+
+  document.querySelector('#end-lecture').addEventListener('click', () => {
+    socket.emit('lectureEnd', () => redirectToStats(roomId));
+  });
+
+  document.querySelector('.scroll-boards-view-right').addEventListener('click', () => {
+    $('.canvas-toggle-nav').animate({ scrollLeft: '+=120px' }, 150, () => {
+      handleBoardsViewButtonsDisplay();
+    });
   });
 
   $('.hide-options-left').click(() => {
@@ -17,7 +45,6 @@ export default function initializeCanvasTopMenu(whiteboard) {
     $('#mic-content').show();
     $('#go-back').hide();
     document.querySelector('.modal-content').classList.add('lecture');
-      
   });
 
   $('.my-boards-button-container').click(() => {

@@ -63,58 +63,36 @@ export function showInfoMessage(message) {
   });
 }
 
-export function appendFile(file, fileType, fileName, identifier) {
-  const messageContainer = document.getElementById('message-container');
-  const messageElement = document.createElement('tr');
-  messageElement.style.display = 'none';
-  let fileElement = null;
-  fileElement = document.createElement('a');
-  fileElement.href = (identifier === 'sender') ? URL.createObjectURL(file) : file;
-  fileElement.download = fileName;
-  fileElement.innerText = fileName;
-  messageElement.append(fileElement);
-  messageContainer.append(messageElement);
-  const messageToggle = document.getElementById('toggle-messages');
-  const event = new Event('redraw');
-  messageToggle.dispatchEvent(event);
-
-  fileElement.click();
-  $(messageElement).remove();
+export function getUrlId() {
+  const url = window.location.pathname;
+  const lastSlash = url.lastIndexOf('/');
+  return url.substr(lastSlash + 1);
 }
 
-export function appendMessage(message) {
-  const messageContainer = document.getElementById('message-container');
-  const messageElement = document.createElement('tr');
-  const tableData = document.createElement('td');
-  tableData.innerText = message;
-
-  messageElement.append(tableData);
-  messageContainer.append(messageElement);
-
-  const messageToggle = document.getElementById('toggle-messages');
-  const event = new Event('redraw');
-  messageToggle.dispatchEvent(event);
-}
-
-export function handleBoardsViewButtonsDisplay() {
-  const boardView = document.querySelector('.canvas-toggle-nav');
-  if (boardView.offsetWidth < boardView.scrollWidth) {
-    if ($(boardView).scrollLeft() > 0) {
-      $('.scroll-boards-view-left').show();
-    } else {
-      $('.scroll-boards-view-left').hide();
-    }
-    $('.scroll-boards-view-right').show();
-    if ($(boardView).scrollLeft() + boardView.offsetWidth >= boardView.scrollWidth - 15) {
-      $('.scroll-boards-view-right').hide();
-    }
-  } else {
-    $('.scroll-boards-view-left').hide();
+export function getJanusUrl() {
+  let { host } = window.location;
+  let prefix = 'https';
+  if (host.includes('localhost')) {
+    prefix = 'http';
+    const collonIndex = host.indexOf(':');
+    host = `${host.slice(0, collonIndex + 1)}8088`;
   }
+  return `${prefix}://${host}/janus`;
 }
 
-export function updateBoardsBadge() {
-  document.querySelectorAll('.board-badge').forEach((badge, i) => {
-    badge.innerHTML = i + 1;
-  });
+export function buildPostRequestOpts(body) {
+  return {
+    method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body,
+  };
+}
+
+export function redirectToStats(roomId) {
+  window.location = `/lecture/stats/${roomId}`;
 }
