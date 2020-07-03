@@ -9,7 +9,7 @@ import Message from './classes/Message.js';
 import Chat from './classes/Chat.js';
 import initModal from './canvasModal.js';
 import {
-  showInfoMessage, handleBoardsViewButtonsDisplay, updateBoardsBadge,
+  showInfoMessage, appendFile, handleBoardsViewButtonsDisplay, updateBoardsBadge,
 } from './utility.js';
 
 
@@ -88,49 +88,101 @@ window.onload = () => {
 
       function readURL(input) {
         if (input.files && input.files[0]) {
-            var reader = new FileReader();
-    
-            reader.onload = function (e) {
-                $('#image-preview').attr('src', e.target.result);
-            }
-    
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
+          const reader = new FileReader();
 
-      fileInput.addEventListener('change',(e)=>{
-        document.querySelector('#message-container').appendChild(document.querySelector('#preview'))
-        const file = e.target.files[0]
-        if(file.type.includes('image')){
+          reader.onload = function (e) {
+            $('#image-preview').attr('src', e.target.result);
+          };
+
+          reader.readAsDataURL(input.files[0]);
+        }
+      }
+
+      fileInput.addEventListener('change', (e) => {
+        document.querySelector('#message-container').appendChild(document.querySelector('#preview'));
+        const file = e.target.files[0];
+        if (file.type.includes('image')) {
           readURL(fileInput);
           $('#file-preview').hide();
           $('#preview').show();
-          $('#close-preview').css('bottom','55px');
-          //show image
-          let img_width = 0;
-          $("img").load(function() {
-            const img_width = ($(this).width());
-            const left = (15 + img_width + 15);
-            $('#close-preview').css('left',`${left}px`);
-        });
-        }
-        else{
+          $('#close-preview').css('bottom', '55px');
+          // show image
+          let imgWidth = 0;
+          $('img').load(function () {
+            imgWidth = ($(this).width());
+            const left = (15 + imgWidth + 15);
+            $('#close-preview').css('left', `${left}px`);
+          });
+        } else {
           $('#file-preview').show();
           $('#name-file').html(file.name);
-          console.log(file.name.length);
           $('#preview').show();
-          $('#close-preview').css('bottom','3px');
+          $('#close-preview').css('bottom', '3px');
+          $('#close-preview').css('left', '');
+          $('#close-preview').css('right', '15px');
         }
-        console.log(e.target.files[0]);
       });
-      $("#close-preview").click((e)=>{
-        fileInput.value='';
+
+      $(document).on('click', '.name-file', (e) => {
+        appendFile($(e.target).attr('data-file'), '', e.target.innerHTML, '');
+      });
+
+      $(document).on('click', '.download-icon', (e) => {
+        const download = $($(e.target).parents()[1]).children()[1];
+        appendFile($(download).attr('data-file'), '', $(download).attr('data-name'), '');
+      });
+
+      $(document).on('click', '.message-image', (e) => {
+        const image = e.target;
+        const newImage = document.createElement('img');
+        newImage.classList.add('modal-message-image');
+        newImage.src = image.src;
+
+        const container = document.createElement('div');
+        const text = document.createElement('span');
+        const button = document.createElement('span');
+
+        text.innerHTML = $(image).attr('data-name');
+        button.innerHTML = "<i class='fas fa-cloud-download-alt'></i>";
+        button.classList.add('download-icon');
+        button.setAttribute('data-file', image.src);
+        button.setAttribute('data-name', $(image).attr('data-name'));
+
+        container.append(text);
+        container.append(button);
+
+        document.getElementById('image-modal').append(newImage);
+        document.getElementById('image-modal').append(container);
+        container.classList.add('download-container');
+        $('#image-modal').show();
+      });
+
+      let click = 0;
+      window.addEventListener('click', (e) => {
+        const image = document.querySelector('.modal-message-image');
+        const modal = document.getElementById('image-modal');
+        const download = document.querySelector('.download-container');
+
+        if (modal.style.display === 'block') {
+          if (!image.contains(e.target) && !download.contains(e.target) && click > 0) {
+            $(modal).hide();
+            $(image).remove();
+            $(download).remove();
+            click = 0;
+          } else {
+            click += 1;
+          }
+        }
+      });
+
+      $('#close-preview').click(() => {
+        fileInput.value = '';
         $('#file-preview').hide();
-        $('#name-file').html("");
-        $('#image-preview').attr('src','')
+        $('#name-file').html('');
+        $('#image-preview').attr('src', '');
         $('#preview').hide();
-        $('#close-preview').css('right','15px');
-      })
+        $('#close-preview').css('right', '15px');
+      });
 
       socket.on('updateNumOfStudents', (num) => {
         document.getElementById('specs').innerHTML = num;

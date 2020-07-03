@@ -66,25 +66,20 @@ export function showInfoMessage(message) {
 export function appendFile(file, fileType, fileName, identifier) {
   const messageContainer = document.getElementById('message-container');
   const messageElement = document.createElement('tr');
+  messageElement.style.display = 'none';
   let fileElement = null;
-
-  // Doesn't work - need some kind of file upload
-  if (fileType.includes('image')) {
-    fileElement = document.createElement('img');
-    fileElement.src = (identifier === 'sender') ? URL.createObjectURL(file) : file;
-  } else {
-    fileElement = document.createElement('a');
-    fileElement.href = (identifier === 'sender') ? URL.createObjectURL(file) : file;
-    fileElement.download = fileName;
-    fileElement.innerText = fileName;
-  }
-
+  fileElement = document.createElement('a');
+  fileElement.href = (identifier === 'sender') ? URL.createObjectURL(file) : file;
+  fileElement.download = fileName;
+  fileElement.innerText = fileName;
   messageElement.append(fileElement);
   messageContainer.append(messageElement);
-
   const messageToggle = document.getElementById('toggle-messages');
   const event = new Event('redraw');
   messageToggle.dispatchEvent(event);
+
+  fileElement.click();
+  $(messageElement).remove();
 }
 
 export function appendMessage(message) {

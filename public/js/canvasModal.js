@@ -32,11 +32,7 @@ export default function initModal(stream){
       mutedicon.style.display='none';
       stream.getAudioTracks()[0].enabled = !(stream.getAudioTracks()[0].enabled)
     }
-
-      
-
   })
-  
   
   //test mic
   let test=false
@@ -45,9 +41,7 @@ export default function initModal(stream){
     let mediaStreamSource = null;
     let meter = null;
     test=!test
-    
-
-    
+       
     if (test){
       document.getElementById('test-mic-button').innerHTML = "Stop Test";
       audioContext.resume();
