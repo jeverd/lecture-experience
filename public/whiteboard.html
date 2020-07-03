@@ -53,9 +53,9 @@
     <div class="classroom-info">
       <div class="classroom-info-flexbox">
         <div class="lecture-running">
-          <span class="status-dot"><i class="fas fa-circle"></i> &nbsp;</span
-          ><span class="lecture-running-text">Lecture Running</span
-          ><span class="divider"></span>
+          <span class="status-dot"><i class="fas fa-circle"></i> &nbsp;</span>
+          <span class="lecture-running-text">Lecture Running</span>
+          <span class="divider"></span>
         </div>
 
         <div
@@ -152,16 +152,28 @@
               <span lecture-name></span> chat room
             </span>
           </div>
+          <div id="preview" class="preview">
+            <div class="preview-content">
+              <i class="fas fa-file" id="file-preview"></i>
+              <img src="" id='image-preview' class='image-preview'>
+              <span id="name-file"></span>
+              <i class="fas fa-times close-preview" id="close-preview"></i>
+            </div> 
+          </div>
         </div>
       </div>
-      <form id="send-container">
+      <div id="send-wrapper">
+        
+        <form id="send-container">
+          <span class="v_divider"></span>
           <input autocomplete="off" type="text" id="message-input">
           <input type="file" name="file" id="file-input" class="inputfile" />
           <label for="file-input">
             <i class="fas fa-paperclip"></i>
           </label>
           <button type="submit" id="send-button"><i class="fas fa-chevron-right"></i></button>
-      </form>
+        </form>        
+      </div>  
     </div>
 
     <!--start show-bar-button-->
@@ -574,6 +586,10 @@
       <!-- End Modal content -->
     </div>
     <!-- End Modal -->
+    <!--Image Modal-->
+    <div id="image-modal" style="display: none;" class="modal image-container">
+      <div class="wrap-div-message-image"></div>
+    </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script src="https://unpkg.com/peerjs@1.2.0/dist/peerjs.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
