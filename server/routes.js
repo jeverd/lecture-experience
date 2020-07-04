@@ -44,7 +44,7 @@ app.get('/validate/lecture', (req, res) => {
     if (roomExist) {
       if (req.session.inRoom) {
         res.status(401);
-        res.json({ error: 'User already in a room' });
+        res.json({ error: 'User already connected on different tab' });
       } else {
         res.status(200);
         res.json({ success: 'User is ready to be connected' });
@@ -70,7 +70,7 @@ app.get('/lecture/:id', (req, res) => {
         { root: publicPath });
       } else {
         res.status(404);
-        res.sendFile('error.html', { root: path.join(publicPath) });
+        res.redirect(301, '/error?code=3');
       }
     });
   });
@@ -79,7 +79,7 @@ app.get('/lecture/:id', (req, res) => {
 app.get('/lecture/stats/:id', (req, res) => {
   const urlId = req.params.id;
   logger.info(`GET request received: /lecture/stats for lecture id: ${urlId}`);
-  const renderNotFound = () => res.status(404).sendFile('error.html', { root: path.join(publicPath) });
+  const renderNotFound = () => res.status(404).redirect(301, '/error?code=3');
   redisClient.hexists('rooms', urlId, (er, roomExist) => {
     if (roomExist) {
       renderNotFound();
@@ -107,6 +107,22 @@ app.post('/lecture/stats/:id', (req, res) => {
   });
 });
 
+app.get('/error', (req, res) => {
+  let errType;
+  switch (req.query.code) {
+    case '0': errType = null; break;
+    case '1': errType = 'PageNotFound'; break;
+    case '2': errType = 'InvalidSession'; break;
+    case '3': errType = 'LectureNotFound'; break;
+    default: break;
+  }
+  if (errType) {
+    res.render('error.html', { [errType]: true });
+  } else {
+    res.redirect(301, '/');
+  }
+});
+
 app.get('*', (req, res) => {
-  res.sendFile('/', { root: path.join(publicPath) });
+  res.redirect(301, '/error?code=1');
 });

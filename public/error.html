@@ -27,7 +27,15 @@
   <div class="create-lecture-container">
     <div class="centered">
       <div>
+        {{#PageNotFound}}
           <img src="/liteboard404.png" id="error404" />
+        {{/PageNotFound}}
+        {{#InvalidSession}}
+          <img src="/liteboardLectureInProgress.png" id="error404" />
+        {{/InvalidSession}}
+        {{#LectureNotFound}}
+          <img src="/liteboardwhoopsLecture.png" id="error404" />
+        {{/LectureNotFound}}
       </div>
       <div class="buttons">
           <a href="/">

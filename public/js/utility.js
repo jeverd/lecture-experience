@@ -118,4 +118,4 @@ export function copyTextToClipboard(text) {
 
 export function reloadWindow() {
   window.location.reload();
-};
+}

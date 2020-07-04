@@ -6,6 +6,7 @@ const socketio = require('socket.io');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const sharedSession = require('express-socket.io-session');
+const mustache = require('mustache-express');
 
 const RedisStore = require('connect-redis')(session);
 const {
@@ -21,6 +22,9 @@ const expressServer = app.listen(expressPort);
 
 const io = socketio(expressServer, { cookie: false });
 
+app.engine('html', mustache());
+app.set('view engine', 'html');
+app.set('views', 'public');
 app.use(express.static('public/js'));
 app.use(express.static('public/css'));
 app.use(express.static('public/images'));
