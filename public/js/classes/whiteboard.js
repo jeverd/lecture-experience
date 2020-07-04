@@ -15,7 +15,7 @@ import {
   getImgElemFromImgData, getImgDataFromImgElem,
   showInfoMessage,
 } from '../utility.js';
-import { handleBoardsViewButtonsDisplay } from '../managerBoards.js';
+import { handleBoardsViewButtonsDisplay } from '../manager/managerBoards.js';
 import Fill from './fill.js';
 import Point from './point.js';
 

@@ -151,7 +151,7 @@
         <div class="message-container" id="message-container">
           <div class="message-lecture-name">
             <span>
-              <span lecture-name></span> chat room
+              {{name}} chat room
             </span>
           </div>
           <div id="preview" class="preview">
@@ -483,7 +483,7 @@
               </div>
               <div class="modal-url-share-container">
                 <div class="modal-url-share">
-                  http://localhost:8080/lecture/3324881979609019
+                  {{sharableUrl}}
                 </div>
                 <div id="modal-copy-link" class="modal-copy-button">
                   Copy
@@ -565,7 +565,6 @@
                   <div class="myProgress" id="myProgress23"></div>
                   <div class="myProgress" id="myProgress24"></div>
                   <div class="myProgress" id="myProgress25"></div>             
-                  <!--<div id="myBar"></div>-->
                 </div>
 
               </div>  
@@ -581,10 +580,9 @@
       <div class="wrap-div-message-image"></div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-    <script src="https://unpkg.com/peerjs@1.2.0/dist/peerjs.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/6.4.0/adapter.min.js"></script>
     <script src="/lib/janus.js"></script>
-    <script src="/whiteboard.js" type="module"></script>
+    <script src="/manager/manager.js" type="module"></script>
   </body>
 </html>

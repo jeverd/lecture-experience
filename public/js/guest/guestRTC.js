@@ -1,7 +1,7 @@
 /* eslint-disable import/extensions */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-undef */
-import { getJanusUrl } from './utility.js';
+import { getJanusUrl } from '../utility.js';
 
 export default function initializeGuestRTC(roomId) {
   const janusUrl = getJanusUrl();

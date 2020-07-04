@@ -4,7 +4,7 @@
 import {
   emitBoards, createNonActiveBoardElem, updateBoardsBadge, handleBoardsViewButtonsDisplay,
 } from './managerBoards.js';
-import { showInfoMessage } from './utility.js';
+import { showInfoMessage } from '../utility.js';
 
 export default function initializeActionsMenu(socket, whiteboard) {
   document.querySelectorAll('[data-command]').forEach((item) => {

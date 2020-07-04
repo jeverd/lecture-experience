@@ -2,15 +2,15 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable no-fallthrough */
 /* eslint-disable import/extensions */
-import Whiteboard from './classes/whiteboard.js';
-import initializeToolsMenu from './tools.js';
+import Whiteboard from '../classes/whiteboard.js';
+import initializeToolsMenu from '../tools.js';
 import initializeCanvasTopMenu from './canvasTopMenu.js';
 import initializeChat from './managerChat.js';
 import initializeModal from './canvasModal.js';
 import initializeBoards from './managerBoards.js';
 import initializeActionsMenu from './canvasActions.js';
 import initializeManagerRTC from './managerRTC.js';
-import { getUrlId, reloadWindow } from './utility.js';
+import { getUrlId, reloadWindow } from '../utility.js';
 
 const managerId = getUrlId();
 
@@ -40,7 +40,6 @@ function beginLecture(stream) {
 
   socket.on('ready', (room) => {
     const { boards, boardActive } = room.lecture_details;
-    $('[lecture-name]').html(room.lecture_details.name);
     whiteboard.initialize();
     initializeCanvasTopMenu(socket, whiteboard, room.lecture_details.id);
     initializeToolsMenu(whiteboard);

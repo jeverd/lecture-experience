@@ -1,6 +1,6 @@
 /* eslint-disable import/extensions */
 /* eslint-disable no-undef */
-import { getJanusUrl } from './utility.js';
+import { getJanusUrl } from '../utility.js';
 
 export default function initializeManagerRTC(roomId, stream) {
   const janusUrl = getJanusUrl();

@@ -1,6 +1,6 @@
 /* eslint-disable import/extensions */
 /* eslint-disable no-undef */
-import { showInfoMessage, redirectToStats, copyTextToClipboard } from './utility.js';
+import { showInfoMessage, redirectToStats, copyTextToClipboard } from '../utility.js';
 import { handleBoardsViewButtonsDisplay } from './managerBoards.js';
 
 export default function initializeCanvasTopMenu(socket, whiteboard, roomId) {

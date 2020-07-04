@@ -1,7 +1,7 @@
 /* eslint-disable import/extensions */
 /* eslint-disable no-undef */
-import Message from './classes/Message.js';
-import Chat from './classes/Chat.js';
+import Message from '../classes/Message.js';
+import Chat from '../classes/Chat.js';
 
 export default function initializeChat(socket, roomId) {
   const chat = new Chat('message-container');
@@ -30,7 +30,7 @@ export default function initializeChat(socket, roomId) {
     messageContainer.append(messageElement);
     const messageToggle = document.getElementById('toggle-messages');
     const event = new Event('redraw');
-    messageToggle.dispatchEvent(event); 
+    messageToggle.dispatchEvent(event);
     fileElement.click();
     $(messageElement).remove();
   }

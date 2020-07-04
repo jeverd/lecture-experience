@@ -4,7 +4,7 @@
 /* eslint-disable import/extensions */
 /* eslint-disable import/no-absolute-path */
 /* eslint-disable-next-line import/no-unresolved */
-import Point from '/classes/point.js';
+import Point from './classes/point.js';
 
 export function getMouseCoordsOnCanvas(e, canvas) {
   let x; let y;

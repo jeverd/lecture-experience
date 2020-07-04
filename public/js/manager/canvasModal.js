@@ -6,7 +6,7 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable no-param-reassign */
 /* eslint-disable func-names */
-import { copyTextToClipboard } from './utility.js';
+import { copyTextToClipboard } from '../utility.js';
 
 export default function initializeModal(stream) {
   // Mic button

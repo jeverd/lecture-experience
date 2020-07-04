@@ -171,7 +171,7 @@
     position: absolute;
     z-index: 1;
     bottom: -50px;
-    right: -65px;
+    right: calc(-71.4px + 15%);
 
     -webkit-transform: rotate(180deg);
     transform: rotate(180deg);

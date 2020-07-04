@@ -2,9 +2,9 @@
 /* eslint-disable import/extensions */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-undef */
-import Chat from './classes/Chat.js';
-import Message from './classes/Message.js';
-import { getUrlId, redirectToStats } from './utility.js';
+import Chat from '../classes/Chat.js';
+import Message from '../classes/Message.js';
+import { getUrlId, redirectToStats } from '../utility.js';
 import initializeGuestRTC from './guestRTC.js';
 
 window.onload = async () => {

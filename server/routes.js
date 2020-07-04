@@ -7,6 +7,7 @@ const { logger } = require('./services/logger/logger');
 const Stats = require('./models/stats');
 const Manager = require('./models/manager');
 const Room = require('./models/room');
+const { expressPort, environment } = require('../config/config');
 
 const publicPath = path.join(__dirname, '../public');
 
@@ -63,11 +64,20 @@ app.get('/lecture/:id', (req, res) => {
   redisClient.hmget('managers', urlId, (err, object) => {
     const isGuest = object[0] === null;
     const roomId = !isGuest && JSON.parse(object[0]).roomId;
-    redisClient.hexists('rooms', isGuest ? urlId : roomId, (err, roomExist) => {
-      if (roomExist) {
-        res.sendFile(isGuest
-          ? 'lecture.html' : 'whiteboard.html',
-        { root: publicPath });
+    redisClient.hmget('rooms', isGuest ? urlId : roomId, (err, room) => {
+      let roomJson = room.pop();
+      if (err === null && roomJson !== null) {
+        roomJson = JSON.parse(roomJson);
+        const host = environment === 'DEVELOPMENT' ? `http://localhost:${expressPort}` : 'https://liteboard.io';
+        const sharableUrl = `${host}/lecture/${roomId}`;
+        roomJson.id = roomId;
+        roomJson.sharableUrl = sharableUrl;
+        if (isGuest) {
+          delete roomJson.managerId;
+          res.render('lecture.html', roomJson);
+        } else {
+          res.render('whiteboard.html', roomJson);
+        }
       } else {
         res.status(404);
         res.redirect('/error?code=3');
@@ -82,6 +92,7 @@ app.get('/lecture/stats/:id', (req, res) => {
   const renderNotFound = () => res.status(404).redirect('/error?code=3');
   redisClient.hexists('rooms', urlId, (er, roomExist) => {
     if (roomExist) {
+      // here add the error that the lecture is still under progress
       renderNotFound();
     } else {
       redisClient.hexists('stats', urlId, (er, statsExist) => {
