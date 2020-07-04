@@ -70,7 +70,7 @@ app.get('/lecture/:id', (req, res) => {
         { root: publicPath });
       } else {
         res.status(404);
-        res.redirect(301, '/error?code=3');
+        res.redirect('/error?code=3');
       }
     });
   });
@@ -79,7 +79,7 @@ app.get('/lecture/:id', (req, res) => {
 app.get('/lecture/stats/:id', (req, res) => {
   const urlId = req.params.id;
   logger.info(`GET request received: /lecture/stats for lecture id: ${urlId}`);
-  const renderNotFound = () => res.status(404).redirect(301, '/error?code=3');
+  const renderNotFound = () => res.status(404).redirect('/error?code=3');
   redisClient.hexists('rooms', urlId, (er, roomExist) => {
     if (roomExist) {
       renderNotFound();
@@ -119,10 +119,10 @@ app.get('/error', (req, res) => {
   if (errType) {
     res.render('error.html', { [errType]: true });
   } else {
-    res.redirect(301, '/');
+    res.redirect('/');
   }
 });
 
 app.get('*', (req, res) => {
-  res.redirect(301, '/error?code=1');
+  res.redirect('/error?code=1');
 });
