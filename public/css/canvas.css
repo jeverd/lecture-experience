@@ -670,7 +670,7 @@ button {
 }
 
 .out{
-  background: linear-gradient(135deg, rgba(177, 13, 201, 0.35) 0%, rgba(133, 20, 75, 0.5) 100%);
+  background: linear-gradient(135deg, rgba(177, 13, 201, 0.35) 0%, rgba(133, 20, 75, 0.45) 100%);
   width: auto;
   color: rgba(33,33,46, 1);
 }
@@ -694,6 +694,7 @@ button {
   margin-left: 15px;
   border-radius: 0.25em;
   max-width: 218px;
+  overflow: auto;
 }
 
 .canvas-toggle-bar::-webkit-scrollbar {
@@ -1248,7 +1249,9 @@ div.messages.active-chat{
 }
 
 .preview-content{
-  padding-top: 10px;  
+  padding-top: 10px; 
+  padding-right: 30px; 
+  overflow: auto;
 }
 
 #send-wrapper{
@@ -1263,6 +1266,7 @@ div.messages.active-chat{
   position: relative;
   left: -3px;
   border-radius: 20px;
+  padding: 4px 9px; 
   outline: none;
 }
 

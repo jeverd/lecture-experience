@@ -28,8 +28,7 @@ function beginLecture(stream) {
   });
 
   socket.on('attemptToConnectMultipleManagers', () => {
-    // actually here redirects this user to the "seems like theres another tab opened page"
-    // alert('There is already a manager');
+    window.location.replace('/error?code=2');
   });
 
   $(window).on('beforeunload', (e) => {
@@ -71,9 +70,10 @@ window.onload = () => {
             $('#welcome-lecture-modal').hide();
             break;
           case 404:
-            window.location.reload();
+            window.location.replace('/error?code=1');
+            break;
           case 401:
-            window.location.replace('/');
+            window.location.replace('/error?code=2');
             break;
           default: break;
         }
