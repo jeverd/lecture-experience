@@ -61,6 +61,7 @@ export default function initializeChat(socket, roomId) {
         imgWidth = ($(this).width());
         const left = (15 + imgWidth + 15);
         $('#close-preview').css('left', `${left}px`);
+        chat.scrollToBottom();
       });
     } else {
       $('#file-preview').show();

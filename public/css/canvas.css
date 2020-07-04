@@ -1144,7 +1144,7 @@ div.messages {
   bottom: 0;
   right: 80px;
   z-index: 7;
-  width: 260px;
+  width: 300px;
   height: 30px;
   transition: 0.25s ease;
   -webkit-box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3),
@@ -1217,7 +1217,6 @@ div.messages.active-chat{
 .message-lecture-name > span{
   position: relative;
   bottom: 2.5px;
-  left: -10px;
 }
 
 .message-container {
@@ -1262,7 +1261,7 @@ div.messages.active-chat{
 }
 
 #message-input {
-  width: 175px;
+  width: 220px;
   position: relative;
   left: -3px;
   border-radius: 20px;
@@ -1275,10 +1274,25 @@ div.messages.active-chat{
 #send-button {
   width: 21px;
   height: 21px;
-  text-align: center;
+  display:flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 50%;
   outline: none;
-  border: none;
+  transition: 0.25s ease-in-out;
+  border-style: solid;
+  border-width: 0px;
+  border-color: gray;
+}
+
+#send-button:hover{
+  border-width: 0.7px;
+  transform: translateY(-2px);
+}
+
+#send-button i{
+  position: relative;
+  left: 1px;
 }
 
 .inputfile {
@@ -1291,12 +1305,16 @@ div.messages.active-chat{
 }
 
 .inputfile + label {
-
   display: inline-block;
+  cursor: pointer;
+  position: relative;
+  left: -2px;
+  opacity: 0.8;
+  transition: 0.25s ease-in-out;
 }
 
-.inputfile + label {
-	cursor: pointer; /* "hand" cursor */
+.inputfile + label:hover {
+  transform: translateY(-2px) rotate(-30deg);
 }
 
 .inputfile + label * {
@@ -1316,7 +1334,7 @@ div.messages.active-chat{
   font-size: .9rem;
   font-weight: 500;
   position: relative;
-  top: 0px;
+  top: 2.5px;
   left: 7px;
 }
 
