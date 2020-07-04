@@ -1,9 +1,6 @@
 /* eslint-disable no-shadow */
 const path = require('path');
 const { v4: uuidv4 } = require('uuid');
-const {
-  iceServers, expressPort, environment,
-} = require('../config/config');
 const { app } = require('./servers');
 const redisClient = require('./servers').client;
 const { logger } = require('./services/logger/logger');
@@ -41,15 +38,22 @@ app.post('/create', (req, res) => {
   res.send({ redirectUrl });
 });
 
-app.get('/session', (req, res) => {
-  logger.info(`GET request received: /session for sessionId ${req.sessionId}`);
-  if (req.session.inRoom) {
-    res.status(401);
-    res.json({ error: 'User already in a room' });
-  } else {
-    res.status(200);
-    res.json({ success: 'User is ready to be connected' });
-  }
+app.get('/validate/lecture', (req, res) => {
+  logger.info(`GET request received: /validate/lecture for sessionId ${req.sessionId}`);
+  redisClient.hexists('managers', req.query.id, (err, roomExist) => {
+    if (roomExist) {
+      if (req.session.inRoom) {
+        res.status(401);
+        res.json({ error: 'User already in a room' });
+      } else {
+        res.status(200);
+        res.json({ success: 'User is ready to be connected' });
+      }
+    } else {
+      res.status(404);
+      res.json({ error: 'Lecture does not exist' });
+    }
+  });
 });
 
 app.get('/lecture/:id', (req, res) => {

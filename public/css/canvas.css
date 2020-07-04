@@ -1,9 +1,11 @@
+
 body {
+  padding: 0;
   margin: 0px;
   background-color: #283333;
   overflow: hidden;
   max-width: 100vh;
-  font-family: 'Lato', 'Lucida Grande', 'Lucida Sans Unicode', Tahoma, Sans-Serif;
+  font-family: 'Open Sans', 'Lato', 'Lucida Grande', 'Lucida Sans Unicode', Tahoma, Sans-Serif, sans-serif;
 }
 /* start top panel styling */
 
@@ -403,19 +405,9 @@ button {
 }
 
 @media only screen and (max-width: 600px) {
-  /* .right-bar {
-      bottom: 0;
-      width: 100vw;
-      height: 5rem;
-    }
-  
-    .right-bar-nav {
-      flex-direction: row;
-    }
-  
-    .right-bar-link {
-      justify-content: center;
-    } */
+  .modal-content{
+    overflow-y: scroll !important;
+  }
   .divider {
     padding: 0rem 0.5rem 0rem 0.5rem;
   }
@@ -892,24 +884,26 @@ button {
   top: 50%;
   transform: translateY(-50%);
   max-width: 600px;
-  max-height: 400px;
-  /*overflow-y: scroll;*/
+  max-height: 75%;
+  width: 75%;
   border-radius: 10px;
   animation: fadein 0.7s;
-  
-
-  /* Modal shadow */
-  -webkit-box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3),
-    0 15px 12px rgba(0, 0, 0, 0.22);
+  overflow: hidden;
+  -webkit-box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
   box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+}
+
+.modal-main-content{
+  margin: 30px;
 }
 
 #modal-content-header {
   color: white;
   text-align: center;
-  font-size: 45px;
+  font-size: calc(35px + 1.5vw);
   position: relative;
   left: 4px;
+  margin: 0 !important;
 }
 
 #modal-image {
@@ -942,29 +936,11 @@ button {
   display: inline-block;
   justify-content: center;
   align-items: center;
-  margin: 2rem 0rem 1rem 0rem;
+  margin: 1rem 0rem;
   left: 50%;
   top: 70px;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-}
-
-#modal-buttons-container > button {
-  color: white;
-  background: rgb(70, 194, 255);
-  background: linear-gradient(
-    135deg,
-    rgba(70, 194, 255, 1) 0%,
-    rgba(189, 31, 250, 1) 100%
-  );
-  border: none;
-  border-radius: 40px;
-  width: 280px;
-  height: 70px;
-  transition: 1.5s;
-  cursor: pointer;
-  text-decoration: none;
-  outline: none;
 }
 
 #mic-buttons-container > button{
@@ -984,6 +960,33 @@ button {
 .live-button{
   margin: 10px;
   font-size: 1.5rem;
+  color: white;
+  background: linear-gradient(
+    135deg,
+    rgba(70, 194, 255, 1) 0%,
+    rgba(189, 31, 250, 1) 100%
+  );
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  border: none;
+  border-radius: 40px;
+  max-width: 280px;
+  min-width: 200px;
+  width: 30vw;
+  max-height: 65px;
+  height: calc(47.5px + 2vw);
+  min-height: 50px;
+  transition: .4s ease;
+  cursor: pointer;
+  text-decoration: none;
+  outline: none;
+  font-family: inherit;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+
+.live-button:hover{
+  transform: scale(1.05);
 }
 
 .test-mic-button{
@@ -1222,72 +1225,64 @@ div.messages.active-chat{
   border-radius: 50%;
 }
 
-.share {
-  position: relative;
-	width: 250px;
-  margin: 40px 0;
-  text-align: center;
-  left:-100px;
-}
-
-/* buttons */
-
-.share a {
-	width: 50px;
-  height: 50px;
-  display: inline-block;
-  margin: 8px;
-  border-radius: 50%;
-  font-size: 25px;
-  color: #fff;
-	opacity: 0.75;
-  transition: opacity 0.15s linear;
-  vertical-align: middle;
-}
-
-.share a:hover {
-	opacity: 1;
-}
-
-/* icons */
-
-.share i {
-  	position: relative;
-  	top: 40%;
-  	transform: translateY(-50%);
-}
-
-.facebook {
+.facebook-color {
  	background: #3b5998;
 }
 
-.twitter {
+.twitter-color {
   	background: #55acee;
-}
-
-.googleplus {
-  	background: #dd4b39;
-}
-
-.twitter i:before,
-.googleplus i:before,
-.facebook i:before{
-  position: relative;
-  bottom: -2.5px;
 }
 
 .share-container{
   display: flex;
+  flex-direction: column;
+  flex:1;
+  align-items: center;
   justify-content: center;
+  margin: 25px 20px 20px 10px;
+  color: white;
+}
+
+.share-link-modal-title{
+  font-weight: 700;
+  font-size: 1.1rem;
   
 }
 
-.copy-link-modal{
-  position: relative;
-  top: 0px;
-  left: 2px;
-  color:white;
-  
+.modal-url-share-container{
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 6px;
+}
+
+@media only screen and (max-width: 700px) {
+  .modal-url-share-container{
+    width: 70vw;
+  }
+}
+
+.modal-url-share{
+  -webkit-user-select: all;
+  -moz-user-select: all;
+  -ms-user-select: all;
+  user-select: all;
+  background-color: #f3e6e831;
+  padding: 10px 20px;
+  border-radius: 2px 0px 0px 2px;
+  background-image: linear-gradient(315deg, #f3e6e87c 0%, #d5d0e598 74%);
+  overflow-x: hidden;
+}
+
+.modal-copy-button{
+  opacity: 0.83;
+  transition: 0.25s ease;
+  cursor: pointer;
+  font-weight: 900;
+  border-right: 1px solid #f3e6e831;
+  border-bottom: 1px solid #f3e6e831;
+  border-top: 1px solid #f3e6e831;
+  padding: 10px 20px;
+  border-radius: 0px 3px 3px 0px;
 }
 
 .go-back-modal{
@@ -1305,19 +1300,13 @@ div.messages.active-chat{
   
 }
 
-#join-content{
-  position: relative;
-  top: -20px;
-}
-
 .copy-button{
   position: relative;
   left: 20px;
 }
 
 .mic-button{
-  /* position: relative;
-  top: -30px; */
+  width: 160px;
 }
 
 .back-button{

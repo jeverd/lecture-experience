@@ -12,6 +12,8 @@
     <title></title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Open+Sans">
     <link rel="stylesheet" href="/canvas.css" />
     <link
       rel="stylesheet"
@@ -441,7 +443,7 @@
     <div id="welcome-lecture-modal" class="modal">
       <!-- Start Modal content -->
       <div class="modal-content">
-        <div id="join-content">
+        <div id="join-content" class="modal-main-content">
           <p id="modal-content-header">Ready to Join?</p>
           <img id="modal-image" />
           <div id="modal-buttons-container">
@@ -459,34 +461,22 @@
               &nbsp;
             </div>
   
-  
-  
             <!--<button class = "modal-select-button mic_button">Test Mic</button>-->
           </div>
           <!--Share Container-->
           <div class="share-container">
-            <div
-              title="Copy lecture link"
-              id="copy-link"
-              class="copy-link-container copy-button "
-            >
-              <i class="fas fa-link sharelink-info-icon"></i>
-              &nbsp;
-              <span class="copy-link-modal">Copy Link</span>
-              &nbsp;
-            </div>
-            
-            <div class="share">
-             <!--Share button-->
-  
-             <!-- facebook -->
-             <a class="facebook" href="#" target="blank"><i class="fa fa-facebook"></i></a>
-          
-             <!-- twitter -->
-             <a class="twitter" href="#" target="blank"><i class="fa fa-twitter"></i></a>
-          
-             <!-- google plus -->
-             <a class="googleplus" href="#" target="blank"><i class="fa fa-google-plus"></i></a>
+            <div>
+              <div class="share-link-modal-title">
+                Share Your Lecture URL
+              </div>
+              <div class="modal-url-share-container">
+                <div class="modal-url-share">
+                  http://localhost:8080/lecture/3324881979609019
+                </div>
+                <div id="modal-copy-link" class="modal-copy-button">
+                  Copy
+                </div>
+              </div>
             </div>
           </div>  
         </div>

@@ -6,15 +6,15 @@ import Whiteboard from './classes/whiteboard.js';
 import initializeToolsMenu from './tools.js';
 import initializeCanvasTopMenu from './canvasTopMenu.js';
 import initializeChat from './managerChat.js';
-import initModal from './canvasModal.js';
+import initializeModal from './canvasModal.js';
 import initializeBoards from './managerBoards.js';
 import initializeActionsMenu from './canvasActions.js';
 import initializeManagerRTC from './managerRTC.js';
-import { getUrlId } from './utility.js';
+import { getUrlId, reloadWindow } from './utility.js';
+
+const managerId = getUrlId();
 
 function beginLecture(stream) {
-  const managerId = getUrlId();
-
   const whiteboard = new Whiteboard('canvas');
 
   stream.addTrack(whiteboard.getStream().getTracks()[0]);
@@ -36,6 +36,8 @@ function beginLecture(stream) {
     e.preventDefault();
     socket.disconnect();
   });
+
+  socket.on('invalidLecture', reloadWindow);
 
   socket.on('ready', (room) => {
     const { boards, boardActive } = room.lecture_details;
@@ -60,16 +62,20 @@ window.onload = () => {
                     || navigator.msGetUserMedia;
 
   getUserMedia({ audio: true }).then((stream) => {
-    initModal(stream);
+    initializeModal(stream);
     $('#modal-select-button').click(() => {
-      // call endpoint to validade session
-      fetch('/session').then((req) => {
-        if (req.status === 200) {
-          beginLecture(stream);
-          $('#welcome-lecture-modal').hide();
-        }
-        if (req.status === 401) {
-          window.location.replace('/');
+      fetch(`/validate/lecture?id=${managerId}`).then((req) => {
+        switch (req.status) {
+          case 200:
+            beginLecture(stream);
+            $('#welcome-lecture-modal').hide();
+            break;
+          case 404:
+            window.location.reload();
+          case 401:
+            window.location.replace('/');
+            break;
+          default: break;
         }
       });
     });

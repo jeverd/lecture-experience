@@ -1,3 +1,4 @@
+/* eslint-disable import/extensions */
 /* eslint-disable no-loop-func */
 /* eslint-disable no-undef */
 /* eslint-disable no-plusplus */
@@ -5,8 +6,9 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable no-param-reassign */
 /* eslint-disable func-names */
+import { copyTextToClipboard } from './utility.js';
 
-export default function initModal(stream) {
+export default function initializeModal(stream) {
   // Mic button
   document.getElementById('test-mic').addEventListener('click', () => {
     const joinContent = document.getElementById('join-content');
@@ -14,6 +16,24 @@ export default function initModal(stream) {
     joinContent.style.display = 'none';
     micContent.style.display = 'block';
   });
+
+  $('#modal-copy-link').click(function () {
+    const copyText = document.querySelector('.modal-url-share');
+    copyTextToClipboard(copyText.innerText);
+    const range = document.createRange();
+    range.selectNodeContents(copyText);
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+    this.innerHTML = 'Copied!';
+    this.style.opacity = 1;
+    setTimeout(() => {
+      this.style.opacity = 0.83;
+      this.innerHTML = 'Copy';
+      selection.removeAllRanges();
+    }, 2000);
+  });
+
   // back button
   document.getElementById('go-back').addEventListener('click', () => {
     const joinContent = document.getElementById('join-content');
@@ -47,7 +67,6 @@ export default function initModal(stream) {
     let mediaStreamSource = null;
     let meter = null;
     test = !test;
-
 
     if (test) {
       document.getElementById('test-mic-button').innerHTML = 'Stop Test';

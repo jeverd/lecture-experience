@@ -134,3 +134,26 @@ export function buildPostRequestOpts(body) {
 export function redirectToStats(roomId) {
   window.location = `/lecture/stats/${roomId}`;
 }
+
+export function isIOS() {
+  return navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
+}
+
+export function copyTextToClipboard(text) {
+  const tmpInput = document.createElement('input');
+  tmpInput.value = text;
+  document.body.appendChild(tmpInput);
+  tmpInput.select();
+  const range = document.createRange();
+  range.selectNodeContents(tmpInput);
+  const selection = window.getSelection();
+  selection.removeAllRanges();
+  selection.addRange(range);
+  tmpInput.setSelectionRange(0, 999999);
+  document.execCommand('copy');
+  document.body.removeChild(tmpInput);
+}
+
+export function reloadWindow() {
+  window.location.reload();
+};

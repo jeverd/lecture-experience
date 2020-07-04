@@ -15,6 +15,7 @@ function updateNumOfStudents(room) {
     const numOfStudents = clients.length + (room in roomsTimeout ? 0 : -1);
     io.in(room).emit('updateNumOfStudents', numOfStudents);
     redisClient.hmget('stats', room, (error, stats) => {
+      stats = stats.pop();
       logger.info(`STATS: adding stats ${stats}`);
       if (stats) {
         const {
@@ -65,6 +66,7 @@ io.sockets.on('connection', (socket) => {
       function terminateLecture() {
         logger.info(`SOCKET: Lecture ${roomToJoin} terminated`);
         redisClient.hmget('rooms', roomToJoin, (error, roomObj) => {
+          roomObj = roomObj.pop();
           if (roomObj) {
             const { managerId } = JSON.parse(roomObj);
             redisClient.hdel('managers', managerId);
@@ -118,6 +120,7 @@ io.sockets.on('connection', (socket) => {
       });
       socket.on('updateBoards', (boardObj) => {
         redisClient.hmget('rooms', roomToJoin, (err, roomObj) => {
+          roomObj = roomObj.pop();
           if (roomObj) {
             roomObj = JSON.parse(roomObj);
             roomObj.boards = boardObj.boards;
@@ -158,6 +161,7 @@ io.sockets.on('connection', (socket) => {
     }
     redisClient.hmget('rooms', roomToJoin, (error, roomObj) => {
       logger.info(`SOCKET: Retreiving room object ${roomObj}`);
+      roomObj = roomObj.pop();
       if (roomObj) {
         const lectureObj = JSON.parse(roomObj);
         lectureObj.id = roomToJoin;
@@ -166,6 +170,7 @@ io.sockets.on('connection', (socket) => {
           delete lectureObj.managerId;
           // notify manager to about incoming student
           redisClient.hmget('managers', managerId, (error, manager) => {
+            manager = manager.pop();
             if (manager) {
               const { socketId } = JSON.parse(manager);
               if (socketId in io.in(roomToJoin).connected) {
@@ -177,6 +182,8 @@ io.sockets.on('connection', (socket) => {
         }
         socket.emit('ready', { lecture_details: lectureObj });
         updateNumOfStudents(roomToJoin);
+      } else {
+        socket.emit('invalidLecture');
       }
     });
   });
@@ -187,14 +194,16 @@ io.sockets.on('connection', (socket) => {
 
   socket.on('send-to-manager', (room, message) => {
     redisClient.hmget('rooms', room, (error, roomObject) => {
-      if (roomObject && roomObject.length > 0) {
-        roomObject = JSON.parse(roomObject.pop());
+      roomObject = roomObject.pop();
+      if (roomObject) {
+        roomObject = JSON.parse(roomObject);
         redisClient.hmget(
           'managers',
           roomObject.managerId,
           (error, managerObject) => {
-            if (managerObject && managerObject.length > 0) {
-              const { socketId } = JSON.parse(managerObject.pop());
+            managerObject = managerObject.pop();
+            if (managerObject) {
+              const { socketId } = JSON.parse(managerObject);
               if (socketId in io.in(room).connected) {
                 io.in(room).connected[socketId].emit('send-to-manager', message);
               }

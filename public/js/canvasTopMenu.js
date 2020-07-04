@@ -1,6 +1,6 @@
 /* eslint-disable import/extensions */
 /* eslint-disable no-undef */
-import { showInfoMessage, redirectToStats } from './utility.js';
+import { showInfoMessage, redirectToStats, copyTextToClipboard } from './utility.js';
 import { handleBoardsViewButtonsDisplay } from './managerBoards.js';
 
 export default function initializeCanvasTopMenu(socket, whiteboard, roomId) {
@@ -12,13 +12,8 @@ export default function initializeCanvasTopMenu(socket, whiteboard, roomId) {
   sharableUrl = sharableUrl.substr(0, sharableUrl.lastIndexOf('/') + 1);
   sharableUrl += roomId;
   document.getElementById('copy-share-link').addEventListener('click', () => {
-    const tmpInput = document.createElement('input');
-    tmpInput.value = sharableUrl;
-    document.body.appendChild(tmpInput);
-    tmpInput.select();
-    document.execCommand('copy');
+    copyTextToClipboard(sharableUrl);
     showInfoMessage('Link Copied!');
-    document.body.removeChild(tmpInput);
   });
 
   socket.on('updateNumOfStudents', (num) => {
