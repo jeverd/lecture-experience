@@ -52,3 +52,7 @@ services:
       volumes:
         - ./docker-config/janus.jcfg:/usr/local/etc/janus/janus.jcfg  # might need to change this later, dk if this is best practice .... TODO
         - ./docker-config/janus.transport.http.jcfg:/usr/local/etc/janus/janus.transport.http.jcfg
+    coturn:
+      image: instrumentisto/coturn
+      network_mode: "host"   # coturn docker docs mentioned to do this, means that docker container doesnt gets its own ip.
+      
