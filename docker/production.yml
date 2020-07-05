@@ -55,4 +55,6 @@ services:
     coturn:
       image: instrumentisto/coturn
       network_mode: "host"   # coturn docker docs mentioned to do this, means that docker container doesnt gets its own ip.
-      
+      volumes:
+        -./docker-config/turnserver.confg:/etc/coturn/turnserver.conf
+
