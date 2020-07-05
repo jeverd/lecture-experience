@@ -57,8 +57,10 @@ services:
       command:
         - -c=/etc/coturn/turnserver.conf
         - --external-ip=$$(detect-external-ip)
-        - --redis-userdb="ip=redis dbname=3 password=${REDIS_PASSWORD} port=${REDIS_PORT} connect_timeout=1000"        # to use redis as userdb
+        - --redis-userdb="ip=redis_db dbname=3 password=${REDIS_PASSWORD} port=${REDIS_PORT} connect_timeout=1000"        # to use redis as userdb
       network_mode: "host"   # coturn docker docs mentioned to do this, means that docker container doesnt gets its own ip.
       volumes:
         - ./docker-config/turnserver.conf:/etc/coturn/turnserver.conf:ro
+      links:  # TODO verify this can be removed
+      - redis_db
 
