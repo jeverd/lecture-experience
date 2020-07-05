@@ -1,7 +1,6 @@
 /* eslint-disable import/extensions */
 /* eslint-disable no-undef */
 import { showInfoMessage, redirectToStats, copyTextToClipboard } from '../utility.js';
-import { handleBoardsViewButtonsDisplay } from './managerBoards.js';
 
 export default function initializeCanvasTopMenu(socket, whiteboard, roomId) {
   $('.hide-options-right').click(() => {
@@ -24,16 +23,6 @@ export default function initializeCanvasTopMenu(socket, whiteboard, roomId) {
     socket.emit('lectureEnd', () => redirectToStats(roomId));
   });
 
-  document.querySelector('.scroll-boards-view-right').addEventListener('click', () => {
-    $('.canvas-toggle-nav').animate({ scrollLeft: '+=120px' }, 150, () => {
-      handleBoardsViewButtonsDisplay();
-    });
-  });
-
-  $('.hide-options-left').click(() => {
-    $('.left-bar').fadeToggle();
-  });
-
   document.querySelector('#mic-config').addEventListener('click', () => {
     $('#welcome-lecture-modal').show();
     $('#join-content').hide();
@@ -42,32 +31,28 @@ export default function initializeCanvasTopMenu(socket, whiteboard, roomId) {
     document.querySelector('.modal-content').classList.add('lecture');
   });
 
-  $('.my-boards-button-container').click(() => {
-    if (whiteboard.boards.length <= 1) {
-      showInfoMessage('You have only one board.');
-    } else {
-      $('.canvas-toggle-bar').fadeToggle();
-    }
-  });
-
   $('.hide-bar-button').click(() => {
-    $('.classroom-info-flexbox').fadeToggle(500);
+    $('.classroom-info').fadeToggle(500);
     $('.show-bar-button-container').delay(500).fadeToggle();
+    $('.left-bar').removeClass('animate__fadeInLeft').addClass('animate__fadeOutLeft');
+    $('.right-bar').removeClass('animate__fadeInRight').addClass('animate__fadeOutRight');
+    $('div.messages').removeClass('animate__fadeInUp').addClass('animate__fadeOutDown');
+    $('.webcam-container').removeClass('animate__fadeIn').addClass('animate__fadeOut');
+    $('.canvas-toggle-bar').removeClass('animate__fadeInLeft').addClass('animate__fadeOutDown');
   });
 
   $('.show-bar-button').click(() => {
     $('.show-bar-button-container').fadeToggle();
-    $('.classroom-info-flexbox').delay().fadeToggle();
+    $('.classroom-info').delay().fadeToggle();
+    $('.left-bar').show().removeClass('animate__fadeOutLeft').addClass('animate__fadeInLeft');
+    $('.right-bar').show().removeClass('animate__fadeOutRight').addClass('animate__fadeInRight');
+    $('div.messages').show().removeClass('animate__fadeOutDown').addClass('animate__fadeInUp');
+    $('.webcam-container').show().removeClass('animate__fadeOut').addClass('animate__fadeIn');
+    $('.canvas-toggle-bar').show().removeClass('animate__fadeOutDown').addClass('animate__fadeInLeft');
   });
 
   $('.close-chat').click((e) => {
     e.stopPropagation();
     $('div.messages').fadeOut();
-  });
-
-  // On click for display messages button
-  $('.chat-button-container').click(() => {
-    const messagesDiv = $('div.messages');
-    messagesDiv.fadeToggle();
   });
 }

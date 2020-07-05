@@ -18,6 +18,7 @@ body {
   width: auto;
   border: none;
   color: white;
+  display: none;
   background-color: var(--bg-primary);
   transition: width 600ms ease;
   overflow: hidden;
@@ -28,9 +29,6 @@ body {
   box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
   font-size: 0.8rem;
   margin: 0;
-
-  /* random ass white border around div */
-  overflow: hidden;
 }
 
 .classroom-info-flexbox {
@@ -39,7 +37,6 @@ body {
   justify-content: center;
   align-items: center;
   padding: 20px;
-
   /* forces topbar text to stay in a single line */
   white-space: nowrap;
   overflow: hidden;
@@ -90,10 +87,11 @@ body {
   color: #ef5350;
 }
 
-.mic-config-icon{
-  height: 20.5px;
+.config-icon-top-menu{
+  font-size: 17px;
   position: relative;
-  top: -2.4px;
+  right: 1px;
+  top: -2px;
 }
 
 .chat-button-container > span > span {
@@ -253,34 +251,6 @@ body {
   --transition-speed: 600ms;
 }
 
-.hide-options-right {
-  /* display button */
-  position: absolute;
-  z-index: 5;
-  top: 10px;
-  right: 10px;
-  width: 50px;
-  height: 50px;
-  border: none;
-  border-radius: 20% 30% 23% 70% / 40% 80% 20% 33%;
-  background-color: var(--bg-primary);
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-  color: white;
-  transition: 1s;
-}
-
-.hide-options-right:focus {
-  transition: 1s;
-  -webkit-box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3),
-    0 15px 12px rgba(0, 0, 0, 0.22);
-  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
-  outline: none;
-}
-
-.hide-options-right i {
-  font-size: 1.1rem;
-}
-
 button {
   cursor: pointer;
 }
@@ -291,23 +261,18 @@ button {
   transition: width 600ms ease;
   overflow: hidden;
   z-index: 5;
-  /* overflow-y: scroll;
-  overflow-x: hidden; */
   scrollbar-color: transparent;
   top: 0;
   right: 0;
   width: 4.2rem;
   height: auto;
+  display: none;
   max-height: 80vh;
-  margin-top: 75px;
   border-bottom-left-radius: 27px;
-  border-top-left-radius: 27px;
+  /* border-top-left-radius: 27px; */
   -webkit-box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3),
     0 15px 12px rgba(0, 0, 0, 0.22);
   box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
-
-  /* hide bar when initially opening whiteboard */
-  display: none;
 }
 
 .right-bar::-webkit-scrollbar {
@@ -416,46 +381,10 @@ button {
     padding: 0rem 0.5rem 0rem 0.5rem;
   }
 }
-/* 
-  @media only screen and (min-width: 600px) {
-    .right-bar {
-      top: 0;
-      width: 5rem;
-      height: 100vh;
-    }
-  } */
 
 /* end right side-bar */
 
 /* start left side-bar */
-
-.hide-options-left {
-  /* display button */
-  position: absolute;
-  z-index: 5;
-  top: 10px;
-  left: 10px;
-  width: 50px;
-  height: 50px;
-  border: none;
-  border-radius: 20% 30% 23% 70% / 40% 80% 20% 33%;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-  background-color: var(--bg-primary);
-  color: white;
-  transition: 1s;
-}
-
-.hide-options-left:focus {
-  transition: 1s;
-  -webkit-box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3),
-    0 15px 12px rgba(0, 0, 0, 0.22);
-  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
-  outline: none;
-}
-
-.hide-options-left i {
-  font-size: 1.1rem;
-}
 
 .left-bar {
   position: absolute; /* fixed */
@@ -469,15 +398,12 @@ button {
   width: 4.2rem;
   border: none;
   outline: none;
-  margin-top: 75px;
+  display: none;
   border-bottom-right-radius: 27px;
-  border-top-right-radius: 27px;
+  /* border-top-right-radius: 27px; */
   -webkit-box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3),
     0 15px 12px rgba(0, 0, 0, 0.22);
   box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
-
-  /* hide bar when initially opening whiteboard */
-  display: none;
 }
 
 .left-bar::-webkit-scrollbar {
@@ -619,7 +545,7 @@ button {
     0 15px 12px rgba(0, 0, 0, 0.22);
   box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
   width: auto;
-  max-width: 45%;
+  max-width: 35%;
   height: auto;
   padding: none;
   margin: none;
@@ -752,6 +678,7 @@ button {
   transition: var(--transition-speed);
 }
 
+.canvas-toggle-link video,
 .canvas-toggle-link img {
   height: 10vh;
   min-height: 22.5px;
@@ -762,6 +689,11 @@ button {
   opacity: 0.75;
 }
 
+.canvas-toggle-link video{
+  cursor: initial;
+}
+
+.canvas-toggle-link video,
 .canvas-toggle-link img:hover{
   opacity: 1;
   transform: scale(1.15);
@@ -815,30 +747,6 @@ button {
   display: none;
 }
 
-/* @media only screen and (max-width: 600px) {
-    .right-bar {
-      bottom: 0;
-      width: 100vw;
-      height: 5rem;
-    }
-  
-    .right-bar-nav {
-      flex-direction: row;
-    }
-  
-    .right-bar-link {
-      justify-content: center;
-    }
-  }
-  
-  @media only screen and (min-width: 600px) {
-    .right-bar {
-      top: 0;
-      width: 5rem;
-      height: 100vh;
-    }
-  } */
-
 /* end right side-bar */
 
 /* start dropdown button */
@@ -874,7 +782,7 @@ button {
   top: 0px;
   left: 50%;
   transform: translateX(-50%);
-  display: none;
+  display: block;
   transition-delay: 1s;
   width: 150px;
   color: white;
@@ -941,7 +849,8 @@ button {
 }
 
 .image-container img{
-  height: 350px;
+  max-height: 360px;
+  height: 60vw;
   border-radius: 0.75rem;
   box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
 }
@@ -961,6 +870,7 @@ button {
   -ms-transform: translateX(-50%);
   transform: translateX(-50%);
   cursor: pointer;
+  display: flex;
   opacity: 0.8;
   transition: 0.25 ease;
 }
@@ -1139,12 +1049,12 @@ button {
 
 /* Wrapper for button and messages */
 div.messages {
-  /* display: none; */
+  display: none;
   position: fixed;
   bottom: 0;
-  right: 80px;
+  right: 0;
   z-index: 7;
-  width: 300px;
+  width: 340px;
   height: 30px;
   transition: 0.25s ease;
   -webkit-box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3),
@@ -1156,6 +1066,45 @@ div.messages.active-chat{
   height: 300px;
 }
 
+#message-input {
+  width: 260px;
+  position: relative;
+  left: -3px;
+  border-radius: 20px;
+  padding: 4px 9px; 
+  outline: none;
+}
+
+@media only screen and (max-width: 1000px) {
+  div.messages{
+    width: 280px;
+  }
+
+  #message-input{
+    width: 200px;
+  }
+}
+
+@media only screen and (max-width: 750px) {
+  div.messages{
+    width: 220px;
+  }
+
+  #message-input{
+    width: 140px;
+  }
+}
+
+@media only screen and (max-width: 580px) {
+  div.messages{
+    width: 180px;
+  }
+
+  #message-input{
+    width: 100px;
+  }
+}
+
 #toggle-messages {
   height: 30px;
   width: 100%;
@@ -1163,7 +1112,6 @@ div.messages.active-chat{
   border: none;
   color: white;
   border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
   cursor: pointer;
   position: relative;
   z-index: 6;
@@ -1185,6 +1133,7 @@ div.messages.active-chat{
   opacity: 0.8;
   position: relative;
   top: 4px;
+  right: 5px;
   cursor: pointer;
   transition: .25s ease;
 }
@@ -1259,17 +1208,6 @@ div.messages.active-chat{
   position: relative;
 
 }
-
-#message-input {
-  width: 220px;
-  position: relative;
-  left: -3px;
-  border-radius: 20px;
-  padding: 4px 9px; 
-  outline: none;
-}
-
-
 
 #send-button {
   width: 21px;
@@ -1442,7 +1380,7 @@ div.messages.active-chat{
 }
 
 .cog{
-  color: rgb(68, 65, 65);
+  color: rgb(83, 81, 81);
 }
 
 .mic-content{
@@ -1699,4 +1637,91 @@ div.messages.active-chat{
   color : rgba(33,33,46, 0.8)
 }
 
+div.webcam-container{
+  position: absolute;
+  bottom: 0px;
+  left: 50%;
+  z-index: 5;
+  transform: translateX(-50%) !important;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  padding: 0px 3px;
+  background-color: var(--bg-primary);
+  display: none;
+}
 
+.webcam-container video{
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  width: 20vw;
+  min-width: 100px;
+  position: relative;
+  top: 3px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+#info-webcam,
+#minimize-webcam-view{
+  height: 21px;
+  width: 21px;
+  border-radius: 50%;
+  opacity: 0.75;
+  background: white;
+  position: absolute;
+  top:10px;
+  z-index:1;
+  display: flex;
+  transition: 0.4s ease;
+  justify-content: center;
+  align-items: center;
+  -webkit-box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3),
+    0 15px 12px rgba(0, 0, 0, 0.22);
+  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+  cursor: pointer;
+}
+
+#minimize-webcam-view{
+  right: 10px;
+}
+
+#minimize-webcam-view i {
+  position: relative;
+  top:1px;
+  color: var(--bg-primary);
+}
+
+#info-webcam{
+  right: 35px;
+}
+
+#info-webcam i {
+  color: var(--bg-primary);
+}
+
+#info-webcam:hover,
+#minimize-webcam-view:hover{
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+#inactive-webcam-view{
+  display: none;
+  padding: 4px 15px;
+}
+
+#inactive-webcam-view img {
+  position: relative;
+  top: 3px;
+  opacity: 0.7;
+  cursor: pointer;
+  height: 34px;
+  transition: 0.25s ease;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+
+#inactive-webcam-view img:hover{
+  opacity: 1;
+  transform: scale(1.1);
+}

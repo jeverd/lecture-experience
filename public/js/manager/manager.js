@@ -17,7 +17,8 @@ const managerId = getUrlId();
 function beginLecture(stream) {
   const whiteboard = new Whiteboard('canvas');
 
-  stream.addTrack(whiteboard.getStream().getTracks()[0]);
+  const canvasStream = whiteboard.getStream();
+  stream.addTrack(canvasStream.getTracks()[0]);
   const socket = io('/', { query: `id=${managerId}` });
 
   socket.on('currentBoard', (studentSocketId) => {
@@ -43,9 +44,9 @@ function beginLecture(stream) {
     whiteboard.initialize();
     initializeCanvasTopMenu(socket, whiteboard, room.lecture_details.id);
     initializeToolsMenu(whiteboard);
-    initializeActionsMenu(socket, whiteboard);
+    initializeActionsMenu(socket, whiteboard, canvasStream);
     initializeManagerRTC(room.lecture_details.id, stream);
-    initializeBoards(socket, whiteboard, boards, boardActive);
+    initializeBoards(socket, whiteboard, boards, boardActive, canvasStream);
     initializeChat(socket, room.lecture_details.id);
   });
 }
@@ -59,7 +60,7 @@ window.onload = () => {
                     || navigator.mozGetUserMedia
                     || navigator.msGetUserMedia;
 
-  getUserMedia({ audio: true }).then((stream) => {
+  getUserMedia({ audio: true, video: true }).then((stream) => {
     initializeModal(stream);
     $('#modal-select-button').click(() => {
       fetch(`/validate/lecture?id=${managerId}`).then((req) => {

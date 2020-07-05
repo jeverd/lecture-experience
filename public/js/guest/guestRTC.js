@@ -1,23 +1,12 @@
 /* eslint-disable import/extensions */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-undef */
-import { getJanusUrl } from '../utility.js';
+import { getJanusUrl, addStream } from '../utility.js';
 
 export default function initializeGuestRTC(roomId) {
   const janusUrl = getJanusUrl();
   let janus;
   let handle;
-
-  function addStream(htmlElem, streamTrack) {
-    const stream = new MediaStream();
-    stream.addTrack(streamTrack);
-    htmlElem.srcObject = stream;
-    if ('srcObject' in htmlElem) {
-      htmlElem.srcObject = stream;
-    } else {
-      htmlElem.src = window.URL.createObjURL(stream);
-    }
-  }
 
   function joinFeed(publishers) {
     publishers.forEach((publisher) => {
@@ -54,8 +43,10 @@ export default function initializeGuestRTC(roomId) {
           const audioTrack = stream.getAudioTracks()[0];
           const speaker = document.getElementById('speaker');
           addStream(speaker, audioTrack);
-          const whiteboard = document.getElementById('whiteboard');
-          addStream(whiteboard, stream.getVideoTracks()[0]);
+          const webcam = document.getElementById('webcam');
+          addStream(webcam, stream.getVideoTracks()[0]);
+          // const whiteboard = document.getElementById('whiteboard');
+          // addStream(whiteboard, stream.getVideoTracks()[1]);
         },
       });
     });

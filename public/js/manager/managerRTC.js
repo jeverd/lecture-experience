@@ -1,6 +1,6 @@
 /* eslint-disable import/extensions */
 /* eslint-disable no-undef */
-import { getJanusUrl } from '../utility.js';
+import { getJanusUrl, addStream } from '../utility.js';
 
 export default function initializeManagerRTC(roomId, stream) {
   const janusUrl = getJanusUrl();
@@ -39,12 +39,26 @@ export default function initializeManagerRTC(roomId, stream) {
                 });
               }
             },
-            onlocalstream(stream) {
-              // IDEA: ADD A LIVE CANVAS ON THE BOARDS VIEW OF THE CURRENT BOARD
+            onlocalstream(localStream) {
+              const videoTracks = localStream.getTracks().filter((track) => track.kind === 'video');
+              videoTracks.forEach((video) => {
+                if (typeof video.canvas === 'undefined') {
+                  const webcamOutput = document.querySelector('#webcam');
+                  addStream(webcamOutput, video);
+                }
+              });
             },
           });
         },
       });
     },
+  });
+
+  $('#minimize-webcam-view').click(() => {
+    $('#active-webcam-view').fadeOut(() => $('#inactive-webcam-view').fadeIn());
+  });
+
+  $('#inactive-webcam-view img').click(function () {
+    $(this).parent().fadeOut(() => $('#active-webcam-view').fadeIn());
   });
 }
