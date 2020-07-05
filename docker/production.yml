@@ -54,7 +54,10 @@ services:
         - ./docker-config/janus.transport.http.jcfg:/usr/local/etc/janus/janus.transport.http.jcfg
     coturn:
       image: instrumentisto/coturn
+      command:
+        - -c=/etc/coturn/turnserver.conf
+        - --external-ip=$$(detect-external-ip)
       network_mode: "host"   # coturn docker docs mentioned to do this, means that docker container doesnt gets its own ip.
       volumes:
-        - ./docker-config/turnserver.conf:/etc/coturn/turnserver.conf
+        - ./docker-config/turnserver.conf:/etc/coturn/turnserver.conf:ro
 
