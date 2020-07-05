@@ -1140,7 +1140,6 @@ div.messages.active-chat{
 
 .close-chat:hover{
   opacity:1;
-  transform: translateY(-1.5px);
 }
 
 .messages-main{

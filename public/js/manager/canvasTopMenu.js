@@ -50,9 +50,4 @@ export default function initializeCanvasTopMenu(socket, whiteboard, roomId) {
     $('.webcam-container').show().removeClass('animate__fadeOut').addClass('animate__fadeIn');
     $('.canvas-toggle-bar').show().removeClass('animate__fadeOutDown').addClass('animate__fadeInLeft');
   });
-
-  $('.close-chat').click((e) => {
-    e.stopPropagation();
-    $('div.messages').fadeOut();
-  });
 }
