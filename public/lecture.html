@@ -4,37 +4,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Muli&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+      integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous" />
     <link rel="stylesheet" href="/lecture.css">
+    <link rel="stylesheet" href="/style.css" />
+    <!-- <link rel="stylesheet" href="/canvas.css" />  -->
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet"></link>
     <title>Document</title>
 </head>
 
-<body>
-    <h1>Lecture Page</h1>
-    <h2>spectators: <span id="specs"></span></h2>
-    <div style="border: 1px solid black;">
-        Non-active boards:
-        <div id="non-active-boards"></div>
+<body style="margin: 0px;">
+    <div class="lecture-container center">
+        <div class="titleBoard"><span class="title" id="lectureTitle">Lecture Name</span></div>
+
+        <div class="lecture-top-bar">
+            <img class="nav-icon" src="/helpLecture.png">
+            <span class="nav-Text">Get Help</span>
+        
+            <img class="nav-icon" src="/aboutLecture.png">
+            <span class="nav-Text">About Lecture</span>
+
+            <img class="nav-icon" src="/endLecture.png">
+            <span class="nav-Text" style="margin-right: 0px;">Leave Lecture</span>
+            <h2 class="specs">Spectators: <span id="specs"></span></h2>
+        </div>
+
+        <div class="videoContainer">
+                <!--start canvas image toggle bar-->
+        
+            <div class="pages">
+                <div class="lecture-bot-bar" >
+                    <div class="canvas-toggle-bar">
+                        <nav>
+                        <button class="scroll-boards-view-left">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <ul class="canvas-toggle-nav" id="non-active-boards"></ul>
+                        <button class="scroll-boards-view-right">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <div style="position: relative;" class="video">
+                <div class="video-container center" id="board-container">
+                    <video class="video" id="whiteboard" playsinline autoplay muted></video>
+                </div>
+                <audio class="audio" style="margin-top: -60px;" id="speaker" controls autoplay ></audio>    
+            </div>
+            <div class="chat">
+                
+            </div>
+        </div>
+        
+        <!-- <div class="spectators">
+            <h2 class="specs">Spectators: <span id="specs"></span></h2>
+        </div> -->
+        
+        <div id="test">
+        </div>
+    
     </div>
 
-    <div class="spectator-messages">
+
+    <div style="display: none;" class="spectator-messages">
         <button type="button" id="toggle-messages" class="collapsible">Messages</button>
         <div class="spectator-message-container" id="message-container">Welcome to Liteboard!</div>
             <form id="send-container">
-                <input type="text" id="message-input">
-                <input type="file" id="file-input" name="img">
-                <button type="submit" id="send-button">Send</button>
             </form>
     </div>
-    <div id="test">
-    </div>
-    <audio id="speaker" controls autoplay playsinline></audio>
-    <div id="board-container">
-        <video height="300" width="400" id="whiteboard" playsinline autoplay muted></video>
-    </div>
+     
+
+    <div style="margin-top: 180px;" class="footer">
+        <div class="footer-grid">
+          <div class="footer-grid-left">
+            <a
+              href="https://github.com/jeverd/lecture-experience"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <i class="fab fa-github-alt"></i>
+            </a>
+          </div>
+          <div class="footer-grid-right">
+            <p class="glossy-text">&copy; 2020 Liteboard</p>
+          </div>
+        </div>
+      </div>
+    
     
     <script src="https://unpkg.com/peerjs@1.2.0/dist/peerjs.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/guest.js" type="module"></script>
-</body>
-
+    </body>
 </html>

@@ -21,7 +21,7 @@ window.onload = async () => {
     boards.forEach((board) => {
       const imgElem = document.createElement('img');
       imgElem.src = board;
-      imgElem.height = 75;
+      imgElem.height = 50;
       boardsDiv.appendChild(imgElem);
     });
   }
