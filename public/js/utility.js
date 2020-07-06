@@ -4,7 +4,7 @@
 /* eslint-disable import/extensions */
 /* eslint-disable import/no-absolute-path */
 /* eslint-disable-next-line import/no-unresolved */
-import Point from '/classes/point.js';
+import Point from './classes/point.js';
 
 export function getMouseCoordsOnCanvas(e, canvas) {
   let x; let y;
@@ -63,63 +63,72 @@ export function showInfoMessage(message) {
   });
 }
 
-export function appendFile(file, fileType, fileName, identifier) {
-  const messageContainer = document.getElementById('message-container');
-  const messageElement = document.createElement('tr');
-  let fileElement = null;
+export function getUrlId() {
+  const url = window.location.pathname;
+  const lastSlash = url.lastIndexOf('/');
+  return url.substr(lastSlash + 1);
+}
 
-  // Doesn't work - need some kind of file upload
-  if (fileType.includes('image')) {
-    fileElement = document.createElement('img');
-    fileElement.src = (identifier === 'sender') ? URL.createObjectURL(file) : file;
-  } else {
-    fileElement = document.createElement('a');
-    fileElement.href = (identifier === 'sender') ? URL.createObjectURL(file) : file;
-    fileElement.download = fileName;
-    fileElement.innerText = fileName;
+export function getJanusUrl() {
+  let { host } = window.location;
+  let prefix = 'https';
+  if (host.includes('localhost')) {
+    prefix = 'http';
+    const collonIndex = host.indexOf(':');
+    host = `${host.slice(0, collonIndex + 1)}8088`;
   }
-
-  messageElement.append(fileElement);
-  messageContainer.append(messageElement);
-
-  const messageToggle = document.getElementById('toggle-messages');
-  const event = new Event('redraw');
-  messageToggle.dispatchEvent(event);
+  return `${prefix}://${host}/janus`;
 }
 
-export function appendMessage(message) {
-  const messageContainer = document.getElementById('message-container');
-  const messageElement = document.createElement('tr');
-  const tableData = document.createElement('td');
-  tableData.innerText = message;
-
-  messageElement.append(tableData);
-  messageContainer.append(messageElement);
-
-  const messageToggle = document.getElementById('toggle-messages');
-  const event = new Event('redraw');
-  messageToggle.dispatchEvent(event);
+export function buildPostRequestOpts(body) {
+  return {
+    method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body,
+  };
 }
 
-export function handleBoardsViewButtonsDisplay() {
-  const boardView = document.querySelector('.canvas-toggle-nav');
-  if (boardView.offsetWidth < boardView.scrollWidth) {
-    if ($(boardView).scrollLeft() > 0) {
-      $('.scroll-boards-view-left').show();
+export function redirectToStats(roomId) {
+  window.location = `/lecture/stats/${roomId}`;
+}
+
+export function isIOS() {
+  return navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
+}
+
+export function copyTextToClipboard(text) {
+  const tmpInput = document.createElement('input');
+  tmpInput.value = text;
+  document.body.appendChild(tmpInput);
+  tmpInput.select();
+  const range = document.createRange();
+  range.selectNodeContents(tmpInput);
+  const selection = window.getSelection();
+  selection.removeAllRanges();
+  selection.addRange(range);
+  tmpInput.setSelectionRange(0, 999999);
+  document.execCommand('copy');
+  document.body.removeChild(tmpInput);
+}
+
+export function reloadWindow() {
+  window.location.reload();
+}
+
+export function addStream(htmlElem, streamTrack) {
+  if (typeof streamTrack !== 'undefined') {
+    const stream = new MediaStream();
+    stream.addTrack(streamTrack);
+    htmlElem.srcObject = stream;
+    if ('srcObject' in htmlElem) {
+      htmlElem.srcObject = stream;
     } else {
-      $('.scroll-boards-view-left').hide();
+      htmlElem.src = window.URL.createObjURL(stream);
     }
-    $('.scroll-boards-view-right').show();
-    if ($(boardView).scrollLeft() + boardView.offsetWidth >= boardView.scrollWidth - 15) {
-      $('.scroll-boards-view-right').hide();
-    }
-  } else {
-    $('.scroll-boards-view-left').hide();
   }
-}
-
-export function updateBoardsBadge() {
-  document.querySelectorAll('.board-badge').forEach((badge, i) => {
-    badge.innerHTML = i + 1;
-  });
 }

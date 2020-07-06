@@ -96,9 +96,6 @@
       margin-left: 0px; 
     }
   }
-
-
-
   .surveyText {
     color: white;
     font-size: 22px;
@@ -158,13 +155,7 @@
   }
   
   .tooltip {
-    left: 12.5px;
     position: relative;
-    top: 35.5px;
-  }
-  
-  .tooltip > img{
-    width: 25px;
   }
   
   .tooltip .tooltiptext {
@@ -179,10 +170,16 @@
     padding: 5px 10px;
     position: absolute;
     z-index: 1;
-    bottom: 44px;
-    right: -62px;
-    opacity: 0;
-    transition: opacity 0.4s;
+    bottom: -50px;
+    right: calc(-71.4px + 15%);
+
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+    -moz-transform: scale(1, -1);
+    -webkit-transform: scale(1, -1);
+    -o-transform: scale(1, -1);
+    -ms-transform: scale(1, -1);
+    transform: scale(1, -1);
   }
   
   .tooltip .tooltiptext::after {
@@ -198,7 +195,14 @@
   
   .tooltip:hover .tooltiptext {
     visibility: visible;
-    opacity: 1;
+  }
+
+  .myBar:hover {
+    background: linear-gradient(
+    135deg,
+    rgba(70, 194, 255, 0.75) 0%,
+    rgba(189, 31, 250, 0.75) 100%
+  );
   }
   
   .create-lecture-inputs:last-child{
@@ -222,19 +226,7 @@
 
 
   @media only screen and (max-width: 599px) {
-  
-    .tooltip .tooltiptext {
-      right: -5px;
-    }
-  
-    .tooltip{
-      left: -5px;
-    }
-    
-    .tooltip .tooltiptext::after {
-      left: 87.5%;
-    }
-  
+
     #create-lecture-graphic{
       width: 100%;
       height: auto;
@@ -377,7 +369,6 @@ border-color: white;
   border-radius: 0px 0px 20px 20px;
   outline: none;
   width: 100%;
-  
 }
 
 .graphLabels {
@@ -429,6 +420,13 @@ border-color: white;
   margin: auto;
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
   transition: all 1.5s cubic-bezier(.25,.8,.25,1);
+  cursor: pointer;
+}
+
+.home-button:hover {
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  opacity: 1;
+  transform: translateY(-1.5px);
 }
 
 .home-button i {

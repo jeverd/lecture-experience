@@ -1,17 +1,6 @@
+/* eslint-disable import/extensions */
 /* eslint-disable no-plusplus */
-
-const url = window.location.pathname;
-const lastSlash = url.lastIndexOf('/');
-const urlId = url.substr(lastSlash + 1);
-const requestOpts = {
-  method: 'POST',
-  mode: 'cors',
-  cache: 'no-cache',
-  credentials: 'same-origin',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-};
+import { getUrlId, buildPostRequestOpts } from './utility.js';
 
 // getSecondsBetweenTwoTimes receives two Date objects
 function getSecondsBetweenTwoTimes(start, end) {
@@ -24,25 +13,7 @@ function buildGraph(statsObj) {
   const lectureDurationInSeconds = getSecondsBetweenTwoTimes(new Date(timeTracks[0]),
     new Date(timeTracks[timeTracks.length - 1]));
 
-  let graphSize;
-
-  if (lectureDurationInSeconds > 1800) {
-    graphSize = 30;
-  } else {
-    graphSize = 25;
-  }
-
-  for (let i = 0; i < graphSize; i++) {
-    const proressBar = document.createElement('div');
-    proressBar.classList.add('myProgress');
-    // setting the class to item and active
-    const inner = document.createElement('div');
-    inner.classList.add('myBar');
-
-    proressBar.appendChild(inner);
-
-    document.getElementById('graph').appendChild(proressBar);
-  }
+  const graphSize = 25;
 
   const timeIntervalInSeconds = lectureDurationInSeconds / graphSize;
   const watchers = Array(graphSize).fill(0);
@@ -81,6 +52,34 @@ function buildGraph(statsObj) {
     }
   }
 
+  for (let i = 0; i < graphSize; i++) {
+    const progressBar = document.createElement('div');
+    progressBar.classList.add('myProgress');
+    // setting the class to item and active
+    const inner = document.createElement('div');
+    inner.classList.add('myBar');
+    inner.classList.add('tooltip');
+
+    const popup = document.createElement('div');
+    popup.classList.add('tooltiptext');
+
+    const timer = timeIntervalInSeconds * i;
+
+    const hours = Math.floor(timer / 60 / 60);
+    const minutes = Math.floor(timer / 60) - (hours * 60);
+    const seconds = Number((timer % 60).toPrecision(2));
+
+    const formatted = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+    popup.innerHTML = `Spectators:  ${averageWatchers[i]} <br/> Time:  ${formatted}`;
+
+    inner.appendChild(popup);
+
+    progressBar.appendChild(inner);
+
+    document.getElementById('graph').appendChild(progressBar);
+  }
+
 
   const elem = document.getElementsByClassName('myBar');
 
@@ -99,7 +98,7 @@ function buildGraph(statsObj) {
     averageNumOfUsers += averageWatchers[i];
   }
 
-  document.getElementById('lecture-stats-title').innerHTML = statsObj.lectureName;
+  document.getElementById('lecture-stats-title').innerHTML = `${statsObj.lectureName.charAt(0).toUpperCase()}${statsObj.lectureName.slice(1)}`;
   document.getElementById('max-specs').innerHTML = maxStudents;
   document.getElementById('max-specss').innerHTML = maxStudents;
   document.getElementById('avg-specs').innerHTML = Math.ceil(averageNumOfUsers / graphSize);
@@ -114,8 +113,7 @@ function buildGraph(statsObj) {
   document.getElementById('lecture-durationn').innerHTML = formatted;
 }
 
-
-fetch(`/lecture/stats/${urlId}`, requestOpts)
+fetch(`/lecture/stats/${getUrlId()}`, buildPostRequestOpts(''))
   .then((response) => {
     if (response.status === 200) {
       response.json().then((jsonResponse) => {
@@ -124,26 +122,3 @@ fetch(`/lecture/stats/${urlId}`, requestOpts)
     }
     // else display error loading stats
   });
-
-const avgBut = document.querySelector('#average');
-const statsBut = document.querySelector('#stats');
-
-const graph = document.querySelector('#stats-graph');
-const statsInfo = document.querySelector('#stats-info');
-
-
-avgBut.addEventListener('click', (e) => {
-  e.preventDefault();
-  avgBut.classList.add('activeStat');
-  statsBut.classList.remove('activeStat');
-  graph.style.display = '';
-  statsInfo.style.display = 'none';
-});
-
-statsBut.addEventListener('click', (e) => {
-  e.preventDefault();
-  avgBut.classList.remove('activeStat');
-  statsBut.classList.add('activeStat');
-  statsInfo.style.display = '';
-  graph.style.display = 'none';
-});

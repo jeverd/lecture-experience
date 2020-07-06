@@ -1,15 +1,13 @@
 /* eslint-disable no-shadow */
 const path = require('path');
 const { v4: uuidv4 } = require('uuid');
-const {
-  iceServers, expressPort, environment,
-} = require('../config/config');
 const { app } = require('./servers');
 const redisClient = require('./servers').client;
 const { logger } = require('./services/logger/logger');
 const Stats = require('./models/stats');
 const Manager = require('./models/manager');
 const Room = require('./models/room');
+const { expressPort, environment } = require('../config/config');
 
 const publicPath = path.join(__dirname, '../public');
 
@@ -23,16 +21,14 @@ app.get('/create', (req, res) => {
 
 app.post('/create', (req, res) => {
   logger.info('POST request received: /create');
-
-  const roomId = uuidv4();
   const managerId = uuidv4();
-  logger.info(`POST /create roomId generated: ${roomId}`);
-  logger.info(`POST /create managerId generated: ${managerId}`);
-  const { name, email } = req.body;
+  const {
+    name, email, roomId, lectureTools,
+  } = req.body;
   const newLectureStats = new Stats(name);
   newLectureStats.addUserTrack(new Date(), 0);
   redisClient.hmset('stats', { [roomId]: JSON.stringify(newLectureStats) });
-  redisClient.hmset('rooms', { [roomId]: JSON.stringify(new Room(name, managerId)) });
+  redisClient.hmset('rooms', { [roomId]: JSON.stringify(new Room(name, managerId, lectureTools)) });
   redisClient.hmset('managers', { [managerId]: JSON.stringify(new Manager(roomId, email)) });
 
   logger.info('POST /create successfully added room and manager id to redis');
@@ -41,43 +37,60 @@ app.post('/create', (req, res) => {
   res.send({ redirectUrl });
 });
 
-app.get('/session', (req, res) => {
-  logger.info(`GET request received: /session for sessionId ${req.sessionId}`);
-  if (req.session.inRoom) {
-    res.status(401);
-    res.json({ error: 'User already in a room' });
-  } else {
-    res.status(200);
-    res.json({ success: 'User is ready to be connected' });
-  }
+app.get('/validate/lecture', (req, res) => {
+  logger.info(`GET request received: /validate/lecture for sessionId ${req.sessionId}`);
+  redisClient.hexists('managers', req.query.id, (err, roomExist) => {
+    if (roomExist) {
+      if (req.session.inRoom) {
+        res.status(401);
+        res.json({ error: 'User already connected on different tab' });
+      } else {
+        res.status(200);
+        res.json({ success: 'User is ready to be connected' });
+      }
+    } else {
+      res.status(404);
+      res.json({ error: 'Lecture does not exist' });
+    }
+  });
 });
 
 app.get('/lecture/:id', (req, res) => {
   const urlId = req.params.id;
   logger.info(`GET request received: /lecture for lecture id: ${urlId}`);
-    
+
   redisClient.hmget('managers', urlId, (err, object) => {
-      const isGuest = object[0] === null;
-      const roomId = !isGuest && JSON.parse(object[0]).roomId;
-      redisClient.hexists('rooms', isGuest ? urlId : roomId, (err, roomExist) => {
-        if (roomExist) {
-          res.sendFile(isGuest
-            ? 'lecture.html' : 'whiteboard.html',
-          { root: publicPath });
+    const isGuest = object[0] === null;
+    const roomId = !isGuest && JSON.parse(object[0]).roomId;
+    redisClient.hmget('rooms', isGuest ? urlId : roomId, (err, room) => {
+      let roomJson = room.pop();
+      if (err === null && roomJson !== null) {
+        roomJson = JSON.parse(roomJson);
+        const host = environment === 'DEVELOPMENT' ? `http://localhost:${expressPort}` : 'https://liteboard.io';
+        const sharableUrl = `${host}/lecture/${roomId}`;
+        roomJson.id = roomId;
+        roomJson.sharableUrl = sharableUrl;
+        if (isGuest) {
+          delete roomJson.managerId;
+          res.render('lecture.html', roomJson);
         } else {
-          res.status(404);
-          res.sendFile('error.html', { root: path.join(publicPath) });
+          res.render('whiteboard.html', roomJson);
         }
-      });
+      } else {
+        res.status(404);
+        res.redirect('/error?code=3');
+      }
     });
+  });
 });
 
 app.get('/lecture/stats/:id', (req, res) => {
   const urlId = req.params.id;
   logger.info(`GET request received: /lecture/stats for lecture id: ${urlId}`);
-  const renderNotFound = () => res.status(404).sendFile('error.html', { root: path.join(publicPath) });
+  const renderNotFound = () => res.status(404).redirect('/error?code=3');
   redisClient.hexists('rooms', urlId, (er, roomExist) => {
     if (roomExist) {
+      // here add the error that the lecture is still under progress
       renderNotFound();
     } else {
       redisClient.hexists('stats', urlId, (er, statsExist) => {
@@ -103,17 +116,22 @@ app.post('/lecture/stats/:id', (req, res) => {
   });
 });
 
-app.get('/peerjs/config', (req, res) => {
-  const peerjsConfig = {
-    secure: environment === 'PRODUCTION',
-    host: environment === 'DEVELOPMENT' ? 'localhost' : 'liteboard.io',
-    path: '/peerjs',
-    port: environment === 'DEVELOPMENT' ? expressPort : 443,
-    iceServers,
-  };
-  res.send(JSON.stringify(peerjsConfig));
+app.get('/error', (req, res) => {
+  let errType;
+  switch (req.query.code) {
+    case '0': errType = null; break;
+    case '1': errType = 'PageNotFound'; break;
+    case '2': errType = 'InvalidSession'; break;
+    case '3': errType = 'LectureNotFound'; break;
+    default: break;
+  }
+  if (errType) {
+    res.render('error.html', { [errType]: true });
+  } else {
+    res.redirect('/');
+  }
 });
 
 app.get('*', (req, res) => {
-  res.sendFile('/', { root: path.join(publicPath) });
+  res.redirect('/error?code=1');
 });

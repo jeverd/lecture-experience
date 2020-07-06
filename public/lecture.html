@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Open+Sans">
     <link rel="stylesheet" href="/lecture.css">
     <title>Document</title>
 </head>
@@ -27,14 +29,21 @@
     </div>
     <div id="test">
     </div>
-    <audio id="speaker" controls autoplay playsinline></audio>
-    <div id="board-container">
-        <video height="300" width="400" id="whiteboard" playsinline autoplay muted></video>
-    </div>
-    
-    <script src="https://unpkg.com/peerjs@1.2.0/dist/peerjs.min.js"></script>
+    {{#lectureTools}}
+        {{#audio}}
+            <audio id="speaker" controls autoplay playsinline></audio>
+        {{/audio}}
+        {{#whiteboard}}
+            <video muted height="300" width="400" id="whiteboard" playsinline autoplay></video>
+        {{/whiteboard}}
+        {{#webcam}}
+            <video muted height="300" width="400" id="webcam" playsinline autoplay></video>
+        {{/webcam}}
+    {{/lectureTools}}
     <script src="/socket.io/socket.io.js"></script>
-    <script src="/guest.js" type="module"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/6.4.0/adapter.min.js"></script>
+    <script src="/lib/janus.js"></script>
+    <script src="/guest/guest.js" type="module"></script>
 </body>
 
 </html>
