@@ -7,8 +7,8 @@
   
   #create-lecture-info{
     background-color:#21212e;
-    height: 200px;
-    width: 450px;
+    height: 390px;
+    width: 500px;
     margin: 0 auto;
     border-radius: 25px;
     box-shadow: 10px 10px 54px -6px rgba(0,0,0,0.75);
@@ -22,7 +22,8 @@
   .inputText{
     color: white;
     float: left;
-    font-size: 18px
+    font-size: 18px;
+    margin-left: 20px;
   }
   
   .inputBox{
@@ -41,6 +42,9 @@
   
   #info{
     width: 80%;
+    position: relative;
+    top: 53%;
+    transform: translateY(-50%);
   }
   
   .create-button{
@@ -66,7 +70,7 @@
   .tooltip {
     left: 12.5px;
     position: relative;
-    top: 35.5px;
+    top: -34px;
   }
   
   .tooltip > img{
@@ -222,11 +226,107 @@
     opacity: 0;
     transition: .6s ease;
     color: rgb(255, 95, 95);
-    left: 155px;
+    left: 180px;
     font-size: .9em;
     top: 37px;
   }
 
   .relative{
     position: relative;
+    margin-top: 70px;
   }
+
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+.boxes {
+  margin: auto;
+  padding: 40px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  left: 50%;
+  transform: translateX(-50%);
+  position: relative;
+}
+
+.boxes div{
+  margin-left: 30px;
+}
+
+/*Checkboxes styles*/
+input[type="checkbox"] { display: none; }
+
+input[type="checkbox"] + label {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 20px;
+  font: 14px/20px;
+  color: #ddd;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+input[type="checkbox"] + label:last-child { margin-bottom: 0; }
+
+input[type="checkbox"] + label:before {
+  content: '';
+  display: block;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #6cc0e5;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: .6;
+  -webkit-transition: all .12s, border-color .08s;
+  transition: all .12s, border-color .08s;
+}
+
+input[type="checkbox"]:checked + label:before {
+  width: 10px;
+  top: -5px;
+  left: 5px;
+  border-radius: 0;
+  opacity: 1;
+  border-top-color: transparent;
+  border-left-color: transparent;
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.tools-title{
+  color: rgb(223, 223, 223);
+  position: relative;
+  top: 20px;
+  left: -117px;
+  margin-bottom: 10px;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.lecture-details{
+  color: rgb(223, 223, 223);
+  position: relative;
+  top: 12px;
+  left: -135px;
+  padding-bottom: 15px;
+  padding-top: 100px;
+  font-weight: 700;
+  font-size: 22px;
+}
+
+.type-lecture-inputs{
+  margin: 20px;
+  position: relative;
+  top: 20px;
+}
+
+.info-inputs{
+  padding-top: 20px;
+  padding-bottom: 20px;
+  position: relative;
+  top: 20px;
+}
