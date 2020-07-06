@@ -1,8 +1,11 @@
 /* create page */
 
 #create-lecture-graphic{
-  margin: auto auto;
+    margin: auto auto;
     padding-top: 1%;
+    width: 85%;
+    max-width: 800px;
+    min-width: 300px;
   }
   
   #create-lecture-info{
@@ -143,11 +146,6 @@
     
     .tooltip .tooltiptext::after {
       left: 87.5%;
-    }
-  
-    #create-lecture-graphic{
-      width: 100%;
-      height: auto;
     }
   
     #create-lecture-info{
