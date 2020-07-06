@@ -8,3 +8,17 @@ services:
       volumes:
         - ./docker-config/redis.conf:/redis.conf
       command: [ "redis-server", "/redis.conf" ]
+    janus-gateway:
+      image: canyan/janus-gateway:master_88df9449ac54f27afa29672cf092fac65a695c29
+      command: ["/usr/local/bin/janus", "-F", "/usr/local/etc/janus"]
+      ports:
+        - "8088:8088"
+        - "8089:8089"
+        - "8889:8889"
+        - "8000:8000"
+        - "7088:7088"
+        - "7089:7089"
+      volumes:
+        - ./docker-config/janus.jcfg:/usr/local/etc/janus/janus.jcfg  # might need to change this later, dk if this is best practice .... TODO  
+      restart: always
+

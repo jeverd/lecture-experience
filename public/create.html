@@ -9,7 +9,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://fonts.googleapis.com/css?family=Muli&display=swap" rel="stylesheet" />
+  <link rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Open+Sans">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
     integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous" />
   <link rel="stylesheet" href="/style.css" />
@@ -32,22 +33,52 @@
 
         <div id="create-lecture-info">
           <div id="info">
-            <div class="create-lecture-inputs">
-              <label class="inputText" for="lectureName">Lecture Name:</label>
-              <input class="inputBox" type="text" id="lectureName" name="lectureName">
+            <span class="lecture-details">Lecture Details</span>
+            <div class="info-inputs">
+              <div class="create-lecture-inputs">
+                <label class="inputText" for="lectureName">Lecture Name:</label>
+                <input class="inputBox" type="text" id="lectureName" name="lectureName">
+              </div>
+              <div class="create-lecture-inputs relative">
+                <label class="inputText" for="email">Your Email:</label>
+                <input class="inputBox" type="text" id="email" name="email">
+              </div>
             </div>
-            <div class="create-lecture-inputs relative">
-              <label class="inputText" for="email">Your Email:</label>
-              <input class="inputBox" type="text" id="email" name="email">
+            <div class="type-lecture-inputs">
+              <span class="tools-title">Select Lecture Tools</span>
+              <div class="boxes">
+                <div>
+                  <input type="checkbox" id="audio-check" checked>
+                  <label for="audio-check">Audio</label>
+                </div>
+                <div>
+                  <input type="checkbox" id="whiteboard-check" checked>
+                  <label for="whiteboard-check">Whiteboard</label>
+                </div>
+                <div>
+                  <input type="checkbox" id="webcam-check">
+                  <label for="webcam-check">Webcam</label>
+                </div>
+              </div>              
+            </div>
+            <div class="create-button">
+              <div class="buttons">
+                <a id="create-lecture">
+                  <span>Start Lecture</span>
+                </a>
+              </div>
               <div class="invalid-message" id="invalid-email">
                 Email provided is invalid
               </div>
               <div class="invalid-message" id="invalid-lecturename">
                 Please provide a lecture name
               </div>
+              <div class="invalid-message" id="invalid-tools">
+                Please selected at least one lecture tool
+              </div>
             </div>
           </div>
-
+          
           <div class="tooltip">
             <img src="/question.png" id="tooltip" />
             <div class="tooltiptext">
@@ -58,13 +89,6 @@
         </div>
 
 
-        <div class="create-button">
-          <div class="buttons">
-            <a id="create-lecture">
-              <span>Start Lecture</span>
-            </a>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -90,12 +114,10 @@
   <script>
     ScrollReveal().reveal("#create-lecture-graphic", { delay: 300 });
     ScrollReveal().reveal("#create-lecture-info", { delay: 300 });
-    ScrollReveal().reveal(".buttons", { delay: 300 });
   </script>
-  <script src="" async defer></script>
-
-
-  <script src="/create.js" type="text/javascript"></script>
+  <script type="text/javascript" async defer src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/6.4.0/adapter.min.js"></script>
+  <script src="/lib/janus.js" async defer></script>
+  <script src="/create.js" type="module"></script>
 </body>
 
 </html>

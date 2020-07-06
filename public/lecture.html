@@ -4,9 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css?family=Muli&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
-      integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous" />
+    <link rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Open+Sans">
     <link rel="stylesheet" href="/lecture.css">
     <link rel="stylesheet" href="/style.css" />
     <!-- <link rel="stylesheet" href="/canvas.css" />  -->
@@ -48,11 +47,26 @@
                     </div>
                 </div>
             </div>
-            <div style="position: relative;" class="video">
+            <!-- <div style="position: relative;" class="video">
                 <div class="video-container center" id="board-container">
                     <video class="video" id="whiteboard" playsinline autoplay muted></video>
                 </div>
                 <audio class="audio" style="margin-top: -60px;" id="speaker" controls autoplay ></audio>    
+            </div> -->
+            <div style="position: relative;" class="video">
+                {{#lectureTools}}
+                    {{#whiteboard}}
+                        <div class="video-container center" id="board-container">
+                            <video class="video" id="whiteboard" playsinline autoplay muted ></video>
+                        </div>
+                    {{/whiteboard}}
+                    {{#audio}}
+                        <audio class="audio" style="margin-top: -60px;" id="speaker" controls autoplay ></audio> 
+                    {{/audio}}
+                    {{#webcam}}
+                        <video muted height="300" width="400" id="webcam" playsinline autoplay></video>
+                    {{/webcam}}
+                {{/lectureTools}}
             </div>
             <div class="chat">
                 
@@ -62,9 +76,6 @@
         <!-- <div class="spectators">
             <h2 class="specs">Spectators: <span id="specs"></span></h2>
         </div> -->
-        
-        <div id="test">
-        </div>
     
     </div>
 
@@ -75,7 +86,6 @@
             <form id="send-container">
             </form>
     </div>
-     
 
     <div style="margin-top: 180px;" class="footer">
         <div class="footer-grid">
@@ -92,11 +102,12 @@
             <p class="glossy-text">&copy; 2020 Liteboard</p>
           </div>
         </div>
-      </div>
-    
-    
-    <script src="https://unpkg.com/peerjs@1.2.0/dist/peerjs.min.js"></script>
+    </div>
+
     <script src="/socket.io/socket.io.js"></script>
-    <script src="/guest.js" type="module"></script>
-    </body>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/6.4.0/adapter.min.js"></script>
+    <script src="/lib/janus.js"></script>
+    <script src="/guest/guest.js" type="module"></script>
+</body>
+
 </html>

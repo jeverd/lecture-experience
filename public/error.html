@@ -9,7 +9,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://fonts.googleapis.com/css?family=Muli&display=swap" rel="stylesheet" />
+  <link rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Open+Sans">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
     integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous" />
   <link rel="stylesheet" href="/style.css" />
@@ -26,7 +27,15 @@
   <div class="create-lecture-container">
     <div class="centered">
       <div>
+        {{#PageNotFound}}
           <img src="/liteboard404.png" id="error404" />
+        {{/PageNotFound}}
+        {{#InvalidSession}}
+          <img src="/liteboardLectureInProgress.png" id="error404" />
+        {{/InvalidSession}}
+        {{#LectureNotFound}}
+          <img src="/liteboardwhoopsLecture.png" id="error404" />
+        {{/LectureNotFound}}
       </div>
       <div class="buttons">
           <a href="/">

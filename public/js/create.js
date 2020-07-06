@@ -1,39 +1,84 @@
-/* eslint-disable no-useless-escape */
-/* eslint-disable func-names */
+/* eslint-disable no-undef */
+/* eslint-disable import/extensions */
+import { buildPostRequestOpts, getJanusUrl } from './utility.js';
+
+const janusUrl = getJanusUrl();
 const createBut = document.querySelector('#create-lecture');
 const invalidEmailDiv = document.getElementById('invalid-email');
 const invalidNameDiv = document.getElementById('invalid-lecturename');
+const invalidToolsDiv = document.getElementById('invalid-tools');
 const emailInput = document.querySelector('#email');
 const nameInput = document.querySelector('#lectureName');
+const audioCheckbox = document.querySelector('#audio-check');
+const whiteboardCheckbox = document.querySelector('#whiteboard-check');
+const webcamCheckbox = document.querySelector('#webcam-check');
 function isValidEmail(email) {
   return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
 }
 
 createBut.addEventListener('click', (e) => {
   e.preventDefault();
-  const xhr = new XMLHttpRequest();
   const lectureName = nameInput.value;
   const lectureEmail = emailInput.value;
-  if (lectureName === '') {
+  if (!audioCheckbox.checked && !webcamCheckbox.checked && !whiteboardCheckbox.checked) {
+    invalidToolsDiv.style.opacity = 1;
+    invalidEmailDiv.style.opacity = 0;
+    invalidNameDiv.style.opacity = 0;
+  } else if (lectureName === '') {
+    invalidToolsDiv.style.opacity = 0;
     invalidEmailDiv.style.opacity = 0;
     invalidNameDiv.style.opacity = 1;
   } else if (lectureEmail === '' || isValidEmail(lectureEmail)) {
-    xhr.open('POST', '/create', true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.onreadystatechange = function () {
-      if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-        const response = JSON.parse(this.response);
-        window.location = response.redirectUrl;
-      }
-    };
-
-    xhr.send(JSON.stringify({
-      name: lectureName,
-      email: lectureEmail,
-    }));
+    Janus.init({
+      debug: 'all',
+      callback() {
+        const janus = new Janus({
+          server: janusUrl,
+          success() {
+            // Attach to VideoRoom plugin
+            janus.attach(
+              {
+                plugin: 'janus.plugin.videoroom',
+                success(pluginHandle) {
+                  pluginHandle.send({
+                    message: { request: 'create' },
+                    success(res) {
+                      if (res.videoroom === 'created') {
+                        const body = JSON.stringify({
+                          name: lectureName,
+                          email: lectureEmail,
+                          roomId: res.room,
+                          lectureTools: {
+                            audio: audioCheckbox.checked,
+                            webcam: webcamCheckbox.checked,
+                            whiteboard: whiteboardCheckbox.checked,
+                          },
+                        });
+                        fetch('/create', buildPostRequestOpts(body))
+                          .then((response) => {
+                            if (response.status === 200) {
+                              response.json().then((json) => {
+                                window.location = json.redirectUrl;
+                              });
+                            }
+                          });
+                      }
+                    },
+                  });
+                },
+                error(error) {
+                  console.log('error plugin connection');
+                },
+              },
+            );
+          },
+        });
+      },
+    });
   } else {
     invalidNameDiv.style.opacity = 0;
     invalidEmailDiv.style.opacity = 1;
+    invalidToolsDiv.style.opacity = 0;
   }
 });
 

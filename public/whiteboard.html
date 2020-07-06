@@ -12,6 +12,8 @@
     <title></title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Open+Sans">
     <link rel="stylesheet" href="/canvas.css" />
     <link
       rel="stylesheet"
@@ -20,6 +22,10 @@
       crossorigin="anonymous"
     />
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet"></link>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css" 
+    />
   </head>
 
   <body style="background-color: #ffffff;">
@@ -30,7 +36,7 @@
       </p>
     <![endif]-->
 
-    <div id="area-selection-menu">
+    <!-- <div id="area-selection-menu">
       <div class="area-selection-menu-row">
         <span>Copy</span>
         <span>Ctrl + C</span>
@@ -47,15 +53,15 @@
         <span>Delete</span>
         <span>Backspace</span>
       </div>
-    </div>
+    </div> -->
 
     <!--start whiteboard topbar-->
     <div class="classroom-info">
       <div class="classroom-info-flexbox">
         <div class="lecture-running">
-          <span class="status-dot"><i class="fas fa-circle"></i> &nbsp;</span
-          ><span class="lecture-running-text">Lecture Running</span
-          ><span class="divider"></span>
+          <span class="status-dot"><i class="fas fa-circle"></i> &nbsp;</span>
+          <span class="lecture-running-text">Lecture Running</span>
+          <span class="divider"></span>
         </div>
 
         <div
@@ -67,20 +73,6 @@
           &nbsp;
           <span class="end-lecture-text">End Lecture</span>
           &nbsp;
-        </div>
-
-        <span class="divider"></span>
-
-        <div
-        title="Change microphone configuration"
-        id="mic-config"
-        class="mic-config-container"
-        >
-        <img src="https://img.icons8.com/color/48/000000/microphone.png" class="mic-config-icon"/>
-        &nbsp;
-        <span class="mic-config-text">Mic Config</span>
-          &nbsp;
-
         </div>
 
         <span class="divider"></span>
@@ -98,19 +90,15 @@
 
         <span class="divider"></span>
 
-        <div title="Open Board View" class="my-boards-button-container">
-          <img src="/whiteboard.svg" />
+        <div
+          title="Lecture Settings"
+          id="mic-config"
+          class="mic-config-container"
+        >
+          <i class="fa fa-cog cog config-icon-top-menu"></i>
           &nbsp;
-          <span>My Boards</span>
-        </div>
-
-        <span class="divider"></span>
-
-        <div title="Open Chat View" class="chat-button-container">
-          <span>
-            <i class="fas fa-comment-dots chat-info-icon"></i>
-            <span>Chat</span>
-          </span>
+          <span class="mic-config-text">Configure</span>
+          &nbsp;
         </div>
 
         <span class="divider"></span>
@@ -135,38 +123,72 @@
 
     <div id="info-popup"></div>
     
-    <div class="messages">
+    {{#lectureTools}}
+      {{#audio}}
+        <input type="hidden" id="audio"/>
+      {{/audio}}
+      {{#webcam}}
+        <div class="webcam-container animate__animated">
+          <div id="inactive-webcam-view">
+            <img title="Open Webcam View" src="https://img.icons8.com/fluent/48/000000/webcam.png"/>
+          </div>
+          <div id="active-webcam-view">
+            <div title="Minimize Webcam View" id="minimize-webcam-view">
+              <i class="fa fa-minus" aria-hidden="true"></i>
+            </div>
+            <div title="Webcam Info" id="info-webcam">
+              <i class="fas fa-info"></i>
+            </div>
+            <video muted id="webcam" playsinline autoplay></video>
+          </div>
+        </div>
+      {{/webcam}}
+    {{/lectureTools}}
+
+    <div class="messages animate__animated">
       <div id="toggle-messages">
         <div>
           <div class="chat-title-wrap">
             <div class="new-messages-badge">0</div>
             <span class="chat-title">Lecture Chat</span>
           </div>
-          <i class="fa fa-times close-chat" aria-hidden="true"></i>
+          <i class="fa fa-minus close-chat" aria-hidden="true"></i>
         </div>
       </div>
       <div id="wrapper" class="messages-main">
         <div class="message-container" id="message-container">
           <div class="message-lecture-name">
             <span>
-              <span lecture-name></span> chat room
+              {{name}} chat room
             </span>
+          </div>
+          <div id="preview" class="preview">
+            <div class="preview-content">
+              <i class="fas fa-file" id="file-preview"></i>
+              <img src="" id='image-preview' class='image-preview'>
+              <span id="name-file"></span>
+              <i class="fas fa-times close-preview" id="close-preview"></i>
+            </div> 
           </div>
         </div>
       </div>
-      <form id="send-container">
-          <input autocomplete="off" type="text" id="message-input">
+      <div id="send-wrapper">
+        
+        <form id="send-container">
+          <span class="v_divider"></span>
+          <input autocomplete="off" spellcheck="false" type="text" id="message-input">
           <input type="file" name="file" id="file-input" class="inputfile" />
           <label for="file-input">
             <i class="fas fa-paperclip"></i>
           </label>
           <button type="submit" id="send-button"><i class="fas fa-chevron-right"></i></button>
-      </form>
+        </form>        
+      </div>  
     </div>
 
     <!--start show-bar-button-->
     <div class="show-bar-button-container">
-      <button class="show-bar-button">
+      <button title="Expand Menu" class="show-bar-button">
         <i class="fa fa-bars" aria-hidden="true"></i>
         <!-- <i class="fas fa-level-up-alt"></i> -->
       </button>
@@ -177,7 +199,7 @@
     <canvas id="canvas"> </canvas>
 
     <!--start right sidebar-->
-    <nav class="right-bar">
+    <nav class="right-bar animate__animated">
       <ul class="right-bar-nav">
         <div id="right-bar-main">
           <div data-tool="pencil" title="Pencil Tool">
@@ -357,14 +379,10 @@
       </ul>
     </nav>
 
-    <button title="Toggle Tools Menu" class="hide-options-right">
-      <i class="fas fa-palette"></i>
-    </button>
-
     <!--end right sidebar-->
 
     <!--start left sidebar-->
-    <nav class="left-bar">
+    <nav class="left-bar animate__animated">
       <ul class="left-bar-nav">
         <!--group commands-->
         <div class="group commands">
@@ -418,13 +436,10 @@
         </div>
       </ul>
     </nav>
-
-    <button title="Toggle Board Action Menu" class="hide-options-left"><i class="fas fa-info"></i></button>
-
     <!--end left sidebar-->
 
     <!--start canvas image toggle bar-->
-    <div class="canvas-toggle-bar">
+    <div class="canvas-toggle-bar animate__animated">
       <nav>
         <button class="scroll-boards-view-left">
           <i class="fas fa-chevron-left"></i>
@@ -441,7 +456,7 @@
     <div id="welcome-lecture-modal" class="modal">
       <!-- Start Modal content -->
       <div class="modal-content">
-        <div id="join-content">
+        <div id="join-content" class="modal-main-content">
           <p id="modal-content-header">Ready to Join?</p>
           <img id="modal-image" />
           <div id="modal-buttons-container">
@@ -459,34 +474,22 @@
               &nbsp;
             </div>
   
-  
-  
             <!--<button class = "modal-select-button mic_button">Test Mic</button>-->
           </div>
           <!--Share Container-->
           <div class="share-container">
-            <div
-              title="Copy lecture link"
-              id="copy-link"
-              class="copy-link-container copy-button "
-            >
-              <i class="fas fa-link sharelink-info-icon"></i>
-              &nbsp;
-              <span class="copy-link-modal">Copy Link</span>
-              &nbsp;
-            </div>
-            
-            <div class="share">
-             <!--Share button-->
-  
-             <!-- facebook -->
-             <a class="facebook" href="#" target="blank"><i class="fa fa-facebook"></i></a>
-          
-             <!-- twitter -->
-             <a class="twitter" href="#" target="blank"><i class="fa fa-twitter"></i></a>
-          
-             <!-- google plus -->
-             <a class="googleplus" href="#" target="blank"><i class="fa fa-google-plus"></i></a>
+            <div>
+              <div class="share-link-modal-title">
+                Share Your Lecture URL
+              </div>
+              <div class="modal-url-share-container">
+                <div class="modal-url-share">
+                  {{sharableUrl}}
+                </div>
+                <div id="modal-copy-link" class="modal-copy-button">
+                  Copy
+                </div>
+              </div>
             </div>
           </div>  
         </div>
@@ -518,7 +521,7 @@
               </div>
           </div>
             <div
-              title="Mute your microphone"
+              title="Mute"
               id="mute-mic"
               class="copy-link-container copy-button "
             >
@@ -563,7 +566,6 @@
                   <div class="myProgress" id="myProgress23"></div>
                   <div class="myProgress" id="myProgress24"></div>
                   <div class="myProgress" id="myProgress25"></div>             
-                  <!--<div id="myBar"></div>-->
                 </div>
 
               </div>  
@@ -574,9 +576,14 @@
       <!-- End Modal content -->
     </div>
     <!-- End Modal -->
+    <!--Image Modal-->
+    <div id="image-modal" style="display: none;" class="modal image-container">
+      <div class="wrap-div-message-image"></div>
+    </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-    <script src="https://unpkg.com/peerjs@1.2.0/dist/peerjs.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="/whiteboard.js" type="module"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/6.4.0/adapter.min.js"></script>
+    <script src="/lib/janus.js"></script>
+    <script src="/manager/manager.js" type="module"></script>
   </body>
 </html>
