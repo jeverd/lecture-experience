@@ -123,20 +123,27 @@
 
     <div id="info-popup"></div>
     
-    <div class="webcam-container animate__animated">
-      <div id="inactive-webcam-view">
-        <img title="Open Webcam View" src="https://img.icons8.com/fluent/48/000000/webcam.png"/>
-      </div>
-      <div id="active-webcam-view">
-        <div title="Minimize Webcam View" id="minimize-webcam-view">
-          <i class="fa fa-minus" aria-hidden="true"></i>
+    {{#lectureTools}}
+      {{#audio}}
+        <input type="hidden" id="audio"/>
+      {{/audio}}
+      {{#webcam}}
+        <div class="webcam-container animate__animated">
+          <div id="inactive-webcam-view">
+            <img title="Open Webcam View" src="https://img.icons8.com/fluent/48/000000/webcam.png"/>
+          </div>
+          <div id="active-webcam-view">
+            <div title="Minimize Webcam View" id="minimize-webcam-view">
+              <i class="fa fa-minus" aria-hidden="true"></i>
+            </div>
+            <div title="Webcam Info" id="info-webcam">
+              <i class="fas fa-info"></i>
+            </div>
+            <video muted id="webcam" playsinline autoplay></video>
+          </div>
         </div>
-        <div title="Webcam Info" id="info-webcam">
-          <i class="fas fa-info"></i>
-        </div>
-        <video muted id="webcam" playsinline autoplay></video>
-      </div>
-    </div>
+      {{/webcam}}
+    {{/lectureTools}}
 
     <div class="messages animate__animated">
       <div id="toggle-messages">

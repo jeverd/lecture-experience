@@ -42,28 +42,22 @@
               <div class="create-lecture-inputs relative">
                 <label class="inputText" for="email">Your Email:</label>
                 <input class="inputBox" type="text" id="email" name="email">
-                <div class="invalid-message" id="invalid-email">
-                  Email provided is invalid
-                </div>
-                <div class="invalid-message" id="invalid-lecturename">
-                  Please provide a lecture name
-                </div>
               </div>
             </div>
             <div class="type-lecture-inputs">
               <span class="tools-title">Select Lecture Tools</span>
               <div class="boxes">
                 <div>
-                  <input type="checkbox" id="box-1" checked>
-                  <label for="box-1">Audio</label>
+                  <input type="checkbox" id="audio-check" checked>
+                  <label for="audio-check">Audio</label>
                 </div>
                 <div>
-                  <input type="checkbox" id="box-2" checked>
-                  <label for="box-2">Whiteboard</label>
+                  <input type="checkbox" id="whiteboard-check" checked>
+                  <label for="whiteboard-check">Whiteboard</label>
                 </div>
                 <div>
-                  <input type="checkbox" id="box-3">
-                  <label for="box-3">Webcam</label>
+                  <input type="checkbox" id="webcam-check">
+                  <label for="webcam-check">Webcam</label>
                 </div>
               </div>              
             </div>
@@ -72,6 +66,15 @@
                 <a id="create-lecture">
                   <span>Start Lecture</span>
                 </a>
+              </div>
+              <div class="invalid-message" id="invalid-email">
+                Email provided is invalid
+              </div>
+              <div class="invalid-message" id="invalid-lecturename">
+                Please provide a lecture name
+              </div>
+              <div class="invalid-message" id="invalid-tools">
+                Please selected at least one lecture tool
               </div>
             </div>
           </div>
@@ -111,7 +114,6 @@
   <script>
     ScrollReveal().reveal("#create-lecture-graphic", { delay: 300 });
     ScrollReveal().reveal("#create-lecture-info", { delay: 300 });
-    ScrollReveal().reveal(".buttons", { delay: 300 });
   </script>
   <script type="text/javascript" async defer src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/6.4.0/adapter.min.js"></script>
   <script src="/lib/janus.js" async defer></script>

@@ -41,6 +41,7 @@ export default function initializeGuestRTC(roomId) {
         },
         onremotestream(stream) {
           const webcam = document.getElementById('webcam');
+          const whiteboard = document.getElementById('whiteboard');
           const speaker = document.getElementById('speaker');
           const videoTrack = stream.getVideoTracks()[0];
           if (stream.getTracks().length === 2) {

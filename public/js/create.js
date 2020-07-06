@@ -6,8 +6,12 @@ const janusUrl = getJanusUrl();
 const createBut = document.querySelector('#create-lecture');
 const invalidEmailDiv = document.getElementById('invalid-email');
 const invalidNameDiv = document.getElementById('invalid-lecturename');
+const invalidToolsDiv = document.getElementById('invalid-tools');
 const emailInput = document.querySelector('#email');
 const nameInput = document.querySelector('#lectureName');
+const audioCheckbox = document.querySelector('#audio-check');
+const whiteboardCheckbox = document.querySelector('#whiteboard-check');
+const webcamCheckbox = document.querySelector('#webcam-check');
 function isValidEmail(email) {
   return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
 }
@@ -16,7 +20,12 @@ createBut.addEventListener('click', (e) => {
   e.preventDefault();
   const lectureName = nameInput.value;
   const lectureEmail = emailInput.value;
-  if (lectureName === '') {
+  if (!audioCheckbox.checked && !webcamCheckbox.checked && !whiteboardCheckbox.checked) {
+    invalidToolsDiv.style.opacity = 1;
+    invalidEmailDiv.style.opacity = 0;
+    invalidNameDiv.style.opacity = 0;
+  } else if (lectureName === '') {
+    invalidToolsDiv.style.opacity = 0;
     invalidEmailDiv.style.opacity = 0;
     invalidNameDiv.style.opacity = 1;
   } else if (lectureEmail === '' || isValidEmail(lectureEmail)) {
@@ -39,6 +48,11 @@ createBut.addEventListener('click', (e) => {
                           name: lectureName,
                           email: lectureEmail,
                           roomId: res.room,
+                          lectureTools: {
+                            audio: audioCheckbox.checked,
+                            webcam: webcamCheckbox.checked,
+                            whiteboard: whiteboardCheckbox.checked,
+                          },
                         });
                         fetch('/create', buildPostRequestOpts(body))
                           .then((response) => {
@@ -64,6 +78,7 @@ createBut.addEventListener('click', (e) => {
   } else {
     invalidNameDiv.style.opacity = 0;
     invalidEmailDiv.style.opacity = 1;
+    invalidToolsDiv.style.opacity = 0;
   }
 });
 

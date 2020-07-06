@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable no-undef */
 /* eslint-disable no-use-before-define */
 /* eslint-disable no-fallthrough */
@@ -18,7 +19,8 @@ function beginLecture(stream) {
   const whiteboard = new Whiteboard('canvas');
 
   const canvasStream = whiteboard.getStream();
-  // stream.addTrack(canvasStream.getTracks()[0]);
+  stream = stream || canvasStream;
+
   const socket = io('/', { query: `id=${managerId}` });
 
   socket.on('currentBoard', (studentSocketId) => {
@@ -60,7 +62,9 @@ window.onload = () => {
                     || navigator.mozGetUserMedia
                     || navigator.msGetUserMedia;
 
-  getUserMedia({ audio: true, video: true }).then((stream) => {
+  const isWebcamActive = document.getElementById('webcam') !== null;
+  const isAudioActive = document.getElementById('audio') !== null;
+  const start = (stream = null) => {
     initializeModal(stream);
     $('#modal-select-button').click(() => {
       fetch(`/validate/lecture?id=${managerId}`).then((req) => {
@@ -79,8 +83,14 @@ window.onload = () => {
         }
       });
     });
-  }).catch((error) => {
-    // handle error properly here.
-    console.log(`Media error: ${error}`);
-  });
+  };
+
+  if (isWebcamActive || isAudioActive) {
+    getUserMedia({ audio: isAudioActive, video: isWebcamActive })
+      .then(start)
+      .catch((error) => {
+      // handle error properly here.
+        console.log(`Media error: ${error}`);
+      });
+  } else start();
 };

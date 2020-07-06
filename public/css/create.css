@@ -169,10 +169,36 @@
   }
 
   .buttons{
+    position: relative;
+    bottom: 10px;
     width: 100%;
     background-color: transparent;
     display: flex;
     flex-direction: row;
+  }
+
+  div.buttons a {
+    text-decoration: none;
+    color: white;
+    background: rgb(70, 194, 255);
+    background: linear-gradient(
+      135deg,
+      rgba(70, 194, 255, 1) 0%,
+      rgba(189, 31, 250, 1) 100%
+    );
+    border: none;
+    border-radius: 2px;
+    box-shadow: 0 0 17.5px rgba(189, 31, 250, 1);
+    -webkit-box-shadow: 0 0 17.5px rgba(189, 31, 250, 1);
+    outline: none;
+    width: 160px;
+    height: 45px;
+    text-align: center;
+    margin: auto;
+    transition: 1.5s;
+    cursor: pointer;
+    align-items: center;
+    justify-content:center;
   }
   
   @media only screen and (max-width: 460px) {
@@ -223,10 +249,13 @@
     position: absolute;
     opacity: 0;
     transition: .6s ease;
+    display: inline-block;
     color: rgb(255, 95, 95);
-    left: 180px;
+    left: 50%;
+    transform: translateX(-50%);
     font-size: .9em;
-    top: 37px;
+    width: 100%;
+    bottom: 25px;
   }
 
   .relative{

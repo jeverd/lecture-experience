@@ -60,7 +60,9 @@ export default function initializeManagerRTC(roomId, stream, canvasStream) {
             publishFeed(stream);
           } else {
             publishFeed(stream);
-            publishFeed(canvasStream);
+            if (stream !== canvasStream) {
+              publishFeed(canvasStream);
+            }
           }
         },
       });

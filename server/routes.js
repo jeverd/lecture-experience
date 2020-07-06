@@ -15,10 +15,6 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(publicPath, 'index.html'));
 });
 
-app.get('/testjanus', (req, res) => {
-  res.sendFile('testjanus.html', { root: path.join(publicPath) });
-});
-
 app.get('/create', (req, res) => {
   res.sendFile('create.html', { root: path.join(publicPath) });
 });
@@ -26,11 +22,13 @@ app.get('/create', (req, res) => {
 app.post('/create', (req, res) => {
   logger.info('POST request received: /create');
   const managerId = uuidv4();
-  const { name, email, roomId } = req.body;
+  const {
+    name, email, roomId, lectureTools,
+  } = req.body;
   const newLectureStats = new Stats(name);
   newLectureStats.addUserTrack(new Date(), 0);
   redisClient.hmset('stats', { [roomId]: JSON.stringify(newLectureStats) });
-  redisClient.hmset('rooms', { [roomId]: JSON.stringify(new Room(name, managerId)) });
+  redisClient.hmset('rooms', { [roomId]: JSON.stringify(new Room(name, managerId, lectureTools)) });
   redisClient.hmset('managers', { [managerId]: JSON.stringify(new Manager(roomId, email)) });
 
   logger.info('POST /create successfully added room and manager id to redis');
