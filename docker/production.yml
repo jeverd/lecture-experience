@@ -63,7 +63,5 @@ services:
       network_mode: "host"   # coturn docker docs mentioned to do this, means that docker container doesnt gets its own ip.
       volumes:
         - ./docker-config/turnserver.conf:/etc/coturn/turnserver.conf:ro
-      links:
-        - redis_db
 
 
