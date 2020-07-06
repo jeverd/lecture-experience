@@ -40,13 +40,20 @@ export default function initializeGuestRTC(roomId) {
           }
         },
         onremotestream(stream) {
-          const audioTrack = stream.getAudioTracks()[0];
-          const speaker = document.getElementById('speaker');
-          addStream(speaker, audioTrack);
           const webcam = document.getElementById('webcam');
-          addStream(webcam, stream.getVideoTracks()[0]);
-          // const whiteboard = document.getElementById('whiteboard');
-          // addStream(whiteboard, stream.getVideoTracks()[1]);
+          const speaker = document.getElementById('speaker');
+          const videoTrack = stream.getVideoTracks()[0];
+          if (stream.getTracks().length === 2) {
+            if (webcam !== null) {
+              addStream(webcam, videoTrack);
+            } else {
+              addStream(whiteboard, videoTrack);
+            }
+            const audioTrack = stream.getAudioTracks()[0];
+            addStream(speaker, audioTrack);
+          } else {
+            addStream(whiteboard, videoTrack);
+          }
         },
       });
     });

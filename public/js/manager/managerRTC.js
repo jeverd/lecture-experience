@@ -2,10 +2,52 @@
 /* eslint-disable no-undef */
 import { getJanusUrl, addStream } from '../utility.js';
 
-export default function initializeManagerRTC(roomId, stream) {
+export default function initializeManagerRTC(roomId, stream, canvasStream) {
   const janusUrl = getJanusUrl();
   let janus;
-  let janusHandler;
+
+  function publishFeed(feedStream) {
+    let feedHandle;
+    janus.attach({
+      plugin: 'janus.plugin.videoroom',
+      success(handle) {
+        feedHandle = handle;
+        feedHandle.send({
+          message: {
+            request: 'join', ptype: 'publisher', room: roomId,
+          },
+        });
+      },
+      onmessage(feedMsg, feedJsep) {
+        if (feedJsep && feedJsep.type === 'answer') {
+          feedHandle.handleRemoteJsep({ jsep: feedJsep });
+        }
+        if (feedMsg.videoroom === 'joined') {
+          const feedRequest = { request: 'configure', display: '' };
+          feedRequest.video = feedStream.getVideoTracks().length > 0;
+          feedRequest.audio = feedStream.getAudioTracks().length > 0;
+          feedHandle.createOffer({
+            stream: feedStream,
+            success(offerJsep) {
+              feedHandle.send({
+                message: feedRequest,
+                jsep: offerJsep,
+              });
+            },
+          });
+        }
+      },
+      onlocalstream(localStream) {
+        const videoTracks = localStream.getTracks().filter((track) => track.kind === 'video');
+        videoTracks.forEach((video) => {
+          if (typeof video.canvas === 'undefined') {
+            const webcamOutput = document.querySelector('#webcam');
+            addStream(webcamOutput, video);
+          }
+        });
+      },
+    });
+  }
 
   Janus.init({
     debug: 'all',
@@ -13,42 +55,13 @@ export default function initializeManagerRTC(roomId, stream) {
       janus = new Janus({
         server: janusUrl,
         success() {
-          janus.attach({
-            plugin: 'janus.plugin.videoroom',
-            success(pluginHandle) {
-              janusHandler = pluginHandle;
-              janusHandler.send({
-                message: {
-                  request: 'join', ptype: 'publisher', room: roomId,
-                },
-              });
-            },
-            onmessage(msg, jsep) {
-              if (jsep && jsep.type === 'answer') {
-                janusHandler.handleRemoteJsep({ jsep });
-              }
-              if (msg.videoroom === 'joined') {
-                janusHandler.createOffer({
-                  stream,
-                  success(offerJsep) {
-                    janusHandler.send({
-                      message: { request: 'configure', video: true, audio: true },
-                      jsep: offerJsep,
-                    });
-                  },
-                });
-              }
-            },
-            onlocalstream(localStream) {
-              const videoTracks = localStream.getTracks().filter((track) => track.kind === 'video');
-              videoTracks.forEach((video) => {
-                if (typeof video.canvas === 'undefined') {
-                  const webcamOutput = document.querySelector('#webcam');
-                  addStream(webcamOutput, video);
-                }
-              });
-            },
-          });
+          if (stream.getVideoTracks().length === 0) {
+            stream.addTrack(canvasStream.getTracks()[0]);
+            publishFeed(stream);
+          } else {
+            publishFeed(stream);
+            publishFeed(canvasStream);
+          }
         },
       });
     },
