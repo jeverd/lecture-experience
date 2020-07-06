@@ -29,7 +29,6 @@ export default function initializeActionsMenu(socket, whiteboard, stream) {
           break;
         case 'add-page':
           addBoard(socket, whiteboard, stream);
-          
           break;
         case 'remove-page':
           removeBoard(socket, whiteboard, stream);

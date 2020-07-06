@@ -18,7 +18,7 @@ function beginLecture(stream) {
   const whiteboard = new Whiteboard('canvas');
 
   const canvasStream = whiteboard.getStream();
-  stream.addTrack(canvasStream.getTracks()[0]);
+  // stream.addTrack(canvasStream.getTracks()[0]);
   const socket = io('/', { query: `id=${managerId}` });
 
   socket.on('currentBoard', (studentSocketId) => {
@@ -45,7 +45,7 @@ function beginLecture(stream) {
     initializeCanvasTopMenu(socket, whiteboard, room.lecture_details.id);
     initializeToolsMenu(whiteboard);
     initializeActionsMenu(socket, whiteboard, canvasStream);
-    initializeManagerRTC(room.lecture_details.id, stream);
+    initializeManagerRTC(room.lecture_details.id, stream, canvasStream);
     initializeBoards(socket, whiteboard, boards, boardActive, canvasStream);
     initializeChat(socket, room.lecture_details.id);
   });

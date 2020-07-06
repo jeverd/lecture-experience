@@ -110,7 +110,6 @@ export function addBoard(socket, whiteboard, stream) {
 }
 
 export function removeBoard(socket, whiteboard, stream) {
-  // LEMBRAR DE ATUALIZAR O GUEST SIDE PRA ACEITAR OS DOIS TIPOS DE VIDEO
   whiteboard.clearCanvas();
   if (whiteboard.boards.length > 1) {
     whiteboard.boards.splice(whiteboard.currentBoard, 1);
@@ -132,8 +131,6 @@ export default function initializeBoards(socket, whiteboard, boards, boardActive
   } else {
     createNonActiveBoardElem(socket, whiteboard, whiteboard.getImage(), true, stream);
   }
-
-  // $('.canvas-toggle-bar').show();
 
   document.querySelector('.scroll-boards-view-left').addEventListener('click', () => {
     $('.canvas-toggle-nav').animate({ scrollLeft: '-=120px' }, 150, () => {
