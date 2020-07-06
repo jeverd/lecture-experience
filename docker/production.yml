@@ -6,8 +6,6 @@ services:
       volumes:
         - ./docker-config/redis_prod.conf:/redis.conf
       command: [ "redis-server", "/redis.conf" ]
-      networks:
-        - turn_network
     web-server:
       image: jeverd/liteboard-ngnix:latest
       ports:
@@ -63,10 +61,5 @@ services:
       network_mode: "host"   # coturn docker docs mentioned to do this, means that docker container doesnt gets its own ip.
       volumes:
         - ./docker-config/turnserver.conf:/etc/coturn/turnserver.conf:ro
-      networks:
-        - turn_network
-networks:
-  turn_network:
-
 
 
