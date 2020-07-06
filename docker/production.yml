@@ -67,7 +67,6 @@ services:
         - turn_network
 networks:
   turn_network:
-    name: turn_network
 
 
 
