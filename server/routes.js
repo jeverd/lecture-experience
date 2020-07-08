@@ -4,10 +4,13 @@ const { v4: uuidv4 } = require('uuid');
 const { app } = require('./servers');
 const redisClient = require('./servers').client;
 const { logger } = require('./services/logger/logger');
+const credsGenerator = require('./services/credsGenerator');
 const Stats = require('./models/stats');
 const Manager = require('./models/manager');
 const Room = require('./models/room');
-const { expressPort, environment } = require('../config/config');
+const {
+  expressPort, environment, turnServerSecret, redisTurnDbNumber,
+} = require('../config/config');
 
 const publicPath = path.join(__dirname, '../public');
 
@@ -132,6 +135,20 @@ app.get('/error', (req, res) => {
   } else {
     res.redirect('/');
   }
+});
+
+app.get('/turnCreds', (req, res) => {
+  redisClient.select(redisTurnDbNumber, (err) => {
+    const name = uuidv4();
+    if (err) res.status(500).json({ error: `Could not select correct redis db: ${err}` });
+    // !!lets not expose the secret!!!
+    const { username, password } = credsGenerator(name, turnServerSecret);
+    redisClient.set(username, password, (err) => {
+      if (err) res.status(500).json({ error: `Couldnot add turn creds to redis: ${err}` });
+      console.log(username, password);
+      res.json({ username, password, ttl: 86400 }); // 86400 refers to one day, recommended here https://tools.ietf.org/html/draft-uberti-behave-turn-rest-00#section-2
+    });
+  });
 });
 
 app.get('*', (req, res) => {

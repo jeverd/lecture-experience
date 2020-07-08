@@ -34,4 +34,6 @@ module.exports = {
   sessionSecret: process.env.SESSION_SECRET,
   sessionName: process.env.SESSION_NAME,
   redisTest: process.env.REDIS_TEST,
+  redisTurnDbNumber: process.env.REDIS_TURN_DB_NUMBER,
+  turnServerSecret: process.env.TURN_SERVER_SECRET,
 };
