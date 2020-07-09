@@ -1103,6 +1103,51 @@ div.messages.active-chat{
   #message-input{
     width: 100px;
   }
+
+  .mic-test-comment{
+    font-size: 13px !important;
+  }
+
+  .custom-select__trigger{
+    height: 37px !important;
+  }
+
+  .mic-test-header{
+    font-size: 16px !important;
+  }
+
+  .device-header{
+    font-size: 16px !important;
+  }
+
+  .microphone{
+    font-size: 25px !important;
+    position: relative;
+    left: 5px;
+  }
+
+  .mic-content-header{
+    font-size: 18px!important;
+  }
+
+  .myProgress{
+    width: 7px !important;
+  }
+
+  .test-mic-button{
+    width: 80px !important;
+    font-size: 13px;
+  }
+
+  .custom-select-wrapper{
+    left: -10px;
+  }
+}
+
+@media only screen and (max-width: 470px){
+  #myProgress{
+    left: 10px !important;
+  }
 }
 
 #toggle-messages {
@@ -1312,6 +1357,14 @@ div.messages.active-chat{
   .modal-url-share-container{
     width: 70vw;
   }
+
+  .custom-option{
+    font-size: 2.5vw!important;
+  }
+
+  .custom-select__trigger{
+    font-size: 2.5vw!important;
+  }
 }
 
 .modal-url-share{
@@ -1363,8 +1416,8 @@ div.messages.active-chat{
 }
 
 .back-button{
-  position: relative;
-  left: -250px;
+  display: flex;
+  justify-content: flex-start;
 }
 
 .cog{
@@ -1528,7 +1581,7 @@ div.messages.active-chat{
 
 .myProgress {
   position: relative;
-  width: 10px;
+  width: 9px;
   height: 30px;
   border-radius: 4px;
   background-color: grey;
