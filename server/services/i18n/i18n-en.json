@@ -1,3 +1,11 @@
 {
-  "welcome": "Welcome"
+  "indexCreateLecture": "Create Lecture",
+  "indexLearnMore": "Learn More",
+  "indexLearn": "Learn",
+  "indexTeach": "Teach",
+  "indexFromAnywhere": "from anywhere",
+  "indexProvidesA": "provides a",
+  "indexDecentralizedExp": "decentralized lightweight online lecture experience",
+  "indexWeOffer": "This means we offer, free of charge, a service that doesn't relly on accounts or downloads, and that ",
+  "indexLowLatency": "supports an entire classroom ensuring low and stable latency."
 }

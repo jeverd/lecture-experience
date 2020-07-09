@@ -56,10 +56,10 @@
         <img src="/mobileBanner.png" id="banner-style-2" />
         <div class="buttons">
           <a href="/create" id="start-lecture-button">
-            <span>Create Lecture</span>
+            <span>{{#lang}}{{indexCreateLecture}}{{/lang}}</span>
           </a>
           <a id="join-lecture-button">
-            <span>Learn More</span>
+            <span>{{#lang}}{{indexLearnMore}}{{/lang}}</span>
           </a>
         </div>
       </div>
@@ -69,22 +69,33 @@
     <div id="learn-more" class="teach-container">
       <div class="teach-content-container">
         <p class="teach-learn-header">
-          <span class="teach-learn-text"></span> from anywhere
+          <style>
+            .teach-learn-text::after {
+              content: "{{#lang}}{{indexTeach}}{{/lang}}";
+              color: #46c2ff;
+              background: linear-gradient(to right, #bd11fa 0%, #46c2ff 100%);
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+            }
+
+            .teach-learn-text:hover::after {
+              transition: 2s;
+              content: "{{#lang}}{{indexLearn}}{{/lang}}";
+            }
+          </style>
+          <!-- <span class="teach-learn-text"></span> -->
+          <span class="teach-learn-text"></span>
+          {{#lang}}{{indexFromAnywhere}}{{/lang}}
         </p>
         <img
           src="/whiteboardGraphicGradientV2.png"
           id="teach-whiteboard-graphic"
         />
         <p class="teach-learn-paragraph">
-          <span class="highlighted-text">Liteboard</span> provides a
-          <span class="highlighted-text"
-            >decentralized lightweight online experience.</span
-          >
-          This means we offer the quickest solution to hosting an online
-          learning experience. This experience provides
-          <span class="highlighted-text"
-            >a classroom outside of the classroom.</span
-          >
+          <span class="highlighted-text">Liteboard</span> {{#lang}}{{indexProvidesA}}{{/lang}}
+          <span class="highlighted-text">{{#lang}}{{indexDecentralizedExp}}{{/lang}}.</span>
+          {{#lang}}{{indexWeOffer}}{{/lang}}
+          <span class="highlighted-text">{{#lang}}{{indexLowLatency}}{{/lang}}</span>
         </p>
       </div>
     </div>

@@ -1,3 +1,11 @@
 {
-  "welcome": "Bem-vindo"
+  "indexCreateLecture": "Criar Aula",
+  "indexLearnMore": "Leia Mais",
+  "indexLearn": "Aprenda",
+  "indexTeach": "Ensine",
+  "indexFromAnywhere": "de qualquer lugar",
+  "indexProvidesA": "promove uma",
+  "indexDecentralizedExp": "experiência de aula online descentralizada e leve",
+  "indexWeOffer": "Isso quer dizer que oferecemos, de maneira gratuita, um serviço que não requer downloads ou criação de conta, e que",
+  "indexLowLatency": "garante latência baixa e estável para uma turma inteira."
 }
