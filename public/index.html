@@ -29,6 +29,22 @@
         <a href="#">upgrade your browser</a> to improve your experience.
       </p>
     <![endif]-->
+    <div class="set-languages" action="/setLanguage">
+      <form action="/setLanguage">
+        <input type="hidden" name="langCode" value="pt-BR"/>
+        <input type="hidden" name="ref" value="/"/>
+        <button type="submit">
+          <img src="/brazil.svg" height="33"/>&nbsp;<span>Português</span>
+        </button>
+      </form>
+      <form action="/setLanguage">
+        <input type="hidden" name="langCode" value="en-US"/>
+        <input type="hidden" name="ref" value="/"/>
+        <button type="submit">
+          <img src="/uk.svg" height="33"/>&nbsp;<span>English</span>
+        </button>
+      </form>
+    </div>
 
   <div class="landing-container">
     <div class="landing-grid">
@@ -42,15 +58,15 @@
           <a href="/create" id="start-lecture-button">
             <span>Create Lecture</span>
           </a>
-          <a href="/" id="join-lecture-button">
-            <span>Join Lecture</span>
+          <a id="join-lecture-button">
+            <span>Learn More</span>
           </a>
         </div>
       </div>
     </div>
   </div>
 
-    <div class="teach-container">
+    <div id="learn-more" class="teach-container">
       <div class="teach-content-container">
         <p class="teach-learn-header">
           <span class="teach-learn-text"></span> from anywhere
@@ -130,6 +146,7 @@
     <h2 class="responsive-condition">
       Sorry, Liteboard isn't supported on this device yet
     </h2>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
     <script>
       ScrollReveal().reveal(".landing-graphic", { delay: 100 });
@@ -142,6 +159,12 @@
       ScrollReveal().reveal("#about-content-2", { delay: 600 });
       ScrollReveal().reveal("#about-content-3", { delay: 1100 });
       ScrollReveal().reveal("#about-content-4", { delay: 1600 });
+
+      $("#join-lecture-button").click(function() {
+        $('html, body').animate({
+            scrollTop: $("#learn-more").offset().top
+        }, 1000);
+      });
     </script>
     <script src="" async defer></script>
   </body>

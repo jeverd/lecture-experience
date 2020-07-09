@@ -38,6 +38,9 @@ body {
   margin: auto;
   width: 60%;
   background-color: transparent;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  -webkit-font-smoothing: subpixel-antialiased;
 }
 
 .landing-info img {
@@ -54,7 +57,7 @@ body {
 
 .buttons > a > span{
   position:relative;
-  top:12.5px;
+  top:11px;
 }
 .buttons a {
   text-decoration: none;
@@ -67,8 +70,8 @@ body {
   );
   border: none;
   border-radius: 2px;
-  box-shadow: 0 0 30px rgba(189, 31, 250, 1);
-  -webkit-box-shadow: 0 0 30px rgba(189, 31, 250, 1);
+  box-shadow: 0 0 15px rgba(189, 31, 250, 1);
+  -webkit-box-shadow: 0 0 15px rgba(189, 31, 250, 1);
   outline: none;
   width: 160px;
   height: 45px;
@@ -78,11 +81,12 @@ body {
   cursor: pointer;
   align-items: center;
   justify-content:center;
+  transition: 1.5s;
 }
 
 .buttons a:hover {
-  transition: 1.5s;
-  transform: scale(1.05);
+  box-shadow: 0 0 30px rgba(189, 31, 250, 1);
+  -webkit-box-shadow: 0 0 30px rgba(189, 31, 250, 1);
 }
 
 .landing-graphic {
@@ -158,7 +162,7 @@ body {
 
 .teach-container {
   background-color: #21212e;
-  height: auto;
+  height: 100vh;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -192,13 +196,13 @@ body {
 
 .teach-container img {
   margin: auto;
-  width: 800px;
+  width: 750px;
 }
 
 .teach-content-container .teach-learn-paragraph {
-  margin-top: 3rem;
+  margin-top: 1.5rem;
   text-align: center;
-  width: 800px;
+  max-width: 800px;
   font-size: 1.1rem;
 }
 
@@ -439,3 +443,38 @@ body {
     color: whitesmoke;
   }
 }
+
+.set-languages{
+  position: absolute;
+  top: 15px; 
+  right: 15px;
+  display:flex;
+}
+
+
+
+.set-languages form {
+  margin-right: 10px;
+}
+
+.set-languages button {
+  opacity: 0.8;
+  outline: none;
+  border: none;
+  color:white;
+  background: transparent;
+  font-weight: 700;
+  font-size: .8rem;
+  cursor: pointer;
+  transition: 0.4s ease;
+}
+
+.set-languages button:hover{
+  opacity: 1;
+}
+
+.set-languages span {
+  position: relative;
+  bottom: 10px;
+}
+
