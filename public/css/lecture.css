@@ -362,4 +362,292 @@ div.messages {
     box-shadow: 0px 0px 20px 1px rgba(0,0,0,0.75);
   }
 
+  /* The Modal (background) */
+.login-modal {
+  display: block; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 11; /* Sit on top */
+  margin: 0 auto;
+  top: 50%;
+  left: 50%;/*put in the center*/
+  transform: translate(-50%, -50%);
+  
+  width: 100%; /* Full width */
+  height: 100%;
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.7); /* Black w/ opacity */
+  
+}
+
+/* Modal Content */
+.login-modal-content {
+  display: block;/* default */
+  background-color: var(--bg-primary);
+  margin: auto;
+  padding: 20px;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  max-width: 600px;
+  max-height: 75%;
+  width: 75%;
+  border-radius: 10px;
+  animation: fadein 0.7s;
+  overflow: hidden;
+  -webkit-box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+}
+
+:root {
+  font-size: 16px;
+  font-family: 'Muli', sans-serif, 'Open Sans';
+  --text-primary: #b6b6b6;
+  --text-secondary: #ececec;
+  --bg-primary: #23232e;
+  --bg-secondary: #141418;
+  --transition-speed: 600ms;
+}
+
+.modal-main-content{
+  margin: 30px;
+}
+
+#modal-content-header {
+  color: white;
+  text-align: center;
+  font-size: calc(35px + 1.5vw);
+  position: relative;
+  left: 4px;
+  margin: 0 !important;
+}
+
+.details-header{
+  color: white;
+  text-align: left;
+  font-size: 21px;
+  font-weight: 700;
+}
+
+.note-header{
+  color: grey;
+  text-align: left;
+  font-size: 13px;
+}
+
+#modal-image {
+  max-height: 80%;
+  max-width: 50%;
+
+  /* center image */
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#modal-buttons-container {
+  position: relative;
+  display: inline-block;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem 0rem;
+  left: 50%;
+  top: 70px;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.live-button{
+  margin: 10px;
+  font-size: 1.5rem;
+  color: white;
+  background: linear-gradient(
+    135deg,
+    rgba(70, 194, 255, 1) 0%,
+    rgba(189, 31, 250, 1) 100%
+  );
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  border: none;
+  border-radius: 40px;
+  max-width: 280px;
+  min-width: 200px;
+  width: 30vw;
+  max-height: 65px;
+  height: calc(47.5px + 2vw);
+  min-height: 50px;
+  transition: .4s ease;
+  cursor: pointer;
+  text-decoration: none;
+  outline: none;
+  font-family: inherit;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+
+.live-button:hover{
+  transform: scale(1.05);
+}
+
+.test-mic{
+  position: relative;
+  top: 0px;
+  left: 2px;
+  color:white;
+}
+
+.test-mic-container{
+  opacity: 0.8;
+  transition: 0.4s ease;
+  cursor: pointer;
+  width: 100px;
+}
+
+.test-mic-container:hover{
+  opacity: 1;
+}
+
+.test-mic-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  position: relative;
+}
+
+.mic-button{
+  width: 160px;
+}
+
+.cog{
+  color: rgb(83, 81, 81);
+}
+
+.test-mic{
+  position: relative;
+  top: 0px;
+  left: 2px;
+  color:white; 
+}
+
+.go-back-modal{
+  position: relative;
+  top: 0px;
+  left: 2px;
+  color:white;
+}
+
+.student-details-container{
+  padding-top: 30px;
+  padding-bottom: 20px;
+}
+
+.inputText{
+  color: white;
+  float: left;
+  font-size: 18px;
+  margin-left: 30px;
+}
+
+.create-lecture-inputs{
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding-right: 40px;
+}
+
+.inputBox{
+  float: right;
+  border-radius: 25px;
+  margin-left: 20px;
+  padding-right: 20px;
+  width: 60%;
+  height: 30px;
+  border-color: white;
+  box-shadow: 0px 0px 0px 0px white;
+  text-indent: 10px;
+  font-size: 18px;
+  outline: none;
+}
+
+.invalid-name{
+  position: absolute;
+  opacity: 0;
+  transition: .6s ease;
+  display: inline-block;
+  color: rgb(255, 95, 95);
+  left: 57%;
+  transform: translateX(-50%);
+  font-size: .9em;
+  width: 100%;
+  bottom: -20px;
+}
+
+@media only screen and (max-width: 720px) {
+  .create-lecture-inputs{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-right: 0px;
+    align-items: center;
+  }
+
+  .inputBox{
+    margin-left: 0px;
+    padding-right: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    float: unset;
+    margin-top: 10px;
+    width: 300px;
+  }
+  .inputText{
+    float: unset;
+    display: flex;
+    align-items: center;
+    margin-left: 0px;
+  }
+
+  #modal-content-header{
+    font-size: calc(30px + 1.5vw);
+  }
+
+  .invalid-name{
+    width: 120%;
+    left: 57%;
+  }
+  
+}
  
+@media only screen and (max-width: 600px) {
+  
+  #modal-content-header{
+    font-size: calc(22px + 1.5vw);
+  }
+
+  #modal-buttons-container{
+    top: 50px;
+  }
+
+  .details-header{
+    font-size: 18px;
+  }
+  
+  .live-button{
+    font-size: 1.2rem;
+  }
+
+  .invalid-name{
+    bottom: -20px;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  
+  .details-header{
+    font-size: 18px;
+  }
+  
+}

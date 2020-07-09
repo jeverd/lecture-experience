@@ -1151,10 +1151,6 @@ div.messages.active-chat{
   display: flex;
 }
 
-.messages-main div{
-  
-}
-
 .message-lecture-name{
   opacity: 0.4;
   font-weight: 800;
@@ -1289,13 +1285,6 @@ div.messages.active-chat{
   border-radius: 50%;
 }
 
-.facebook-color {
- 	background: #3b5998;
-}
-
-.twitter-color {
-  	background: #55acee;
-}
 
 .share-container{
   display: flex;

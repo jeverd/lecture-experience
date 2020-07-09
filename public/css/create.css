@@ -51,7 +51,7 @@
   }
   
   .create-button{
-    margin-bottom: 45px; 
+    margin-bottom: 35px; 
   }
   
   
@@ -73,7 +73,7 @@
   .tooltip {
     left: 12.5px;
     position: relative;
-    top: -34px;
+    top: -19px;
   }
   
   .tooltip > img{
@@ -142,21 +142,30 @@
   
     .tooltip{
       left: -5px;
+      top:-12px;
     }
     
     .tooltip .tooltiptext::after {
       left: 87.5%;
     }
-  
+    
+    .lecture-details{
+      padding-left: 20px !important;
+    }
+
+    .tools-title{
+      padding-left: 20px !important;
+    }
+
     #create-lecture-info{
-      width: 90%;
-      height: 180px;
+      width: 85%;
+      height: 400px;
     }
   
     #info{
       width: 90%;
     }
-  
+    
     .inputBox{
       width: 50%;
       left: -20px;
@@ -164,7 +173,7 @@
     }
   
     .inputText{
-      margin-left: 10px;
+      margin-left: 30px;
     }
   }
 
@@ -207,18 +216,34 @@
       flex-direction: column;
       position: relative;
       text-align: left;
-      padding-left: 15px;
+      padding-left: 20px;
       top: -6px;
     }
   
     #create-lectuire-info{
       margin-bottom: 0px !important;
     }
-  
+    
+    .boxes{
+      display: flex;
+      flex-direction: column !important;
+      padding: 0px !important;
+      padding-bottom: 30px !important;
+    }
+
+    .boxes div{
+      margin-top: 20px;
+    }
+
     .create-button{
       margin: 0 !important;
       position: relative;
-      bottom: 25px;
+      bottom: 35px;
+      padding-top: 10px;
+    }
+
+    .invalid-message{
+      bottom: -10px !important;
     }
   
     .inputBox{
@@ -228,14 +253,36 @@
       left: calc(-3% - 12px);
       top: 2px;
     }
-  
+
+    .info-inputs{
+      padding-bottom: 0px !important;
+      padding-top: 30px !important;
+    }
+
+    .type-lecture-inputs{
+      padding-bottom: 30px;
+    }
+    
+    .lecture-details{
+      padding-left: 15px;
+      padding-top: 100px !important;
+    }
+
+    .tools-title{
+      margin-top: 0px;
+      padding-left: 15px;
+    }
     .tooltip{
       left: -22.5px;
-      top: 47px;
+      top: -48px;
     }
   
     .create-lecture-inputs:last-child{
       margin-top:20px;
+    }
+    #create-lecture-info{
+      width: 80%;
+      height: 470px;
     }
   }
 
@@ -267,7 +314,7 @@
 
 .boxes {
   margin: auto;
-  padding: 40px;
+  padding: 30px;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -326,34 +373,27 @@ input[type="checkbox"]:checked + label:before {
 
 .tools-title{
   color: rgb(223, 223, 223);
-  position: relative;
-  top: 20px;
-  left: -117px;
-  margin-bottom: 10px;
+  display: flex;
+  margin-top: 15px;
   font-weight: 700;
   font-size: 20px;
 }
 
 .lecture-details{
   color: rgb(223, 223, 223);
+  padding-top: 0px;
+  display: flex;
   position: relative;
-  top: 12px;
-  left: -135px;
-  padding-bottom: 15px;
-  padding-top: 100px;
+  top: 10px;
+  margin-top: 100px;
   font-weight: 700;
   font-size: 22px;
 }
 
 .type-lecture-inputs{
-  margin: 20px;
-  position: relative;
-  top: 20px;
 }
 
 .info-inputs{
-  padding-top: 20px;
-  padding-bottom: 20px;
-  position: relative;
-  top: 20px;
+  padding-top: 40px;
+  padding-bottom: 40px; 
 }
