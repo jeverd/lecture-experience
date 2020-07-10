@@ -33,7 +33,6 @@ window.app = {
   tools: {
     pencil: new Tool({
       onMouseDown: function (event) {
-        console.log(project.layers);
         path = new Path({
           segments: [event.point],
           strokeCap: 'round',
@@ -94,7 +93,6 @@ window.app = {
       source: src,
       position: view.center,
     });
-    var layer = new Layer();
   },
   putImage: function (src, x, y) {
     new Raster({
