@@ -1,4 +1,5 @@
 {
+  "indexLandingCluster": "landingCluster-pt.png",
   "indexCreateLecture": "Criar Aula",
   "indexLearnMore": "Leia Mais",
   "indexLearn": "Estude",
@@ -7,5 +8,13 @@
   "indexProvidesA": "promove uma",
   "indexDecentralizedExp": "experiência de aula online descentralizada e leve",
   "indexWeOffer": "Isso quer dizer que oferecemos, de maneira gratuita, um serviço que não requer downloads ou criação de conta, e que",
-  "indexLowLatency": "garante latência baixa e estável para uma turma inteira."
+  "indexLowLatency": "garante latência baixa e estável para uma turma inteira.",
+  "indexLiveStreamed": "Aulas ao Vivo",
+  "indexLiveStreamedContent": "Utilizamos a tecnologia do WebRTC para garantir o melhor desempenho ao vivo disponivel para browsers",
+  "indexRecordLecture": "Grave suas Aulas",
+  "indexRecordLectureContent": "Você tem a opção de gravar suas aulas e deixá-las disponível aos alunos em nossa plataforma",
+  "indexIntegratedBoard": "Quadro Integrado",
+  "indexIntegratedBoardContent": "Use as ferramentas de desenho para criar quantos quadros você precisar com qualidade e consistência",
+  "indexAnalytics": "Análise Detalhada",
+  "indexAnalyticsContent": "Você tem acesso às estatísticas de sua aula com o gráfico gerado ao final da apresentação"
 }

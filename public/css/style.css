@@ -268,12 +268,16 @@ body {
 .about-container {
   margin-top: 4rem;
   margin-bottom: 4rem;
-  background-image: url(/liteboardLandingBGlightinverse2.png);
   height: auto;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+}
+
+.about-content-container{
+  background-image: url(/liteboardLandingBGlightinverse2.png);  
+  height: auto;
 }
 
 .about-content-grid {
@@ -283,6 +287,9 @@ body {
 }
 
 .icon {
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  -webkit-font-smoothing: subpixel-antialiased;
   border-radius: 69% 31% 26% 76% / 49% 65% 35% 52%;
   width: 10rem;
   height: 10rem;
@@ -328,10 +335,24 @@ body {
   color: white;
 }
 
+.about-content h2 > a {
+  font-size: .8rem;
+  position: relative;
+  color: white;
+  cursor: pointer;
+  text-decoration: none;
+  top: -7px;
+}
+
+.about-content h2 > a:hover{
+  text-decoration: underline;
+}
+
 .about-content p {
   margin-top: 0.2rem;
   font-size: 1rem;
-  color: white;
+  color: lightgray;
+  opacity: 1;
 }
 
 @media only screen and (max-width: 670px) {
