@@ -33,6 +33,10 @@ window.app = {
   tools: {
     pencil: new Tool({
       onMouseDown: function (event) {
+<<<<<<< HEAD
+=======
+        console.log(project.layers);
+>>>>>>> 13bc28d51aa870890f1b7ab49f46424cfb135338
         path = new Path({
           segments: [event.point],
           strokeCap: 'round',
