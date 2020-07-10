@@ -1,6 +1,7 @@
 /* eslint-disable no-shadow */
 const path = require('path');
 const { v4: uuidv4 } = require('uuid');
+const Sentry = require('@sentry/node');
 const { app } = require('./servers');
 const redisClient = require('./servers').client;
 const { logger } = require('./services/logger/logger');
@@ -137,3 +138,6 @@ app.get('/error', (req, res) => {
 app.get('*', (req, res) => {
   res.redirect('/error?code=1');
 });
+
+// error handling middleware, have to specify here, refer to docs https://docs.sentry.io/platforms/node/express/, error handlers should always be defined last
+app.use(Sentry.Handlers.errorHandler());  // will capture any statusCode of 500

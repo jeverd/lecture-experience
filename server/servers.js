@@ -7,18 +7,26 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const sharedSession = require('express-socket.io-session');
 const mustache = require('mustache-express');
-
+const Sentry = require('@sentry/node');
 const RedisStore = require('connect-redis')(session);
 const {
   redisHost, redisPort, redisTest, expressPort, environment,
-  redisUrl, loggerFlag, sessionSecret, sessionName,
+  redisUrl, loggerFlag, sessionSecret, sessionName, sentryDSN,
 } = require('../config/config');
+
 const { logger } = require('./services/logger/logger');
 const { logMiddleWare } = require('./services/logger/loggingMiddleware');
 
 
 const app = express();
+
+// sentry intergation
+Sentry.init({ dsn: sentryDSN });
+app.use(Sentry.Handlers.requestHandler());
+
 const expressServer = app.listen(expressPort);
+
+
 
 const io = socketio(expressServer, { cookie: false });
 
@@ -74,6 +82,9 @@ client.flushall((err, succeeded) => {
 client.on('connect', () => {
   logger.info(`Redis connected on port: ${redisPort}`);
 });
+
+app.use(Sentry.Handlers.errorHandler());
+
 
 module.exports = {
   app,

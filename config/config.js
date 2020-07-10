@@ -34,4 +34,5 @@ module.exports = {
   sessionSecret: process.env.SESSION_SECRET,
   sessionName: process.env.SESSION_NAME,
   redisTest: process.env.REDIS_TEST,
+  sentryDSN: process.env.SENTRY_DSN,
 };
