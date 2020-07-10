@@ -77,11 +77,10 @@ body {
   height: 45px;
   text-align: center;
   margin: auto;
-  transition: 1.5s;
   cursor: pointer;
   align-items: center;
   justify-content:center;
-  transition: 1.5s;
+  transition: 0.5s ease;
 }
 
 .buttons a:hover {
@@ -467,6 +466,7 @@ body {
 
 .set-languages{
   position: absolute;
+  z-index: 10000;
   top: 15px; 
   right: 15px;
   display:flex;

@@ -45,36 +45,36 @@
               </div>
             </div>
             <div class="type-lecture-inputs">
-              <span class="tools-title">{{#lang}}{{createSelectTools}}{{/lang}}:</span>
+              <span class="tools-title">{{#lang}}{{createWhatWillYouUse}}{{/lang}}:</span>
               <div class="boxes">
                 <div>
                   <input type="checkbox" id="audio-check" checked>
-                  <label for="audio-check">Audio</label>
+                  <label for="audio-check">{{#lang}}{{createAudio}}{{/lang}}</label>
                 </div>
                 <div>
                   <input type="checkbox" id="whiteboard-check" checked>
-                  <label for="whiteboard-check">Whiteboard</label>
+                  <label for="whiteboard-check">{{#lang}}{{createWhiteboard}}{{/lang}}</label>
                 </div>
                 <div>
                   <input type="checkbox" id="webcam-check">
-                  <label for="webcam-check">Webcam</label>
+                  <label for="webcam-check">{{#lang}}{{createWebcam}}{{/lang}}</label>
                 </div>
               </div>              
             </div>
             <div class="create-button">
               <div class="buttons">
                 <a id="create-lecture">
-                  <span>Start Lecture</span>
+                  <span>{{#lang}}{{createStartLecture}}{{/lang}}</span>
                 </a>
               </div>
               <div class="invalid-message" id="invalid-email">
-                Email provided is invalid
+                {{#lang}}{{createInvalidEmail}}{{/lang}}
               </div>
               <div class="invalid-message" id="invalid-lecturename">
-                Please provide a lecture name
+                {{#lang}}{{createInvalidLectureName}}{{/lang}}
               </div>
               <div class="invalid-message" id="invalid-tools">
-                Please selected at least one lecture tool
+                {{#lang}}{{createInvalidToolSelection}}{{/lang}}
               </div>
             </div>
           </div>

@@ -20,5 +20,12 @@
   "createLectureDetails": "Detalhes da Aula",
   "createLectureName": "Nome da Aula",
   "createYourEmail": "Seu Email",
-  "createSelectTools": "Selecione as Ferramentas da Aula"
+  "createWhatWillYouUse": "O que você irá usar?",
+  "createAudio": "Audio",
+  "createWebcam": "Webcam",
+  "createWhiteboard": "Quadro",
+  "createStartLecture": "Iniciar Aula",
+  "createInvalidEmail": "Email dado não é valido",
+  "createInvalidLectureName": "A aula precisa ter um nome",
+  "createInvalidToolSelection": "Escolha uma ferramenta de ensino"
 }
