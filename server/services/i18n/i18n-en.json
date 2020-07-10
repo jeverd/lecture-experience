@@ -16,5 +16,9 @@
   "indexIntegratedBoard": "Integrated Whiteboard",
   "indexIntegratedBoardContent": "Use the drawing tools to create as many boards as you want with great quality and consistency",
   "indexAnalytics": "In-depth Analytics",
-  "indexAnalyticsContent": "You can keep track of your class statistics by looking at the generated graph at the end of your lecture"
+  "indexAnalyticsContent": "You can keep track of your class statistics by looking at the generated graph at the end of your lecture",
+  "createLectureDetails": "Lecture Details",
+  "createLectureName": "Lecture Name",
+  "createYourEmail": "Your Email",
+  "createSelectTools": "Select Lecture Tools"
 }

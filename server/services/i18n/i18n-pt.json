@@ -16,5 +16,9 @@
   "indexIntegratedBoard": "Quadro Integrado",
   "indexIntegratedBoardContent": "Use as ferramentas de desenho para criar quantos quadros você precisar com qualidade e consistência",
   "indexAnalytics": "Análise Detalhada",
-  "indexAnalyticsContent": "Você tem acesso às estatísticas de sua aula com o gráfico gerado ao final da apresentação"
+  "indexAnalyticsContent": "Você tem acesso às estatísticas de sua aula com o gráfico gerado ao final da apresentação",
+  "createLectureDetails": "Detalhes da Aula",
+  "createLectureName": "Nome da Aula",
+  "createYourEmail": "Seu Email",
+  "createSelectTools": "Selecione as Ferramentas da Aula"
 }
