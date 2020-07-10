@@ -41,6 +41,7 @@ body,html{
     position: absolute;
     bottom:0;
     right:0;
+    border-bottom-right-radius: 25px;
   }
   
   .inputText{
