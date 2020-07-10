@@ -7,6 +7,7 @@
 
 body {
   background-color: #21212e;
+  overflow-x: hidden;
 }
 
 .responsive-condition {
@@ -110,6 +111,7 @@ body {
   #banner-style-2 {
     width: 125%;
   }
+
 }
 
 @media only screen and (max-width: 768px) {
@@ -129,6 +131,10 @@ body {
     transform: translateY(-10%);
   }
 
+  .landing-info div.buttons{
+    width: 75%;
+  }
+
   .landing-graphic img,
   #banner-style-1 {
     display: none;
@@ -144,16 +150,12 @@ body {
     width: 450px;
   }
 
+  .landing-info .buttons{
+    width: 120%;
+  }
+
   .landing-graphic img {
     width: 500px;
-  }
-
-  .landing-info .buttons {
-    flex-direction: column;
-  }
-
-  #join-lecture-button {
-    margin-top: 1rem;
   }
 }
 
@@ -236,6 +238,14 @@ body {
   .teach-container img {
     margin: auto;
     width: 400px;
+  }
+
+  .landing-info .buttons {
+    flex-direction: column;
+  }
+
+  #join-lecture-button {
+    margin-top: 1rem;
   }
 
   .teach-content-container .teach-learn-paragraph {

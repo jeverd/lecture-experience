@@ -28,5 +28,6 @@
   "createInvalidEmail": "Email dado não é valido",
   "createInvalidLectureName": "A aula precisa ter um nome",
   "createInvalidToolSelection": "Escolha uma ferramenta de ensino",
-  "createLectureTopImg": "createALecture-pt.png"
+  "createLectureTopImg": "createALecture-pt.png",
+  "createBackToHome": "Página Inicial"
 }

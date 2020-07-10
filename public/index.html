@@ -161,16 +161,33 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
     <script>
+      const slideDown = {
+        distance: '102%',
+        origin: 'right',
+        duration: 1200,
+        opacity: 0,
+      }
+      const slideFromTop = {
+        distance: '102%',
+        origin: 'top',
+        duration: 1200,
+        opacity: 0,
+      }
+      const slideUp = {
+          distance: '100.5%',
+          origin: 'bottom',
+          duration: 900,
+      };
       ScrollReveal().reveal(".landing-graphic", { delay: 100 });
-      ScrollReveal().reveal(".landing-info", { delay: 600 });
+      ScrollReveal().reveal(".landing-info", { delay: 600, });
       ScrollReveal().reveal(".buttons", { delay: 1100 });
-      ScrollReveal().reveal(".teach-learn-header", { delay: 200 });
-      ScrollReveal().reveal("#teach-whiteboard-graphic", { delay: 700 });
-      ScrollReveal().reveal(".teach-learn-paragraph", { delay: 1200 });
-      ScrollReveal().reveal("#about-content-1", { delay: 100 });
-      ScrollReveal().reveal("#about-content-2", { delay: 600 });
-      ScrollReveal().reveal("#about-content-3", { delay: 1100 });
-      ScrollReveal().reveal("#about-content-4", { delay: 1600 });
+      ScrollReveal().reveal(".teach-learn-header", { delay: 200, ...slideUp });
+      ScrollReveal().reveal("#teach-whiteboard-graphic", { delay: 500, ...slideDown });
+      ScrollReveal().reveal(".teach-learn-paragraph", { delay: 800, ...slideUp });
+      ScrollReveal().reveal("#about-content-1", { delay: 100, ...slideUp });
+      ScrollReveal().reveal("#about-content-2", { delay: 600, ...slideUp });
+      ScrollReveal().reveal("#about-content-3", { delay: 1100, ...slideUp });
+      ScrollReveal().reveal("#about-content-4", { delay: 1600, ...slideUp });
 
       $("#join-lecture-button").click(function() {
         $('html, body').animate({
