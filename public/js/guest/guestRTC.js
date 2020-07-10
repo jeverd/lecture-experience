@@ -3,7 +3,7 @@
 /* eslint-disable no-undef */
 import { getJanusUrl } from '../utility.js';
 
-export default function initializeGuestRTC(roomId) {
+export default async function initializeGuestRTC(roomId) {
   const janusUrl = getJanusUrl();
   let janus;
   let handle;
@@ -61,12 +61,21 @@ export default function initializeGuestRTC(roomId) {
     });
   }
 
+  let turnServerConfig;
+  const response = await fetch('/turncreds');
+  if (response.status === 200) {
+    const {
+      active, username, password, uri,
+    } = await response.json();
+    turnServerConfig = active ? [{ username, credential: password, urls: uri }] : [];
+  }
   Janus.init({
     callback() {
       janus = new Janus(
         {
           debug: 'all',
           server: janusUrl,
+          iceServers: turnServerConfig,
           success() {
             janus.attach(
               {

@@ -9,7 +9,7 @@ const Stats = require('./models/stats');
 const Manager = require('./models/manager');
 const Room = require('./models/room');
 const {
-  expressPort, environment, turnServerSecret, redisTurnDbNumber,
+  expressPort, environment, turnServerSecret, redisTurnDbNumber, turnServerActive, turnServerPort, turnServerEndpoint,
 } = require('../config/config');
 
 const publicPath = path.join(__dirname, '../public');
@@ -138,17 +138,25 @@ app.get('/error', (req, res) => {
 });
 
 app.get('/turnCreds', (req, res) => {
-  redisClient.select(redisTurnDbNumber, (err) => {
-    const name = uuidv4();
-    if (err) res.status(500).json({ error: `Could not select correct redis db: ${err}` });
-    // !!lets not expose the secret!!!
-    const { username, password } = credsGenerator(name, turnServerSecret);
-    redisClient.set(username, password, (err) => {
-      if (err) res.status(500).json({ error: `Couldnot add turn creds to redis: ${err}` });
-      console.log(username, password);
-      res.json({ username, password, ttl: 86400 }); // 86400 refers to one day, recommended here https://tools.ietf.org/html/draft-uberti-behave-turn-rest-00#section-2
+  if (!turnServerActive) {
+    // it was a success, but server is not active, so notifying client to not use turn servers.
+    res.json({ active: false });
+  } else {
+    redisClient.select(redisTurnDbNumber, (err) => {
+      const name = uuidv4();
+      const uri = environment === 'DEVELOPMENT' ? `turn:localhost:${turnServerPort}` : `turn:https://liteboard.io/${turnServerEndpoint}`;
+
+      if (err) res.status(500).json({ error: `Could not select correct redis db: ${err}` });
+      // !!lets not expose the secret!!!
+      const { username, password } = credsGenerator(name, turnServerSecret);
+      redisClient.set(username, password, (err) => {
+        if (err) res.status(500).json({ error: `Couldnot add turn creds to redis: ${err}` });
+        res.json({
+          username, password, ttl: 86400, uri, active: true,
+        }); // 86400 refers to one day, recommended here https://tools.ietf.org/html/draft-uberti-behave-turn-rest-00#section-2
+      });
     });
-  });
+  }
 });
 
 app.get('*', (req, res) => {

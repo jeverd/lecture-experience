@@ -36,4 +36,7 @@ module.exports = {
   redisTest: process.env.REDIS_TEST,
   redisTurnDbNumber: process.env.REDIS_TURN_DB_NUMBER,
   turnServerSecret: process.env.TURN_SERVER_SECRET,
+  turnServerEndpoint: process.env.TURN_SERVER_ENDPOINT,
+  turnServerPort: process.env.TURN_SERVER_PORT,
+  turnServerActive: (process.env.TURN_SERVER_ACTIVE === 'true'),
 };
