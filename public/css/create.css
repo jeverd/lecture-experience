@@ -1,25 +1,46 @@
 /* create page */
 
+* {
+  font-family: 'Open Sans', 'Lato', 'Lucida Grande', 'Lucida Sans Unicode', Tahoma, Sans-Serif, sans-serif;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body,html{
+  overflow-x: hidden;
+}
+
 #create-lecture-graphic{
     margin: auto auto;
     padding-top: 1%;
-    width: 85%;
+    width: 80%;
     max-width: 800px;
-    min-width: 300px;
+    min-width: 350px;
+    position: relative;
+    left: -5px;
   }
   
   #create-lecture-info{
     background-color:#21212e;
     height: 390px;
-    width: 500px;
+    max-width: 650px;
+    width: 85%;
+    position: relative;
+    bottom: 25px;
     margin: 0 auto;
     border-radius: 25px;
     box-shadow: 10px 10px 54px -6px rgba(0,0,0,0.75);
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 50px;
-    position: relative;
+    margin-bottom: 20px;
+  }
+
+  .lamp-background{
+    position: absolute;
+    bottom:0;
+    right:0;
   }
   
   .inputText{

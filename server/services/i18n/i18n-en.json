@@ -27,5 +27,6 @@
   "createStartLecture": "Start Lecture",
   "createInvalidEmail": "Email provided is invalid",
   "createInvalidLectureName": "The lecture must have a name",
-  "createInvalidToolSelection": "Select at least one teaching tool"
+  "createInvalidToolSelection": "Select at least one teaching tool",
+  "createLectureTopImg": "createALecture-en.png"
 }
