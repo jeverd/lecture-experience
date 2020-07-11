@@ -144,7 +144,7 @@ app.get('/turnCreds', (req, res) => {
   } else {
     redisClient.select(redisTurnDbNumber, (err) => {
       const name = uuidv4();
-      const uri = environment === 'DEVELOPMENT' ? `turn:localhost:${turnServerPort}` : `turn:${turnServerUrl}`;
+      const uri = environment === 'DEVELOPMENT' ? `turn:localhost:${turnServerPort}` : `turn:${turnServerUrl}:${turnServerPort}`;
 
       if (err) res.status(500).json({ error: `Could not select correct redis db: ${err}` });
       // !!lets not expose the secret!!!
