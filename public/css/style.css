@@ -624,7 +624,7 @@ body {
   box-shadow: 0 0 15px rgba(189, 31, 250, 1);
   -webkit-box-shadow: 0 0 15px rgba(189, 31, 250, 1);
   border: none;
-  border-radius: 40px;
+  border-radius: .25em;
   max-width: 280px;
   min-width: 200px;
   max-height: 65px;
