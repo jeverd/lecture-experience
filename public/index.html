@@ -136,6 +136,18 @@
           </div>
         </div>
       </div>
+
+      <hr class="final-divider"/>
+
+      <div class="final-message-container">
+        <p>
+          {{#lang}}{{indexFromStudentToProf}}{{/lang}}<br/>
+          {{#lang}}{{indexTryLiteboard}}{{/lang}}
+        </p>
+        <a href="/create">
+          <button>{{#lang}}{{indexCreateALecture}}{{/lang}}</button>
+        </a>
+      </div>
     </div>
 
     <div class="footer">
@@ -215,6 +227,8 @@
       ScrollReveal().reveal("#about-content-2", { delay: 600, ...slideUp });
       ScrollReveal().reveal("#about-content-3", { delay: 1100, ...slideUp });
       ScrollReveal().reveal("#about-content-4", { delay: 1600, ...slideUp });
+      ScrollReveal().reveal(".final-message-container p", { delay: 300, ...slideUp });
+      ScrollReveal().reveal(".final-message-container button", { delay: 450});
 
       $("#join-lecture-button").click(function() {
         $('html, body').animate({

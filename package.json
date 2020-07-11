@@ -4,7 +4,7 @@
   "description": "",
   "main": "servers.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "nodemon -e html,json,js index.js",
     "test": "set LOGGER=false && mocha --exit"
   },
   "repository": {
