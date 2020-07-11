@@ -63,9 +63,12 @@ services:
       command:
         - -c=/etc/coturn/turnserver.conf
         - --external-ip=$$(detect-external-ip)
+        - --min-port=49160
+        - --max-port=49200
       ports:
         - "3478:3478"
         - "3478:3478/udp"
+        - "49160-49200:49160-49200/udp"
       volumes:
         - ./docker-config/turnserver.conf:/etc/coturn/turnserver.conf:ro
 
