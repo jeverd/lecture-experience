@@ -51,7 +51,7 @@
                     <i class="fa fa-chevron-down"></i>
                 </button>
             </div>
-            
+
             <div style="position: relative;" class="video">
                 {{#lectureTools}}
                     {{#whiteboard}}
@@ -120,6 +120,45 @@
 
     
 
+    <div id="login-lecture-modal" class="login-modal">
+      <!-- Start Modal content -->
+        <div class="login-modal-content">
+            <div id="join-content" class="modal-main-content">
+                <p id="modal-content-header">Welcome to {{name}}</p>
+                <img id="modal-image" />
+                <div class="student-details-container">
+                    <p class="details-header">Student Details</p>
+                    <p class="note-header">Note: This name will be used by the professor to identify you, so choose it wisely.</p>
+                </div>
+                <div class="create-lecture-inputs">
+                    <label class="inputText" for="lectureName">Your Name:</label>
+                    <input class="inputBox" type="text" id="studentName" name="studentName">
+                </div>
+                <div id="modal-buttons-container">
+                    <div
+                      title="Test your microphone"
+                      id="test-mic"
+                      class="test-mic-container mic-button"
+                    >
+                      <i class="fa fa-cog cog"></i>
+                      &nbsp;
+                      <span class="test-mic">Select Speaker</span>
+                      &nbsp;
+                    </div>
+      
+                  <button id="modal-select-button" class="live-button">Join Lecture</button>
+                    
+                  <div class="invalid-name" id="invalid-student-name">
+                    Please provide a lecture user name
+                  </div>
+
+                  <!--<button class = "modal-select-button mic_button">Test Mic</button>-->
+                </div> 
+              </div>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/6.4.0/adapter.min.js"></script>
     <script src="/lib/janus.js"></script>
