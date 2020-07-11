@@ -35,5 +35,11 @@
   "createBackToHome": "Página Inicial",
   "deviceNotSupported":"Desculpe, Liteboard não está disponivel em seu dispositivo",
   "footerLanguage": "Idiomas",
-  "footerReportBug": "Reportar Bug"
+  "footerReportBug": "Reportar Bug",
+  "statsTitleStats": "Estatísticas de",
+  "statsMaxNum": "Máximo de alunos",
+  "statsAvgNum": "Média de alunos",
+  "statsBoardsUsed": "Quadros criados",
+  "statsDuration": "Duração da Aula",
+  "statsRateExperience": "Por favor nos dê seu feedback"
 }

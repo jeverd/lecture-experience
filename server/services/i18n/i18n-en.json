@@ -35,5 +35,11 @@
   "createBackToHome": "Back To Home",
   "deviceNotSupported":"Sorry, Liteboard isn't supported on this device yet",
   "footerLanguage": "Languages",
-  "footerReportBug": "Report Bug"
+  "footerReportBug": "Report Bug",
+  "statsTitleStats": "Analytics of",
+  "statsMaxNum": "Max of students",
+  "statsAvgNum": "Average of students",
+  "statsBoardsUsed": "Boards created",
+  "statsDuration": "Lecture duration",
+  "statsRateExperience": "Please rate your experience"
 }

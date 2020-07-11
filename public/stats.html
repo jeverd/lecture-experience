@@ -33,7 +33,7 @@
       <div class="infoBoard">
 
         <div class="titleText">
-            <div><span id="lecture-stats-title"></span>'s Analytics</div>
+            <div>{{#lang}}{{statsTitleStats}}{{/lang}}&nbsp;<span id="lecture-stats-title"></span></div>
         </div>
 
         <div style="padding-top: 0px; margin-top: -10px; margin-bottom: 15px;" class = "dividerBox">
@@ -43,12 +43,12 @@
 
         <div class="infoText">
           <div class="info" >
-              <div  class="left" >Max # of spectators:  <span class="right" id="max-specs"></span></div>
-              <div class="left" >Average # of spectators:  <span class="right" id="avg-specs"></span></div>
+              <div  class="left" >{{#lang}}{{statsMaxNum}}{{/lang}}: <span class="right" id="max-specs"></span></div>
+              <div class="left" >{{#lang}}{{statsAvgNum}}{{/lang}}: <span class="right" id="avg-specs"></span></div>
           </div>
           <div class="info infoleft">
-              <div class="left" >Boards used:  <span  class="right"id="boards-used"></span></div>
-              <div class="left" >Lecture Duration:  <span class="right" id="lecture-duration"></span></div>
+              <div class="left" >{{#lang}}{{statsBoardsUsed}}{{/lang}}: <span  class="right"id="boards-used"></span></div>
+              <div class="left" >{{#lang}}{{statsDuration}}{{/lang}}: <span class="right" id="lecture-duration"></span></div>
           </div>
         </div>
 
@@ -76,7 +76,7 @@
       </div>
 
       <div class="surveyText">
-          <div><span id="lecture-stats-title"></span>Please rate your experience</div>
+          <div><span id="lecture-stats-title"></span>{{#lang}}{{statsRateExperience}}{{/lang}}</div>
       </div>
       
 
