@@ -71,7 +71,7 @@ app.get('/lecture/:id', (req, res) => {
       let roomJson = room.pop();
       if (err === null && roomJson !== null) {
         roomJson = JSON.parse(roomJson);
-        const host = environment === 'DEVELOPMENT' ? `http://localhost:${expressPort}` : ;
+        const host = environment === 'DEVELOPMENT' ? `http://localhost:${expressPort}` : 'https://liteboard.io';
         const sharableUrl = `${host}/lecture/${roomId}`;
         roomJson.id = roomId;
         roomJson.sharableUrl = sharableUrl;
