@@ -29,5 +29,8 @@
   "createInvalidLectureName": "A aula precisa ter um nome",
   "createInvalidToolSelection": "Escolha uma ferramenta de ensino",
   "createLectureTopImg": "createALecture-pt.png",
-  "createBackToHome": "Página Inicial"
+  "createBackToHome": "Página Inicial",
+  "deviceNotSupported":"Desculpe, Liteboard não está disponivel em seu dispositivo",
+  "footerLanguage": "Idiomas",
+  "footerReportBug": "Reportar Bug"
 }

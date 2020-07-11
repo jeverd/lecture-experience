@@ -29,5 +29,9 @@
   "createInvalidLectureName": "The lecture must have a name",
   "createInvalidToolSelection": "Select at least one teaching tool",
   "createLectureTopImg": "createALecture-en.png",
-  "createBackToHome": "Back To Home"
+  "createBackToHome": "Back To Home",
+  "deviceNotSupported":"Sorry, Liteboard isn't supported on this device yet",
+  "footerLanguage": "Languages",
+  "footerReportBug": "Report Bug"
+
 }
