@@ -39,4 +39,5 @@ module.exports = {
   turnServerEndpoint: process.env.TURN_SERVER_ENDPOINT,
   turnServerPort: process.env.TURN_SERVER_PORT,
   turnServerActive: (process.env.TURN_SERVER_ACTIVE === 'true'),
+  turnServerUrl: process.env.TURN_SERVER_URL,
 };

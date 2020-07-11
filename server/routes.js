@@ -9,7 +9,7 @@ const Stats = require('./models/stats');
 const Manager = require('./models/manager');
 const Room = require('./models/room');
 const {
-  expressPort, environment, turnServerSecret, redisTurnDbNumber, turnServerActive, turnServerPort, turnServerEndpoint,
+  expressPort, environment, turnServerSecret, redisTurnDbNumber, turnServerActive, turnServerPort, turnServerEndpoint, turnServerUrl
 } = require('../config/config');
 
 const publicPath = path.join(__dirname, '../public');
@@ -71,7 +71,7 @@ app.get('/lecture/:id', (req, res) => {
       let roomJson = room.pop();
       if (err === null && roomJson !== null) {
         roomJson = JSON.parse(roomJson);
-        const host = environment === 'DEVELOPMENT' ? `http://localhost:${expressPort}` : 'https://liteboard.io';
+        const host = environment === 'DEVELOPMENT' ? `http://localhost:${expressPort}` : ;
         const sharableUrl = `${host}/lecture/${roomId}`;
         roomJson.id = roomId;
         roomJson.sharableUrl = sharableUrl;
@@ -144,7 +144,7 @@ app.get('/turnCreds', (req, res) => {
   } else {
     redisClient.select(redisTurnDbNumber, (err) => {
       const name = uuidv4();
-      const uri = environment === 'DEVELOPMENT' ? `turn:localhost:${turnServerPort}` : `turn:https://liteboard.io/${turnServerEndpoint}`;
+      const uri = environment === 'DEVELOPMENT' ? `turn:localhost:${turnServerPort}` : `turn:${turnServerUrl}`;
 
       if (err) res.status(500).json({ error: `Could not select correct redis db: ${err}` });
       // !!lets not expose the secret!!!
