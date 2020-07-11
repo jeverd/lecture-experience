@@ -57,7 +57,6 @@ services:
       command:
         - -c=/etc/coturn/turnserver.conf
         - --external-ip=$$(detect-external-ip)
-        - --redis-userdb="ip=redis_db dbname=3 password=${REDIS_PASSWORD} port=${REDIS_PORT} connect_timeout=1000"        # to use redis as userdb
       ports:
         - "3478:3478"
         - "3478:3478/udp"
