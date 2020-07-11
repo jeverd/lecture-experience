@@ -1,37 +1,33 @@
 /* eslint-disable no-shadow */
-const path = require('path');
 const { v4: uuidv4 } = require('uuid');
 const Sentry = require('@sentry/node');
 const { app } = require('./servers');
 const redisClient = require('./servers').client;
 const { logger } = require('./services/logger/logger');
+const { getLanguage, setLanguage } = require('./services/i18n/i18n');
+const { expressPort, environment } = require('../config/config');
 const Stats = require('./models/stats');
 const Manager = require('./models/manager');
 const Room = require('./models/room');
-const { expressPort, environment } = require('../config/config');
-
-const publicPath = path.join(__dirname, '../public');
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(publicPath, 'index.html'));
-});
-
-app.get('/testjanus', (req, res) => {
-  res.sendFile('testjanus.html', { root: path.join(publicPath) });
+  res.render('index.html', getLanguage(req.cookies, req.locale));
 });
 
 app.get('/create', (req, res) => {
-  res.sendFile('create.html', { root: path.join(publicPath) });
+  res.render('create.html', getLanguage(req.cookies, req.locale));
 });
 
 app.post('/create', (req, res) => {
   logger.info('POST request received: /create');
   const managerId = uuidv4();
-  const { name, email, roomId } = req.body;
+  const {
+    name, email, roomId, lectureTools,
+  } = req.body;
   const newLectureStats = new Stats(name);
   newLectureStats.addUserTrack(new Date(), 0);
   redisClient.hmset('stats', { [roomId]: JSON.stringify(newLectureStats) });
-  redisClient.hmset('rooms', { [roomId]: JSON.stringify(new Room(name, managerId)) });
+  redisClient.hmset('rooms', { [roomId]: JSON.stringify(new Room(name, managerId, lectureTools)) });
   redisClient.hmset('managers', { [managerId]: JSON.stringify(new Manager(roomId, email)) });
 
   logger.info('POST /create successfully added room and manager id to redis');
@@ -73,11 +69,12 @@ app.get('/lecture/:id', (req, res) => {
         const sharableUrl = `${host}/lecture/${roomId}`;
         roomJson.id = roomId;
         roomJson.sharableUrl = sharableUrl;
+        const objToRender = { ...roomJson, ...getLanguage(req.cookies, req.locale) };
         if (isGuest) {
           delete roomJson.managerId;
-          res.render('lecture.html', roomJson);
+          res.render('lecture.html', objToRender);
         } else {
-          res.render('whiteboard.html', roomJson);
+          res.render('whiteboard.html', objToRender);
         }
       } else {
         res.status(404);
@@ -98,7 +95,7 @@ app.get('/lecture/stats/:id', (req, res) => {
     } else {
       redisClient.hexists('stats', urlId, (er, statsExist) => {
         if (statsExist) {
-          res.sendFile('stats.html', { root: path.join(publicPath) });
+          res.render('stats.html', getLanguage(req.cookies, req.locale));
         } else {
           renderNotFound();
         }
@@ -129,10 +126,15 @@ app.get('/error', (req, res) => {
     default: break;
   }
   if (errType) {
-    res.render('error.html', { [errType]: true });
+    res.render('error.html', { [errType]: true, ...getLanguage(req.cookies, req.locale) });
   } else {
     res.redirect('/');
   }
+});
+
+app.get('/setLanguage', (req, res) => {
+  setLanguage((key, value) => res.cookie(key, value), req.query.langCode);
+  res.redirect(req.query.ref || '/');
 });
 
 app.get('*', (req, res) => {

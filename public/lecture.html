@@ -7,33 +7,142 @@
     <link rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Open+Sans">
     <link rel="stylesheet" href="/lecture.css">
+    <link rel="stylesheet" href="/style.css" />
+    <!-- <link rel="stylesheet" href="/canvas.css" />  -->
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet"></link>
     <title>Document</title>
 </head>
 
-<body>
-    <h1>Lecture Page</h1>
-    <h2>spectators: <span id="specs"></span></h2>
-    <div style="border: 1px solid black;">
-        Non-active boards:
-        <div id="non-active-boards"></div>
+<body style="margin: 0px;">
+    <div class="lecture-container center">
+        <div class="titleBoard"><span class="title" id="lectureTitle">Lecture Name</span></div>
+
+        <div class="lecture-top-bar">
+            <img class="nav-icon" src="/helpLecture.png">
+            <span class="nav-Text">Get Help</span>
+        
+            <img class="nav-icon" src="/aboutLecture.png">
+            <span class="nav-Text">About Lecture</span>
+
+            <img class="nav-icon" src="/endLecture.png">
+            <span class="nav-Text" style="margin-right: 0px;">Leave Lecture</span>
+            <h2 class="specs">Spectators: <span id="specs"></span></h2>
+        </div>
+
+        <div class="videoContainer">
+                <!--start canvas image toggle bar-->
+        
+            <div class="pages">
+                <div class="lecture-bot-bar" >
+                    <div class="canvas-toggle-bar">
+                        <nav>
+                        <button class="scroll-boards-view-left">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <ul class="canvas-toggle-nav" id="non-active-boards"></ul>
+                        <button class="scroll-boards-view-right">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <!-- <div style="position: relative;" class="video">
+                <div class="video-container center" id="board-container">
+                    <video class="video" id="whiteboard" playsinline autoplay muted></video>
+                </div>
+                <audio class="audio" style="margin-top: -60px;" id="speaker" controls autoplay ></audio>    
+            </div> -->
+            <div style="position: relative;" class="video">
+                {{#lectureTools}}
+                    {{#whiteboard}}
+                        <div class="video-container center" id="board-container">
+                            <video class="video" id="whiteboard" playsinline autoplay muted ></video>
+                        </div>
+                    {{/whiteboard}}
+                    {{#audio}}
+                        <audio class="audio" style="margin-top: -60px;" id="speaker" controls autoplay ></audio> 
+                    {{/audio}}
+                    {{#webcam}}
+                        <video muted height="300" width="400" id="webcam" playsinline autoplay></video>
+                    {{/webcam}}
+                {{/lectureTools}}
+            </div>
+            <div class="chat">
+                
+            </div>
+        </div>
+        
+        <!-- <div class="spectators">
+            <h2 class="specs">Spectators: <span id="specs"></span></h2>
+        </div> -->
+    
     </div>
 
-    <div class="spectator-messages">
+
+    <div style="display: none;" class="spectator-messages">
         <button type="button" id="toggle-messages" class="collapsible">Messages</button>
         <div class="spectator-message-container" id="message-container">Welcome to Liteboard!</div>
             <form id="send-container">
-                <input type="text" id="message-input">
-                <input type="file" id="file-input" name="img">
-                <button type="submit" id="send-button">Send</button>
             </form>
     </div>
-    <div id="test">
+
+    <div style="margin-top: 180px;" class="footer">
+        <div class="footer-grid">
+          <div class="footer-grid-left">
+            <a
+              href="https://github.com/jeverd/lecture-experience"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <i class="fab fa-github-alt"></i>
+            </a>
+          </div>
+          <div class="footer-grid-right">
+            <p class="glossy-text">&copy; 2020 Liteboard</p>
+          </div>
+        </div>
     </div>
-    <audio id="speaker" controls autoplay playsinline></audio>
-    <div id="board-container">
-        <video muted height="300" width="400" id="whiteboard" playsinline autoplay></video>
+
+    <div id="login-lecture-modal" class="login-modal">
+      <!-- Start Modal content -->
+        <div class="login-modal-content">
+            <div id="join-content" class="modal-main-content">
+                <p id="modal-content-header">Welcome to {{name}}</p>
+                <img id="modal-image" />
+                <div class="student-details-container">
+                    <p class="details-header">Student Details</p>
+                    <p class="note-header">Note: This name will be used by the professor to identify you, so choose it wisely.</p>
+                </div>
+                <div class="create-lecture-inputs">
+                    <label class="inputText" for="lectureName">Your Name:</label>
+                    <input class="inputBox" type="text" id="studentName" name="studentName">
+                </div>
+                <div id="modal-buttons-container">
+                    <div
+                      title="Test your microphone"
+                      id="test-mic"
+                      class="test-mic-container mic-button"
+                    >
+                      <i class="fa fa-cog cog"></i>
+                      &nbsp;
+                      <span class="test-mic">Select Speaker</span>
+                      &nbsp;
+                    </div>
+      
+                  <button id="modal-select-button" class="live-button">Join Lecture</button>
+                    
+                  <div class="invalid-name" id="invalid-student-name">
+                    Please provide a lecture user name
+                  </div>
+
+                  <!--<button class = "modal-select-button mic_button">Test Mic</button>-->
+                </div> 
+              </div>
+        </div>
     </div>
-    
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/6.4.0/adapter.min.js"></script>
     <script src="/lib/janus.js"></script>

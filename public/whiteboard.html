@@ -22,6 +22,14 @@
       crossorigin="anonymous"
     />
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet"></link>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css" 
+    />
+    <link
+      rel="stylesheet" type="text/css"
+      href="//cdn.jsdelivr.net/gh/loadingio/ldbutton@v1.0.1/dist/ldbtn.min.css"
+    />
   </head>
 
   <body style="background-color: #ffffff;">
@@ -32,7 +40,7 @@
       </p>
     <![endif]-->
 
-    <div id="area-selection-menu">
+    <!-- <div id="area-selection-menu">
       <div class="area-selection-menu-row">
         <span>Copy</span>
         <span>Ctrl + C</span>
@@ -49,7 +57,7 @@
         <span>Delete</span>
         <span>Backspace</span>
       </div>
-    </div>
+    </div> -->
 
     <!--start whiteboard topbar-->
     <div class="classroom-info">
@@ -74,20 +82,6 @@
         <span class="divider"></span>
 
         <div
-        title="Change microphone configuration"
-        id="mic-config"
-        class="mic-config-container"
-        >
-        <img src="https://img.icons8.com/color/48/000000/microphone.png" class="mic-config-icon"/>
-        &nbsp;
-        <span class="mic-config-text">Mic Config</span>
-          &nbsp;
-
-        </div>
-
-        <span class="divider"></span>
-
-        <div
           title="Share lecture link"
           id="copy-share-link"
           class="copy-link-container"
@@ -100,19 +94,15 @@
 
         <span class="divider"></span>
 
-        <div title="Open Board View" class="my-boards-button-container">
-          <img src="/whiteboard.svg" />
+        <div
+          title="Lecture Settings"
+          id="mic-config"
+          class="mic-config-container"
+        >
+          <i class="fa fa-cog cog config-icon-top-menu"></i>
           &nbsp;
-          <span>My Boards</span>
-        </div>
-
-        <span class="divider"></span>
-
-        <div title="Open Chat View" class="chat-button-container">
-          <span>
-            <i class="fas fa-comment-dots chat-info-icon"></i>
-            <span>Chat</span>
-          </span>
+          <span class="mic-config-text">Configure</span>
+          &nbsp;
         </div>
 
         <span class="divider"></span>
@@ -137,14 +127,36 @@
 
     <div id="info-popup"></div>
     
-    <div class="messages">
+    {{#lectureTools}}
+      {{#audio}}
+        <input type="hidden" id="audio"/>
+      {{/audio}}
+      {{#webcam}}
+        <div class="webcam-container animate__animated">
+          <div id="inactive-webcam-view">
+            <img title="Open Webcam View" src="https://img.icons8.com/fluent/48/000000/webcam.png"/>
+          </div>
+          <div id="active-webcam-view">
+            <div title="Minimize Webcam View" id="minimize-webcam-view">
+              <i class="fa fa-minus" aria-hidden="true"></i>
+            </div>
+            <div title="Webcam Info" id="info-webcam">
+              <i class="fas fa-info"></i>
+            </div>
+            <video muted id="webcam" playsinline autoplay></video>
+          </div>
+        </div>
+      {{/webcam}}
+    {{/lectureTools}}
+
+    <div class="messages animate__animated">
       <div id="toggle-messages">
         <div>
           <div class="chat-title-wrap">
             <div class="new-messages-badge">0</div>
             <span class="chat-title">Lecture Chat</span>
           </div>
-          <i class="fa fa-times close-chat" aria-hidden="true"></i>
+          <i class="fa fa-minus close-chat" aria-hidden="true"></i>
         </div>
       </div>
       <div id="wrapper" class="messages-main">
@@ -180,7 +192,7 @@
 
     <!--start show-bar-button-->
     <div class="show-bar-button-container">
-      <button class="show-bar-button">
+      <button title="Expand Menu" class="show-bar-button">
         <i class="fa fa-bars" aria-hidden="true"></i>
         <!-- <i class="fas fa-level-up-alt"></i> -->
       </button>
@@ -191,7 +203,7 @@
     <canvas id="canvas"> </canvas>
 
     <!--start right sidebar-->
-    <nav class="right-bar">
+    <nav class="right-bar animate__animated">
       <ul class="right-bar-nav">
         <div id="right-bar-main">
           <div data-tool="pencil" title="Pencil Tool">
@@ -371,14 +383,10 @@
       </ul>
     </nav>
 
-    <button title="Toggle Tools Menu" class="hide-options-right">
-      <i class="fas fa-palette"></i>
-    </button>
-
     <!--end right sidebar-->
 
     <!--start left sidebar-->
-    <nav class="left-bar">
+    <nav class="left-bar animate__animated">
       <ul class="left-bar-nav">
         <!--group commands-->
         <div class="group commands">
@@ -432,13 +440,10 @@
         </div>
       </ul>
     </nav>
-
-    <button title="Toggle Board Action Menu" class="hide-options-left"><i class="fas fa-info"></i></button>
-
     <!--end left sidebar-->
 
     <!--start canvas image toggle bar-->
-    <div class="canvas-toggle-bar">
+    <div class="canvas-toggle-bar animate__animated">
       <nav>
         <button class="scroll-boards-view-left">
           <i class="fas fa-chevron-left"></i>

@@ -6,12 +6,15 @@ const socketio = require('socket.io');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const sharedSession = require('express-socket.io-session');
+const cookieParser = require('cookie-parser')
 const mustache = require('mustache-express');
-const Sentry = require('@sentry/node');
+const locale = require('locale');
+
 const RedisStore = require('connect-redis')(session);
 const {
   redisHost, redisPort, redisTest, expressPort, environment,
-  redisUrl, loggerFlag, sessionSecret, sessionName, sentryDSN,
+  redisUrl, loggerFlag, sessionSecret, sessionName,
+  defaultLanguage, supportedLanguages, sentryDSN,
 } = require('../config/config');
 
 const { logger } = require('./services/logger/logger');
@@ -37,7 +40,9 @@ app.use(express.static('public/js'));
 app.use(express.static('public/css'));
 app.use(express.static('public/images'));
 app.use(express.json({ limit: '50mb' }));
+app.use(locale(supportedLanguages, defaultLanguage));
 app.use(bodyParser.json());
+app.use(cookieParser());
 app.use(helmet());
 if (loggerFlag) app.use(logMiddleWare);
 

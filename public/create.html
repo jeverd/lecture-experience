@@ -24,31 +24,71 @@
         <a href="#">upgrade your browser</a> to improve your experience.
       </p>
     <![endif]-->
+  <div class="back-to-homepage">
+    <a href="/">
+      <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-arrow-90deg-left" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" d="M6.104 2.396a.5.5 0 0 1 0 .708L3.457 5.75l2.647 2.646a.5.5 0 1 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 0 1 .708 0z"/>
+        <path fill-rule="evenodd" d="M2.75 5.75a.5.5 0 0 1 .5-.5h6.5a2.5 2.5 0 0 1 2.5 2.5v5.5a.5.5 0 0 1-1 0v-5.5a1.5 1.5 0 0 0-1.5-1.5h-6.5a.5.5 0 0 1-.5-.5z"/>
+      </svg>
+      <span>{{#lang}}{{createBackToHome}}{{/lang}}</span>
+    </a>
+  </div>
   <div class="create-lecture-container">
     <div class="centered">
       <div>
-        <div id="create-lecture-graphic">
-          <img src="/createALecture.png" id="create-lecture-graphic" />
+        <div>
+          <img src="/{{#lang}}{{createLectureTopImg}}{{/lang}}" id="create-lecture-graphic" />
         </div>
 
         <div id="create-lecture-info">
+          <img class="lamp-background" src="/lamp.png"/>
           <div id="info">
-            <div class="create-lecture-inputs">
-              <label class="inputText" for="lectureName">Lecture Name:</label>
-              <input class="inputBox" type="text" id="lectureName" name="lectureName">
+            <span class="lecture-details">{{#lang}}{{createLectureDetails}}{{/lang}}:</span>
+            <div class="info-inputs">
+              <div class="create-lecture-inputs">
+                <label class="inputText" for="lectureName">{{#lang}}{{createLectureName}}{{/lang}}:</label>
+                <input autocomplete="off" spellcheck="false" class="inputBox" type="text" id="lectureName" name="lectureName">
+              </div>
+              <div class="create-lecture-inputs relative">
+                <label class="inputText" for="email">{{#lang}}{{createYourEmail}}{{/lang}}:</label>
+                <input autocomplete="off" spellcheck="false" class="inputBox" type="text" id="email" name="email">
+              </div>
             </div>
-            <div class="create-lecture-inputs relative">
-              <label class="inputText" for="email">Your Email:</label>
-              <input class="inputBox" type="text" id="email" name="email">
+            <div class="type-lecture-inputs">
+              <span class="tools-title">{{#lang}}{{createWhatWillYouUse}}{{/lang}}:</span>
+              <div class="boxes">
+                <div>
+                  <input type="checkbox" id="audio-check" checked>
+                  <label for="audio-check">{{#lang}}{{createAudio}}{{/lang}}</label>
+                </div>
+                <div>
+                  <input type="checkbox" id="whiteboard-check" checked>
+                  <label for="whiteboard-check">{{#lang}}{{createWhiteboard}}{{/lang}}</label>
+                </div>
+                <div>
+                  <input type="checkbox" id="webcam-check">
+                  <label for="webcam-check">{{#lang}}{{createWebcam}}{{/lang}}</label>
+                </div>
+              </div>              
+            </div>
+            <div class="create-button">
+              <div class="buttons">
+                <a id="create-lecture">
+                  <span>{{#lang}}{{createStartLecture}}{{/lang}}</span>
+                </a>
+              </div>
               <div class="invalid-message" id="invalid-email">
-                Email provided is invalid
+                {{#lang}}{{createInvalidEmail}}{{/lang}}
               </div>
               <div class="invalid-message" id="invalid-lecturename">
-                Please provide a lecture name
+                {{#lang}}{{createInvalidLectureName}}{{/lang}}
+              </div>
+              <div class="invalid-message" id="invalid-tools">
+                {{#lang}}{{createInvalidToolSelection}}{{/lang}}
               </div>
             </div>
           </div>
-
+          
           <div class="tooltip">
             <img src="/question.png" id="tooltip" />
             <div class="tooltiptext">
@@ -59,13 +99,6 @@
         </div>
 
 
-        <div class="create-button">
-          <div class="buttons">
-            <a id="create-lecture">
-              <span>Start Lecture</span>
-            </a>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -91,7 +124,6 @@
   <script>
     ScrollReveal().reveal("#create-lecture-graphic", { delay: 300 });
     ScrollReveal().reveal("#create-lecture-info", { delay: 300 });
-    ScrollReveal().reveal(".buttons", { delay: 300 });
   </script>
   <script type="text/javascript" async defer src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/6.4.0/adapter.min.js"></script>
   <script src="/lib/janus.js" async defer></script>

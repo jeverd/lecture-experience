@@ -1,28 +1,90 @@
 /* create page */
 
+* {
+  font-family: 'Open Sans', 'Lato', 'Lucida Grande', 'Lucida Sans Unicode', Tahoma, Sans-Serif, sans-serif;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body,html{
+  overflow-x: hidden;
+}
+
+.back-to-homepage{
+  position: absolute; 
+  top:15px; 
+  left:15px;
+}
+
+.back-to-homepage a{
+  text-decoration: none;
+  color: white;
+}
+
+.back-to-homepage a > span::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(135deg, #b10dc9 0%, #85144b 100%);
+  opacity: 1;
+  visibility: hidden;
+  transform: scaleX(0);
+  transition: all 0.2s ease-in-out 0s;
+}
+
+.back-to-homepage a:hover span::before{
+  visibility: visible;
+  transform: scaleX(1);
+}
+
+.back-to-homepage span{
+  position: relative;
+  bottom: 3px;
+}
+
+
 #create-lecture-graphic{
-  margin: auto auto;
+    margin: auto auto;
     padding-top: 1%;
+    width: 80%;
+    max-width: 800px;
+    min-width: 350px;
+    position: relative;
+    left: -5px;
   }
   
   #create-lecture-info{
     background-color:#21212e;
-    height: 200px;
-    width: 450px;
+    height: 390px;
+    max-width: 650px;
+    width: 85%;
+    position: relative;
+    bottom: 25px;
     margin: 0 auto;
     border-radius: 25px;
     box-shadow: 10px 10px 54px -6px rgba(0,0,0,0.75);
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 50px;
-    position: relative;
+    margin-bottom: 20px;
+  }
+
+  .lamp-background{
+    position: absolute;
+    bottom:0;
+    right:0;
+    border-bottom-right-radius: 25px;
   }
   
   .inputText{
     color: white;
     float: left;
-    font-size: 18px
+    font-size: 18px;
+    margin-left: 20px;
   }
   
   .inputBox{
@@ -41,10 +103,14 @@
   
   #info{
     width: 80%;
+    position: relative;
+    top: 53%;
+    transform: translateY(-50%);
   }
   
   .create-button{
-    margin-bottom: 45px; 
+    margin-top:10px;
+    margin-bottom: 40px; 
   }
   
   
@@ -66,7 +132,7 @@
   .tooltip {
     left: 12.5px;
     position: relative;
-    top: 35.5px;
+    top: -34px;
   }
   
   .tooltip > img{
@@ -126,6 +192,24 @@
   background-size: cover;
   }
 
+  .back-to-homepage{
+    position: absolute; 
+    top:15px; 
+    left:15px;
+  }
+
+  @media only screen and (max-width: 900px){
+    .back-to-homepage{
+      position: relative;
+      display: flex;
+      justify-content: center;
+      margin-top: 15px;
+      left: -7px;
+      z-index: 1;
+      margin-bottom: -15px;
+    }
+  }
+
 
   @media only screen and (max-width: 599px) {
   
@@ -134,27 +218,31 @@
     }
   
     .tooltip{
-      left: -5px;
+      left: -10px;
+      top:-28px;
     }
     
     .tooltip .tooltiptext::after {
       left: 87.5%;
     }
-  
-    #create-lecture-graphic{
-      width: 100%;
-      height: auto;
+    
+    .lecture-details{
+      padding-left: 20px !important;
     }
-  
+
+    .tools-title{
+      padding-left: 20px !important;
+    }
+
     #create-lecture-info{
-      width: 90%;
-      height: 180px;
+      width: 85%;
+      height: 400px;
     }
   
     #info{
       width: 90%;
     }
-  
+    
     .inputBox{
       width: 50%;
       left: -20px;
@@ -162,15 +250,41 @@
     }
   
     .inputText{
-      margin-left: 10px;
+      margin-left: 30px;
     }
   }
 
   .buttons{
+    position: relative;
+    bottom: 10px;
     width: 100%;
     background-color: transparent;
     display: flex;
     flex-direction: row;
+  }
+
+  div.buttons a {
+    text-decoration: none;
+    color: white;
+    background: rgb(70, 194, 255);
+    background: linear-gradient(
+      135deg,
+      rgba(70, 194, 255, 1) 0%,
+      rgba(189, 31, 250, 1) 100%
+    );
+    border: none;
+    border-radius: 2px;
+    box-shadow: 0 0 17.5px rgba(189, 31, 250, 1);
+    -webkit-box-shadow: 0 0 17.5px rgba(189, 31, 250, 1);
+    outline: none;
+    width: 160px;
+    height: 45px;
+    text-align: center;
+    margin: auto;
+    transition: 0.5s ease;
+    cursor: pointer;
+    align-items: center;
+    justify-content:center;
   }
   
   @media only screen and (max-width: 460px) {
@@ -179,35 +293,76 @@
       flex-direction: column;
       position: relative;
       text-align: left;
-      padding-left: 15px;
+      padding-left: 20px;
       top: -6px;
     }
   
     #create-lectuire-info{
       margin-bottom: 0px !important;
     }
-  
+    
+    .boxes{
+      display: flex;
+      flex-direction: column !important;
+      padding: 0px !important;
+      padding-bottom: 30px !important;
+    }
+
+    .boxes div{
+      margin-top: 20px;
+    }
+
     .create-button{
       margin: 0 !important;
       position: relative;
-      bottom: 25px;
+      bottom: 45px;
+      padding-top: 20px;
+    }
+
+    .invalid-message{
+      bottom: -10px !important;
     }
   
     .inputBox{
-      width: 80%;
+      width: 90%;
       margin: auto;
       position: relative;
-      left: calc(-3% - 12px);
       top: 2px;
     }
-  
+
+    label.inputText{
+      margin-left: 5px;
+    }
+
+    .info-inputs{
+      padding-bottom: 0px !important;
+      padding-top: 30px !important;
+    }
+
+    .type-lecture-inputs{
+      padding-bottom: 30px;
+    }
+    
+    .lecture-details{
+      padding-left: 15px;
+      padding-top: 100px !important;
+    }
+
+    .tools-title{
+      margin-top: 0px;
+      padding-left: 15px;
+    }
     .tooltip{
       left: -22.5px;
-      top: 47px;
+      top: -59px;
     }
   
     .create-lecture-inputs:last-child{
       margin-top:20px;
+    }
+    #create-lecture-info{
+      width: 80%;
+      height: 470px;
     }
   }
 
@@ -215,18 +370,120 @@
     .create-lecture-container{
       display: none;
     }
+    .back-to-homepage{
+      position: absolute;
+      left: 45%;
+      top:60%;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+    }
   }
 
   .invalid-message{
     position: absolute;
     opacity: 0;
     transition: .6s ease;
+    display: inline-block;
     color: rgb(255, 95, 95);
-    left: 155px;
+    left: 50%;
+    transform: translateX(-50%);
     font-size: .9em;
-    top: 37px;
+    width: 100%;
+    bottom: 25px;
   }
 
   .relative{
     position: relative;
+    margin-top: 70px;
   }
+
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+.boxes {
+  margin: auto;
+  padding: 30px;
+  position: relative;
+  bottom: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  left: 50%;
+  transform: translateX(-50%);
+  position: relative;
+}
+
+.boxes div{
+  margin-left: 30px;
+}
+
+/*Checkboxes styles*/
+input[type="checkbox"] { display: none; }
+
+input[type="checkbox"] + label {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 20px;
+  font: 14px/20px;
+  color: #ddd;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+input[type="checkbox"] + label:last-child { margin-bottom: 0; }
+
+input[type="checkbox"] + label:before {
+  content: '';
+  display: block;
+  width: 20px;
+  height: 20px;
+  /* background: linear-gradient(135deg, #b10dc9 0%, #85144b 100%); */
+  border: 1px solid rgb(70, 194, 255);
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: .6;
+  -webkit-transition: all .12s, border-color .08s;
+  transition: all .12s, border-color .08s;
+}
+
+input[type="checkbox"]:checked + label:before {
+  width: 10px;
+  top: -5px;
+  left: 5px;
+  border-radius: 0;
+  opacity: 1;
+  border-top-color: transparent;
+  border-left-color: transparent;
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.tools-title{
+  color: rgb(223, 223, 223);
+  display: flex;
+  margin-top: 15px;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.lecture-details{
+  color: rgb(223, 223, 223);
+  padding-top: 0px;
+  display: flex;
+  position: relative;
+  top: 23.5px;
+  font-weight: 700;
+  font-size: 22px;
+}
+
+.type-lecture-inputs{
+}
+
+.info-inputs{
+  margin: 5px 0;
+  padding-top: 40px;
+  padding-bottom: 40px; 
+}

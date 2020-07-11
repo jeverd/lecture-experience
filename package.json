@@ -4,7 +4,7 @@
   "description": "",
   "main": "servers.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "nodemon -e html,json,js index.js",
     "test": "set LOGGER=false && mocha --exit"
   },
   "repository": {
@@ -22,11 +22,13 @@
     "@sentry/apm": "^5.19.1",
     "@sentry/node": "^5.19.1",
     "connect-redis": "^4.0.4",
+    "cookie-parser": "^1.4.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "express-socket.io-session": "^1.3.5",
     "helmet": "^3.22.0",
+    "locale": "^0.1.0",
     "morgan": "^1.10.0",
     "mustache-express": "^1.3.0",
     "nodemailer": "^6.4.6",
