@@ -10,8 +10,19 @@
     <link rel="stylesheet" href="/style.css" />
     <!-- <link rel="stylesheet" href="/canvas.css" />  -->
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet"></link>
-    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css" 
+    />
+    <link href="https://vjs.zencdn.net/7.8.3/video-js.css" rel="stylesheet" />
+
+  <!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
+  <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
+
+    
 </head>
+
+
 
 <body style="margin: 0px;">
     <div class="lecture-container center">
@@ -30,29 +41,17 @@
         </div>
 
         <div class="videoContainer">
-                <!--start canvas image toggle bar-->
         
             <div class="pages">
-                <div class="lecture-bot-bar" >
-                    <div class="canvas-toggle-bar">
-                        <nav>
-                        <button class="scroll-boards-view-left">
-                            <i class="fas fa-chevron-left"></i>
-                        </button>
-                        <ul class="canvas-toggle-nav" id="non-active-boards"></ul>
-                        <button class="scroll-boards-view-right">
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
-                        </nav>
-                    </div>
-                </div>
+                <button class="scroll-button scroll-up" id="scroll-up" >
+                    <i class="fa fa-chevron-up"></i>
+                </button>
+                <div class="page-list" id="non-active-boards"></div>
+                <button class="scroll-button scroll-down" id="scroll-down">
+                    <i class="fa fa-chevron-down"></i>
+                </button>
             </div>
-            <!-- <div style="position: relative;" class="video">
-                <div class="video-container center" id="board-container">
-                    <video class="video" id="whiteboard" playsinline autoplay muted></video>
-                </div>
-                <audio class="audio" style="margin-top: -60px;" id="speaker" controls autoplay ></audio>    
-            </div> -->
+            
             <div style="position: relative;" class="video">
                 {{#lectureTools}}
                     {{#whiteboard}}
@@ -72,11 +71,10 @@
                 
             </div>
         </div>
-        
-        <!-- <div class="spectators">
-            <h2 class="specs">Spectators: <span id="specs"></span></h2>
-        </div> -->
-    
+
+        <button onclick="openFullscreen();">Open Video in Fullscreen Mode</button>
+
+
     </div>
 
 
@@ -103,6 +101,24 @@
           </div>
         </div>
     </div>
+
+    <script>
+        const elem = document.getElementById("whiteboard");
+
+        function openFullscreen() {
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+            } else if (elem.mozRequestFullScreen) { /* Firefox */
+                elem.mozRequestFullScreen();
+            } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+                elem.webkitRequestFullscreen();
+            } else if (elem.msRequestFullscreen) { /* IE/Edge */
+                elem.msRequestFullscreen();
+            }
+        }
+    </script>
+
+    
 
     <script src="/socket.io/socket.io.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/6.4.0/adapter.min.js"></script>
