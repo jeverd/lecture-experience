@@ -6,8 +6,9 @@ const socketio = require('socket.io');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const sharedSession = require('express-socket.io-session');
-const cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser');
 const mustache = require('mustache-express');
+const Sentry = require('@sentry/node');
 const locale = require('locale');
 
 const RedisStore = require('connect-redis')(session);
@@ -24,11 +25,10 @@ const { logMiddleWare } = require('./services/logger/loggingMiddleware');
 const app = express();
 
 // sentry intergation
-Sentry.init({ dsn: sentryDSN });
+Sentry.init({ dsn: sentryDSN, environment });
 app.use(Sentry.Handlers.requestHandler());
 
 const expressServer = app.listen(expressPort);
-
 
 
 const io = socketio(expressServer, { cookie: false });

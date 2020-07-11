@@ -5,13 +5,15 @@ const { app } = require('./servers');
 const redisClient = require('./servers').client;
 const { logger } = require('./services/logger/logger');
 const { getLanguage, setLanguage } = require('./services/i18n/i18n');
-const { expressPort, environment } = require('../config/config');
+const {
+  expressPort, environment, sentryDSN, sentryEnvironment,
+} = require('../config/config');
 const Stats = require('./models/stats');
 const Manager = require('./models/manager');
 const Room = require('./models/room');
 
 app.get('/', (req, res) => {
-  res.render('index.html', getLanguage(req.cookies, req.locale));
+  res.render('index.html', { sentryDSN, sentryEnvironment, ...getLanguage(req.cookies, req.locale) });
 });
 
 app.get('/create', (req, res) => {
@@ -142,4 +144,4 @@ app.get('*', (req, res) => {
 });
 
 // error handling middleware, have to specify here, refer to docs https://docs.sentry.io/platforms/node/express/, error handlers should always be defined last
-app.use(Sentry.Handlers.errorHandler());  // will capture any statusCode of 500
+app.use(Sentry.Handlers.errorHandler()); // will capture any statusCode of 500

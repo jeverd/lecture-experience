@@ -41,4 +41,5 @@ module.exports = {
   sentryDSN: process.env.SENTRY_DSN,
   defaultLanguage: process.env.DEFAULT_LANGUAGE,
   supportedLanguages: SUPPORTED_LANGUAGES,
+  sentryEnvironment: process.env.SENTRY_ENVIRONMENT,
 };
