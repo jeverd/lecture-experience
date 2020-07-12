@@ -114,6 +114,7 @@ body {
     
   .pages {
     width: 100px;
+    max-height: 600px;
     height: 600px;
     
     background-color:#21212e;
@@ -124,8 +125,60 @@ body {
     justify-content: center;
     align-items: center;
     text-align: center;
+
+    position: relative;
   }
 
+  .chat {
+    width: 100px;
+    height: 600px;
+    
+    background-color:#21212e;
+    box-shadow: 0px 0px 20px 1px rgba(0,0,0,0.75);
+  }
+
+  .scroll-button {
+    position: absolute;
+    background: linear-gradient(
+      135deg,
+      rgba(70, 194, 255, 1) 0%,
+      rgba(189, 31, 250, 1) 100%
+    );
+    transition: width 600ms ease;
+    border: none;
+    /* outline: none; */
+    
+    width: 100px;
+    height: 50px;
+    padding: none;
+    margin: none;
+
+    cursor: pointer;
+  }
+
+  .scroll-up {
+    top: 0;
+  }
+
+  .scroll-down {
+    bottom: 0;
+  }
+
+  .page-list {
+    position: absolute;
+    top: 10;
+    height: 500px;
+    width: 100px;
+    overflow: auto; /* Hide scrollbars */
+  }
+
+  .pages-img {
+    padding-top: 23px;
+    padding: 5px;
+    height: auto;
+    width: 80px;
+    
+  }
   /* The Modal (background) */
 .login-modal {
   display: block; /* Hidden by default */
