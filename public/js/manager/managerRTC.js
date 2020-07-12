@@ -20,7 +20,7 @@ export default async function initializeManagerRTC(roomId, stream) {
     callback() {
       janus = new Janus({
         server: janusUrl,
-        iceServers: turnServerConfig,
+        iceServers: [{ username: 'username1', credential: 'key1', urls: 'turn:3.83.48.163:3478'}],
         success() {
           janus.attach({
             plugin: 'janus.plugin.videoroom',
