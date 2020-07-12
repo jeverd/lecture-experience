@@ -128,11 +128,6 @@ div.message-container > tr > td {
     margin-left: 5px;
   }
 
-  .video {
-    height: 600px;
-    width: auto;
-  }
-
   .audio{
     position: absolute;
     width: 20px;
@@ -325,10 +320,20 @@ div.messages {
     align-items: center;
     border-radius: 50%;
   }
+
+  .main-stream-container{
+    position: relative;
+    width: 70vw ;
+  }
+
+  video.whiteboard{
+    width: 100%;
+    height: auto;
+  }
   
   .share {
     position: relative;
-      width: 250px;
+    width: 250px;
     margin: 40px 0;
     text-align: center;
     left:-100px;
@@ -336,66 +341,52 @@ div.messages {
 
   .videoContainer {
       display: flex;
-      flex-direction: row;
       margin-top: 30px;
+      justify-content: center;
+      position: relative;
   }
   
   .pages {
     width: 100px;
-    max-height: 600px;
-    height: 600px;
-    
+    height: 100%;
     background-color:#21212e;
     box-shadow: 0px 0px 20px 1px rgba(0,0,0,0.75);
-
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
-
-    position: relative;
   }
 
   .chat {
     width: 100px;
-    height: 600px;
-    
+    height: 100%;
     background-color:#21212e;
     box-shadow: 0px 0px 20px 1px rgba(0,0,0,0.75);
   }
 
   .scroll-button {
     position: absolute;
-    background: linear-gradient(
-      135deg,
-      rgba(70, 194, 255, 1) 0%,
-      rgba(189, 31, 250, 1) 100%
-    );
     transition: width 600ms ease;
     border: none;
-    /* outline: none; */
-    
     width: 100px;
     height: 50px;
     padding: none;
     margin: none;
-
     cursor: pointer;
   }
 
-  .scroll-up {
+  .scroll-button:first-child{
     top: 0;
   }
 
-  .scroll-down {
-    bottom: 0;
+  .scroll-button:last-child{
+    bottom:0;
   }
 
   .page-list {
     position: absolute;
     top: 10;
-    height: 500px;
     width: 100px;
     overflow: auto; /* Hide scrollbars */
   }
