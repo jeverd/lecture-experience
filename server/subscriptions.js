@@ -16,7 +16,7 @@ function updateNumOfStudents(room) {
     io.in(room).emit('updateNumOfStudents', numOfStudents);
     redisClient.hmget('stats', room, (error, stats) => {
       stats = stats.pop();
-      logger.info(`STATS: adding stats ${stats}`);
+      logger.info(`STATS: adding stats on room ${room}`);
       if (stats) {
         const {
           lectureName, userTracker, maxNumOfUsers, numOfBoards,
@@ -160,7 +160,7 @@ io.sockets.on('connection', (socket) => {
       socket.join(roomToJoin);
     }
     redisClient.hmget('rooms', roomToJoin, (error, roomObj) => {
-      logger.info(`SOCKET: Retreiving room object ${roomObj}`);
+      logger.info(`SOCKET: Retreiving room object on room ${roomToJoin}`);
       roomObj = roomObj.pop();
       if (roomObj) {
         const lectureObj = JSON.parse(roomObj);
