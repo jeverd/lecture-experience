@@ -1,10 +1,10 @@
 {
   "name": "lecture-experience",
   "version": "1.0.0",
-  "description": "",
+  "description": "Liteboard's website Repository",
   "main": "servers.js",
   "scripts": {
-    "start dev": "nodemon -e html,json,js index.js",
+    "debug": "nodemon -e html,json,js index.js",
     "start": "node index.js",
     "test": "set LOGGER=false && mocha --exit"
   },
@@ -13,7 +13,7 @@
     "url": "git+https://github.com/jeverd/lecture-experience.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Liteboard",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/jeverd/lecture-experience/issues"

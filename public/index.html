@@ -32,14 +32,14 @@
     <div class="set-languages">
       <form action="/setLanguage">
         <input type="hidden" name="langCode" value="pt-BR"/>
-        <input type="hidden" name="ref" value="/"/>
+        <input type="hidden" name="pageRef" value="/"/>
         <button type="submit">
           <img src="/brazil.svg" height="33"/>&nbsp;<span class="lang-name">Português</span>
         </button>
       </form>
       <form action="/setLanguage">
         <input type="hidden" name="langCode" value="en-US"/>
-        <input type="hidden" name="ref" value="/"/>
+        <input type="hidden" name="pageRef" value="/"/>
         <button type="submit">
           <img src="/uk.svg" height="33"/>&nbsp;<span class="lang-name">English</span>
         </button>
@@ -168,7 +168,7 @@
           <div class="language-selection-footer">
             <form action="/setLanguage">
               <input type="hidden" name="langCode" value="pt-BR"/>
-              <input type="hidden" name="ref" value="/"/>
+              <input type="hidden" name="pageRef" value="/"/>
               <button type="submit">
                 <span>
                   <img src="/brazil.svg" height="33"/>&nbsp;<span class="lang-name">Português</span>
@@ -177,7 +177,7 @@
             </form>
             <form action="/setLanguage">
               <input type="hidden" name="langCode" value="en-US"/>
-              <input type="hidden" name="ref" value="/"/>
+              <input type="hidden" name="pageRef" value="/"/>
               <button type="submit">
                 <span>
                   <img src="/uk.svg" height="33"/>&nbsp;<span class="lang-name">English</span>
@@ -207,20 +207,42 @@
     <script
       src="https://browser.sentry-cdn.com/5.19.1/bundle.min.js"
       integrity="sha384-ibWewy8LWP0FdvEBD3iLjNmbFkkh/FKtOz8GR9C8ZBWjDTbjbdIDpa4nc/AasWns"
-      crossorigin="anonymous">
-    </script>
+      crossorigin="anonymous"></script>
     <script>
-
-      Sentry.init({ dsn: '{{{sentryDSN}}}',
+      Sentry.init({
+        dsn: '{{{sentryDSN}}}',
+        environment: '{{sentryEnvironment}}',
         beforeSend(event, hint) {
-      // Check if it is an exception, and if so, show the report dialog
+          // Check if it is an exception, and if so, show the report dialog
           if (event.exception) {
-          Sentry.showReportDialog({ eventId: event.event_id, title: 'Report a Bug!', subtitle: 'Helps us improve Liteboard!', subtitle2: 'Your feedback is very helpful!' });
-        }
-        return event;
-        } 
+            const modal = {
+              subtitle2: '',
+              labelName: '{{#lang}}{{reportBugLabelName}}{{/lang}}',
+              labelEmail: '{{#lang}}{{reportBugLabelEmail}}{{/lang}}',
+              labelClose: '{{#lang}}{{reportBugLabelClose}}{{/lang}}',
+              labelSubmit: '{{#lang}}{{reportBugLabelSubmit}}{{/lang}}',
+              labelComments: '{{#lang}}{{reportBugLabelIssue}}{{/lang}}',
+              errorFormEntry: '{{#lang}}{{reportBugFormError}}{{/lang}}',
+              successMessage: '{{#lang}}{{reportBugSuccess}}{{/lang}}'
+            };
+            if (hint.originalException.message === 'BUG_REPORT'){
+              modal.title = '{{#lang}}{{reportBugTitle}}{{/lang}}';
+              modal.subtitle = '{{#lang}}{{reportBugSubtitle}}{{/lang}}';
+            } else {
+              modal.title = '{{#lang}}{{actualBugTitle}}{{/lang}}';
+              modal.subtitle = '{{#lang}}{{actualBugSubtitle}}{{/lang}}';
+            }
+            Sentry.showReportDialog({eventId: event.event_id, ...modal})
+          }
+          return event;
+        },
       });
 
+      document.querySelector('div.footer-entry.bug-report').addEventListener('click', () => {
+        Sentry.captureException(new Error('BUG_REPORT'));
+      });
+    </script>
+    <script>
       const slideLeft = {
         distance: '102%',
         origin: 'right',
@@ -251,10 +273,6 @@
             scrollTop: $("#learn-more").offset().top
         }, 1000);
       });
-      $("div.footer-entry.bug-report").click(function() {
-        Sentry.captureException(new Error("Bug Reported"));
-      })
     </script>
-    <script src="" async defer></script>
   </body>
 </html>

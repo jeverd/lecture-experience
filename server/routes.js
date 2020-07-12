@@ -17,7 +17,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/create', (req, res) => {
-  res.render('create.html', getLanguage(req.cookies, req.locale));
+  res.render('create.html', { sentryDSN, sentryEnvironment, ...getLanguage(req.cookies, req.locale) });
 });
 
 app.post('/create', (req, res) => {
@@ -71,7 +71,9 @@ app.get('/lecture/:id', (req, res) => {
         const sharableUrl = `${host}/lecture/${roomId}`;
         roomJson.id = roomId;
         roomJson.sharableUrl = sharableUrl;
-        const objToRender = { ...roomJson, ...getLanguage(req.cookies, req.locale) };
+        const objToRender = {
+          sentryDSN, sentryEnvironment, ...roomJson, ...getLanguage(req.cookies, req.locale),
+        };
         if (isGuest) {
           delete roomJson.managerId;
           res.render('lecture.html', objToRender);
@@ -89,17 +91,15 @@ app.get('/lecture/:id', (req, res) => {
 app.get('/lecture/stats/:id', (req, res) => {
   const urlId = req.params.id;
   logger.info(`GET request received: /lecture/stats for lecture id: ${urlId}`);
-  const renderNotFound = () => res.status(404).redirect('/error?code=3');
   redisClient.hexists('rooms', urlId, (er, roomExist) => {
     if (roomExist) {
-      // here add the error that the lecture is still under progress
-      renderNotFound();
+      res.status(404).redirect('/error?code=4');
     } else {
       redisClient.hexists('stats', urlId, (er, statsExist) => {
         if (statsExist) {
-          res.render('stats.html', getLanguage(req.cookies, req.locale));
+          res.render('stats.html', { sentryDSN, sentryEnvironment, ...getLanguage(req.cookies, req.locale) });
         } else {
-          renderNotFound();
+          res.status(404).redirect('/error?code=3');
         }
       });
     }
@@ -125,10 +125,13 @@ app.get('/error', (req, res) => {
     case '1': errType = 'PageNotFound'; break;
     case '2': errType = 'InvalidSession'; break;
     case '3': errType = 'LectureNotFound'; break;
+    case '4': errType = 'LectureInProgress'; break;
     default: break;
   }
   if (errType) {
-    res.render('error.html', { [errType]: true, ...getLanguage(req.cookies, req.locale) });
+    res.render('error.html', {
+      [errType]: true, sentryDSN, sentryEnvironment, ...getLanguage(req.cookies, req.locale),
+    });
   } else {
     res.redirect('/');
   }
@@ -136,7 +139,7 @@ app.get('/error', (req, res) => {
 
 app.get('/setLanguage', (req, res) => {
   setLanguage((key, value) => res.cookie(key, value), req.query.langCode);
-  res.redirect(req.query.ref || '/');
+  res.redirect(req.query.pageRef || '/');
 });
 
 app.get('*', (req, res) => {
