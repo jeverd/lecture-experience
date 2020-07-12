@@ -3,7 +3,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-undef */
 import Chat from '../classes/Chat.js';
-import Message from '../classes/Message.js';
+import initializeChat from './guestChat.js';
 import { getUrlId, redirectToStats } from '../utility.js';
 import initializeGuestRTC from './guestRTC.js';
 
@@ -12,10 +12,6 @@ const invalidNameDiv = document.getElementById('invalid-student-name');
 const roomId = getUrlId();
 
 function joinLecture() {
-  const sendContainer = document.getElementById('send-container');
-  const messageInput = document.getElementById('message-input');
-  const fileInput = document.getElementById('file-input');
-
   function setNonActiveBoards(boards) {
     const boardsDiv = document.getElementById('non-active-boards');
     boardsDiv.innerHTML = '';
@@ -26,7 +22,6 @@ function joinLecture() {
       boardsDiv.appendChild(imgElem);
     });
   }
-  const chat = new Chat('message-container');
   const socket = io('/', {
     query: `id=${roomId}`,
   });
@@ -41,17 +36,7 @@ function joinLecture() {
     setNonActiveBoards(boards.filter((e, i) => i !== boardActive));
     const roomIdAsInt = parseInt(roomId);
     initializeGuestRTC(roomIdAsInt);
-
-    sendContainer.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const messageContent = messageInput.value;
-      const newFile = document.getElementById('file-input').files[0];
-      const message = new Message(messageContent, newFile);
-      socket.emit('send-to-manager', room.lecture_details.id, message);
-      chat.appendMessage(message, false);
-      messageInput.value = '';
-      fileInput.value = '';
-    });
+    initializeChat(socket, room.lecture_details.id);
   });
 
   socket.on('disconnect', () => {
@@ -69,39 +54,10 @@ function joinLecture() {
     socket.emit('notify', managerSocketId);
   });
 
-  socket.on('send-to-guests', (message) => {
-    chat.appendMessage(message, true);
-    // if (file) appendFile(file, fileType, fileName, 'receiver');
-  });
-
   socket.on('boards', setNonActiveBoards);
 
   socket.on('currentBoard', (board) => {
     document.querySelector('#whiteboard').poster = board;
-  });
-
-  document.querySelector('button#toggle-messages').addEventListener('click', (e) => {
-    e.preventDefault();
-
-    const messagesChild = e.target.nextElementSibling;
-    e.target.classList.toggle('active-chat');
-    if (messagesChild.style.maxHeight) {
-      messagesChild.style.maxHeight = null;
-    } else {
-      messagesChild.style.maxHeight = `${messagesChild.scrollHeight}px`;
-    }
-  });
-  document.querySelector('button#toggle-messages').addEventListener('redraw', (e) => {
-    e.preventDefault();
-
-    const messagesChild = e.target.nextElementSibling;
-    e.target.classList.add('active-chat');
-    if (messagesChild.scrollHeight >= 300) {
-      messagesChild.style.maxHeight = '300px';
-      messagesChild.style.overflow = 'scroll';
-    } else {
-      messagesChild.style.maxHeight = `${messagesChild.scrollHeight}px`;
-    }
   });
 }
 

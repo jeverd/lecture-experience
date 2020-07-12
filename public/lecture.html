@@ -6,6 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Open+Sans">
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+      integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+      crossorigin="anonymous"
+    />  
     <link rel="stylesheet" href="/lecture.css">
     <link rel="stylesheet" href="/style.css" />
     <!-- <link rel="stylesheet" href="/canvas.css" />  -->
@@ -69,7 +75,34 @@
                 {{/lectureTools}}
             </div>
             <div class="chat">
-                
+            
+                <div id="wrapper" class="messages-main">
+                    <div class="message-container" id="message-container">
+                    <div class="message-lecture-name">
+                    </div>
+                    <div id="preview" class="preview">
+                        <div class="preview-content">
+                        <i class="fas fa-file" id="file-preview"></i>
+                        <img src="" id='image-preview' class='image-preview'>
+                        <span id="name-file"></span>
+                        <i class="fas fa-times close-preview" id="close-preview"></i>
+                        </div> 
+                    </div>
+                    </div>
+                </div>
+                <div id="send-wrapper">
+                    
+                    <form id="send-container">
+                    <span class="v_divider"></span>
+                    <input autocomplete="off" spellcheck="false" type="text" id="message-input">
+                    <input type="file" name="file" id="file-input" class="inputfile" />
+                    <label for="file-input">
+                        <i class="fas fa-paperclip paperclip"></i>
+                    </label>
+                    <button type="submit" id="send-button"><i class="fas fa-chevron-right send-icon"></i></button>
+                    </form>        
+                </div>  
+
             </div>
         </div>
         
