@@ -52,5 +52,11 @@
   "errorInProgress": "errorInProgress-pt.png",
   "errorDontExist": "errorDontExist-pt.png",
   "errorSession": "errorSession-pt.png",
-  "errorNotFound": "errorNotFound-pt.png"
+  "errorNotFound": "errorNotFound-pt.png",
+  "statsTitleStats": "Estatísticas de",
+  "statsMaxNum": "Máximo de alunos",
+  "statsAvgNum": "Média de alunos",
+  "statsBoardsUsed": "Quadros criados",
+  "statsDuration": "Duração da Aula",
+  "statsRateExperience": "Por favor nos dê seu feedback"
 }
