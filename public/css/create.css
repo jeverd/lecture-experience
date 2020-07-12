@@ -11,6 +11,42 @@ body,html{
   overflow-x: hidden;
 }
 
+.back-to-homepage{
+  position: absolute; 
+  top:15px; 
+  left:15px;
+}
+
+.back-to-homepage a{
+  text-decoration: none;
+  color: white;
+}
+
+.back-to-homepage a > span::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(135deg, #b10dc9 0%, #85144b 100%);
+  opacity: 1;
+  visibility: hidden;
+  transform: scaleX(0);
+  transition: all 0.2s ease-in-out 0s;
+}
+
+.back-to-homepage a:hover span::before{
+  visibility: visible;
+  transform: scaleX(1);
+}
+
+.back-to-homepage span{
+  position: relative;
+  bottom: 3px;
+}
+
+
 #create-lecture-graphic{
     margin: auto auto;
     padding-top: 1%;
@@ -107,7 +143,7 @@ body,html{
     font-size: calc(3% + 0.75em);
     visibility: hidden;
     width: auto;
-    min-width: 150px;
+    min-width: 175px;
     background-color: #555;
     color: #fff;
     text-align: left;
@@ -116,7 +152,7 @@ body,html{
     position: absolute;
     z-index: 1;
     bottom: 44px;
-    right: -62px;
+    right: -75px;
     opacity: 0;
     transition: opacity 0.4s;
   }
@@ -156,11 +192,29 @@ body,html{
   background-size: cover;
   }
 
+  .back-to-homepage{
+    position: absolute; 
+    top:15px; 
+    left:15px;
+  }
+
+  @media only screen and (max-width: 900px){
+    .back-to-homepage{
+      position: relative;
+      display: flex;
+      justify-content: center;
+      margin-top: 15px;
+      left: -7px;
+      z-index: 1;
+      margin-bottom: -15px;
+    }
+  }
+
 
   @media only screen and (max-width: 599px) {
   
     .tooltip .tooltiptext {
-      right: -5px;
+      right: -8.5px;
     }
   
     .tooltip{
@@ -316,6 +370,13 @@ body,html{
     .create-lecture-container{
       display: none;
     }
+    .back-to-homepage{
+      position: absolute;
+      left: 45%;
+      top:60%;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+    }
   }
 
   .invalid-message{
@@ -378,7 +439,8 @@ input[type="checkbox"] + label:before {
   display: block;
   width: 20px;
   height: 20px;
-  border: 1px solid #6cc0e5;
+  /* background: linear-gradient(135deg, #b10dc9 0%, #85144b 100%); */
+  border: 1px solid rgb(70, 194, 255);
   position: absolute;
   left: 0;
   top: 0;

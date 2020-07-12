@@ -26,6 +26,10 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css" 
     />
+    <link
+      rel="stylesheet" type="text/css"
+      href="//cdn.jsdelivr.net/gh/loadingio/ldbutton@v1.0.1/dist/ldbtn.min.css"
+    />
   </head>
 
   <body style="background-color: #ffffff;">
@@ -585,5 +589,39 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/6.4.0/adapter.min.js"></script>
     <script src="/lib/janus.js"></script>
     <script src="/manager/manager.js" type="module"></script>
+    <script
+      src="https://browser.sentry-cdn.com/5.19.1/bundle.min.js"
+      integrity="sha384-ibWewy8LWP0FdvEBD3iLjNmbFkkh/FKtOz8GR9C8ZBWjDTbjbdIDpa4nc/AasWns"
+      crossorigin="anonymous"></script>
+    <script>
+      Sentry.init({
+        dsn: '{{{sentryDSN}}}',
+        environment: '{{sentryEnvironment}}',
+        beforeSend(event, hint) {
+          // Check if it is an exception, and if so, show the report dialog
+          if (event.exception) {
+            const modal = {
+              subtitle2: '',
+              labelName: '{{#lang}}{{reportBugLabelName}}{{/lang}}',
+              labelEmail: '{{#lang}}{{reportBugLabelEmail}}{{/lang}}',
+              labelClose: '{{#lang}}{{reportBugLabelClose}}{{/lang}}',
+              labelSubmit: '{{#lang}}{{reportBugLabelSubmit}}{{/lang}}',
+              labelComments: '{{#lang}}{{reportBugLabelIssue}}{{/lang}}',
+              errorFormEntry: '{{#lang}}{{reportBugFormError}}{{/lang}}',
+              successMessage: '{{#lang}}{{reportBugSuccess}}{{/lang}}'
+            };
+            if (hint.originalException.message === 'BUG_REPORT'){
+              modal.title = '{{#lang}}{{reportBugTitle}}{{/lang}}';
+              modal.subtitle = '{{#lang}}{{reportBugSubtitle}}{{/lang}}';
+            } else {
+              modal.title = '{{#lang}}{{actualBugTitle}}{{/lang}}';
+              modal.subtitle = '{{#lang}}{{actualBugSubtitle}}{{/lang}}';
+            }
+            Sentry.showReportDialog({eventId: event.event_id, ...modal})
+          }
+          return event;
+        },
+      });
+    </script>
   </body>
 </html>
