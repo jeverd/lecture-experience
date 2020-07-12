@@ -154,7 +154,7 @@ export default function initializeChat(socket, roomId) {
     const messageContent = messageInput.value.trim();
     const newFile = document.getElementById('file-input').files[0];
     if (!(messageContent === '' && typeof newFile === 'undefined')) {
-      const message = new Message(messageContent, newFile);
+      const message = new Message(messageContent, newFile, 'Professor');
       socket.emit('send-to-guests', roomId, message, 'Professor');
       chat.appendMessage(message, false);
       messageInput.value = '';

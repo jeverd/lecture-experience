@@ -8,7 +8,7 @@ const messageInput = document.getElementById('message-input');
 const fileInput = document.getElementById('file-input');
 
 
-export default function initializeChat(socket, roomId) {
+export default function initializeChat(socket, roomId, name) {
   const chat = new Chat('message-container');
   socket.on('send-to-guests', (message) => {
     chat.appendMessage(message, true);
@@ -114,7 +114,6 @@ export default function initializeChat(socket, roomId) {
     const image = document.querySelector('.modal-message-image');
     const modal = document.getElementById('image-modal');
     const download = document.querySelector('.download-container');
-
     if (modal.style.display === 'block') {
       if (!image.contains(e.target) && !download.contains(e.target) && click > 0) {
         $(modal).hide();
@@ -142,7 +141,7 @@ export default function initializeChat(socket, roomId) {
     const messageContent = messageInput.value.trim();
     const newFile = document.getElementById('file-input').files[0];
     if (!(messageContent === '' && typeof newFile === 'undefined')) {
-      const message = new Message(messageContent, newFile);
+      const message = new Message(messageContent, newFile, name);
       socket.emit('send-to-manager', roomId, message);
       chat.appendMessage(message, false);
       messageInput.value = '';

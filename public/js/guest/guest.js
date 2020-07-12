@@ -2,7 +2,6 @@
 /* eslint-disable import/extensions */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-undef */
-import Chat from '../classes/Chat.js';
 import initializeChat from './guestChat.js';
 import { getUrlId, redirectToStats } from '../utility.js';
 import initializeGuestRTC from './guestRTC.js';
@@ -10,6 +9,7 @@ import initializeGuestRTC from './guestRTC.js';
 const nameInput = document.querySelector('#studentName');
 const invalidNameDiv = document.getElementById('invalid-student-name');
 const roomId = getUrlId();
+let studentName;
 
 function joinLecture() {
   function setNonActiveBoards(boards) {
@@ -36,7 +36,7 @@ function joinLecture() {
     setNonActiveBoards(boards.filter((e, i) => i !== boardActive));
     const roomIdAsInt = parseInt(roomId);
     initializeGuestRTC(roomIdAsInt);
-    initializeChat(socket, room.lecture_details.id);
+    initializeChat(socket, room.lecture_details.id, studentName);
   });
 
   socket.on('disconnect', () => {
@@ -63,10 +63,10 @@ function joinLecture() {
 
 window.onload = async () => {
   $('#modal-select-button').click(() => {
-    const studentName = nameInput.value;
-    if (studentName === '') {
+    if (nameInput.value === '') {
       invalidNameDiv.style.opacity = 1;
     } else {
+      studentName = nameInput.value;
       joinLecture();
       $('#login-lecture-modal').hide();
       /*
