@@ -76,6 +76,7 @@ export default async function initializeGuestRTC(roomId) {
           debug: 'all',
           server: janusUrl,
           iceServers: [{ username: 'username1', credential: 'key1', urls: 'turn:3.83.48.163:3478' }],
+          iceTransportPolicy: 'relay',
           success() {
             janus.attach(
               {
