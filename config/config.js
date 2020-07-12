@@ -16,6 +16,10 @@ const ICE_PUBLIC_SERVERS = [
   { url: 'stun:stun.xten.com' },
 ];
 
+const SUPPORTED_LANGUAGES = [
+  'pt', 'pt-BR', 'pt-PT', 'en-US',
+];
+
 dotenv.config({ path: path.resolve(__dirname, './.env') }); // requires providing full path, due to some issues with dotenv and node versions
 
 module.exports = {
@@ -34,4 +38,8 @@ module.exports = {
   sessionSecret: process.env.SESSION_SECRET,
   sessionName: process.env.SESSION_NAME,
   redisTest: process.env.REDIS_TEST,
+  sentryDSN: process.env.SENTRY_DSN,
+  defaultLanguage: process.env.DEFAULT_LANGUAGE,
+  supportedLanguages: SUPPORTED_LANGUAGES,
+  sentryEnvironment: process.env.SENTRY_ENVIRONMENT,
 };

@@ -1,25 +1,83 @@
 /* create page */
 
+* {
+  font-family: 'Open Sans', 'Lato', 'Lucida Grande', 'Lucida Sans Unicode', Tahoma, Sans-Serif, sans-serif;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body,html{
+  overflow-x: hidden;
+}
+
+.back-to-homepage{
+  position: absolute; 
+  top:15px; 
+  left:15px;
+}
+
+.back-to-homepage a{
+  text-decoration: none;
+  color: white;
+}
+
+.back-to-homepage a > span::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(135deg, #b10dc9 0%, #85144b 100%);
+  opacity: 1;
+  visibility: hidden;
+  transform: scaleX(0);
+  transition: all 0.2s ease-in-out 0s;
+}
+
+.back-to-homepage a:hover span::before{
+  visibility: visible;
+  transform: scaleX(1);
+}
+
+.back-to-homepage span{
+  position: relative;
+  bottom: 3px;
+}
+
+
 #create-lecture-graphic{
     margin: auto auto;
     padding-top: 1%;
-    width: 85%;
+    width: 80%;
     max-width: 800px;
-    min-width: 300px;
+    min-width: 350px;
+    position: relative;
+    left: -5px;
   }
   
   #create-lecture-info{
     background-color:#21212e;
     height: 390px;
-    width: 500px;
+    max-width: 650px;
+    width: 85%;
+    position: relative;
+    bottom: 25px;
     margin: 0 auto;
     border-radius: 25px;
     box-shadow: 10px 10px 54px -6px rgba(0,0,0,0.75);
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 50px;
-    position: relative;
+    margin-bottom: 20px;
+  }
+
+  .lamp-background{
+    position: absolute;
+    bottom:0;
+    right:0;
+    border-bottom-right-radius: 25px;
   }
   
   .inputText{
@@ -51,7 +109,8 @@
   }
   
   .create-button{
-    margin-bottom: 35px; 
+    margin-top:10px;
+    margin-bottom: 40px; 
   }
   
   
@@ -73,7 +132,7 @@
   .tooltip {
     left: 12.5px;
     position: relative;
-    top: -19px;
+    top: -34px;
   }
   
   .tooltip > img{
@@ -84,7 +143,7 @@
     font-size: calc(3% + 0.75em);
     visibility: hidden;
     width: auto;
-    min-width: 150px;
+    min-width: 175px;
     background-color: #555;
     color: #fff;
     text-align: left;
@@ -93,7 +152,7 @@
     position: absolute;
     z-index: 1;
     bottom: 44px;
-    right: -62px;
+    right: -75px;
     opacity: 0;
     transition: opacity 0.4s;
   }
@@ -133,16 +192,34 @@
   background-size: cover;
   }
 
+  .back-to-homepage{
+    position: absolute; 
+    top:15px; 
+    left:15px;
+  }
+
+  @media only screen and (max-width: 900px){
+    .back-to-homepage{
+      position: relative;
+      display: flex;
+      justify-content: center;
+      margin-top: 15px;
+      left: -7px;
+      z-index: 1;
+      margin-bottom: -15px;
+    }
+  }
+
 
   @media only screen and (max-width: 599px) {
   
     .tooltip .tooltiptext {
-      right: -5px;
+      right: -8.5px;
     }
   
     .tooltip{
-      left: -5px;
-      top:-12px;
+      left: -10px;
+      top:-28px;
     }
     
     .tooltip .tooltiptext::after {
@@ -204,7 +281,7 @@
     height: 45px;
     text-align: center;
     margin: auto;
-    transition: 1.5s;
+    transition: 0.5s ease;
     cursor: pointer;
     align-items: center;
     justify-content:center;
@@ -238,8 +315,8 @@
     .create-button{
       margin: 0 !important;
       position: relative;
-      bottom: 35px;
-      padding-top: 10px;
+      bottom: 45px;
+      padding-top: 20px;
     }
 
     .invalid-message{
@@ -247,11 +324,14 @@
     }
   
     .inputBox{
-      width: 80%;
+      width: 90%;
       margin: auto;
       position: relative;
-      left: calc(-3% - 12px);
       top: 2px;
+    }
+
+    label.inputText{
+      margin-left: 5px;
     }
 
     .info-inputs{
@@ -274,7 +354,7 @@
     }
     .tooltip{
       left: -22.5px;
-      top: -48px;
+      top: -59px;
     }
   
     .create-lecture-inputs:last-child{
@@ -289,6 +369,13 @@
   @media only screen and (max-width: 350px) {
     .create-lecture-container{
       display: none;
+    }
+    .back-to-homepage{
+      position: absolute;
+      left: 45%;
+      top:60%;
+      transform: translate(-50%, -50%);
+      z-index: 1;
     }
   }
 
@@ -315,6 +402,8 @@
 .boxes {
   margin: auto;
   padding: 30px;
+  position: relative;
+  bottom: 5px;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -350,7 +439,8 @@ input[type="checkbox"] + label:before {
   display: block;
   width: 20px;
   height: 20px;
-  border: 1px solid #6cc0e5;
+  /* background: linear-gradient(135deg, #b10dc9 0%, #85144b 100%); */
+  border: 1px solid rgb(70, 194, 255);
   position: absolute;
   left: 0;
   top: 0;
@@ -384,8 +474,7 @@ input[type="checkbox"]:checked + label:before {
   padding-top: 0px;
   display: flex;
   position: relative;
-  top: 10px;
-  margin-top: 100px;
+  top: 23.5px;
   font-weight: 700;
   font-size: 22px;
 }
@@ -394,6 +483,7 @@ input[type="checkbox"]:checked + label:before {
 }
 
 .info-inputs{
+  margin: 5px 0;
   padding-top: 40px;
   padding-bottom: 40px; 
 }
