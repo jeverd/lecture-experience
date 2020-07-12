@@ -38,6 +38,8 @@ module.exports = {
   sessionSecret: process.env.SESSION_SECRET,
   sessionName: process.env.SESSION_NAME,
   redisTest: process.env.REDIS_TEST,
+  sentryDSN: process.env.SENTRY_DSN,
   defaultLanguage: process.env.DEFAULT_LANGUAGE,
   supportedLanguages: SUPPORTED_LANGUAGES,
+  sentryEnvironment: process.env.SENTRY_ENVIRONMENT,
 };
