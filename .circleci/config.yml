@@ -30,7 +30,7 @@ jobs:
             echo 'running npm install'
             npm install
             cd config
-            mv example.env .env
+            mv example.test.env .env
             echo 'now running tests'
             cd ..
             npm test

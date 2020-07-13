@@ -21,7 +21,7 @@ export default async function initializeManagerRTC(roomId, stream) {
       janus = new Janus({
         server: janusUrl,
         iceServers: turnServerConfig,
-        iceTransportPolicy: 'relay',
+        // iceTransportPolicy: 'relay',   enable to force turn server
         success() {
           janus.attach({
             plugin: 'janus.plugin.videoroom',

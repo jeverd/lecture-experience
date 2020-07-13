@@ -76,7 +76,7 @@ export default async function initializeGuestRTC(roomId) {
           debug: 'all',
           server: janusUrl,
           iceServers: turnServerConfig,
-          iceTransportPolicy: 'relay',
+          // iceTransportPolicy: 'relay',   enable to force turn server
           success() {
             janus.attach(
               {

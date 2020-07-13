@@ -9,7 +9,7 @@ const Stats = require('./models/stats');
 const Manager = require('./models/manager');
 const Room = require('./models/room');
 const {
-  expressPort, environment, turnServerSecret, redisTurnDbNumber, turnServerActive, turnServerPort, turnServerEndpoint, turnServerUrl
+  expressPort, environment, turnServerSecret, redisTurnDbNumber, turnServerActive, turnServerPort, turnServerUrl,
 } = require('../config/config');
 
 const publicPath = path.join(__dirname, '../public');

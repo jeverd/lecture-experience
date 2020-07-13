@@ -19,7 +19,6 @@ const ICE_PUBLIC_SERVERS = [
 dotenv.config({ path: path.resolve(__dirname, './.env') }); // requires providing full path, due to some issues with dotenv and node versions
 
 module.exports = {
-  redisHost: process.env.REDIS_HOST,
   redisPort: process.env.REDIS_PORT,
   expressPort: process.env.EXPRESS_PORT,
   environment: process.env.NODE_ENV,
@@ -33,10 +32,8 @@ module.exports = {
   iceServers: ICE_PUBLIC_SERVERS,
   sessionSecret: process.env.SESSION_SECRET,
   sessionName: process.env.SESSION_NAME,
-  redisTest: process.env.REDIS_TEST,
   redisTurnDbNumber: process.env.REDIS_TURN_DB_NUMBER,
   turnServerSecret: process.env.TURN_SERVER_SECRET,
-  turnServerEndpoint: process.env.TURN_SERVER_ENDPOINT,
   turnServerPort: process.env.TURN_SERVER_PORT,
   turnServerActive: (process.env.TURN_SERVER_ACTIVE === 'true'),
   turnServerUrl: process.env.TURN_SERVER_URL,
