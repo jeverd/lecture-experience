@@ -21,7 +21,6 @@ function joinLecture() {
     boardsDiv.innerHTML = '';
     boards.forEach((board) => {
       const imgElem = document.createElement('img');
-      imgElem.classList.add('pages-img');
       imgElem.src = board;
       boardsDiv.appendChild(imgElem);
     });
@@ -136,10 +135,10 @@ window.onload = async () => {
   });
 };
 
-document.querySelector('#scroll-up').addEventListener('click', () => {
-  document.querySelector('.page-list').animate({ scrollTop: '-=100' }, 150);
-});
+// document.querySelector('#scroll-up').addEventListener('click', () => {
+//   document.querySelector('.page-list').animate({ scrollTop: '-=100' }, 150);
+// });
 
-document.querySelector('#scroll-down').addEventListener('click', () => {
-  document.querySelector('.page-list').animate({ scrollTop: '+=100' }, 150);
-});
+// document.querySelector('#scroll-down').addEventListener('click', () => {
+//   document.querySelector('.page-list').animate({ scrollTop: '+=100' }, 150);
+// });

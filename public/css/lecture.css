@@ -62,11 +62,15 @@ div.message-container > tr > td {
 
 .lecture-container{
     background-image: url(/Guestlecturepage–background.png);
-    /* min-height: 100vh; */
+    min-height: 100vh;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+  }
+
+  .lecture-content{
+    margin-bottom: 35px;
   }
 
   .center {
@@ -323,12 +327,10 @@ div.messages {
 
   .main-stream-container{
     position: relative;
-    width: 70vw ;
   }
 
   video.whiteboard{
-    width: 100%;
-    height: auto;
+   width: 100%;
   }
   
   .share {
@@ -341,27 +343,37 @@ div.messages {
 
   .videoContainer {
       display: flex;
-      margin-top: 30px;
-      justify-content: center;
-      position: relative;
+      margin: 0 30px 30px 30px;
+      background: gray;
+      /* overflow: hidden; */
+      height:auto;
+      width: auto;
   }
   
   .pages {
-    width: 100px;
-    height: 100%;
     background-color:#21212e;
     box-shadow: 0px 0px 20px 1px rgba(0,0,0,0.75);
+    height: 100%;
+  }
+
+  .page-list {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+    overflow-y: scroll;
+    height: 100%;
+  }
+
+  .page-list img {
+    padding-top: 23px;
+    padding: 10px;
+    height: auto;
+    width: 80px;  
   }
 
   .chat {
-    width: 100px;
+    width: 300px;
     height: 100%;
-    background-color:#21212e;
+    background-color:lightgray;
     box-shadow: 0px 0px 20px 1px rgba(0,0,0,0.75);
   }
 
@@ -384,20 +396,6 @@ div.messages {
     bottom:0;
   }
 
-  .page-list {
-    position: absolute;
-    top: 10;
-    width: 100px;
-    overflow: auto; /* Hide scrollbars */
-  }
-
-  .pages-img {
-    padding-top: 23px;
-    padding: 5px;
-    height: auto;
-    width: 80px;
-    
-  }
   /* The Modal (background) */
 .login-modal {
   display: block; /* Hidden by default */
