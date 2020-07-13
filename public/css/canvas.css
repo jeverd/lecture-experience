@@ -1764,3 +1764,7 @@ div.webcam-container{
   opacity: 1;
   transform: scale(1.1);
 }
+
+.name-span{
+  font-weight: 600;
+}
