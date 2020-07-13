@@ -20,7 +20,7 @@ export default async function initializeManagerRTC(roomId, stream) {
     callback() {
       janus = new Janus({
         server: janusUrl,
-        iceServers: [turnServerConfig],
+        iceServers: turnServerConfig,
         iceTransportPolicy: 'relay',
         success() {
           janus.attach({
