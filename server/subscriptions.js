@@ -188,6 +188,11 @@ io.sockets.on('connection', (socket) => {
     });
   });
 
+  socket.on('send-to-room', (room, message) => {
+    socket.broadcast.to(room).emit('send-to-room', message);
+  });
+
+  /* I'll comeback to this later!
   socket.on('send-to-guests', (room, message) => {
     socket.broadcast.to(room).emit('send-to-guests', message);
   });
@@ -213,4 +218,5 @@ io.sockets.on('connection', (socket) => {
       }
     });
   });
+  */
 });

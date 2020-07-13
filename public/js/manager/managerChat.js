@@ -8,7 +8,7 @@ export default function initializeChat(socket, roomId) {
   const sendContainer = document.getElementById('send-container');
   const messageInput = document.getElementById('message-input');
   const fileInput = document.getElementById('file-input');
-  socket.on('send-to-manager', (message) => {
+  socket.on('send-to-room', (message) => {
     chat.appendMessage(message, true);
     const messagesDiv = $('div.messages');
     if (!messagesDiv.hasClass('active-chat')) {
@@ -154,8 +154,8 @@ export default function initializeChat(socket, roomId) {
     const messageContent = messageInput.value.trim();
     const newFile = document.getElementById('file-input').files[0];
     if (!(messageContent === '' && typeof newFile === 'undefined')) {
-      const message = new Message(messageContent, newFile, 'Professor');
-      socket.emit('send-to-guests', roomId, message, 'Professor');
+      const message = new Message(messageContent, newFile, 'Professor', 'yellow'); //professor color
+      socket.emit('send-to-room', roomId, message);
       chat.appendMessage(message, false);
       messageInput.value = '';
       fileInput.value = '';

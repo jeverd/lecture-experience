@@ -24,12 +24,14 @@ export default class Chat {
     const nameDiv = document.createElement('div');
     nameDiv.classList.add('bottom-padding');
     const nameSpan = document.createElement('span');
+    nameSpan.classList.add('name-span');
     if (tableData.classList.contains('out')) {
       nameSpan.innerHTML = 'You';
       nameDiv.append(nameSpan);
       tableData.append(nameDiv);
     }
     if (tableData.classList.contains('in')) {
+      tableData.style.background = message.color;
       nameSpan.innerHTML = message.sender;
       nameDiv.append(nameSpan);
       tableData.append(nameDiv);

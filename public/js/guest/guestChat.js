@@ -6,11 +6,12 @@ import Chat from '../classes/Chat.js';
 const sendContainer = document.getElementById('send-container');
 const messageInput = document.getElementById('message-input');
 const fileInput = document.getElementById('file-input');
+const chatColors = ['red', 'green', 'blue', 'orange', 'grey'];
 
 
 export default function initializeChat(socket, roomId, name) {
   const chat = new Chat('message-container');
-  socket.on('send-to-guests', (message) => {
+  socket.on('send-to-room', (message) => {
     chat.appendMessage(message, true);
     // if (file) appendFile(file, fileType, fileName, 'receiver');
   });
@@ -135,14 +136,18 @@ export default function initializeChat(socket, roomId, name) {
     $('#close-preview').css('right', '15px');
   });
 
+  function randomColor() {
+    return chatColors[Math.floor(Math.random() * chatColors.length)];
+  }
 
+  const chatColor = randomColor();
   sendContainer.addEventListener('submit', (e) => {
     e.preventDefault();
     const messageContent = messageInput.value.trim();
     const newFile = document.getElementById('file-input').files[0];
     if (!(messageContent === '' && typeof newFile === 'undefined')) {
-      const message = new Message(messageContent, newFile, name);
-      socket.emit('send-to-manager', roomId, message);
+      const message = new Message(messageContent, newFile, name, chatColor);
+      socket.emit('send-to-room', roomId, message);
       chat.appendMessage(message, false);
       messageInput.value = '';
       fileInput.value = '';
