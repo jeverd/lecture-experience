@@ -78,10 +78,7 @@ export default class Chat {
     tableData.append(messageText);
     messageElement.append(tableData);
     this.container.append(messageElement);
-    const messageToggle = document.getElementById('toggle-messages');
     this.scrollToBottom();
-    const event = new Event('redraw');
-    messageToggle.dispatchEvent(event);
   }
 
   scrollToBottom() {

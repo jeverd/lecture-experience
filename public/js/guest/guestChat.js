@@ -26,9 +26,6 @@ export default function initializeChat(socket, roomId, name) {
     fileElement.innerText = fileName;
     messageElement.append(fileElement);
     messageContainer.append(messageElement);
-    const messageToggle = document.getElementById('toggle-messages');
-    const event = new Event('redraw');
-    messageToggle.dispatchEvent(event);
     fileElement.click();
     $(messageElement).remove();
   }

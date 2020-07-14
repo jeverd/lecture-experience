@@ -5,6 +5,7 @@
 import initializeChat from './guestChat.js';
 import { getUrlId, redirectToStats } from '../utility.js';
 import initializeGuestRTC from './guestRTC.js';
+import initializeOptionsMenu from './guestOptionsMenu.js';
 
 const nameInput = document.querySelector('#studentName');
 const invalidNameDiv = document.getElementById('invalid-student-name');
@@ -34,6 +35,7 @@ function joinLecture() {
     const { boards, boardActive } = room.lecture_details;
     setNonActiveBoards(boards.filter((e, i) => i !== boardActive));
     const roomIdAsInt = parseInt(roomId);
+    initializeOptionsMenu();
     initializeGuestRTC(roomIdAsInt);
     initializeChat(socket, room.lecture_details.id, studentName);
   });
