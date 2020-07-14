@@ -12,7 +12,6 @@ const {
   expressPort, environment, turnServerSecret, redisTurnDbNumber, turnServerActive, turnServerPort, turnServerUrl,  sentryDSN, sentryEnvironment,
 } = require('../config/config');
 
-const publicPath = path.join(__dirname, '../public');
 const { getLanguage, setLanguage } = require('./services/i18n/i18n');
 
 
@@ -161,6 +160,7 @@ app.get('/turnCreds', (req, res) => {
       });
     });
   }
+});
 app.get('/setLanguage', (req, res) => {
   setLanguage((key, value) => res.cookie(key, value), req.query.langCode);
   res.redirect(req.query.pageRef || '/');
