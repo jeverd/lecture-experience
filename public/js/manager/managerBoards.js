@@ -18,7 +18,7 @@ export function handleBoardsViewButtonsDisplay() {
       $('.scroll-boards-view-left').hide();
     }
     $('.scroll-boards-view-right').show();
-    if ($(boardView).scrollLeft() + boardView.offsetWidth >= boardView.scrollWidth - 15) {
+    if ($(boardView).scrollLeft() + boardView.offsetWidth >= boardView.scrollWidth) {
       $('.scroll-boards-view-right').hide();
     }
   } else {
@@ -32,23 +32,36 @@ export function updateBoardsBadge() {
   });
 }
 
-export function createNonActiveBoardElem(socket, whiteboard, img, isActive) {
-  function onClickNonActiveBoardElem() {
-    const currentBoardImage = whiteboard.getImage();
-    whiteboard.boards[whiteboard.currentBoard] = currentBoardImage;
-    $('[data-page=page]')
-      .eq(`${whiteboard.currentBoard}`)
-      .find('img')
-      .attr('src', currentBoardImage);
-    $('[data-page=page]').eq(`${whiteboard.currentBoard}`).show();
+function deactivateCurrentBoard(whiteboard) {
+  const currentBoardImage = whiteboard.getImage();
+  whiteboard.boards[whiteboard.currentBoard] = currentBoardImage;
+  const currentBoardDiv = $('[data-page=page]').eq(`${whiteboard.currentBoard}`);
+  currentBoardDiv.find('img').attr('src', currentBoardImage);
+  currentBoardDiv.find('img').show();
+  currentBoardDiv.find('video')[0].srcObject = null;
+  currentBoardDiv.find('video').hide();
+}
 
-    const clickedBoardIndex = $(this).index();
-    whiteboard.currentBoard = clickedBoardIndex;
-    emitBoards(socket, whiteboard);
-    $('[data-page=page]').eq(`${clickedBoardIndex}`).hide();
-    const newBoardImg = document.createElement('img');
-    newBoardImg.setAttribute('src', whiteboard.boards[clickedBoardIndex]);
+function activateCurrentBoard(socket, whiteboard, stream, clickedBoardIndex) {
+  whiteboard.currentBoard = clickedBoardIndex;
+  emitBoards(socket, whiteboard);
+  const clickedBoardDiv = $('[data-page=page]').eq(`${clickedBoardIndex}`);
+  clickedBoardDiv.find('img').hide();
+  clickedBoardDiv.find('video')[0].srcObject = stream;
+  clickedBoardDiv.find('video').show();
+  const newBoardImg = document.createElement('img');
+  newBoardImg.setAttribute('src', whiteboard.boards[clickedBoardIndex]);
+  setTimeout(() => {
     whiteboard.setCurrentBoard(newBoardImg);
+    socket.emit('currentBoardToAll', newBoardImg.getAttribute('src'));
+  }, 0);
+}
+
+export function createNonActiveBoardElem(socket, whiteboard, img, isActive, stream) {
+  function onClickNonActiveBoardElem() {
+    deactivateCurrentBoard(whiteboard);
+    const clickedBoardIndex = $(this).index();
+    activateCurrentBoard(socket, whiteboard, stream, clickedBoardIndex);
   }
 
   // making the new page image
@@ -63,22 +76,21 @@ export function createNonActiveBoardElem(socket, whiteboard, img, isActive) {
   const inner = document.createElement('a');
   inner.classList.add('canvas-toggle-link');
   inner.appendChild(newBoardImg);
+  const canvasStream = document.createElement('video');
+  canvasStream.autoplay = true;
+  $(canvasStream).hide();
+  inner.appendChild(canvasStream);
   outer.appendChild(inner);
   const pageList = document.getElementById('pagelist');
   pageList.appendChild(outer);
   const boardBadge = document.createElement('div');
   boardBadge.classList.add('board-badge');
   inner.appendChild(boardBadge);
+
   whiteboard.boards[whiteboard.boards.length] = img;
   newBoardImg.addEventListener('click', onClickNonActiveBoardElem.bind(outer));
   if (isActive) {
-    $(outer).hide();
-    whiteboard.currentBoard = whiteboard.boards.length - 1;
-    // must defer function to work when opening on new tab
-    setTimeout(() => {
-      whiteboard.setCurrentBoard(newBoardImg);
-      socket.emit('currentBoardToAll', img);
-    }, 0);
+    activateCurrentBoard(socket, whiteboard, stream, whiteboard.boards.length - 1);
   }
   // must defer this for DOM to have time to update
   setTimeout(() => {
@@ -87,21 +99,47 @@ export function createNonActiveBoardElem(socket, whiteboard, img, isActive) {
   }, 0);
 }
 
-export default function initializeBoards(socket, whiteboard, boards, boardActive) {
-  if (boards.length > 0) {
-    boards.forEach((boardImg, i) => {
-      createNonActiveBoardElem(socket, whiteboard, boardImg, i === boardActive);
-    });
-  } else {
-    createNonActiveBoardElem(socket, whiteboard, whiteboard.getImage(), true);
+export function addBoard(socket, whiteboard, stream) {
+  deactivateCurrentBoard(whiteboard);
+  whiteboard.clearCanvas();
+  createNonActiveBoardElem(socket, whiteboard, whiteboard.getImage(), true, stream);
+  emitBoards(socket, whiteboard);
+  $('.canvas-toggle-nav').animate({ scrollLeft: '+=100000px' }, 150, () => {
+    handleBoardsViewButtonsDisplay();
+  });
+}
+
+export function removeBoard(socket, whiteboard, stream) {
+  whiteboard.clearCanvas();
+  if (whiteboard.boards.length > 1) {
+    whiteboard.boards.splice(whiteboard.currentBoard, 1);
+    $('[data-page=page]').eq(`${whiteboard.currentBoard}`).remove();
+    activateCurrentBoard(socket, whiteboard, stream, whiteboard.boards.length - 1);
   }
 
-  if (boards.length > 1) {
-    $('.canvas-toggle-bar').show();
+  setTimeout(() => {
+    handleBoardsViewButtonsDisplay();
+    updateBoardsBadge();
+  }, 0);
+}
+
+export default function initializeBoards(socket, whiteboard, boards, boardActive, stream) {
+  if (boards.length > 0) {
+    boards.forEach((boardImg, i) => {
+      createNonActiveBoardElem(socket, whiteboard, boardImg, i === boardActive, stream);
+    });
+  } else {
+    createNonActiveBoardElem(socket, whiteboard, whiteboard.getImage(), true, stream);
   }
 
   document.querySelector('.scroll-boards-view-left').addEventListener('click', () => {
     $('.canvas-toggle-nav').animate({ scrollLeft: '-=120px' }, 150, () => {
+      handleBoardsViewButtonsDisplay();
+    });
+  });
+
+  document.querySelector('.scroll-boards-view-right').addEventListener('click', () => {
+    $('.canvas-toggle-nav').animate({ scrollLeft: '+=120px' }, 150, () => {
       handleBoardsViewButtonsDisplay();
     });
   });

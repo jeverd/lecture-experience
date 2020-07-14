@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable no-undef */
 /* eslint-disable no-use-before-define */
 /* eslint-disable no-fallthrough */
@@ -17,7 +18,9 @@ const managerId = getUrlId();
 function beginLecture(stream) {
   const whiteboard = new Whiteboard('canvas');
 
-  stream.addTrack(whiteboard.getStream().getTracks()[0]);
+  const canvasStream = whiteboard.getStream();
+  stream = stream || canvasStream;
+
   const socket = io('/', { query: `id=${managerId}` });
 
   socket.on('currentBoard', (studentSocketId) => {
@@ -43,9 +46,9 @@ function beginLecture(stream) {
     whiteboard.initialize();
     initializeCanvasTopMenu(socket, whiteboard, room.lecture_details.id);
     initializeToolsMenu(whiteboard);
-    initializeActionsMenu(socket, whiteboard);
-    initializeManagerRTC(room.lecture_details.id, stream);
-    initializeBoards(socket, whiteboard, boards, boardActive);
+    initializeActionsMenu(socket, whiteboard, canvasStream);
+    initializeManagerRTC(room.lecture_details.id, stream, canvasStream);
+    initializeBoards(socket, whiteboard, boards, boardActive, canvasStream);
     initializeChat(socket, room.lecture_details.id);
   });
 }
@@ -59,7 +62,9 @@ window.onload = () => {
                     || navigator.mozGetUserMedia
                     || navigator.msGetUserMedia;
 
-  getUserMedia({ audio: true }).then((stream) => {
+  const isWebcamActive = document.getElementById('webcam') !== null;
+  const isAudioActive = document.getElementById('audio') !== null;
+  const start = (stream = null) => {
     initializeModal(stream);
     $('#modal-select-button').click(() => {
       fetch(`/validate/lecture?id=${managerId}`).then((req) => {
@@ -78,8 +83,14 @@ window.onload = () => {
         }
       });
     });
-  }).catch((error) => {
-    // handle error properly here.
-    console.log(`Media error: ${error}`);
-  });
+  };
+
+  if (isWebcamActive || isAudioActive) {
+    getUserMedia({ audio: isAudioActive, video: isWebcamActive })
+      .then(start)
+      .catch((error) => {
+      // handle error properly here.
+        console.log(`Media error: ${error}`);
+      });
+  } else start();
 };

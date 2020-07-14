@@ -16,6 +16,10 @@ const ICE_PUBLIC_SERVERS = [
   { url: 'stun:stun.xten.com' },
 ];
 
+const SUPPORTED_LANGUAGES = [
+  'pt', 'pt-BR', 'pt-PT', 'en-US',
+];
+
 dotenv.config({ path: path.resolve(__dirname, './.env') }); // requires providing full path, due to some issues with dotenv and node versions
 
 module.exports = {
@@ -37,4 +41,8 @@ module.exports = {
   turnServerPort: process.env.TURN_SERVER_PORT,
   turnServerActive: (process.env.TURN_SERVER_ACTIVE === 'true'),
   turnServerUrl: process.env.TURN_SERVER_URL,
+  sentryDSN: process.env.SENTRY_DSN,
+  defaultLanguage: process.env.DEFAULT_LANGUAGE,
+  supportedLanguages: SUPPORTED_LANGUAGES,
+  sentryEnvironment: process.env.SENTRY_ENVIRONMENT,
 };

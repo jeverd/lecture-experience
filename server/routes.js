@@ -1,6 +1,6 @@
 /* eslint-disable no-shadow */
-const path = require('path');
 const { v4: uuidv4 } = require('uuid');
+const Sentry = require('@sentry/node');
 const { app } = require('./servers');
 const redisClient = require('./servers').client;
 const { logger } = require('./services/logger/logger');
@@ -9,31 +9,31 @@ const Stats = require('./models/stats');
 const Manager = require('./models/manager');
 const Room = require('./models/room');
 const {
-  expressPort, environment, turnServerSecret, redisTurnDbNumber, turnServerActive, turnServerPort, turnServerUrl,
+  expressPort, environment, turnServerSecret, redisTurnDbNumber, turnServerActive, turnServerPort, turnServerUrl,  sentryDSN, sentryEnvironment,
 } = require('../config/config');
 
 const publicPath = path.join(__dirname, '../public');
+const { getLanguage, setLanguage } = require('./services/i18n/i18n');
+
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(publicPath, 'index.html'));
-});
-
-app.get('/testjanus', (req, res) => {
-  res.sendFile('testjanus.html', { root: path.join(publicPath) });
+  res.render('index.html', { sentryDSN, sentryEnvironment, ...getLanguage(req.cookies, req.locale) });
 });
 
 app.get('/create', (req, res) => {
-  res.sendFile('create.html', { root: path.join(publicPath) });
+  res.render('create.html', { sentryDSN, sentryEnvironment, ...getLanguage(req.cookies, req.locale) });
 });
 
 app.post('/create', (req, res) => {
   logger.info('POST request received: /create');
   const managerId = uuidv4();
-  const { name, email, roomId } = req.body;
+  const {
+    name, email, roomId, lectureTools,
+  } = req.body;
   const newLectureStats = new Stats(name);
   newLectureStats.addUserTrack(new Date(), 0);
   redisClient.hmset('stats', { [roomId]: JSON.stringify(newLectureStats) });
-  redisClient.hmset('rooms', { [roomId]: JSON.stringify(new Room(name, managerId)) });
+  redisClient.hmset('rooms', { [roomId]: JSON.stringify(new Room(name, managerId, lectureTools)) });
   redisClient.hmset('managers', { [managerId]: JSON.stringify(new Manager(roomId, email)) });
 
   logger.info('POST /create successfully added room and manager id to redis');
@@ -75,11 +75,14 @@ app.get('/lecture/:id', (req, res) => {
         const sharableUrl = `${host}/lecture/${roomId}`;
         roomJson.id = roomId;
         roomJson.sharableUrl = sharableUrl;
+        const objToRender = {
+          sentryDSN, sentryEnvironment, ...roomJson, ...getLanguage(req.cookies, req.locale),
+        };
         if (isGuest) {
           delete roomJson.managerId;
-          res.render('lecture.html', roomJson);
+          res.render('lecture.html', objToRender);
         } else {
-          res.render('whiteboard.html', roomJson);
+          res.render('whiteboard.html', objToRender);
         }
       } else {
         res.status(404);
@@ -92,17 +95,15 @@ app.get('/lecture/:id', (req, res) => {
 app.get('/lecture/stats/:id', (req, res) => {
   const urlId = req.params.id;
   logger.info(`GET request received: /lecture/stats for lecture id: ${urlId}`);
-  const renderNotFound = () => res.status(404).redirect('/error?code=3');
   redisClient.hexists('rooms', urlId, (er, roomExist) => {
     if (roomExist) {
-      // here add the error that the lecture is still under progress
-      renderNotFound();
+      res.status(404).redirect('/error?code=4');
     } else {
       redisClient.hexists('stats', urlId, (er, statsExist) => {
         if (statsExist) {
-          res.sendFile('stats.html', { root: path.join(publicPath) });
+          res.render('stats.html', { sentryDSN, sentryEnvironment, ...getLanguage(req.cookies, req.locale) });
         } else {
-          renderNotFound();
+          res.status(404).redirect('/error?code=3');
         }
       });
     }
@@ -128,10 +129,13 @@ app.get('/error', (req, res) => {
     case '1': errType = 'PageNotFound'; break;
     case '2': errType = 'InvalidSession'; break;
     case '3': errType = 'LectureNotFound'; break;
+    case '4': errType = 'LectureInProgress'; break;
     default: break;
   }
   if (errType) {
-    res.render('error.html', { [errType]: true });
+    res.render('error.html', {
+      [errType]: true, sentryDSN, sentryEnvironment, ...getLanguage(req.cookies, req.locale),
+    });
   } else {
     res.redirect('/');
   }
@@ -157,8 +161,14 @@ app.get('/turnCreds', (req, res) => {
       });
     });
   }
+app.get('/setLanguage', (req, res) => {
+  setLanguage((key, value) => res.cookie(key, value), req.query.langCode);
+  res.redirect(req.query.pageRef || '/');
 });
 
 app.get('*', (req, res) => {
   res.redirect('/error?code=1');
 });
+
+// error handling middleware, have to specify here, refer to docs https://docs.sentry.io/platforms/node/express/, error handlers should always be defined last
+app.use(Sentry.Handlers.errorHandler()); // will capture any statusCode of 500
