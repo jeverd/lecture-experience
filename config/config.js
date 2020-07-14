@@ -41,8 +41,8 @@ module.exports = {
   turnServerPort: process.env.TURN_SERVER_PORT,
   turnServerActive: (process.env.TURN_SERVER_ACTIVE === 'true'),
   turnServerUrl: process.env.TURN_SERVER_URL,
-  sentryDSN: process.env.SENTRY_DSN,
   defaultLanguage: process.env.DEFAULT_LANGUAGE,
   supportedLanguages: SUPPORTED_LANGUAGES,
+  sentryDSN: process.env.SENTRY_DSN,
   sentryEnvironment: process.env.SENTRY_ENVIRONMENT,
 };
