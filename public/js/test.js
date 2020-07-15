@@ -38,7 +38,8 @@ window.app = {
   tools: {
     pencil: new Tool({
       onMouseDown: function (event) {
-        console.log(project.activeLayer);
+        console.log(project.layers);
+
         path = new Path({
           index: 1000,
           segments: [event.point],
@@ -112,8 +113,6 @@ window.app = {
       source: src,
       position: view.center,
     });
-    var circle = new Path.Rectangle(new Point(200, 200), 70);
-    project.activeLayer.lastChild.fillColor = 'white';
   },
   putImage: function (src, x, y) {
     new Raster({
