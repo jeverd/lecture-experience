@@ -29,19 +29,29 @@ var setPathProperties = function () {
   path.parent = items;
 };
 
+var imageLayer = new Layer();
+var drawsLayer = new Layer();
+drawsLayer.activate();
+imageLayer.insertBelow(drawsLayer);
+
 window.app = {
   tools: {
     pencil: new Tool({
       onMouseDown: function (event) {
-        console.log(project.layers);
+        console.log(project.activeLayer);
         path = new Path({
+          index: 1000,
           segments: [event.point],
           strokeCap: 'round',
+          sendToBack: false,
         });
-        setPathProperties();
+        setPathProperties(); 
+        drawsLayer.addChild(path); 
       },
-      onMouseDrag: function (event) { path.add(event.point); },
-      onMouseUp: function (event) { path.simplify(10); },
+      onMouseDrag: function (event) { path.add(event.point); 
+        drawsLayer.addChild(path);},
+      onMouseUp: function (event) { path.simplify(10); 
+        drawsLayer.addChild(path);},
     }),
     eraser: new Tool({
       onMouseDown: erase,
@@ -88,13 +98,22 @@ window.app = {
     });
     rect.fillColor = 'white';
     rect.sendToBack();
+    console.log(rect);
+  },
+  paintCircle: function () {
+    var circle = new Path.Rectangle(new Point(0, 0), view.size.width, view.size.height);
+
+    project.activeLayer.lastChild.fillColor = 'white';
+
+    items.removeChildren();
   },
   setBackground: function (src) {
     var raster = new Raster({
       source: src,
       position: view.center,
     });
-    var layer = new Layer();
+    var circle = new Path.Rectangle(new Point(200, 200), 70);
+    project.activeLayer.lastChild.fillColor = 'white';
   },
   putImage: function (src, x, y) {
     new Raster({

@@ -251,7 +251,7 @@ window.onload = async () => {
       $('[data-page=page]').eq(`${clickedBoardIndex}`).hide();
       const newBoardImg = document.createElement('img');
       newBoardImg.setAttribute('src', whiteboard.boards[clickedBoardIndex]);
-      whiteboard.setCurrentBoard(newBoardImg);
+      whiteboard.setCurrentBoard(newBoardImg, whiteboard.boards[clickedBoardIndex]);
     }
 
     function createNonActiveBoardElem(img, isActive) {

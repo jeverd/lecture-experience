@@ -306,6 +306,7 @@ export default class Whiteboard {
 
   undoPaint() {
     this.removeSelectedRegion();
+  
     this.isSelectionActive = false;
     if (this.undoStack.length > 0) {
       // this.context.putImageData(this.undoStack.pop(), 0, 0);
@@ -318,11 +319,14 @@ export default class Whiteboard {
   clearCanvas() {
     // make the canvass a blank page
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.paintWhite();
+    window.app.paintCircle();
+    // window.app.paintBackgroundWhite();
   }
 
-  setCurrentBoard(img) {
+  setCurrentBoard(img, src) {
+    window.app.paintCircle();
     this.context.drawImage(img, 0, 0);
+    window.app.setBackground(src);
   }
 
   pushToUndoStack() {
