@@ -11,6 +11,26 @@ body {
     margin: 0;
   }
 
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(150, 150, 150);
+  border-radius: 20px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
 .lecture-container{
     background-image: url(/Guestlecturepage–background.png);
     min-height: 100vh;
@@ -142,7 +162,7 @@ body {
     display: flex;
     flex-direction: column;
     overflow-x: hidden;
-    overflow-y: hidden;
+    overflow-y: auto;
   }
 
   .pages {
@@ -154,12 +174,12 @@ body {
   
 
   .page-list img {
-    border-radius: 10px;
+    border-radius: 19.5px;
     cursor: pointer;
     transition: 0.25s ease;
     opacity: 0.75;
-    padding: .5rem;
-    width: 90px;  
+    padding: .6rem 1.2rem;
+    width: 110px;  
   }
 
   .page-list img:hover {
@@ -176,11 +196,11 @@ body {
 
   .active-menu-item{
     width: 100% !important;
-    background-color:#4b4b5f;
+    background-color:#3c3c53;
   }
 
   .active-menu-item-button{
-    background-color:#4b4b5f;
+    background-color:#3c3c53;
   }
   
   .options-menu{
@@ -221,32 +241,6 @@ body {
     background: linear-gradient(to right, #46c2ff 0%, #cdeaf8 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-  }
-
-  .scroll-button {
-    position: absolute;
-    border: none;
-    z-index: 10;
-    width: 100%;
-    cursor: pointer;
-    outline: none;
-  }
-
-  .scroll-button i{
-    opacity: 0.75;
-    transition: .4s;
-  }
-
-  .scroll-button i:hover{
-    opacity: 1;
-  }
-
-  .scroll-button:first-child{
-    top: 0;
-  }
-
-  .scroll-button:last-child{
-    bottom:0;
   }
 
   /* The Modal (background) */
