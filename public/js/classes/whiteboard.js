@@ -18,6 +18,7 @@ import {
 import { handleBoardsViewButtonsDisplay } from '../manager/managerBoards.js';
 import Fill from './fill.js';
 import Point from './point.js';
+import Tools from './Tools.js';
 
 const DEFAULT_COLOR = '#424242';
 
@@ -28,6 +29,7 @@ export default class Whiteboard {
     this.canvas.width = window.innerWidth;
     this.context = this.canvas.getContext('2d');
     this.canvas.style.cursor = 'crosshair';
+    this.tools = new Tools();
     this.currentBoard = 0;
     this.paintWhite();
     this.boards = [];
@@ -73,7 +75,9 @@ export default class Whiteboard {
   }
 
   set activeTool(tool) {
+    console.log(this.tool)
     this.tool = tool;
+    console.log(this.tool)
   }
 
   set lineWidth(lineWidth) {
@@ -82,8 +86,10 @@ export default class Whiteboard {
   }
 
   set selectedColor(color) {
+    console.log(this.context.strokeStyle);
     this._color = color;
     this.context.strokeStyle = this._color;
+    console.log(this.context.strokeStyle)
   }
 
   // returns a MediaStream of canvas
@@ -97,16 +103,18 @@ export default class Whiteboard {
   }
 
   initialize() {
-    this.activeTool = TOOL_PENCIL;
-    this.lineWidth = 3;
-    this.selectedColor = DEFAULT_COLOR;
+   // this.activeTool = TOOL_PENCIL;
+   // this.lineWidth = 3;
+   // this.selectedColor = DEFAULT_COLOR;
     this.canvas.onmousedown = this.onMouseDown.bind(this);
     this.canvas.ontouchstart = this.onMouseDown.bind(this);
+   // window.app.tools.pencil.activate(); 
   }
 
   paintWhite() {
-    this.context.fillStyle = 'white';
-    this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    // this.context.fillStyle = 'white';
+    // this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    window.app.paintBackgroundWhite();
   }
 
   onMouseDown(e) {
@@ -114,13 +122,16 @@ export default class Whiteboard {
 
     this.pushToUndoStack();
 
+    /*
     this.canvas.onmousemove = this.onMouseMove.bind(this);
     this.canvas.addEventListener('touchmove', this.onMouseMove.bind(this), false);
     document.onmouseup = this.onMouseUp.bind(this);
     document.ontouchend = this.onMouseUp.bind(this);
+    */
 
     this.startPos = getMouseCoordsOnCanvas(e, this.canvas); // NaN here
 
+    /*
     switch (this.tool) {
       case TOOL_PENCIL:
         // begin path again and again for good quality
@@ -133,6 +144,7 @@ export default class Whiteboard {
         break;
       default: break;
     }
+    */
   }
 
   onMouseMove(e) {
@@ -208,27 +220,14 @@ export default class Whiteboard {
 
   handleResize() {
     let timeout;
-    let isStartingToResize = true;
-    const inMemCanvas = document.createElement('canvas');
-    const inMemCtx = inMemCanvas.getContext('2d');
     const onResizeDone = () => {
-      this.canvas.height = window.innerHeight;
-      this.canvas.width = window.innerWidth;
-      this.paintWhite();
-      this.setCurrentBoard(inMemCanvas);
+      whiteboard.paintWhite();
+      whiteboard.setCurrentBoard(inMemCanvas);
       handleBoardsViewButtonsDisplay();
-      isStartingToResize = true;
     };
-    // eslint-disable-next-line no-undef
     $(window).on('resize', () => {
-      if (isStartingToResize) {
-        inMemCanvas.width = this.canvas.width;
-        inMemCanvas.height = this.canvas.height;
-        inMemCtx.drawImage(this.canvas, 0, 0);
-        isStartingToResize = false;
-      }
       clearTimeout(timeout);
-      timeout = setTimeout(onResizeDone, 100);
+      timeout = setTimeout(onResizeDone, 20);
     });
   }
 
@@ -338,13 +337,15 @@ export default class Whiteboard {
   }
 
   undoPaint() {
-    const currentBoard = this.context.getImageData(0, 0, this.canvas.width, this.canvas.height);
-
     this.removeSelectedRegion();
+  
+    this.isSelectionActive = false;
     if (this.undoStack.length > 0) {
-      this.redoStack.push(currentBoard);
-      this.context.putImageData(this.undoStack.pop(), 0, 0);
-    } else {
+      // this.context.putImageData(this.undoStack.pop(), 0, 0);
+      const imgData = this.undoStack.pop();
+      const imgElem = getImgElemFromImgData(imgData);
+      window.app.setBackground(imgElem.src);
+    }else {
       showInfoMessage('Nothing to undo.');
     }
   }
@@ -363,11 +364,13 @@ export default class Whiteboard {
   clearCanvas() {
     // make the canvass a blank page
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.paintWhite();
+    window.app.paintCircle();
   }
 
   setCurrentBoard(img) {
+    window.app.paintCircle();
     this.context.drawImage(img, 0, 0);
+    window.app.setBackground(img.src);
   }
 
   pushToUndoStack() {

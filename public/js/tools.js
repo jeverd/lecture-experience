@@ -44,8 +44,8 @@ export default function initializeToolsMenu(whiteboard) {
 
         $(item).find('.left-bar-link-svg').addClass('tool-active-svg');
         $(item).find('.left-bar-link').addClass('tool-active');
-
-        whiteboard.activeTool = item.getAttribute('data-tool');
+        const clickedTool = item.getAttribute('data-tool');
+        whiteboard.tools.switchTo(clickedTool);
       })),
   );
 
@@ -55,8 +55,8 @@ export default function initializeToolsMenu(whiteboard) {
         $('[data-line-width]').find('.tool-active').removeClass('tool-active');
         $(item).find('.left-bar-link').addClass('tool-active');
 
-        const lineWidth = item.getAttribute('data-line-width');
-        whiteboard.lineWidth = lineWidth;
+        const selectedWidth = item.getAttribute('data-line-width');
+        activeWidth = selectedWidth;
       });
     },
   );
@@ -66,7 +66,8 @@ export default function initializeToolsMenu(whiteboard) {
       item.addEventListener('click', () => {
         $('[data-color]').find('.tool-active').removeClass('tool-active');
         $(item).find('.right-bar-link').addClass('tool-active');
-        whiteboard.selectedColor = item.getAttribute('data-color');
+        const selectedColor = item.getAttribute('data-color');
+        activeColor = selectedColor;
       });
     },
   );
