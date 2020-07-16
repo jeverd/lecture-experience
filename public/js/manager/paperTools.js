@@ -9,6 +9,13 @@
 var path;
 var items = new Group();
 
+console.log(view);
+setTimeout(function () {
+  view.center = (200, 200);
+  view.zoom += 0.5;
+  console.log(view);
+}, 10000);
+
 var erase = function (event) {
   var hitResult = items.hitTest(event.point);
   if (hitResult) {
@@ -20,6 +27,10 @@ var erase = function (event) {
       }
     }, 250);
   }
+};
+
+var Zoom = function (scale) {
+  view.zoom += 0.1;
 };
 
 var setPathProperties = function () {
@@ -46,13 +57,17 @@ window.app = {
           strokeCap: 'round',
           sendToBack: false,
         });
-        setPathProperties(); 
-        drawsLayer.addChild(path); 
+        setPathProperties();
+        drawsLayer.addChild(path);
       },
-      onMouseDrag: function (event) { path.add(event.point); 
-        drawsLayer.addChild(path);},
-      onMouseUp: function (event) { path.simplify(10); 
-        drawsLayer.addChild(path);},
+      onMouseDrag: function (event) {
+        path.add(event.point);
+        drawsLayer.addChild(path);
+      },
+      onMouseUp: function (event) {
+        path.simplify(10);
+        drawsLayer.addChild(path);
+      },
     }),
     eraser: new Tool({
       onMouseDown: erase,
@@ -120,5 +135,8 @@ window.app = {
       position: new Point(x, y),
       parent: items,
     });
+  },
+  zoom: function (scale, x, y) {
+    Zoom(scale);
   },
 };

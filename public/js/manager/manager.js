@@ -33,6 +33,7 @@ function beginLecture(stream) {
 
   handleWindowResize();
 
+
   const canvasStream = whiteboard.getStream();
   stream = stream || canvasStream;
 
@@ -65,6 +66,11 @@ function beginLecture(stream) {
     initializeManagerRTC(room.lecture_details.id, stream, canvasStream);
     initializeBoards(socket, whiteboard, boards, boardActive, canvasStream);
     initializeChat(socket, room.lecture_details.id);
+    document.getElementById('canvas').addEventListener('wheel', myFunction);
+
+    function myFunction(e) {
+      whiteboard.onScroll(e.deltaY, e.clientX, e.clientY);
+    }
   });
 }
 

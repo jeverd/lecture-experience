@@ -31,6 +31,7 @@ export default class Whiteboard {
     this.canvas.style.cursor = 'crosshair';
     this.tools = new Tools();
     this.currentBoard = 0;
+    this.onScroll();
     this.paintWhite();
     this.boards = [];
     this.undoStack = [];
@@ -75,9 +76,7 @@ export default class Whiteboard {
   }
 
   set activeTool(tool) {
-    console.log(this.tool)
     this.tool = tool;
-    console.log(this.tool)
   }
 
   set lineWidth(lineWidth) {
@@ -86,10 +85,8 @@ export default class Whiteboard {
   }
 
   set selectedColor(color) {
-    console.log(this.context.strokeStyle);
     this._color = color;
     this.context.strokeStyle = this._color;
-    console.log(this.context.strokeStyle)
   }
 
   // returns a MediaStream of canvas
@@ -103,12 +100,12 @@ export default class Whiteboard {
   }
 
   initialize() {
-   // this.activeTool = TOOL_PENCIL;
-   // this.lineWidth = 3;
-   // this.selectedColor = DEFAULT_COLOR;
+    // this.activeTool = TOOL_PENCIL;
+    // this.lineWidth = 3;
+    // this.selectedColor = DEFAULT_COLOR;
     this.canvas.onmousedown = this.onMouseDown.bind(this);
     this.canvas.ontouchstart = this.onMouseDown.bind(this);
-   // window.app.tools.pencil.activate(); 
+    // window.app.tools.pencil.activate();
   }
 
   paintWhite() {
@@ -192,6 +189,10 @@ export default class Whiteboard {
       this.context.lineWidth = this._lineWidth;
       this.selectionTransformation();
     }
+  }
+
+  onScroll(e, x, y) {
+    window.app.zoom(e, x, y);
   }
 
   pasteRegion(img, x, y) {
@@ -338,14 +339,14 @@ export default class Whiteboard {
 
   undoPaint() {
     this.removeSelectedRegion();
-  
+
     this.isSelectionActive = false;
     if (this.undoStack.length > 0) {
       // this.context.putImageData(this.undoStack.pop(), 0, 0);
       const imgData = this.undoStack.pop();
       const imgElem = getImgElemFromImgData(imgData);
       window.app.setBackground(imgElem.src);
-    }else {
+    } else {
       showInfoMessage('Nothing to undo.');
     }
   }
