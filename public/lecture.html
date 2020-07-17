@@ -32,23 +32,29 @@
 
 <body>
     <div class="lecture-container">
-        <div class="lecture-content center">
-            <div class="titleBoard"><span class="title" id="lectureTitle">Lecture Name</span></div>
-
-            <div class="lecture-top-bar">
-                <img class="nav-icon" src="/helpLecture.png">
-                <span class="nav-Text">Get Help</span>
+        <div class="lecture-content">
+            <div class="titleBoard"><span class="title" id="lectureTitle">{{name}}</span></div>
             
-                <img class="nav-icon" src="/aboutLecture.png">
-                <span class="nav-Text">About Lecture</span>
-    
-                <img class="nav-icon" src="/endLecture.png">
-                <span class="nav-Text" style="margin-right: 0px;">Leave Lecture</span>
-                <h2 class="specs">Spectators: <span id="specs"></span></h2>
-            </div>
-    
             <div class="videoContainer">
                 <div class="main-stream-container">
+                    <div class="lecture-top-bar">
+                        <div>
+                            <img class="nav-icon" src="/helpLecture.png"/>
+                            <span class="nav-Text">Get Help</span>
+                        </div>
+                        <div>
+                            <img class="nav-icon" src="/aboutLecture.png"/>
+                            <span class="nav-Text">About Lecture</span>
+                        </div>
+                        <div>
+                            <img class="nav-icon" src="/endLecture.png"/>
+                            <span class="nav-Text" style="margin-right: 0px;">Leave Lecture</span>
+                        </div>
+                        <div>
+                            <img class="nav-icon" src="/group.png"/>
+                            <span class="nav-Text">Viewers (<span id="specs"></span>)</span>
+                        </div>
+                    </div>
                     {{#lectureTools}}
                         {{#whiteboard}}
                             <div class="center" id="board-container">

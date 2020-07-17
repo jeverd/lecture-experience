@@ -31,17 +31,12 @@ body {
   background: #555;
 }
 
-.lecture-container{
-    background-image: url(/Guestlecturepage–background.png);
-    min-height: 100vh;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-  }
-
   .lecture-content{
     margin-bottom: 35px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 
   .center {
@@ -53,13 +48,10 @@ body {
 
   .titleBoard{
     background-color:#21212e;
-    width: 300px;
     border-radius: 5px;
     box-shadow: 0px 0px 20px 1px rgba(0,0,0,0.75);
-    height: 70px;
-
-    margin-top: 50px;
-
+    margin: 40px 40px 80px 40px;
+    padding: 20px 40px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -68,35 +60,40 @@ body {
 
   .title {
     font-size: 30px;
-    /* font-weight: bold; */
     color: white;
     font-family: "Muli", sans-serif, "Open Sans";
   }
 
   .lecture-top-bar {
     background-color:#21212e;
-    width: 600px;
-    border-radius: 5px;
-    box-shadow: 0px 0px 20px 1px rgba(0,0,0,0.75);
-    height: 70px;
-
-    margin-top: 50px;
-
+    border-radius:5px 5px 0 0;
+    position: absolute;
     display: flex;
-    flex-direction: row;
     justify-content: center;
     align-items: center;
-    text-align: center;
+    top: -65px;
+    box-shadow: 0px 0px 5px .5px rgba(0,0,0,0.75);
+    z-index: 1;
+    padding: 10px;
+    left: 0;
+    height: 65px;
+  }
+
+  .lecture-top-bar > div{
+    margin: 0 7.5px;
+    display: flex;
+    flex-direction: row;
   }
 
   .nav-icon {
       width: 30px;
-      height: 30px;
+      height: 30px;      
   }
   
   .nav-Text {
     font-size: 14px;
-    /* font-weight: bold; */
+    position: relative;
+    top: 6px;
     color: white;
     font-family: "Muli", sans-serif, "Open Sans";
     margin-right: 30px;
@@ -144,12 +141,13 @@ body {
   }
 
   video.whiteboard{
-    height: 320px;
-    object-fit: cover;
-    border-radius: .25em 0px 0px .25em;
+    height: 350px;
+    /* object-fit: cover; */
+    border-radius: 0px 0px 0px .25em;
   }
 
   .videoContainer {
+    position:relative;
     display: flex;
     margin: 0 30px 30px 30px;
     height:auto;
@@ -158,7 +156,7 @@ body {
   }
   
   .page-list {
-    max-height: 320px;
+    max-height: 350px;
     display: flex;
     flex-direction: column;
     overflow-x: hidden;
@@ -171,24 +169,60 @@ body {
     overflow: hidden;
     transition: 0.8s ease-in-out;
   }
-  
+
+  @media only screen and (max-width: 1060px) {
+    video.whiteboard{
+      height: 290px;
+    }
+
+    div.message-container{
+      max-height: calc(290px - 35px);
+    }
+
+    .videoContainer{
+      margin: 0 3px 30px 3px;
+    }
+    .page-list{
+      max-height: 290px;
+    }
+
+  }
+
+  @media only screen and (max-width: 850px) {
+    video.whiteboard{
+      height: 230px;
+    }
+ 
+    div.message-container{
+      max-height: calc(230px - 35px);
+    }
+
+    span.nav-Text{
+      font-size: .75rem;
+    }
+
+    .page-list{
+      max-height: 230px;
+    }
+
+  }
 
   .page-list img {
-    border-radius: 19.5px;
+    border-radius: 16px;
     cursor: pointer;
     transition: 0.25s ease;
     opacity: 0.75;
-    padding: .6rem 1.2rem;
-    width: 110px;  
+    padding: .6rem 1rem;
+    width: 130px;  
   }
 
   .page-list img:hover {
     opacity: 1;
-    transform: scale(1.05);
+    transform: scaleX(1.05);
   }
 
   .chat {
-    width: 250px;
+    max-width: 310px;
     overflow: hidden;
     transition: 0.8s ease-in-out;
     border-radius: 0px 10px 10px 0;
@@ -474,6 +508,8 @@ body {
     align-items: center;
   }
 
+
+
   .inputBox{
     margin-left: 0px;
     padding-right: 0px;
@@ -620,6 +656,7 @@ div.messages.active-chat{
   
 .message-container {
   position: absolute;
+  max-height: calc(350px - 35px);
   bottom: 0;
   overflow-y: auto;
   word-wrap: break-word;
@@ -746,12 +783,6 @@ background-color: rgb(53, 53, 73);
   margin: 40px 0;
   text-align: center;
   left:-100px;
-}
-
-.videoContainer {
-    display: flex;
-    flex-direction: row;
-    margin-top: 30px;
 }
 
 /*preview*/
