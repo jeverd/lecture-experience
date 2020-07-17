@@ -66,7 +66,8 @@ export function createNonActiveBoardElem(socket, whiteboard, img, isActive, stre
 
   // making the new page image
   const newBoardImg = document.createElement('img');
-  newBoardImg.setAttribute('src', img);
+  const svgImg = whiteboard.getSvgImage();
+  newBoardImg.setAttribute('src', svgImg);
   // setting the class to item and active
   const outer = document.createElement('li');
   outer.classList.add('canvas-toggle-item');
@@ -87,7 +88,7 @@ export function createNonActiveBoardElem(socket, whiteboard, img, isActive, stre
   boardBadge.classList.add('board-badge');
   inner.appendChild(boardBadge);
 
-  whiteboard.boards[whiteboard.boards.length] = img;
+  whiteboard.boards[whiteboard.boards.length] = svgImg;
   newBoardImg.addEventListener('click', onClickNonActiveBoardElem.bind(outer));
   if (isActive) {
     activateCurrentBoard(socket, whiteboard, stream, whiteboard.boards.length - 1);

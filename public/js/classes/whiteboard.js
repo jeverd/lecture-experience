@@ -1,3 +1,7 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable guard-for-in */
+/* eslint-disable no-var */
+/* eslint-disable class-methods-use-this */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-case-declarations */
 /* eslint-disable no-new */
@@ -118,7 +122,6 @@ export default class Whiteboard {
     this.removeSelectedRegion();
 
     this.pushToUndoStack();
-
     /*
     this.canvas.onmousemove = this.onMouseMove.bind(this);
     this.canvas.addEventListener('touchmove', this.onMouseMove.bind(this), false);
@@ -150,7 +153,7 @@ export default class Whiteboard {
     if (this.tool !== TOOL_SELECTAREA) {
       this.redoStack = [];
     }
-
+    this.pushToUndoStack();
     // loop for every shape at the user's disposal
     switch (this.tool) {
       case TOOL_SELECTAREA:
@@ -176,9 +179,11 @@ export default class Whiteboard {
   onMouseUp() {
     this.canvas.onmousemove = (e) => {
       this.currentPos = getMouseCoordsOnCanvas(e, this.canvas);
+      this.pushToUndoStack();
     };
     this.canvas.ontouchmove = (e) => {
       this.currentPos = getMouseCoordsOnCanvas(e, this.canvas);
+      this.pushToUndoStack();
     };
     document.onmouseup = null;
     document.ontouchend = null;
@@ -343,9 +348,10 @@ export default class Whiteboard {
     this.isSelectionActive = false;
     if (this.undoStack.length > 0) {
       // this.context.putImageData(this.undoStack.pop(), 0, 0);
-      const imgData = this.undoStack.pop();
-      const imgElem = getImgElemFromImgData(imgData);
-      window.app.setBackground(imgElem.src);
+      console.log(this.undoStack, 'lista toda');
+      const draws = this.undoStack.pop();
+      console.log(draws, 'so o item');
+      window.app.addDraws(draws);
     } else {
       showInfoMessage('Nothing to undo.');
     }
@@ -364,8 +370,12 @@ export default class Whiteboard {
 
   clearCanvas() {
     // make the canvass a blank page
-    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    // this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     window.app.paintCircle();
+  }
+
+  getSvgImage() {
+    return window.app.saveSVG();
   }
 
   setCurrentBoard(img) {
@@ -375,10 +385,16 @@ export default class Whiteboard {
   }
 
   pushToUndoStack() {
-    const undoLimit = 40;
-    this.saveData = this.context.getImageData(0, 0, this.canvas.width, this.canvas.height);
+    var undoLimit = 40;
+    var array = [];
+    for (var i in window.app.getElem()) {
+      array.push(window.app.getElem()[i].pathData);
+      console.log(window.app.getElem()[i].pathData,'pathdata');
+    }
+    this.saveData = array;
     if (this.undoStack.length >= undoLimit) this.undoStack.shift();
     this.undoStack.push(this.saveData);
+    // console.log(this.undoStack,'undostack');
   }
 
   removeSelectedRegion() {

@@ -1,3 +1,5 @@
+/* eslint-disable guard-for-in */
+/* eslint-disable no-restricted-syntax */
 /* eslint-disable vars-on-top */
 /* eslint-disable prefer-arrow-callback */
 /* eslint-disable no-new */
@@ -8,16 +10,15 @@
 /* eslint-disable no-unused-vars */
 var path;
 var items = new Group();
+var imageLayer = new Layer();
+var drawsLayer = new Layer();
+drawsLayer.addChild(items);
+drawsLayer.activate();
+imageLayer.insertBelow(drawsLayer);
 
-console.log(view);
-setTimeout(function () {
-  view.center = (200, 200);
-  view.zoom += 0.5;
-  console.log(view);
-}, 10000);
 
 var erase = function (event) {
-  var hitResult = items.hitTest(event.point);
+  var hitResult = drawsLayer.hitTest(event.point);
   if (hitResult) {
     hitResult.item.opacity = 0.625;
     eraserTimeout = setTimeout(function () {
@@ -40,10 +41,6 @@ var setPathProperties = function () {
   path.parent = items;
 };
 
-var imageLayer = new Layer();
-var drawsLayer = new Layer();
-drawsLayer.activate();
-imageLayer.insertBelow(drawsLayer);
 
 window.app = {
   tools: {
@@ -67,6 +64,7 @@ window.app = {
       onMouseUp: function (event) {
         path.simplify(10);
         drawsLayer.addChild(path);
+        console.log(drawsLayer.children);
       },
     }),
     eraser: new Tool({
@@ -114,14 +112,15 @@ window.app = {
     });
     rect.fillColor = 'white';
     rect.sendToBack();
-    console.log(rect);
+    imageLayer.addChild(rect);
   },
   paintCircle: function () {
-    var circle = new Path.Rectangle(new Point(0, 0), view.size.width, view.size.height);
+     var circle = new Path.Rectangle(new Point(0, 0), view.size.width, view.size.height);
 
-    project.activeLayer.lastChild.fillColor = 'white';
+     project.activeLayer.lastChild.fillColor = 'white';
 
-    items.removeChildren();
+     drawsLayer.removeChildren();
+
   },
   setBackground: function (src) {
     var raster = new Raster({
@@ -138,5 +137,26 @@ window.app = {
   },
   zoom: function (scale, x, y) {
     Zoom(scale);
+  },
+  getElem: function () {
+    return drawsLayer.children;
+  },
+  addDraws: function (array) {
+    this.paintCircle();
+
+    console.log(array, 'add');
+    for (var i in array) {
+      var loadedPath = new Path({
+        pathData: array[i],
+      });
+      loadedPath.strokeColor = activeColor;
+      loadedPath.strokeWidth = activeWidth;
+      loadedPath.parent = items;
+
+      drawsLayer.addChild(loadedPath);
+    }
+  },
+  saveSVG: function () {
+    return project.exportSVG();
   },
 };
