@@ -1,5 +1,6 @@
 const winston = require('winston');
 const { PapertrailTransport, PapertrailConnection } = require('winston-papertrail');
+const Sentry = require('winston-sentry-log');
 
 const { format } = winston;
 const {
@@ -7,7 +8,7 @@ const {
 } = format;
 
 const {
-  environment, ptPort, ptHost, loggerFlag,
+  environment, ptPort, ptHost, loggerFlag, sentryDSN,
 } = require('../../../config/config');
 
 const consoleFormat = printf(({
@@ -26,8 +27,22 @@ const consoleLogger = new winston.transports.Console({
   silent: !loggerFlag,
 });
 
+// sentry logs
 
-const loggerTransports = [consoleLogger];
+const options = {
+  config: {
+    dsn: sentryDSN,
+  },
+  level: 'error',
+};
+
+// eslint-disable-next-line new-cap
+const sentryLogger = new winston.createLogger({
+  transports: [new Sentry(options)],
+});
+
+
+const loggerTransports = [consoleLogger, sentryLogger];
 
 if (environment === 'PRODUCTION' || environment === 'STAGING') {
   const papertrailConnection = new PapertrailConnection({
