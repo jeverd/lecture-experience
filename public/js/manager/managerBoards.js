@@ -7,6 +7,7 @@ export function emitBoards(socket, whiteboard) {
     boards: whiteboard.boards,
     activeBoardIndex: whiteboard.currentBoard,
   });
+  socket.emit('currentBoardToAll', whiteboard.boards[whiteboard.currentBoard]);
 }
 
 export function handleBoardsViewButtonsDisplay() {

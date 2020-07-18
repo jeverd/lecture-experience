@@ -12,6 +12,7 @@ const nameInput = document.querySelector('#studentName');
 const invalidNameDiv = document.getElementById('invalid-student-name');
 const roomId = getUrlId();
 let studentName;
+let currentBoard;
 
 function joinLecture() {
   function setNonActiveBoards(boards) {
@@ -55,7 +56,8 @@ function joinLecture() {
   });
 
   socket.on('managerDisconnected', () => {
-    document.querySelector('video.whiteboard').load();
+    $('video#whiteboard').replaceWith('<video class="whiteboard" id="whiteboard" playsinline autoplay muted ></video>');
+    document.querySelector('#whiteboard').poster = currentBoard;
     $('#lecture-status .status-dot').css('background', getStatusColor('host_disconnected'));
     $('#lecture-status .status-text').html($('#status-host-disconnected').val());
   });
@@ -67,7 +69,8 @@ function joinLecture() {
   socket.on('boards', setNonActiveBoards);
 
   socket.on('currentBoard', (board) => {
-    document.querySelector('#whiteboard').poster = board;
+    currentBoard = board;
+    document.querySelector('#whiteboard').poster = currentBoard;
   });
 }
 

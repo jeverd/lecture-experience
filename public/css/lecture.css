@@ -213,7 +213,6 @@ body {
 video.whiteboard{
   height: 350px;
   min-width: 300px;
-  /* object-fit: cover; */
   border-radius: 0px 0px 0px .25em;
 }
 
