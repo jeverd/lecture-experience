@@ -1,7 +1,7 @@
 /* eslint-disable import/extensions */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-undef */
-import { getJanusUrl, addStream } from '../utility.js';
+import { getJanusUrl, addStream, getTurnCreds } from '../utility.js';
 
 export default async function initializeGuestRTC(roomId) {
   const janusUrl = getJanusUrl();
@@ -60,14 +60,7 @@ export default async function initializeGuestRTC(roomId) {
     });
   }
 
-  let turnServerConfig;
-  const response = await fetch('/turncreds');
-  if (response.status === 200) {
-    const {
-      active, username, password, uri,
-    } = await response.json();
-    turnServerConfig = active ? [{ username, credential: password, urls: uri }] : [];
-  }
+  const turnServerConfig = await getTurnCreds();
   Janus.init({
     callback() {
       janus = new Janus(

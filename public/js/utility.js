@@ -132,3 +132,15 @@ export function addStream(htmlElem, streamTrack) {
     }
   }
 }
+
+export async function getTurnCreds() {
+  const response = await fetch('/turncreds');
+  if (response.status === 200) {
+    const {
+      active, username, password, uri,
+    } = await response.json();
+    const turnServerConfig = active ? [{ username, credential: password, urls: uri }] : [];
+    return turnServerConfig;
+  }
+  return null;
+}

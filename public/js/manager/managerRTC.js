@@ -1,6 +1,6 @@
 /* eslint-disable import/extensions */
 /* eslint-disable no-undef */
-import { getJanusUrl, addStream } from '../utility.js';
+import { getJanusUrl, addStream, getTurnCreds } from '../utility.js';
 
 export default async function initializeManagerRTC(roomId, stream, canvasStream) {
   const janusUrl = getJanusUrl();
@@ -49,14 +49,7 @@ export default async function initializeManagerRTC(roomId, stream, canvasStream)
     });
   }
 
-  let turnServerConfig;
-  const response = await fetch('/turncreds');
-  if (response.status === 200) {
-    const {
-      active, username, password, uri,
-    } = await response.json();
-    turnServerConfig = active ? [{ username, credential: password, urls: uri }] : [];
-  }
+  const turnServerConfig = await getTurnCreds();
   Janus.init({
     debug: 'all',
     callback() {
