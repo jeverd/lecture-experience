@@ -35,7 +35,8 @@ export function updateBoardsBadge() {
 }
 
 function deactivateCurrentBoard(whiteboard) {
-  //console.log(whiteboard.getSvgImage(), 'SVG')
+  // console.log(whiteboard.getSvgImage().toDataURL("image/png"), 'SVG')
+  console.log(whiteboard.getSvgImage());
   const currentBoardImage = whiteboard.getImage();
   const currentBoardPath = whiteboard.getDraws();
   console.log(currentBoardPath, 'deactivate path');

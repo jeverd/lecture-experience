@@ -2,7 +2,7 @@
 /* eslint-disable no-param-reassign */
 export const TOOL_SQUARE = 'square';
 export const TOOL_TRIANGLE = 'triangle';
-export const TOOL_PAINT_BUCKET = 'paint-bucket';
+export const TOOL_PAINT_BUCKET = 'pointer';
 export const TOOL_PENCIL = 'pencil';
 export const TOOL_ERASER = 'eraser';
 export const TOOL_LINE = 'line';
@@ -46,6 +46,7 @@ export default function initializeToolsMenu(whiteboard) {
         $(item).find('.left-bar-link').addClass('tool-active');
         const clickedTool = item.getAttribute('data-tool');
         whiteboard.tools.switchTo(clickedTool);
+        console.log(clickedTool);
       })),
   );
 

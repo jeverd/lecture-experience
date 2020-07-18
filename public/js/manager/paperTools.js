@@ -12,6 +12,7 @@ var path;
 var items = new Group();
 var imageLayer = new Layer();
 var drawsLayer = new Layer();
+var selectedItem;
 drawsLayer.addChild(items);
 drawsLayer.activate();
 imageLayer.insertBelow(drawsLayer);
@@ -28,6 +29,23 @@ var erase = function (event) {
       }
     }, 250);
   }
+};
+
+var selectItem = function (event) {
+  var hitResult = drawsLayer.hitTest(event.point);
+  if (hitResult) {
+    selectedItem = hitResult;
+    selectedItem.item.fullySelected = true;
+  }
+};
+
+var drag = function (event) {
+  selectedItem.item.position = event.point;
+};
+
+var deselectItem = function (event) {
+  selectedItem.item.fullySelected = false;
+  selectedItem = '';
 };
 
 var Zoom = function (scale) {
@@ -67,6 +85,11 @@ window.app = {
         console.log(drawsLayer.children);
       },
     }),
+    pointer: new Tool({
+      onMouseDown: selectItem,
+      onMouseDrag: drag,
+      onMouseUp: deselectItem,
+    }),
     eraser: new Tool({
       onMouseDown: erase,
       onMouseDrag: erase,
@@ -88,6 +111,10 @@ window.app = {
         path = new Path.Rectangle(rectangle);
         setPathProperties();
         drawsLayer.addChild(path);
+        path.onMouseDrag = function (e) {
+          console.log('clicou nele');
+          //path.position += e.point - e.lastPoint;
+        };
         path.removeOnDrag();
       },
     }),
@@ -119,12 +146,11 @@ window.app = {
     imageLayer.addChild(rect);
   },
   paintCircle: function () {
-     var circle = new Path.Rectangle(new Point(0, 0), view.size.width, view.size.height);
+    var circle = new Path.Rectangle(new Point(0, 0), view.size.width, view.size.height);
 
-     project.activeLayer.lastChild.fillColor = 'white';
+    project.activeLayer.lastChild.fillColor = 'white';
 
-     drawsLayer.removeChildren();
-
+    drawsLayer.removeChildren();
   },
   setBackground: function (src) {
     var raster = new Raster({
