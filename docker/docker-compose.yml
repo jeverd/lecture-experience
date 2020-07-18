@@ -18,7 +18,7 @@ services:
         - "8000:8000"
         - "7088:7088"
         - "7089:7089"
+        - "8188:8188"
       volumes:
         - ./docker-config/janus.jcfg:/usr/local/etc/janus/janus.jcfg  # might need to change this later, dk if this is best practice .... TODO  
       restart: always
-

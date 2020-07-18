@@ -5,6 +5,7 @@
 /* eslint-disable import/no-absolute-path */
 /* eslint-disable-next-line import/no-unresolved */
 import Point from './classes/point.js';
+import { stunServers } from '../../config/config';
 
 export function getMouseCoordsOnCanvas(e, canvas) {
   let x; let y;
@@ -131,4 +132,18 @@ export function addStream(htmlElem, streamTrack) {
       htmlElem.src = window.URL.createObjURL(stream);
     }
   }
+}
+
+export async function getTurnCreds() {
+  const response = await fetch('/turncreds');
+  if (response.status === 200) {
+    const {
+      active, username, password, uri,
+    } = await response.json();
+
+    if (active) {
+      return [...stunServers, { username, credential: password, urls: uri }];
+    }
+  }
+  return stunServers;
 }

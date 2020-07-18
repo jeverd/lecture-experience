@@ -1,7 +1,7 @@
 const dotenv = require('dotenv');
 const path = require('path');
 
-const ICE_PUBLIC_SERVERS = [
+const STUN_PUBLIC_SERVERS = [
   { urls: 'stun:stun.l.google.com:19302' },
   { urls: 'stun:stun1.l.google.com:19302' },
   { urls: 'stun:stun2.l.google.com:19302' },
@@ -23,7 +23,6 @@ const SUPPORTED_LANGUAGES = [
 dotenv.config({ path: path.resolve(__dirname, './.env') }); // requires providing full path, due to some issues with dotenv and node versions
 
 module.exports = {
-  redisHost: process.env.REDIS_HOST,
   redisPort: process.env.REDIS_PORT,
   expressPort: process.env.EXPRESS_PORT,
   environment: process.env.NODE_ENV,
@@ -34,12 +33,16 @@ module.exports = {
   emailPassword: process.env.EMAIL_PASSWORD,
   emailService: process.env.EMAIL_SERVICE,
   loggerFlag: (process.env.LOGGER === 'true'),
-  iceServers: ICE_PUBLIC_SERVERS,
+  iceServers: STUN_PUBLIC_SERVERS,
   sessionSecret: process.env.SESSION_SECRET,
   sessionName: process.env.SESSION_NAME,
-  redisTest: process.env.REDIS_TEST,
-  sentryDSN: process.env.SENTRY_DSN,
+  redisTurnDbNumber: process.env.REDIS_TURN_DB_NUMBER,
+  turnServerSecret: process.env.TURN_SERVER_SECRET,
+  turnServerPort: process.env.TURN_SERVER_PORT,
+  turnServerActive: (process.env.TURN_SERVER_ACTIVE === 'true'),
+  turnServerUrl: process.env.TURN_SERVER_URL,
   defaultLanguage: process.env.DEFAULT_LANGUAGE,
   supportedLanguages: SUPPORTED_LANGUAGES,
+  sentryDSN: process.env.SENTRY_DSN,
   sentryEnvironment: process.env.SENTRY_ENVIRONMENT,
 };
