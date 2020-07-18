@@ -1,21 +1,6 @@
 const dotenv = require('dotenv');
 const path = require('path');
 
-const STUN_PUBLIC_SERVERS = [
-  { urls: 'stun:stun.l.google.com:19302' },
-  { urls: 'stun:stun1.l.google.com:19302' },
-  { urls: 'stun:stun2.l.google.com:19302' },
-  { url: 'stun:stun01.sipphone.com' },
-  { url: 'stun:stun.ekiga.net' },
-  { url: 'stun:stunserver.org' },
-  { url: 'stun:stun.softjoys.com' },
-  { url: 'stun:stun.voiparound.com' },
-  { url: 'stun:stun.voipbuster.com' },
-  { url: 'stun:stun.voipstunt.com' },
-  { url: 'stun:stun.voxgratia.org' },
-  { url: 'stun:stun.xten.com' },
-];
-
 const SUPPORTED_LANGUAGES = [
   'pt', 'pt-BR', 'pt-PT', 'en-US',
 ];
@@ -33,7 +18,6 @@ module.exports = {
   emailPassword: process.env.EMAIL_PASSWORD,
   emailService: process.env.EMAIL_SERVICE,
   loggerFlag: (process.env.LOGGER === 'true'),
-  stunServers: STUN_PUBLIC_SERVERS,
   sessionSecret: process.env.SESSION_SECRET,
   sessionName: process.env.SESSION_NAME,
   redisTurnDbNumber: process.env.REDIS_TURN_DB_NUMBER,

@@ -5,7 +5,6 @@
 /* eslint-disable import/no-absolute-path */
 /* eslint-disable-next-line import/no-unresolved */
 import Point from './classes/point.js';
-import { stunServers } from '../../config/config';
 
 export function getMouseCoordsOnCanvas(e, canvas) {
   let x; let y;
@@ -134,16 +133,32 @@ export function addStream(htmlElem, streamTrack) {
   }
 }
 
-export async function getTurnCreds() {
+export async function getTurnServers() {
   const response = await fetch('/turncreds');
+  const turnServers = [];
   if (response.status === 200) {
     const {
       active, username, password, uri,
     } = await response.json();
 
-    if (active) {
-      return [...stunServers, { username, credential: password, urls: uri }];
-    }
+    if (active) turnServers.push({ username, credential: password, urls: uri });
   }
-  return stunServers;
+  return turnServers;
+}
+
+export function getStunServers() {
+  return [
+    { urls: 'stun:stun.l.google.com:19302' },
+    { urls: 'stun:stun1.l.google.com:19302' },
+    { urls: 'stun:stun2.l.google.com:19302' },
+    { url: 'stun:stun01.sipphone.com' },
+    { url: 'stun:stun.ekiga.net' },
+    { url: 'stun:stunserver.org' },
+    { url: 'stun:stun.softjoys.com' },
+    { url: 'stun:stun.voiparound.com' },
+    { url: 'stun:stun.voipbuster.com' },
+    { url: 'stun:stun.voipstunt.com' },
+    { url: 'stun:stun.voxgratia.org' },
+    { url: 'stun:stun.xten.com' },
+  ];
 }

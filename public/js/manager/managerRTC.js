@@ -1,6 +1,8 @@
 /* eslint-disable import/extensions */
 /* eslint-disable no-undef */
-import { getJanusUrl, addStream, getTurnCreds } from '../utility.js';
+import {
+  getJanusUrl, addStream, getTurnServers, getStunServers,
+} from '../utility.js';
 
 export default async function initializeManagerRTC(roomId, stream, canvasStream) {
   const janusUrl = getJanusUrl();
@@ -49,13 +51,14 @@ export default async function initializeManagerRTC(roomId, stream, canvasStream)
     });
   }
 
-  const turnServerConfig = await getTurnCreds();
+  const turnServers = await getTurnServers();
+  const stunServers = getStunServers();
   Janus.init({
     debug: 'all',
     callback() {
       janus = new Janus({
         server: janusUrl,
-        iceServers: turnServerConfig,
+        iceServers: [...turnServers, ...stunServers],
         // iceTransportPolicy: 'relay',   enable to force turn server
         success() {
           if (stream.getVideoTracks().length === 0) {
