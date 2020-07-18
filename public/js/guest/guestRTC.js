@@ -1,7 +1,7 @@
 /* eslint-disable import/extensions */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-undef */
-import { getJanusUrl, addStream } from '../utility.js';
+import { getJanusUrl, addStream, getStatusColor } from '../utility.js';
 
 export default function initializeGuestRTC(roomId) {
   const janusUrl = getJanusUrl();
@@ -55,6 +55,10 @@ export default function initializeGuestRTC(roomId) {
           } else {
             addStream(whiteboard, videoTrack);
           }
+          setTimeout(() => {
+            $('#lecture-status .status-dot').css('background', getStatusColor('live'));
+            $('#lecture-status .status-text').html($('#status-live').val());
+          }, 400);
         },
       });
     });

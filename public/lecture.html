@@ -14,7 +14,6 @@
     />  
     <link rel="stylesheet" href="/lecture.css">
     <link rel="stylesheet" href="/style.css" />
-    <!-- <link rel="stylesheet" href="/canvas.css" />  -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css" 
@@ -25,33 +24,45 @@
       integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
       crossorigin="anonymous"
     />
-    <title>Document</title>
+    <title>{{name}}</title>
 </head>
 
 
 
 <body>
+    <div class="top-logo-bar">
+        <a href="/">
+            <img src="/logo.png"/>
+        </a>
+    </div>
     <div class="lecture-container">
         <div class="lecture-content">
-            <div class="titleBoard"><span class="title" id="lectureTitle">{{name}}</span></div>
-            
+            <div class="titleBoard">
+                <img class="title-circle" src="/liteboardCircle.png"/>
+                <img class="title-triangle" src="/liteboardTriangle.png"/>
+                <span class="title" id="lectureTitle">{{#lang}}{{guestLectureRoom}}{{/lang}} | <b>{{name}}</b></span>
+            </div>
             <div class="videoContainer">
                 <div class="main-stream-container">
                     <div class="lecture-top-bar">
-                        <div>
-                            <img class="nav-icon" src="/helpLecture.png"/>
-                            <span class="nav-Text">Get Help</span>
+                        <div id="lecture-status">
+                            <input type="hidden" id="status-starting" value="{{#lang}}{{statusStarting}}{{/lang}}"/>
+                            <input type="hidden" id="status-host-disconnected" value="{{#lang}}{{statusHostDisconnected}}{{/lang}}"/>
+                            <input type="hidden" id="status-connection-lost" value="{{#lang}}{{statusConnectionLost}}{{/lang}}"/>
+                            <input type="hidden" id="status-live" value="{{#lang}}{{statusLive}}{{/lang}}"/>
+                            <div class="status-dot"></div>
+                            <span class="status-text"></span>
                         </div>
                         <div>
-                            <img class="nav-icon" src="/aboutLecture.png"/>
-                            <span class="nav-Text">About Lecture</span>
+                            <img class="nav-icon" src="/phone.svg"/>
+                            <span class="nav-Text">Join on Phone</span>
+                        </div>
+                        <div id="fullscreen-video">
+                            <img class="nav-icon" src="/expand.svg"/>
+                            <span class="nav-Text">Fullscreen</span>
                         </div>
                         <div>
-                            <img class="nav-icon" src="/endLecture.png"/>
-                            <span class="nav-Text" style="margin-right: 0px;">Leave Lecture</span>
-                        </div>
-                        <div>
-                            <img class="nav-icon" src="/group.png"/>
+                            <img class="nav-icon spectators-icon" src="/group.png"/>
                             <span class="nav-Text">Viewers (<span id="specs"></span>)</span>
                         </div>
                     </div>
@@ -109,7 +120,6 @@
                     </div>
                 </div>
             </div>
-            <button onclick="openFullscreen();">Open Video in Fullscreen Mode</button>
         </div>
     </div>
 
@@ -161,24 +171,6 @@
             </div>
         </div>
     </div>
-
-    <script>
-        const elem = document.getElementById("whiteboard");
-
-        function openFullscreen() {
-            if (elem.requestFullscreen) {
-                elem.requestFullscreen();
-            } else if (elem.mozRequestFullScreen) { /* Firefox */
-                elem.mozRequestFullScreen();
-            } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
-                elem.webkitRequestFullscreen();
-            } else if (elem.msRequestFullscreen) { /* IE/Edge */
-                elem.msRequestFullscreen();
-            }
-        }
-    </script>
-
-    
 
     <div id="login-lecture-modal" class="login-modal">
       <!-- Start Modal content -->

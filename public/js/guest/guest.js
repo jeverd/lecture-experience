@@ -3,9 +3,10 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-undef */
 import initializeChat from './guestChat.js';
-import { getUrlId, redirectToStats } from '../utility.js';
+import { getUrlId, redirectToStats, getStatusColor } from '../utility.js';
 import initializeGuestRTC from './guestRTC.js';
 import initializeOptionsMenu from './guestOptionsMenu.js';
+import initializeTopMenu from './guestTopMenu.js';
 
 const nameInput = document.querySelector('#studentName');
 const invalidNameDiv = document.getElementById('invalid-student-name');
@@ -37,22 +38,30 @@ function joinLecture() {
     const roomIdAsInt = parseInt(roomId);
     initializeOptionsMenu();
     initializeGuestRTC(roomIdAsInt);
+    initializeTopMenu();
     initializeChat(socket, room.lecture_details.id, studentName);
   });
 
-  socket.on('disconnect', () => {
+  socket.on('lectureEnd', () => {
     // Right now only redirect to stats
     // But later we will display a modal saying
     // That the lecture ended and then redirect them.
     redirectToStats(roomId);
   });
 
-  socket.on('updateNumOfStudents', (num) => {
-    document.getElementById('specs').innerHTML = num;
+  socket.on('disconnect', () => {
+    $('#lecture-status .status-dot').css('background', getStatusColor('connection_lost'));
+    $('#lecture-status .status-text').html($('#status-connection-lost').val());
   });
 
-  socket.on('notifyPeerIdToManager', (managerSocketId) => {
-    socket.emit('notify', managerSocketId);
+  socket.on('managerDisconnected', () => {
+    document.querySelector('video.whiteboard').load();
+    $('#lecture-status .status-dot').css('background', getStatusColor('host_disconnected'));
+    $('#lecture-status .status-text').html($('#status-host-disconnected').val());
+  });
+
+  socket.on('updateNumOfStudents', (num) => {
+    document.getElementById('specs').innerHTML = num;
   });
 
   socket.on('boards', setNonActiveBoards);
@@ -68,6 +77,8 @@ window.onload = async () => {
       invalidNameDiv.style.opacity = 1;
     } else {
       studentName = nameInput.value;
+      $('#lecture-status .status-dot').css('background', getStatusColor('starting'));
+      $('#lecture-status .status-text').html($('#status-starting').val());
       joinLecture();
       $('#login-lecture-modal').hide();
       /*

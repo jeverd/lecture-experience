@@ -59,5 +59,10 @@
   "statsAvgNum": "Média de alunos",
   "statsBoardsUsed": "Quadros criados",
   "statsDuration": "Duração da Aula",
-  "statsRateExperience": "Por favor nos dê seu feedback"
+  "statsRateExperience": "Por favor nos dê seu feedback",
+  "statusStarting": "Iniciando",
+  "statusHostDisconnected": "Host Desconectado",
+  "statusConnectionLost": "Conexão Perdida",
+  "statusLive": "Ao Vivo",
+  "guestLectureRoom": "Sala de Aula"
 }
