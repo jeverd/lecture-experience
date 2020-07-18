@@ -33,7 +33,7 @@ module.exports = {
   emailPassword: process.env.EMAIL_PASSWORD,
   emailService: process.env.EMAIL_SERVICE,
   loggerFlag: (process.env.LOGGER === 'true'),
-  iceServers: STUN_PUBLIC_SERVERS,
+  stunServers: STUN_PUBLIC_SERVERS,
   sessionSecret: process.env.SESSION_SECRET,
   sessionName: process.env.SESSION_NAME,
   redisTurnDbNumber: process.env.REDIS_TURN_DB_NUMBER,
