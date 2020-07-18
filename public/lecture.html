@@ -24,6 +24,14 @@
       integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
       crossorigin="anonymous"
     />
+    <link
+        rel="stylesheet" type="text/css"
+        href="https://cdn.jsdelivr.net/gh/loadingio/ldbutton@v1.0.1/dist/ldbtn.min.css"
+    />
+    <link
+        rel="stylesheet" type="text/css"
+        href="https://cdn.jsdelivr.net/gh/loadingio/loading.css@v2.0.0/dist/loading.min.css"
+    />
     <title>{{name}}</title>
 </head>
 
@@ -53,7 +61,7 @@
                             <div class="status-dot"></div>
                             <span class="status-text"></span>
                         </div>
-                        <div>
+                        <div class="connect-on-phone">
                             <img class="nav-icon" src="/phone.svg"/>
                             <span class="nav-Text">Join on Phone</span>
                         </div>
@@ -68,7 +76,8 @@
                     </div>
                     {{#lectureTools}}
                         {{#whiteboard}}
-                            <div class="center" id="board-container">
+                            <div class="center ld-over" id="board-container">
+                                <i style="font-size:2rem; color: gray;" class="ld ld-ring ld-spin"></i>
                                 <video class="whiteboard" id="whiteboard" playsinline autoplay muted ></video>
                             </div>
                         {{/whiteboard}}

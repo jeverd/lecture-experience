@@ -198,6 +198,11 @@ body {
     margin-left: 30px;
 }
 
+.spin-ring{
+  border-radius: 50%;
+  border-top: 1px;
+}
+
 .share {
   position: relative;
   width: 250px;
@@ -273,6 +278,61 @@ video.whiteboard{
 
   .page-list{
     max-height: 230px;
+  }
+}
+
+@media only screen and (max-width: 730px) {
+  video.whiteboard{
+    height: auto;
+    width: 95%;
+    border-radius: .25rem .25rem 0 0;
+  }
+
+  div.options-menu{
+    display: none;
+  }
+
+  #chat-view,
+  #boards-view{
+    display: flex !important;
+    width: 100% !important;
+  }
+
+  div.message-container{
+    max-height: calc(auto - 35px);
+  }
+
+  div.connect-on-phone{
+    display: none;
+  }
+
+  .lecture-top-bar{
+    left:50%;
+    transform: translateX(-50%);
+  }
+
+  div.page-list{
+    max-height: auto;
+    flex-direction: row;
+    align-self: center;
+    text-align: center;
+    background-color: #3c3c53;
+    box-shadow: 0px 0px 20px 1px rgba(0,0,0,0.75);
+    max-width: 92.2vw;
+    overflow-y: hidden;
+    overflow-x: auto; 
+    margin: 0 auto;
+  }
+
+  span.nav-Text{
+    font-size: .68rem;
+  }
+  img.nav-icon{
+    height: 25px;
+  }
+
+  .videoContainer{
+    flex-direction: column;
   }
 
 }

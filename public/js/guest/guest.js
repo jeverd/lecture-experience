@@ -4,7 +4,7 @@
 /* eslint-disable no-undef */
 import initializeChat from './guestChat.js';
 import { getUrlId, redirectToStats, getStatusColor } from '../utility.js';
-import initializeGuestRTC from './guestRTC.js';
+import initializeGuestRTC, { changeStatus } from './guestRTC.js';
 import initializeOptionsMenu from './guestOptionsMenu.js';
 import initializeTopMenu from './guestTopMenu.js';
 
@@ -51,15 +51,13 @@ function joinLecture() {
   });
 
   socket.on('disconnect', () => {
-    $('#lecture-status .status-dot').css('background', getStatusColor('connection_lost'));
-    $('#lecture-status .status-text').html($('#status-connection-lost').val());
+    changeStatus.connection_lost();
+    document.querySelector('#whiteboard').poster = currentBoard;
   });
 
   socket.on('managerDisconnected', () => {
-    $('video#whiteboard').replaceWith('<video class="whiteboard" id="whiteboard" playsinline autoplay muted ></video>');
     document.querySelector('#whiteboard').poster = currentBoard;
-    $('#lecture-status .status-dot').css('background', getStatusColor('host_disconnected'));
-    $('#lecture-status .status-text').html($('#status-host-disconnected').val());
+    changeStatus.host_disconnected();
   });
 
   socket.on('updateNumOfStudents', (num) => {
@@ -82,6 +80,7 @@ window.onload = async () => {
       studentName = nameInput.value;
       $('#lecture-status .status-dot').css('background', getStatusColor('starting'));
       $('#lecture-status .status-text').html($('#status-starting').val());
+      $('video#whiteboard').parent().addClass('running');
       joinLecture();
       $('#login-lecture-modal').hide();
       /*
