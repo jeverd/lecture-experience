@@ -1,0 +1,236 @@
+.centered {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+    margin-top: -80px;
+  }
+
+  .webcam {
+      width: 70%;
+      height: auto;
+      margin-top: auto;
+      margin-bottom: auto;
+      position: relative;
+  }
+
+  .classroom-info {
+    position: absolute;
+    z-index: 10;
+    top: 0px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
+    border: none;
+    color: white;
+    background-color: #21212e;
+    transition: width 600ms ease;
+    overflow: hidden;
+    border-bottom-right-radius: 27px;
+    border-bottom-left-radius: 27px;
+    -webkit-box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3),
+      0 15px 12px rgba(0, 0, 0, 0.22);
+    box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+    font-size: 0.8rem;
+    margin: 0;
+  }
+
+  .classroom-info-flexbox {
+    /* display tob bar contents in a row */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    /* forces topbar text to stay in a single line */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: 500;
+  }
+
+  .lecture-running,
+.end-lecture-container,
+.mic-config-container,
+.lecture-spectators,
+.copy-link-container,
+.test-mic-container,
+.go-back,
+.my-boards-button-container,
+.view-chat-container,
+.chat-button-container,
+.hide-bar-button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  position: relative;
+}
+
+.status-dot {
+    color: #2ecc40;
+}
+
+@media only screen and (max-width: 800px) {
+.lecture-running-text,
+.spectators-count-text,
+.end-lecture-text,
+.mic-config-text,
+.copy-link-text {
+    display: none;
+}
+}
+
+.divider {
+    padding: 0rem 1rem 0rem 1rem;
+  }
+
+  .end-lecture-icon {
+    font-size: 1.333em;
+    position: relative;
+    bottom: 1.7px;
+    color: #ef5350;
+  }
+
+  .sharelink-info-icon {
+    font-size: 1.25em;
+    position: relative;
+    bottom: 2px;
+    color: #46c2ff;
+    background: linear-gradient(to right, #bd11fa 0%, #46c2ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+
+.chat-button-container,
+.my-boards-button-container,
+.end-lecture-container,
+.mic-config-container,
+.copy-link-container,
+.test-mic-container,
+.go-back {
+  opacity: 0.8;
+  transition: 0.4s ease;
+  cursor: pointer;
+}
+
+.chat-button-container:hover,
+.my-boards-button-container:hover,
+.end-lecture-container:hover,
+.mic-config-container:hover,
+.copy-link-container:hover,
+.test-mic-container:hover,
+.go-back:hover {
+  opacity: 1;
+}
+
+.lecture-running,
+.end-lecture-container,
+.mic-config-container,
+.lecture-spectators,
+.copy-link-container,
+.test-mic-container,
+.go-back,
+.my-boards-button-container,
+.view-chat-container,
+.chat-button-container,
+.hide-bar-button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  position: relative;
+}
+
+.config-icon-top-menu{
+    font-size: 17px;
+    position: relative;
+    right: 1px;
+    top: -2px;
+  }
+
+  .lecture-running,
+.end-lecture-container,
+.mic-config-container,
+.lecture-spectators,
+.copy-link-container,
+.test-mic-container,
+.go-back,
+.my-boards-button-container,
+.view-chat-container,
+.chat-button-container,
+.hide-bar-button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  position: relative;
+}
+
+
+.show-bar-button,
+.hide-bar-button {
+  text-decoration: none;
+  color: white;
+  background: rgb(70, 194, 255);
+  background: linear-gradient(135deg, #b10dc9 0%, #85144b 100%);
+  opacity: 0.85;
+  border: none;
+  outline: none;
+  border-radius: 50%;
+  height: 35px;
+  width: 35px;
+  text-align: center;
+  margin: auto;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: all 1.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.show-bar-button:hover,
+.hide-bar-button:hover {
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  opacity: 1;
+  transform: translateY(-1.5px);
+}
+
+.chat {
+background-color: #fff;
+height: 100%;
+width: 20%;
+}
+
+.content {
+    margin-top: 100px;
+    width: 90%;
+    height: auto;
+    display: flex;
+        /* remove this when you add the chat */
+    background-color: white;
+}
+
+@media only screen and (max-width: 1080px) {
+  .content {
+    margin-top: 100px;
+    margin-bottom: 100px;
+    flex-direction: column;
+    width: 80%;
+  }
+
+  .chat {
+    height: 300px;
+    width: 100%;
+
+    margin-right: auto;
+    margin-left: auto;
+    }
+
+    .webcam {
+      width: 100%;
+
+      margin-right: auto;
+      margin-left: auto;
+
+  }
+}

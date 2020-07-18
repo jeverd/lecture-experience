@@ -73,7 +73,7 @@ app.get('/lecture/:id', (req, res) => {
           delete roomJson.managerId;
           res.render('lecture.html', objToRender);
         } else {
-          res.render('whiteboard.html', objToRender);
+          res.render('webcamboard.html', objToRender);
         }
       } else {
         res.status(404);
