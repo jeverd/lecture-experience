@@ -3,20 +3,18 @@
 import Message from '../classes/Message.js';
 import Chat from '../classes/Chat.js';
 
-export default function initializeChat(socket, roomId) {
+const sendContainer = document.getElementById('send-container');
+const messageInput = document.getElementById('message-input');
+const fileInput = document.getElementById('file-input');
+const chatColors = ['red', 'green', 'blue', 'orange', 'grey'];
+
+
+export default function initializeChat(socket, roomId, name) {
   const chat = new Chat('message-container');
-  const sendContainer = document.getElementById('send-container');
-  const messageInput = document.getElementById('message-input');
-  const fileInput = document.getElementById('file-input');
   socket.on('send-to-room', (message) => {
     chat.appendMessage(message, true);
-    const messagesDiv = $('div.messages');
-    if (!messagesDiv.hasClass('active-chat')) {
-      chat.unreadCount += 1;
-      $('.new-messages-badge').html(chat.unreadCount);
-    }
+    // if (file) appendFile(file, fileType, fileName, 'receiver');
   });
-
   function downloadFile(file, fileName) {
     const messageContainer = document.getElementById('message-container');
     const messageElement = document.createElement('tr');
@@ -28,9 +26,6 @@ export default function initializeChat(socket, roomId) {
     fileElement.innerText = fileName;
     messageElement.append(fileElement);
     messageContainer.append(messageElement);
-    const messageToggle = document.getElementById('toggle-messages');
-    const event = new Event('redraw');
-    messageToggle.dispatchEvent(event);
     fileElement.click();
     $(messageElement).remove();
   }
@@ -117,7 +112,6 @@ export default function initializeChat(socket, roomId) {
     const image = document.querySelector('.modal-message-image');
     const modal = document.getElementById('image-modal');
     const download = document.querySelector('.download-container');
-
     if (modal.style.display === 'block') {
       if (!image.contains(e.target) && !download.contains(e.target) && click > 0) {
         $(modal).hide();
@@ -139,22 +133,17 @@ export default function initializeChat(socket, roomId) {
     $('#close-preview').css('right', '15px');
   });
 
-  $('#toggle-messages').click((e) => {
-    e.preventDefault();
-    const messagesDiv = $('div.messages');
-    messagesDiv.toggleClass('active-chat');
-    if (messagesDiv.hasClass('active-chat')) {
-      chat.unreadCount = 0;
-      $('.new-messages-badge').html(chat.unreadCount);
-    }
-  });
+  function randomColor() {
+    return chatColors[Math.floor(Math.random() * chatColors.length)];
+  }
 
+  const chatColor = randomColor();
   sendContainer.addEventListener('submit', (e) => {
     e.preventDefault();
     const messageContent = messageInput.value.trim();
     const newFile = document.getElementById('file-input').files[0];
     if (!(messageContent === '' && typeof newFile === 'undefined')) {
-      const message = new Message(messageContent, newFile, 'Professor', 'yellow'); //professor color
+      const message = new Message(messageContent, newFile, name, chatColor);
       socket.emit('send-to-room', roomId, message);
       chat.appendMessage(message, false);
       messageInput.value = '';

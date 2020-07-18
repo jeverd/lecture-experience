@@ -6,90 +6,130 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Open+Sans">
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+      integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+      crossorigin="anonymous"
+    />  
     <link rel="stylesheet" href="/lecture.css">
     <link rel="stylesheet" href="/style.css" />
-    <!-- <link rel="stylesheet" href="/canvas.css" />  -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css" 
+    />
     <link
       rel="stylesheet"
       href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
       integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
       crossorigin="anonymous"
     />
-    <title>Document</title>
+    <link
+        rel="stylesheet" type="text/css"
+        href="https://cdn.jsdelivr.net/gh/loadingio/ldbutton@v1.0.1/dist/ldbtn.min.css"
+    />
+    <link
+        rel="stylesheet" type="text/css"
+        href="https://cdn.jsdelivr.net/gh/loadingio/loading.css@v2.0.0/dist/loading.min.css"
+    />
+    <title>{{name}}</title>
 </head>
 
-<body style="margin: 0px;">
-    <div class="lecture-container center">
-        <div class="titleBoard"><span class="title" id="lectureTitle">Lecture Name</span></div>
 
-        <div class="lecture-top-bar">
-            <img class="nav-icon" src="/helpLecture.png">
-            <span class="nav-Text">Get Help</span>
-        
-            <img class="nav-icon" src="/aboutLecture.png">
-            <span class="nav-Text">About Lecture</span>
 
-            <img class="nav-icon" src="/endLecture.png">
-            <span class="nav-Text" style="margin-right: 0px;">Leave Lecture</span>
-            <h2 class="specs">Spectators: <span id="specs"></span></h2>
-        </div>
-
-        <div class="videoContainer">
-                <!--start canvas image toggle bar-->
-        
-            <div class="pages">
-                <div class="lecture-bot-bar" >
-                    <div class="canvas-toggle-bar">
-                        <nav>
-                        <button class="scroll-boards-view-left">
-                            <i class="fas fa-chevron-left"></i>
-                        </button>
-                        <ul class="canvas-toggle-nav" id="non-active-boards"></ul>
-                        <button class="scroll-boards-view-right">
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
-                        </nav>
+<body>
+    <div class="top-logo-bar">
+        <a href="/">
+            <img src="/logo.png"/>
+        </a>
+    </div>
+    <div class="lecture-container">
+        <div class="lecture-content">
+            <div class="titleBoard">
+                <img class="title-circle" src="/liteboardCircle.png"/>
+                <img class="title-triangle" src="/liteboardTriangle.png"/>
+                <span class="title" id="lectureTitle">{{#lang}}{{guestLectureRoom}}{{/lang}} | <b>{{name}}</b></span>
+            </div>
+            <div class="videoContainer">
+                <div class="main-stream-container">
+                    <div class="lecture-top-bar">
+                        <div id="lecture-status">
+                            <input type="hidden" id="status-starting" value="{{#lang}}{{statusStarting}}{{/lang}}"/>
+                            <input type="hidden" id="status-host-disconnected" value="{{#lang}}{{statusHostDisconnected}}{{/lang}}"/>
+                            <input type="hidden" id="status-connection-lost" value="{{#lang}}{{statusConnectionLost}}{{/lang}}"/>
+                            <input type="hidden" id="status-live" value="{{#lang}}{{statusLive}}{{/lang}}"/>
+                            <div class="status-dot"></div>
+                            <span class="status-text"></span>
+                        </div>
+                        <div class="connect-on-phone">
+                            <img class="nav-icon" src="/phone.svg"/>
+                            <span class="nav-Text">Join on Phone</span>
+                        </div>
+                        <div id="fullscreen-video">
+                            <img class="nav-icon" src="/expand.svg"/>
+                            <span class="nav-Text">Fullscreen</span>
+                        </div>
+                        <div>
+                            <img class="nav-icon spectators-icon" src="/group.png"/>
+                            <span class="nav-Text">Viewers (<span id="specs"></span>)</span>
+                        </div>
+                    </div>
+                    {{#lectureTools}}
+                        {{#whiteboard}}
+                            <div class="center ld-over" id="board-container">
+                                <i style="font-size:2rem; color: gray;" class="ld ld-ring ld-spin"></i>
+                                <video class="whiteboard" id="whiteboard" playsinline autoplay muted ></video>
+                            </div>
+                        {{/whiteboard}}
+                        {{#audio}}
+                            <audio class="audio" style="margin-top: -60px;" id="speaker" controls autoplay ></audio> 
+                        {{/audio}}
+                        {{#webcam}}
+                            <video muted height="300" width="400" id="webcam" playsinline autoplay></video>
+                        {{/webcam}}
+                    {{/lectureTools}}
+                </div>
+                <div class="options-menu menu-borders">
+                    <div id="toggle-boards-view" target-id="boards-view" class="boards-button-container">
+                        <img src="/whiteboard.svg" />
+                    </div>
+                    <div id="toggle-chat-view" target-id="chat-view" class="chat-button-container">
+                        <i class="fas fa-comment-dots chat-info-icon"></i>
+                    </div>
+                </div>
+                <div style="display: none; width: 0;" id="boards-view" class="pages">
+                    <div class="page-list" id="non-active-boards"></div>
+                </div>
+                <div style="display: none; width: 0;" id="chat-view" class="chat">
+                    <div id="wrapper" class="messages-main">
+                        <div class="message-container" id="message-container">
+                        <div class="message-lecture-name">
+                        </div>
+                        <div id="preview" class="preview" style="display: none;">
+                            <div class="preview-content">
+                            <i class="fas fa-file" id="file-preview"></i>
+                            <img src="" id='image-preview' class='image-preview'>
+                            <span id="name-file"></span>
+                            <i class="fas fa-times close-preview" id="close-preview"></i>
+                            </div> 
+                        </div>
+                        </div>
+                    </div>
+                    <div id="send-wrapper">
+                        
+                        <form id="send-container">
+                            <span class="v_divider"></span>
+                            <input autocomplete="off" spellcheck="false" type="text" id="message-input">
+                            <input type="file" name="file" id="file-input" class="inputfile" />
+                            <label for="file-input">
+                                <i class="fas fa-paperclip paperclip"></i>
+                            </label>
+                            <button type="submit" id="send-button"><i class="fas fa-chevron-right send-icon"></i></button>
+                        </form>        
                     </div>
                 </div>
             </div>
-            <!-- <div style="position: relative;" class="video">
-                <div class="video-container center" id="board-container">
-                    <video class="video" id="whiteboard" playsinline autoplay muted></video>
-                </div>
-                <audio class="audio" style="margin-top: -60px;" id="speaker" controls autoplay ></audio>    
-            </div> -->
-            <div style="position: relative;" class="video">
-                {{#lectureTools}}
-                    {{#whiteboard}}
-                        <div class="video-container center" id="board-container">
-                            <video class="video" id="whiteboard" playsinline autoplay muted ></video>
-                        </div>
-                    {{/whiteboard}}
-                    {{#audio}}
-                        <audio class="audio" style="margin-top: -60px;" id="speaker" controls autoplay ></audio> 
-                    {{/audio}}
-                    {{#webcam}}
-                        <video muted height="300" width="400" id="webcam" playsinline autoplay></video>
-                    {{/webcam}}
-                {{/lectureTools}}
-            </div>
-            <div class="chat">
-                
-            </div>
         </div>
-        
-        <!-- <div class="spectators">
-            <h2 class="specs">Spectators: <span id="specs"></span></h2>
-        </div> -->
-    
-    </div>
-
-
-    <div style="display: none;" class="spectator-messages">
-        <button type="button" id="toggle-messages" class="collapsible">Messages</button>
-        <div class="spectator-message-container" id="message-container">Welcome to Liteboard!</div>
-            <form id="send-container">
-            </form>
     </div>
 
     <div class="footer">
@@ -179,7 +219,24 @@
         </div>
     </div>
 
+    <div id="image-modal" style="display: none;" class="modal image-container">
+        <div class="wrap-div-message-image"></div>
+    </div>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <!-- <script>
+        const onResizeDone = () => {
+            videoHeight = $('#whiteboard').height();
+            console.log(videoHeight);
+            $('.page-list').css('max-height', videoHeight);
+        };
+        onResizeDone();
+        let timeout;
+        $(window).on('resize', () => {
+            clearTimeout(timeout);
+            timeout = setTimeout(onResizeDone, 20);
+        });
+    </script> -->
     <script src="/socket.io/socket.io.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/6.4.0/adapter.min.js"></script>
     <script src="/lib/janus.js"></script>

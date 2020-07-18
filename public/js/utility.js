@@ -133,6 +133,21 @@ export function addStream(htmlElem, streamTrack) {
   }
 }
 
+export function getStatusColor(status) {
+  switch (status) {
+    case 'starting':
+      return '#46c2ff';
+    case 'live':
+      return '#2ecc40';
+    case 'connection_lost':
+      return '#f44336';
+    case 'host_disconnected':
+      return '#f0ad4e';
+    default:
+      return 'lightgray';
+  }
+}
+
 export async function getTurnServers() {
   const response = await fetch('/turncreds');
   const turnServers = [];
