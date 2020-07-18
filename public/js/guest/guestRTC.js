@@ -1,7 +1,9 @@
 /* eslint-disable import/extensions */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-undef */
-import { getJanusUrl, addStream, getStatusColor } from '../utility.js';
+import {
+  getJanusUrl, addStream, getTurnServers, getStunServers, getStatusColor,
+} from '../utility.js';
 
 export const changeStatus = {
   host_disconnected: () => {
@@ -23,7 +25,7 @@ export const changeStatus = {
   },
 };
 
-export default function initializeGuestRTC(roomId) {
+export default async function initializeGuestRTC(roomId) {
   const janusUrl = getJanusUrl();
   let janus;
   let handle;
@@ -85,12 +87,16 @@ export default function initializeGuestRTC(roomId) {
     }
   }
 
+  const turnServers = await getTurnServers();
+  const stunServers = getStunServers();
   Janus.init({
     callback() {
       janus = new Janus(
         {
           debug: 'all',
           server: janusUrl,
+          iceServers: [...turnServers, ...stunServers],
+          // iceTransportPolicy: 'relay',   enable to force turn server
           success() {
             janus.attach(
               {
