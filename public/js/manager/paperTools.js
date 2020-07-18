@@ -78,14 +78,16 @@ window.app = {
           radius: (event.downPoint - event.point).length,
         });
         setPathProperties();
+        drawsLayer.addChild(path);
         path.removeOnDrag();
       },
     }),
-    rectangle: new Tool({
+    square: new Tool({
       onMouseDrag: function (event) {
         var rectangle = new Rectangle(event.downPoint, event.lastPoint);
         path = new Path.Rectangle(rectangle);
         setPathProperties();
+        drawsLayer.addChild(path);
         path.removeOnDrag();
       },
     }),
@@ -93,6 +95,7 @@ window.app = {
       onMouseDrag: function (event) {
         path = new Path.Line(event.downPoint, event.lastPoint);
         setPathProperties();
+        drawsLayer.addChild(path);
         path.removeOnDrag();
       },
     }),
@@ -100,6 +103,7 @@ window.app = {
       onMouseDrag: function (event) {
         path = new Path.RegularPolygon(event.downPoint, 3, (event.lastPoint - event.downPoint).y);
         setPathProperties();
+        drawsLayer.addChild(path);
         path.removeOnDrag();
       },
     }),
