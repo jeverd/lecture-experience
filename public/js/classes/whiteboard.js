@@ -38,6 +38,7 @@ export default class Whiteboard {
     this.onScroll();
     this.paintWhite();
     this.boards = [];
+    this.paths = [];
     this.undoStack = [];
     this.redoStack = [];
     this.startingPoint = new Point();
@@ -357,6 +358,10 @@ export default class Whiteboard {
     }
   }
 
+  setPaths(array) {
+    window.app.addDraws(array);
+  }
+
   redoPaint() {
     if (this.redoStack.length > 0) {
       this.removeSelectedRegion();
@@ -382,6 +387,15 @@ export default class Whiteboard {
     window.app.paintCircle();
     this.context.drawImage(img, 0, 0);
     window.app.setBackground(img.src);
+  }
+
+  getDraws() {
+    let array = [];
+    for (var i in window.app.getElem()) {
+      array.push(window.app.getElem()[i].pathData);
+    }
+    console.log(array, 'getdraws');
+    return array;
   }
 
   pushToUndoStack() {
