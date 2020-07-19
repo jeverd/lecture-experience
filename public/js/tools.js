@@ -46,7 +46,6 @@ export default function initializeToolsMenu(whiteboard) {
         $(item).find('.left-bar-link').addClass('tool-active');
         const clickedTool = item.getAttribute('data-tool');
         whiteboard.tools.switchTo(clickedTool);
-        console.log(clickedTool);
       })),
   );
 

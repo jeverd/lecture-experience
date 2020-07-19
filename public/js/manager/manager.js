@@ -66,9 +66,10 @@ function beginLecture(stream) {
     initializeManagerRTC(room.lecture_details.id, stream, canvasStream);
     initializeBoards(socket, whiteboard, boards, boardActive, canvasStream);
     initializeChat(socket, room.lecture_details.id);
-    document.getElementById('canvas').addEventListener('wheel', myFunction);
+    document.getElementById('canvas').addEventListener('wheel', scrollZoom);
 
-    function myFunction(e) {
+    function scrollZoom(e) {
+      // Amount of scroll, position of mouse
       whiteboard.onScroll(e.deltaY, e.clientX, e.clientY);
     }
   });

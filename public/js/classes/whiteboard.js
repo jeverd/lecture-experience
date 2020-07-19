@@ -349,10 +349,7 @@ export default class Whiteboard {
     this.isSelectionActive = false;
     if (this.undoStack.length > 0) {
       // this.context.putImageData(this.undoStack.pop(), 0, 0);
-      console.log(this.undoStack, 'lista toda');
       const draws = this.undoStack.pop();
-      console.log(draws, 'so o item');
-      window.app.addDraws(draws);
     } else {
       showInfoMessage('Nothing to undo.');
     }
@@ -394,7 +391,6 @@ export default class Whiteboard {
     for (var i in window.app.getElem()) {
       array.push(window.app.getElem()[i].pathData);
     }
-    console.log(array, 'getdraws');
     return array;
   }
 
@@ -403,7 +399,6 @@ export default class Whiteboard {
     var array = [];
     for (var i in window.app.getElem()) {
       array.push(window.app.getElem()[i].pathData);
-      console.log(window.app.getElem()[i].pathData,'pathdata');
     }
     this.saveData = array;
     if (this.undoStack.length >= undoLimit) this.undoStack.shift();
@@ -423,7 +418,6 @@ export default class Whiteboard {
     imgElem.draggable = true;
     imgElem.oncontextmenu = (ev) => {
       ev.preventDefault();
-      console.log('I right clicked');
     };
     imgElem.ondragstart = (ev) => ev.dataTransfer.setDragImage(ev.target, 10, 10);
     document.getElementsByTagName('BODY')[0].appendChild(imgElem);

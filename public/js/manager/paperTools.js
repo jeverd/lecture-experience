@@ -13,6 +13,7 @@ var items = new Group();
 var imageLayer = new Layer();
 var drawsLayer = new Layer();
 var selectedItem;
+var onDragItem;
 drawsLayer.addChild(items);
 drawsLayer.activate();
 imageLayer.insertBelow(drawsLayer);
@@ -27,29 +28,47 @@ var erase = function (event) {
         hitResult.item.remove();
         hitResult = null;
       }
-    }, 250);
+    }, 150);
   }
+};
+
+var clone = function () {
+  if (Key.isDown('c') && Key.isDown('control')) {
+    console.log('clonou');
+  }
+};
+
+var desItem = function () {
+  console.log('select');
+  selectedItem.item.fullySelected = false;
+  selectedItem = '';
 };
 
 var selectItem = function (event) {
   var hitResult = drawsLayer.hitTest(event.point);
   if (hitResult) {
     selectedItem = hitResult;
+    onDragItem = hitResult;
     selectedItem.item.fullySelected = true;
+  }
+  if (!hitResult) {
+    selectedItem.item.fullySelected = false;
+    selectedItem = '';
   }
 };
 
 var drag = function (event) {
-  selectedItem.item.position = event.point;
+  onDragItem.item.position = event.point;
 };
 
 var deselectItem = function (event) {
-  selectedItem.item.fullySelected = false;
-  selectedItem = '';
+  onDragItem = '';
 };
 
-var Zoom = function (scale) {
+var Zoom = function (scale, positionX, positionY) {
+  var mouseCoord = new Point(positionX, positionY);
   view.zoom += 0.1;
+  // view.zoom += scale;
 };
 
 var setPathProperties = function () {
@@ -64,8 +83,6 @@ window.app = {
   tools: {
     pencil: new Tool({
       onMouseDown: function (event) {
-        console.log(project.layers);
-
         path = new Path({
           index: 1000,
           segments: [event.point],
@@ -82,7 +99,6 @@ window.app = {
       onMouseUp: function (event) {
         path.simplify(10);
         drawsLayer.addChild(path);
-        console.log(drawsLayer.children);
       },
     }),
     pointer: new Tool({
@@ -111,10 +127,6 @@ window.app = {
         path = new Path.Rectangle(rectangle);
         setPathProperties();
         drawsLayer.addChild(path);
-        path.onMouseDrag = function (e) {
-          console.log('clicou nele');
-          //path.position += e.point - e.lastPoint;
-        };
         path.removeOnDrag();
       },
     }),
@@ -166,15 +178,13 @@ window.app = {
     });
   },
   zoom: function (scale, x, y) {
-    Zoom(scale);
+    Zoom(scale, x, y);
   },
   getElem: function () {
     return drawsLayer.children;
   },
   addDraws: function (array) {
     this.paintCircle();
-
-    console.log(array, 'add');
     for (var i in array) {
       var loadedPath = new Path({
         pathData: array[i],
@@ -188,5 +198,17 @@ window.app = {
   },
   saveSVG: function () {
     return project.exportSVG();
+  },
+  deselect: function () {
+    console.log('aaa');
+    desItem();
+  },
+  clone: function () {
+    if (selectedItem) {
+      console.log('clone');
+      var clone = selectedItem.clone();
+      clone.item.position = selectedItem.item.position + (100, 0);
+      drawsLayer.addChild(clone);
+    }
   },
 };
