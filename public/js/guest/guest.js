@@ -2,7 +2,7 @@
 /* eslint-disable import/extensions */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-undef */
-import initializeChat from './guestChat.js';
+import initializeGuestChat from './guestChat.js';
 import { getUrlId, redirectToStats, getStatusColor } from '../utility.js';
 import initializeGuestRTC, { changeStatus } from './guestRTC.js';
 import setNonActiveBoards from './guestBoards.js';
@@ -32,7 +32,7 @@ function joinLecture() {
     initializeOptionsMenu();
     initializeGuestRTC(roomIdAsInt);
     initializeTopMenu();
-    initializeChat(socket, room.lecture_details.id, studentName);
+    initializeGuestChat(socket, room.lecture_details.id, studentName);
   });
 
   socket.on('lectureEnd', () => {

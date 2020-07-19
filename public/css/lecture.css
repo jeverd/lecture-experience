@@ -1373,14 +1373,24 @@ div.messages.active-chat{
 }
 
 .image-container img{
+  border-radius: 0.45rem;
+  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+}
+
+.modal-message-image-vertical{
   max-height: 360px;
   height: 60vw;
-  border-radius: 0.75rem;
-  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+}
+
+.modal-message-image-horizontal{
+  max-width: 800px;
+  width: 85vw;
 }
 
 .wrap-div-message-image{
   position: absolute;
+  width: auto;
+  height: auto;
   top: 50%;
   left: 50%;
   -ms-transform: translate(-50%, -50%);
@@ -1401,21 +1411,6 @@ div.messages.active-chat{
   overflow: auto; /* Enable scroll if needed */
   background-color: rgb(0, 0, 0); /* Fallback color */
   background-color: rgba(0, 0, 0, 0.7); /* Black w/ opacity */
-}
-
-.image-container img{
-  max-height: 360px;
-  height: 60vw;
-  border-radius: 0.75rem;
-  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
-}
-
-.wrap-div-message-image{
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
 }
 
 .download-container{

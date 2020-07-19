@@ -6,7 +6,7 @@
 import Whiteboard from '../classes/whiteboard.js';
 import initializeToolsMenu from '../tools.js';
 import initializeCanvasTopMenu from './canvasTopMenu.js';
-import initializeChat from './managerChat.js';
+import initializeManagerChat from './managerChat.js';
 import initializeModal from './canvasModal.js';
 import initializeBoards from './managerBoards.js';
 import initializeActionsMenu from './canvasActions.js';
@@ -49,7 +49,7 @@ function beginLecture(stream) {
     initializeActionsMenu(socket, whiteboard, canvasStream);
     initializeManagerRTC(room.lecture_details.id, stream, canvasStream);
     initializeBoards(socket, whiteboard, boards, boardActive, canvasStream);
-    initializeChat(socket, room.lecture_details.id);
+    initializeManagerChat(socket, room.lecture_details.id);
   });
 }
 

@@ -2,9 +2,9 @@
 /* eslint-disable no-undef */
 import Message from '../classes/Message.js';
 import Chat from '../classes/Chat.js';
-import { displayImagePopUpOnClick } from '../utility.js';
+import initializeChat from '../chatUtils.js';
 
-export default function initializeChat(socket, roomId) {
+export default function initializeManagerChat(socket, roomId) {
   const chat = new Chat('message-container');
   const sendContainer = document.getElementById('send-container');
   const messageInput = document.getElementById('message-input');
@@ -18,100 +18,7 @@ export default function initializeChat(socket, roomId) {
     }
   });
 
-  function downloadFile(file, fileName) {
-    const messageContainer = document.getElementById('message-container');
-    const messageElement = document.createElement('tr');
-    messageElement.style.display = 'none';
-    let fileElement = null;
-    fileElement = document.createElement('a');
-    fileElement.href = file;
-    fileElement.download = fileName;
-    fileElement.innerText = fileName;
-    messageElement.append(fileElement);
-    messageContainer.append(messageElement);
-    const messageToggle = document.getElementById('toggle-messages');
-    const event = new Event('redraw');
-    messageToggle.dispatchEvent(event);
-    fileElement.click();
-    $(messageElement).remove();
-  }
-
-  function readURL(input) {
-    if (input.files && input.files[0]) {
-      const reader = new FileReader();
-
-      reader.onload = function (e) {
-        $('#image-preview').attr('src', e.target.result);
-      };
-
-      reader.readAsDataURL(input.files[0]);
-    }
-  }
-
-  fileInput.addEventListener('change', (e) => {
-    document.querySelector('#message-container').appendChild(document.querySelector('#preview'));
-    const file = e.target.files[0];
-    if (file.type.includes('image')) {
-      readURL(fileInput);
-      $('#file-preview').hide();
-      $('#preview').show();
-      $('#close-preview').css('bottom', '55px');
-      // show image
-      let imgWidth = 0;
-      $('img').load(function () {
-        imgWidth = ($(this).width());
-        const left = (15 + imgWidth + 15);
-        $('#close-preview').css('left', `${left}px`);
-        chat.scrollToBottom();
-      });
-    } else {
-      $('#file-preview').show();
-      $('#name-file').html(file.name);
-      $('#preview').show();
-      $('#close-preview').css('bottom', '3px');
-      $('#close-preview').css('left', '');
-      $('#close-preview').css('right', '15px');
-    }
-  });
-
-  $(document).on('click', '.name-file', (e) => {
-    downloadFile($(e.target).attr('data-file'), e.target.innerHTML);
-  });
-
-  $(document).on('click', '.download-container', (e) => {
-    let containerElem = $(e.target);
-    while (!containerElem.hasClass('download-container')) containerElem = containerElem.parent();
-    downloadFile(containerElem.attr('data-file'), containerElem.attr('data-name'));
-  });
-
-  $(document).on('click', '.message-image', displayImagePopUpOnClick);
-
-  let click = 0;
-  window.addEventListener('click', (e) => {
-    const image = document.querySelector('.modal-message-image');
-    const modal = document.getElementById('image-modal');
-    const download = document.querySelector('.download-container');
-
-    if (modal.style.display === 'block') {
-      if (!image.contains(e.target) && !download.contains(e.target) && click > 0) {
-        $(modal).hide();
-        $(image).remove();
-        $(download).remove();
-        click = 0;
-      } else {
-        click += 1;
-      }
-    }
-  });
-
-  $('#close-preview').click(() => {
-    fileInput.value = '';
-    $('#file-preview').hide();
-    $('#name-file').html('');
-    $('#image-preview').attr('src', '');
-    $('#preview').hide();
-    $('#close-preview').css('right', '15px');
-  });
+  initializeChat(chat);
 
   $('#toggle-messages').click((e) => {
     e.preventDefault();
@@ -128,7 +35,7 @@ export default function initializeChat(socket, roomId) {
     const messageContent = messageInput.value.trim();
     const newFile = document.getElementById('file-input').files[0];
     if (!(messageContent === '' && typeof newFile === 'undefined')) {
-      const message = new Message(messageContent, newFile, 'Professor', 'yellow'); //professor color
+      const message = new Message(messageContent, newFile, 'Professor', 'yellow');
       socket.emit('send-to-room', roomId, message);
       chat.appendMessage(message, false);
       messageInput.value = '';

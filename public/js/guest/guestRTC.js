@@ -145,7 +145,7 @@ export default async function initializeGuestRTC(roomId) {
     const tmpStream = whiteboard.srcObject;
     whiteboard.srcObject = webcam.srcObject;
     webcam.srcObject = tmpStream;
-    // picked 300 just to make its not an empty poster
+    // picked 300 just to make sure its not an empty poster
     if (!isCameraSwapped) {
       webcam.poster = newPoster.length > 300 ? newPoster : whiteboard.poster;
     } else {

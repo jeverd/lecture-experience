@@ -181,7 +181,9 @@ export function getStunServers() {
 export function displayImagePopUpOnClick(e) {
   const image = e.target;
   const newImage = document.createElement('img');
-  newImage.classList.add('modal-message-image');
+
+  const ratio = image.clientHeight / image.clientWidth;
+  newImage.classList.add(`modal-message-image-${ratio >= 1 ? 'vertical' : 'horizontal'}`);
   newImage.src = image.src;
 
   const downloadContainer = document.createElement('div');
@@ -213,4 +215,9 @@ export function getImageFromVideo(video) {
   canvas.height = video.videoHeight;
   canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
   return canvas.toDataURL();
+}
+
+export function getRandomColor() {
+  const chatColors = ['red', 'green', 'blue', 'orange', 'grey'];
+  return chatColors[Math.floor(Math.random() * chatColors.length)];
 }
