@@ -39,7 +39,6 @@ function deactivateCurrentBoard(whiteboard) {
   console.log(whiteboard.getSvgImage());
   const currentBoardImage = whiteboard.getImage();
   const currentBoardPath = whiteboard.getDraws();
-  console.log(currentBoardPath, 'deactivate path');
   whiteboard.boards[whiteboard.currentBoard] = currentBoardImage;
   whiteboard.paths[whiteboard.currentBoard] = currentBoardPath;
   const currentBoardDiv = $('[data-page=page]').eq(`${whiteboard.currentBoard}`);

@@ -12,7 +12,7 @@ var path;
 var items = new Group();
 var imageLayer = new Layer();
 var drawsLayer = new Layer();
-var selectedItem;
+var selectedItem = '';
 var onDragItem;
 drawsLayer.addChild(items);
 drawsLayer.activate();
@@ -32,21 +32,34 @@ var erase = function (event) {
   }
 };
 
-var clone = function () {
-  if (Key.isDown('c') && Key.isDown('control')) {
-    console.log('clonou');
+var desItem = function () {
+  selectedItem.item.fullySelected = false;
+  selectedItem = '';
+};
+
+var onChangeTool = function () {
+  if (selectedItem) {
+    selectedItem.item.fullySelected = false;
+    selectedItem = '';
   }
 };
 
-var desItem = function () {
-  console.log('select');
-  selectedItem.item.fullySelected = false;
-  selectedItem = '';
+var cloneItem = function () {
+  if (selectedItem) {
+    var clone = selectedItem.item.clone();
+
+    clone.position = selectedItem.item.position + (100, 100);
+    clone.fullySelected = false;
+    drawsLayer.addChild(clone);
+  }
 };
 
 var selectItem = function (event) {
   var hitResult = drawsLayer.hitTest(event.point);
   if (hitResult) {
+    if (selectedItem) {
+      selectedItem.item.fullySelected = false;
+    }
     selectedItem = hitResult;
     onDragItem = hitResult;
     selectedItem.item.fullySelected = true;
@@ -200,15 +213,12 @@ window.app = {
     return project.exportSVG();
   },
   deselect: function () {
-    console.log('aaa');
     desItem();
   },
-  clone: function () {
-    if (selectedItem) {
-      console.log('clone');
-      var clone = selectedItem.clone();
-      clone.item.position = selectedItem.item.position + (100, 0);
-      drawsLayer.addChild(clone);
-    }
+  deselectOnToolChange: function () {
+    onChangeTool();
+  },
+  copyItem: function () {
+    cloneItem();
   },
 };

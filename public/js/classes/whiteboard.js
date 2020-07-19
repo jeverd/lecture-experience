@@ -225,21 +225,37 @@ export default class Whiteboard {
     }
   }
 
+  cloneItem() {
+    window.app.copyItem();
+  }
+
   handleResize() {
     let timeout;
+    let isStartingToResize = true;
+    const inMemCanvas = document.createElement('canvas');
+    const inMemCtx = inMemCanvas.getContext('2d');
     const onResizeDone = () => {
-      whiteboard.paintWhite();
-      whiteboard.setCurrentBoard(inMemCanvas);
+      this.canvas.height = window.innerHeight;
+      this.canvas.width = window.innerWidth;
+      this.paintWhite();
+      this.setCurrentBoard(inMemCanvas);
       handleBoardsViewButtonsDisplay();
+      isStartingToResize = true;
     };
+    // eslint-disable-next-line no-undef
     $(window).on('resize', () => {
+      if (isStartingToResize) {
+        inMemCanvas.width = this.canvas.width;
+        inMemCanvas.height = this.canvas.height;
+        inMemCtx.drawImage(this.canvas, 0, 0);
+        isStartingToResize = false;
+      }
       clearTimeout(timeout);
-      timeout = setTimeout(onResizeDone, 20);
+      timeout = setTimeout(onResizeDone, 100);
     });
   }
 
   handleShortcutKeys(e) {
-    console.log(e);
     this.updateSelectionDirection();
     if (this.isSelectionActive && this.selectionDirection !== null) {
       if (e.key === 'Backspace' || e.key === 'Delete') {
@@ -258,7 +274,6 @@ export default class Whiteboard {
         this.dragifySelectedRegion(imgElem);
         this.context.putImageData(imgData, this.startingPoint.x, this.startingPoint.y);
       } else if (e.key === 'c' && e.ctrlKey) {
-        this.copiedRegionData = this.selectedRegionActionMap[this.selectionDirection].COPY();
         showInfoMessage('Copied! Press Ctrl + V to paste.');
       } else if (e.key === 'x' && e.ctrlKey) {
         this.copiedRegionData = this.selectedRegionActionMap[this.selectionDirection].COPY();
@@ -269,6 +284,8 @@ export default class Whiteboard {
     if (e.key === 'v' && e.ctrlKey && this.copiedRegionData) {
       const img = getImgElemFromImgData(this.copiedRegionData);
       this.pasteRegion(img, this.currentPos.x, this.currentPos.y);
+    } else if (e.key === 'c' && e.ctrlKey) {
+      this.cloneItem();
     } else if (e.key === 'z' && e.ctrlKey) {
       this.undoPaint();
     } else if (e.key === 'y' && e.ctrlKey) {
