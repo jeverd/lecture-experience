@@ -48,10 +48,27 @@
             <div class="titleBoard">
                 <img class="title-circle" src="/liteboardCircle.png"/>
                 <img class="title-triangle" src="/liteboardTriangle.png"/>
-                <span class="title" id="lectureTitle">{{#lang}}{{guestLectureRoom}}{{/lang}} | <b>{{name}}</b></span>
+                    <span class="title" id="lectureTitle"><span>{{#lang}}{{guestLectureRoom}}{{/lang}} | </span><b>{{name}}</b></span>
             </div>
             <div class="videoContainer">
+                <div class="left-menu">
+                    <div id="fullscreen-video">
+                        <img class="nav-icon" src="/expand.svg"/>
+                    </div>
+                    <div class="connect-on-phone">
+                        <img class="nav-icon" src="/phone.svg"/>
+                    </div>
+                    <div id="toggle-boards-view" target-id="boards-view">
+                        <img class="nav-icon" src="/whiteboard.svg" />
+                        <div class="left-menu-badge"><span id="num-boards">0</span></div>
+                    </div>
+                    <div id="toggle-chat-view" target-id="chat-view">
+                        <i class="fas fa-comment-dots chat-info-icon"></i>
+                        <div class="left-menu-badge"><span id="num-unread-messages">0</span></div>
+                    </div>
+                </div>
                 <div class="main-stream-container">
+                    <div id="info-popup">No other boards to display</div>
                     <div class="lecture-top-bar">
                         <div id="lecture-status">
                             <input type="hidden" id="status-starting" value="{{#lang}}{{statusStarting}}{{/lang}}"/>
@@ -59,19 +76,13 @@
                             <input type="hidden" id="status-connection-lost" value="{{#lang}}{{statusConnectionLost}}{{/lang}}"/>
                             <input type="hidden" id="status-live" value="{{#lang}}{{statusLive}}{{/lang}}"/>
                             <div class="status-dot"></div>
+                            &nbsp;
                             <span class="status-text"></span>
                         </div>
-                        <div class="connect-on-phone">
-                            <img class="nav-icon" src="/phone.svg"/>
-                            <span class="nav-Text">Join on Phone</span>
-                        </div>
-                        <div id="fullscreen-video">
-                            <img class="nav-icon" src="/expand.svg"/>
-                            <span class="nav-Text">Fullscreen</span>
-                        </div>
-                        <div>
-                            <img class="nav-icon spectators-icon" src="/group.png"/>
-                            <span class="nav-Text">Viewers (<span id="specs"></span>)</span>
+                        <div class="specs-stats">
+                            <i class="fas fa-eye"></i>
+                            &nbsp;
+                            <span id="specs"></span>
                         </div>
                     </div>
                     {{#lectureTools}}
@@ -82,28 +93,36 @@
                             </div>
                         {{/whiteboard}}
                         {{#audio}}
-                            <audio class="audio" style="margin-top: -60px;" id="speaker" controls autoplay ></audio> 
+                            <audio style="display: none;" id="speaker" autoplay ></audio> 
+                            <div class="audio" id="toggle-speaker">    
+                                <i class="fa fa-volume-up" aria-hidden="true"></i>
+                            </div>
                         {{/audio}}
                         {{#webcam}}
-                            <video muted height="300" width="400" id="webcam" playsinline autoplay></video>
+                            <div class="webcam-container">
+                                <video muted id="webcam" playsinline autoplay></video>
+                            </div>
                         {{/webcam}}
                     {{/lectureTools}}
                 </div>
-                <div class="options-menu menu-borders">
-                    <div id="toggle-boards-view" target-id="boards-view" class="boards-button-container">
-                        <img src="/whiteboard.svg" />
+                <div style="display: none; width: 0; height: 0;" id="boards-view" class="pages">
+                    <div title="Minimize Boards Used View" id="close-non-active-boards" class="non-active-boards-title">
+                        <i class="fas fa-arrow-down"></i>
+                        <span>Boards Used</span>
                     </div>
-                    <div id="toggle-chat-view" target-id="chat-view" class="chat-button-container">
-                        <i class="fas fa-comment-dots chat-info-icon"></i>
-                    </div>
-                </div>
-                <div style="display: none; width: 0;" id="boards-view" class="pages">
                     <div class="page-list" id="non-active-boards"></div>
                 </div>
-                <div style="display: none; width: 0;" id="chat-view" class="chat">
+                <div style="display: none; width: 0; height: 0;" id="chat-view" class="chat">
                     <div id="wrapper" class="messages-main">
+                        <div title="Minimize Chat View" class="minimize-chat-view">
+                            <div>Lecture Chat</div>
+                            <div id="minimize-chat-view">
+                                <i class="fa fa-minus" aria-hidden="true"></i>
+                            </div>
+                        </div>
                         <div class="message-container" id="message-container">
                         <div class="message-lecture-name">
+                            {{name}}
                         </div>
                         <div id="preview" class="preview" style="display: none;">
                             <div class="preview-content">
@@ -193,7 +212,7 @@
                 </div>
                 <div class="create-lecture-inputs">
                     <label class="inputText" for="lectureName">Your Name:</label>
-                    <input class="inputBox" type="text" id="studentName" name="studentName">
+                    <input autocomplete="off" spellcheck="false" class="inputBox" type="text" id="studentName" name="studentName">
                 </div>
                 <div id="modal-buttons-container">
                     <div

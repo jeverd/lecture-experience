@@ -2,6 +2,7 @@
 /* eslint-disable no-undef */
 import Message from '../classes/Message.js';
 import Chat from '../classes/Chat.js';
+import { displayImagePopUpOnClick } from '../utility.js';
 
 export default function initializeChat(socket, roomId) {
   const chat = new Chat('message-container');
@@ -83,34 +84,7 @@ export default function initializeChat(socket, roomId) {
     downloadFile(containerElem.attr('data-file'), containerElem.attr('data-name'));
   });
 
-  $(document).on('click', '.message-image', (e) => {
-    const image = e.target;
-    const newImage = document.createElement('img');
-    newImage.classList.add('modal-message-image');
-    newImage.src = image.src;
-
-    const downloadContainer = document.createElement('div');
-    const text = document.createElement('span');
-    const button = document.createElement('span');
-
-    text.innerHTML = $(image).attr('data-name');
-    button.innerHTML = "<i class='fas fa-cloud-download-alt'></i>";
-    downloadContainer.setAttribute('data-file', image.src);
-    downloadContainer.setAttribute('data-name', $(image).attr('data-name'));
-
-    downloadContainer.append(text);
-    downloadContainer.append(button);
-
-    document.getElementById('image-modal').append(newImage);
-    document.getElementById('image-modal').append(downloadContainer);
-    downloadContainer.classList.add('download-container');
-    const container = document.querySelector('.wrap-div-message-image');
-    container.innerHTML = '';
-    container.appendChild(newImage);
-    container.appendChild(downloadContainer);
-
-    $('#image-modal').show();
-  });
+  $(document).on('click', '.message-image', displayImagePopUpOnClick);
 
   let click = 0;
   window.addEventListener('click', (e) => {

@@ -4,11 +4,12 @@ import {
   getJanusUrl, addStream, getTurnServers, getStunServers,
 } from '../utility.js';
 
-export default async function initializeManagerRTC(roomId, stream, canvasStream) {
+export default async function initializeManagerRTC(roomId, stream, canvasStream = null) {
+  const webcam = document.getElementById('webcam');
   const janusUrl = getJanusUrl();
   let janus;
 
-  function publishFeed(feedStream) {
+  function publishFeed(feedStream, label = '') {
     let feedHandle;
     janus.attach({
       plugin: 'janus.plugin.videoroom',
@@ -25,7 +26,7 @@ export default async function initializeManagerRTC(roomId, stream, canvasStream)
           feedHandle.handleRemoteJsep({ jsep: feedJsep });
         }
         if (feedMsg.videoroom === 'joined') {
-          const feedRequest = { request: 'configure', display: '' };
+          const feedRequest = { request: 'configure', display: label };
           feedRequest.video = feedStream.getVideoTracks().length > 0;
           feedRequest.audio = feedStream.getAudioTracks().length > 0;
           feedHandle.createOffer({
@@ -43,8 +44,7 @@ export default async function initializeManagerRTC(roomId, stream, canvasStream)
         const videoTracks = localStream.getTracks().filter((track) => track.kind === 'video');
         videoTracks.forEach((video) => {
           if (typeof video.canvas === 'undefined') {
-            const webcamOutput = document.querySelector('#webcam');
-            addStream(webcamOutput, video);
+            addStream(webcam, video);
           }
         });
       },
@@ -59,15 +59,15 @@ export default async function initializeManagerRTC(roomId, stream, canvasStream)
       janus = new Janus({
         server: janusUrl,
         iceServers: [...turnServers, ...stunServers],
-        // iceTransportPolicy: 'relay',   enable to force turn server
         success() {
+          const hasCanvas = canvasStream !== null;
           if (stream.getVideoTracks().length === 0) {
-            stream.addTrack(canvasStream.getTracks()[0]);
+            if (hasCanvas) stream.addTrack(canvasStream.getTracks()[0]);
             publishFeed(stream);
           } else {
-            publishFeed(stream);
+            publishFeed(stream, webcam !== null ? 'containsWebcam' : 'containsCanvas');
             if (stream !== canvasStream) {
-              publishFeed(canvasStream);
+              publishFeed(canvasStream, 'containsCanvas');
             }
           }
         },

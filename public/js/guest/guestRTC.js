@@ -26,9 +26,13 @@ export const changeStatus = {
 };
 
 export default async function initializeGuestRTC(roomId) {
+  const webcam = document.getElementById('webcam');
+  const whiteboard = document.getElementById('whiteboard');
+  const speaker = document.getElementById('speaker');
   const janusUrl = getJanusUrl();
   let janus;
   let handle;
+  const videoQueue = [];
 
   function joinFeed(publishers) {
     if (publishers.length === 0) {
@@ -47,6 +51,9 @@ export default async function initializeGuestRTC(roomId) {
             });
           },
           onmessage(msg, offerJsep) {
+            if (typeof msg !== 'undefined' && typeof msg.display !== 'undefined') {
+              videoQueue.push(msg.display);
+            }
             const event = msg.videoroom;
             if (event === 'attached') {
               remoteHandle.rfid = msg.id;
@@ -65,20 +72,27 @@ export default async function initializeGuestRTC(roomId) {
             }
           },
           onremotestream(stream) {
-            const webcam = document.getElementById('webcam');
-            const whiteboard = document.getElementById('whiteboard');
-            const speaker = document.getElementById('speaker');
             const videoTrack = stream.getVideoTracks()[0];
+            const audioTrack = stream.getAudioTracks()[0];
             if (stream.getTracks().length === 2) {
               if (webcam !== null) {
                 addStream(webcam, videoTrack);
               } else {
                 addStream(whiteboard, videoTrack);
               }
-              const audioTrack = stream.getAudioTracks()[0];
               addStream(speaker, audioTrack);
+            } else if (videoQueue.length > 0) {
+              switch (videoQueue.shift()) {
+                case 'containsWebcam':
+                  addStream(webcam, videoTrack);
+                  break;
+                case 'containsCanvas':
+                default:
+                  addStream(whiteboard, videoTrack);
+                  break;
+              }
             } else {
-              addStream(whiteboard, videoTrack);
+              addStream(speaker, audioTrack);
             }
             setTimeout(changeStatus.live, 500);
           },
@@ -96,7 +110,6 @@ export default async function initializeGuestRTC(roomId) {
           debug: 'all',
           server: janusUrl,
           iceServers: [...turnServers, ...stunServers],
-          // iceTransportPolicy: 'relay',   enable to force turn server
           success() {
             janus.attach(
               {

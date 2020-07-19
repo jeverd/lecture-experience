@@ -78,9 +78,9 @@ io.use(sharedSession(expressSession, {
 logger.info(`Express and socketio are listening on port: ${expressPort}`);
 
 
-// client.flushall((err, succeeded) => {
-//   logger.info(`Redis status: ${succeeded}`);
-// });
+client.flushall((err, succeeded) => {
+  logger.info(`Redis status: ${succeeded}`);
+});
 
 
 client.on('connect', () => {

@@ -5,6 +5,7 @@
 import initializeChat from './guestChat.js';
 import { getUrlId, redirectToStats, getStatusColor } from '../utility.js';
 import initializeGuestRTC, { changeStatus } from './guestRTC.js';
+import setNonActiveBoards from './guestBoards.js';
 import initializeOptionsMenu from './guestOptionsMenu.js';
 import initializeTopMenu from './guestTopMenu.js';
 
@@ -15,15 +16,6 @@ let studentName;
 let currentBoard;
 
 function joinLecture() {
-  function setNonActiveBoards(boards) {
-    const boardsDiv = document.getElementById('non-active-boards');
-    boardsDiv.innerHTML = '';
-    boards.forEach((board) => {
-      const imgElem = document.createElement('img');
-      imgElem.src = board;
-      boardsDiv.appendChild(imgElem);
-    });
-  }
   const socket = io('/', {
     query: `id=${roomId}`,
   });
