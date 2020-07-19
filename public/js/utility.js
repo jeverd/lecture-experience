@@ -133,6 +133,15 @@ export function addStream(htmlElem, streamTrack) {
   }
 }
 
+export async function getJanusToken() {
+  const response = await fetch('/janusToken');
+  if (response.status === 200) {
+    const { janusToken } = await response.json();
+    return janusToken;
+  }
+  return null;
+}
+
 export async function getTurnServers() {
   const response = await fetch('/turncreds');
   const turnServers = [];

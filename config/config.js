@@ -29,4 +29,5 @@ module.exports = {
   supportedLanguages: SUPPORTED_LANGUAGES,
   sentryDSN: process.env.SENTRY_DSN,
   sentryEnvironment: process.env.SENTRY_ENVIRONMENT,
+  janusServerSecret: process.env.JANUS_SERVER_SECRET,
 };

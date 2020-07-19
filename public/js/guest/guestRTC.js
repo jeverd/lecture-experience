@@ -2,7 +2,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-undef */
 import {
-  getJanusUrl, addStream, getTurnServers, getStunServers,
+  getJanusUrl, addStream, getTurnServers, getStunServers, getJanusToken,
 } from '../utility.js';
 
 export default async function initializeGuestRTC(roomId) {
@@ -63,7 +63,9 @@ export default async function initializeGuestRTC(roomId) {
   }
 
   const turnServers = await getTurnServers();
+  const janusToken = await getJanusToken();
   const stunServers = getStunServers();
+
   Janus.init({
     callback() {
       janus = new Janus(
@@ -71,6 +73,8 @@ export default async function initializeGuestRTC(roomId) {
           debug: 'all',
           server: janusUrl,
           iceServers: [...turnServers, ...stunServers],
+          token: janusToken,
+
           // iceTransportPolicy: 'relay',   enable to force turn server
           success() {
             janus.attach(
