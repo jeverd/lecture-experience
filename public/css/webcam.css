@@ -5,7 +5,7 @@
     align-items: center;
     text-align: center;
     min-height: 100vh;
-    margin-top: -80px;
+    margin-top: -40px;
   }
 
   .webcam {
@@ -202,12 +202,11 @@ width: 20%;
 }
 
 .content {
-    margin-top: 100px;
     width: 90%;
     height: auto;
     display: flex;
         /* remove this when you add the chat */
-    background-color: white;
+    /* background-color: white; */
 }
 
 @media only screen and (max-width: 1080px) {
@@ -216,6 +215,10 @@ width: 20%;
     margin-bottom: 100px;
     flex-direction: column;
     width: 80%;
+  }
+
+  .centered{
+    margin-top: -50px;
   }
 
   .chat {
@@ -233,4 +236,71 @@ width: 20%;
       margin-left: auto;
 
   }
+}
+
+
+.top-logo-bar{
+  width: 100%;
+  padding-top: 20px;
+  padding-left: 50px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.top-logo-bar a{
+  padding: 5px 10px;
+  border-radius: 0.25rem;
+  box-shadow: 0px 0px 5px .5px rgba(0,0,0,0.75);
+  text-decoration: none;
+}
+
+.top-logo-bar img{
+  height: 30px;
+  position: relative;
+  top:2px;
+}
+
+.titleBoard{
+  width: auto;
+  position: relative;
+  background-color:#21212e;
+  border-radius: 5px;
+  box-shadow: 0px 0px 20px 1px rgba(0,0,0,0.75);
+  margin: 20px 40px 0px 40px;
+  padding: 20px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+
+.title-triangle{
+  position: absolute;
+  height: 62px;
+  bottom:-20px;
+  z-index:1;
+  right: -25px;
+}
+
+.title {
+  font-size: 30px;
+  color: white;
+  font-family: "Muli", sans-serif, "Open Sans";
+}
+
+.title-circle{
+  position: absolute;
+  top:-20px;
+  z-index:1;
+  height: 70px;
+  left: -25px;
+}
+
+.lecture-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
