@@ -62,7 +62,7 @@ services:
       image: instrumentisto/coturn
       command:
         - -c=/etc/coturn/turnserver.conf
-      network_node: "host"
+      network_mode: "host"
       volumes:
         - ./docker-config/turnserver.conf:/etc/coturn/turnserver.conf:ro
 
