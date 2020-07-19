@@ -236,6 +236,7 @@ div.ld-over.running:before{
 
 .page-list {
   max-height: calc(350px - 35px);
+  min-height: calc(350px - 35px);
   display: flex;
   margin-right: 6px;
   flex-direction: column;
@@ -277,11 +278,64 @@ div.ld-over.running:before{
   right: 4px;
 }
 
+.webcam-container img{
+  display: none;
+  height: 34px;
+  cursor: pointer;
+  margin: 4px;
+  opacity: 0.75;
+  transition: 0.25s ease;
+}
+
+.webcam-container img:hover{
+  opacity:1;
+  transform: scale(1.07);
+}
+
+.options-webcam{
+  position: absolute;
+  top: 5px;
+  right: 2px;
+  display: flex;
+}
+
+.options-webcam div{
+  height: 17.5px;
+  width: 17.5px;
+  border-radius: 50%;
+  opacity: 0.75;
+  background: white;
+  display: flex;
+  transition: 0.4s ease;
+  justify-content: center;
+  align-items: center;
+  padding: 2px;
+  -webkit-box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3),
+    0 15px 12px rgba(0, 0, 0, 0.22);
+  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+  cursor: pointer;
+  z-index:1;
+  margin-right: 3px;
+}
+
+.options-webcam div:hover{
+  opacity: 1;
+  transform: translateY(-1.5px);
+}
+
+.options-webcam i {
+  position: relative;
+  top:1px;
+  font-size: .85rem;
+  color: var(--bg-primary);
+}
+
 @media only screen and (min-width: 1350px){
   video.whiteboard#whiteboard{
     height: 475px;
   }
   .page-list{
+    min-height: calc(475px - 35px);
     max-height: calc(475px - 35px);
   }
 }
@@ -296,6 +350,7 @@ div.ld-over.running:before{
   }
 
   .page-list{
+    min-height: calc(400px - 35px);
     max-height: calc(400px - 35px);
   }
 }
@@ -309,10 +364,14 @@ video.whiteboard{
   position: absolute;
   bottom: -4.5px; 
   right: 0;
+  background: #21212e;
+  padding:2px 0 0 2px;
+  border-top-left-radius: .4rem;
 }
 
 .webcam-container video{
   height: 130px;
+  border-top-left-radius: .4rem;
 }
 
 @media only screen and (max-width: 1140px){  
@@ -324,6 +383,10 @@ video.whiteboard{
 @media only screen and (max-width: 1080px) {
   video.whiteboard{
     height: 290px;
+  }
+
+  .webcam-container video{
+    height: 110px;
   }
 
   div#chat-view.active-menu-item{
@@ -338,6 +401,7 @@ video.whiteboard{
     margin: 0 3px 30px 3px;
   }
   .page-list{
+    min-height: calc(290px - 35px);
     max-height: calc(290px - 35px);
   }
 }
@@ -359,6 +423,10 @@ video.whiteboard{
     height: 230px;
   }
 
+  .webcam-container video{
+    height: 90px;
+  }
+
   div#chat-view.active-menu-item{
     width: 220px !important;
   }
@@ -368,6 +436,7 @@ video.whiteboard{
   }
 
   .page-list{
+    min-height: calc(230px - 35px);
     max-height: calc(230px - 35px);
   }
 }
@@ -384,8 +453,24 @@ video.whiteboard{
   }
 
   .lecture-top-bar{
-    left: 15px;
-    top: 4px;
+    left: 2.3%;
+    top: 2%;
+  }
+
+  .webcam-container{
+    right: 2.5%;
+    bottom: 0px;
+    padding-top:0;
+  }
+
+  .webcam-container video{
+    height: 110px;
+    position: relative;
+    top: 2px;
+  }
+  
+  div.audio{
+    right: 3.5%;
   }
 
   video.whiteboard{
@@ -396,10 +481,6 @@ video.whiteboard{
   .top-logo-bar{
     justify-content: center;
     padding-left: 0;
-  }
-
-  div.audio{
-    right: 25px;
   }
 
   div.left-menu{
@@ -418,10 +499,6 @@ video.whiteboard{
     cursor: pointer;
     transition: .25s ease;
     position: relative;
-  }
-
-  .connect-on-phone{
-    display:none;
   }
   
   div#chat-view.active-menu-item{
@@ -477,6 +554,7 @@ video.whiteboard{
 
   div.page-list{
     max-height: auto;
+    min-height: auto;
     flex-direction: row;
     align-self: center;
     text-align: center;
@@ -492,21 +570,28 @@ video.whiteboard{
   .videoContainer{
     flex-direction: column;
   }
+}
 
+@media only screen and (max-width: 540px){
+  .webcam-container video{
+    height: 95px;
+  }
 }
 
 @media only screen and (max-width: 490px) {
+  .connect-on-phone{
+    display:none;
+  }
+
+  .webcam-container video{
+    height: 86px;
+  }
+
   input#message-input{
     width: 85% !important;
   }
 
-  div.audio{
-    right: 18px !important;
-  }
-
   .lecture-top-bar{
-    left: 10px;
-    top: 4px;
     font-size: .7rem;
   }
 

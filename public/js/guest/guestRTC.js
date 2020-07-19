@@ -2,13 +2,13 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-undef */
 import {
-  getJanusUrl, addStream, getTurnServers, getStunServers, getStatusColor,
+  getJanusUrl, addStream, getTurnServers, getStunServers, getStatusColor, getImageFromVideo,
 } from '../utility.js';
 
 export const changeStatus = {
   host_disconnected: () => {
     $('video#whiteboard').parent().addClass('running');
-    $('video#whiteboard').replaceWith('<video class="whiteboard" id="whiteboard" playsinline autoplay muted ></video>');
+    $('video#whiteboard').attr('srcObject', null);
     $('#lecture-status .status-dot').css('background', getStatusColor('host_disconnected'));
     $('#lecture-status .status-text').html($('#status-host-disconnected').val());
   },
@@ -19,26 +19,29 @@ export const changeStatus = {
   },
   connection_lost: () => {
     $('video#whiteboard').parent().addClass('running');
-    $('video#whiteboard').replaceWith('<video class="whiteboard" id="whiteboard" playsinline autoplay muted ></video>');
+    $('video#whiteboard').attr('srcObject', null);
     $('#lecture-status .status-dot').css('background', getStatusColor('connection_lost'));
     $('#lecture-status .status-text').html($('#status-connection-lost').val());
   },
 };
 
 export default async function initializeGuestRTC(roomId) {
+  const hasWebcam = $('#webcamValidator').val() === 'true';
+  const hasWhiteboard = $('#whiteboardValidator').val() === 'true';
   const webcam = document.getElementById('webcam');
   const whiteboard = document.getElementById('whiteboard');
   const speaker = document.getElementById('speaker');
   const janusUrl = getJanusUrl();
+  let isCameraSwapped = false;
   let janus;
   let handle;
-  const videoQueue = [];
 
   function joinFeed(publishers) {
     if (publishers.length === 0) {
       setTimeout(changeStatus.host_disconnected, 500);
     } else {
       publishers.forEach((publisher) => {
+        const streamType = publisher.display;
         let remoteHandle;
         janus.attach({
           plugin: 'janus.plugin.videoroom',
@@ -51,9 +54,6 @@ export default async function initializeGuestRTC(roomId) {
             });
           },
           onmessage(msg, offerJsep) {
-            if (typeof msg !== 'undefined' && typeof msg.display !== 'undefined') {
-              videoQueue.push(msg.display);
-            }
             const event = msg.videoroom;
             if (event === 'attached') {
               remoteHandle.rfid = msg.id;
@@ -74,25 +74,19 @@ export default async function initializeGuestRTC(roomId) {
           onremotestream(stream) {
             const videoTrack = stream.getVideoTracks()[0];
             const audioTrack = stream.getAudioTracks()[0];
-            if (stream.getTracks().length === 2) {
-              if (webcam !== null) {
-                addStream(webcam, videoTrack);
+            addStream(speaker, audioTrack);
+            if (streamType === 'stream') {
+              if (!isCameraSwapped) {
+                addStream(hasWhiteboard ? webcam : whiteboard, videoTrack);
+              } else {
+                addStream(hasWhiteboard ? whiteboard : webcam, videoTrack);
+              }
+            } else if (streamType === 'canvasStream') {
+              if (hasWebcam) {
+                addStream(!isCameraSwapped ? whiteboard : webcam, videoTrack);
               } else {
                 addStream(whiteboard, videoTrack);
               }
-              addStream(speaker, audioTrack);
-            } else if (videoQueue.length > 0) {
-              switch (videoQueue.shift()) {
-                case 'containsWebcam':
-                  addStream(webcam, videoTrack);
-                  break;
-                case 'containsCanvas':
-                default:
-                  addStream(whiteboard, videoTrack);
-                  break;
-              }
-            } else {
-              addStream(speaker, audioTrack);
             }
             setTimeout(changeStatus.live, 500);
           },
@@ -144,5 +138,31 @@ export default async function initializeGuestRTC(roomId) {
         },
       );
     },
+  });
+
+  $('#expand-webcam-view').click(() => {
+    const newPoster = getImageFromVideo(!isCameraSwapped ? whiteboard : webcam);
+    const tmpStream = whiteboard.srcObject;
+    whiteboard.srcObject = webcam.srcObject;
+    webcam.srcObject = tmpStream;
+    // picked 300 just to make its not an empty poster
+    if (!isCameraSwapped) {
+      webcam.poster = newPoster.length > 300 ? newPoster : whiteboard.poster;
+    } else {
+      whiteboard.poster = newPoster.length > 300 ? newPoster : webcam.poster;
+    }
+    isCameraSwapped = !isCameraSwapped;
+  });
+
+  $('#minimize-webcam-view').click(() => {
+    $('.options-webcam').fadeOut();
+    $('#webcam').fadeOut(() => $('#open-webcam-view').fadeIn());
+  });
+
+  $('#open-webcam-view').click(function () {
+    $(this).fadeOut(() => {
+      $('#webcam').fadeIn();
+      $('.options-webcam').fadeIn();
+    });
   });
 }

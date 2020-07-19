@@ -4,12 +4,14 @@ import {
   getJanusUrl, addStream, getTurnServers, getStunServers,
 } from '../utility.js';
 
-export default async function initializeManagerRTC(roomId, stream, canvasStream = null) {
-  const webcam = document.getElementById('webcam');
+export default async function initializeManagerRTC(roomId, stream, canvasStream) {
+  const hasAudio = $('#audioValidator').val() === 'true';
+  const hasWebcam = $('#webcamValidator').val() === 'true';
+  const hasWhiteboard = $('#whiteboardValidator').val() === 'true';
   const janusUrl = getJanusUrl();
   let janus;
 
-  function publishFeed(feedStream, label = '') {
+  function publishFeed(feedStream, label) {
     let feedHandle;
     janus.attach({
       plugin: 'janus.plugin.videoroom',
@@ -17,7 +19,7 @@ export default async function initializeManagerRTC(roomId, stream, canvasStream 
         feedHandle = handle;
         feedHandle.send({
           message: {
-            request: 'join', ptype: 'publisher', room: roomId,
+            request: 'join', ptype: 'publisher', room: roomId, display: label,
           },
         });
       },
@@ -26,7 +28,7 @@ export default async function initializeManagerRTC(roomId, stream, canvasStream 
           feedHandle.handleRemoteJsep({ jsep: feedJsep });
         }
         if (feedMsg.videoroom === 'joined') {
-          const feedRequest = { request: 'configure', display: label };
+          const feedRequest = { request: 'configure' };
           feedRequest.video = feedStream.getVideoTracks().length > 0;
           feedRequest.audio = feedStream.getAudioTracks().length > 0;
           feedHandle.createOffer({
@@ -41,12 +43,15 @@ export default async function initializeManagerRTC(roomId, stream, canvasStream 
         }
       },
       onlocalstream(localStream) {
-        const videoTracks = localStream.getTracks().filter((track) => track.kind === 'video');
-        videoTracks.forEach((video) => {
-          if (typeof video.canvas === 'undefined') {
-            addStream(webcam, video);
-          }
-        });
+        if (hasWebcam) {
+          const webcam = document.getElementById('webcam');
+          const videoTracks = localStream.getTracks().filter((track) => track.kind === 'video');
+          videoTracks.forEach((video) => {
+            if (typeof video.canvas === 'undefined') {
+              addStream(webcam, video);
+            }
+          });
+        }
       },
     });
   }
@@ -60,15 +65,16 @@ export default async function initializeManagerRTC(roomId, stream, canvasStream 
         server: janusUrl,
         iceServers: [...turnServers, ...stunServers],
         success() {
-          const hasCanvas = canvasStream !== null;
-          if (stream.getVideoTracks().length === 0) {
-            if (hasCanvas) stream.addTrack(canvasStream.getTracks()[0]);
-            publishFeed(stream);
+          if (hasWhiteboard && hasWebcam) {
+            publishFeed(stream, 'stream');
+            publishFeed(canvasStream, 'canvasStream');
+          } else if (hasWhiteboard && hasAudio) {
+            stream.addTrack(canvasStream.getTracks()[0]);
+            publishFeed(stream, 'canvasStream');
+          } else if (!hasWhiteboard) {
+            publishFeed(stream, 'stream');
           } else {
-            publishFeed(stream, webcam !== null ? 'containsWebcam' : 'containsCanvas');
-            if (stream !== canvasStream) {
-              publishFeed(canvasStream, 'containsCanvas');
-            }
+            publishFeed(canvasStream, 'canvasStream');
           }
         },
       });

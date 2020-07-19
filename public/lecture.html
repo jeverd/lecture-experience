@@ -91,6 +91,28 @@
                                 <i style="font-size:2rem; color: gray;" class="ld ld-ring ld-spin"></i>
                                 <video class="whiteboard" id="whiteboard" playsinline autoplay muted ></video>
                             </div>
+                            {{#webcam}}
+                                <div class="webcam-container">
+                                    <div class="options-webcam">
+                                        <div id="expand-webcam-view" title="Expand">
+                                            <i class="fa fa-arrows-alt"></i>
+                                        </div>
+                                        <div title="Minimize" id="minimize-webcam-view">
+                                            <i class="fa fa-minus"></i>
+                                        </div>
+                                    </div>
+                                    <img title="Open" id="open-webcam-view" src="https://img.icons8.com/fluent/48/000000/webcam.png"/>
+                                    <video muted id="webcam" playsinline autoplay></video>
+                                </div>
+                            {{/webcam}}
+                        {{/whiteboard}}
+                        {{^whiteboard}}
+                            {{#webcam}}
+                                <div class="center ld-over" id="board-container">
+                                    <i style="font-size:2rem; color: gray;" class="ld ld-ring ld-spin"></i>
+                                    <video class="whiteboard" id="whiteboard" playsinline autoplay muted ></video>
+                                </div>
+                            {{/webcam}}
                         {{/whiteboard}}
                         {{#audio}}
                             <audio style="display: none;" id="speaker" autoplay ></audio> 
@@ -98,11 +120,6 @@
                                 <i class="fa fa-volume-up" aria-hidden="true"></i>
                             </div>
                         {{/audio}}
-                        {{#webcam}}
-                            <div class="webcam-container">
-                                <video muted id="webcam" playsinline autoplay></video>
-                            </div>
-                        {{/webcam}}
                     {{/lectureTools}}
                 </div>
                 <div style="display: none; width: 0; height: 0;" id="boards-view" class="pages">
@@ -241,6 +258,11 @@
     <div id="image-modal" style="display: none;" class="modal image-container">
         <div class="wrap-div-message-image"></div>
     </div>
+    {{#lectureTools}}
+      <input type="hidden" id="webcamValidator" value="{{webcam}}"/>
+      <input type="hidden" id="audioValidator" value="{{audio}}"/>
+      <input type="hidden" id="whiteboardValidator" value="{{whiteboard}}"/>
+    {{/lectureTools}}
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <!-- <script>
