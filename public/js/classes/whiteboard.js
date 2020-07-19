@@ -239,6 +239,7 @@ export default class Whiteboard {
   }
 
   handleShortcutKeys(e) {
+    console.log(e);
     this.updateSelectionDirection();
     if (this.isSelectionActive && this.selectionDirection !== null) {
       if (e.key === 'Backspace' || e.key === 'Delete') {
@@ -350,6 +351,7 @@ export default class Whiteboard {
     if (this.undoStack.length > 0) {
       // this.context.putImageData(this.undoStack.pop(), 0, 0);
       const draws = this.undoStack.pop();
+      window.app.addDraws(draws);
     } else {
       showInfoMessage('Nothing to undo.');
     }
@@ -387,7 +389,7 @@ export default class Whiteboard {
   }
 
   getDraws() {
-    let array = [];
+    var array = [];
     for (var i in window.app.getElem()) {
       array.push(window.app.getElem()[i].pathData);
     }
