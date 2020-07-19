@@ -123,6 +123,7 @@ export default class Whiteboard {
     this.removeSelectedRegion();
 
     this.pushToUndoStack();
+    this.clearRedoStack();
     /*
     this.canvas.onmousemove = this.onMouseMove.bind(this);
     this.canvas.addEventListener('touchmove', this.onMouseMove.bind(this), false);
@@ -367,6 +368,7 @@ export default class Whiteboard {
     this.isSelectionActive = false;
     if (this.undoStack.length > 0) {
       // this.context.putImageData(this.undoStack.pop(), 0, 0);
+      this.pushToRedoStack();
       const draws = this.undoStack.pop();
       window.app.addDraws(draws);
     } else {
@@ -381,12 +383,16 @@ export default class Whiteboard {
   redoPaint() {
     if (this.redoStack.length > 0) {
       this.removeSelectedRegion();
-      const currentBoard = this.context.getImageData(0, 0, this.canvas.width, this.canvas.height);
-      this.undoStack.push(currentBoard);
-      this.context.putImageData(this.redoStack.pop(), 0, 0);
+      this.pushToUndoStack();
+      const draws = this.redoStack.pop();
+      window.app.addDraws(draws);
     } else {
       showInfoMessage('Nothing to redo.');
     }
+  }
+
+  clearRedoStack() {
+    this.redoStack = [];
   }
 
   clearCanvas() {
@@ -422,6 +428,18 @@ export default class Whiteboard {
     this.saveData = array;
     if (this.undoStack.length >= undoLimit) this.undoStack.shift();
     this.undoStack.push(this.saveData);
+    // console.log(this.undoStack,'undostack');
+  }
+
+  pushToRedoStack() {
+    var redoLimit = 40;
+    var array = [];
+    for (var i in window.app.getElem()) {
+      array.push(window.app.getElem()[i].pathData);
+    }
+    this.saveData = array;
+    if (this.undoStack.length >= redoLimit) this.redoStack.shift();
+    this.redoStack.push(this.saveData);
     // console.log(this.undoStack,'undostack');
   }
 
