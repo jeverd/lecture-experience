@@ -65,9 +65,15 @@ var deselectItem = function (event) {
   onDragItem = '';
 };
 
-var Zoom = function (scale, positionX, positionY) {
-  var mouseCoord = new Point(positionX, positionY);
-  view.zoom += 0.1;
+var Zoom = function (scale, positionX, positionY, zoomDirection) {
+  // move the center for the same amount comparing the position of the mouse with it
+  // console.log(view)
+  if (positionY < view.center.y && positionX > view.center.x - 100 && positionX < view.center.x + 100) {
+    view.center.y -= 500;
+    console.log(view.center.y)
+  }
+  // var number = 0.01;
+  view.zoom += zoomDirection;
   // view.zoom += scale;
 };
 
@@ -178,7 +184,16 @@ window.app = {
     });
   },
   zoom: function (scale, x, y) {
-    Zoom(scale, x, y);
+    Zoom(scale, x, y, this.zoomDirection(scale));
+  },
+  zoomDirection: function (scale) {
+    if (scale < 0){
+      // inward movement
+      return 0.01;
+    }else {
+      // outward movement
+      return -0.01;
+    }
   },
   getElem: function () {
     return drawsLayer.children;
