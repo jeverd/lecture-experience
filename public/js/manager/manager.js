@@ -18,22 +18,6 @@ const managerId = getUrlId();
 function beginLecture(stream) {
   const whiteboard = new Whiteboard('canvas');
 
-  function handleWindowResize() {
-    let timeout;
-    const onResizeDone = () => {
-      whiteboard.paintWhite();
-      whiteboard.setCurrentBoard(inMemCanvas);
-      handleBoardsViewButtonsDisplay();
-    };
-    $(window).on('resize', () => {
-      clearTimeout(timeout);
-      timeout = setTimeout(onResizeDone, 20);
-    });
-  }
-
-  handleWindowResize();
-
-
   const canvasStream = whiteboard.getStream();
   stream = stream || canvasStream;
 
