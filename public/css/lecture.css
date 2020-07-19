@@ -11,18 +11,21 @@ body {
     margin: 0;
   }
 
+.login-modal-content::-webkit-scrollbar,
 .message-container::-webkit-scrollbar,
 .page-list::-webkit-scrollbar {
   width: 7px;
 }
 
 /* Track */
+.login-modal-content::-webkit-scrollbar-track,
 .message-container::-webkit-scrollbar-track,
 .page-list::-webkit-scrollbar-track {
   background: #f1f1f1;
 }
 
 /* Handle */
+.login-modal-content::-webkit-scrollbar-thumb,
 .message-container::-webkit-scrollbar-thumb,
 .page-list::-webkit-scrollbar-thumb {
   background: rgb(150, 150, 150);
@@ -30,6 +33,7 @@ body {
 }
 
 /* Handle on hover */
+.login-modal-content::-webkit-scrollbar-thumb:hover,
 .message-container::-webkit-scrollbar-thumb:hover
 .page-list::-webkit-scrollbar-thumb:hover {
   background: #555;
@@ -52,8 +56,11 @@ body {
   filter: invert(100%);
 }
 
+.sm-chat-room{
+  display: none;
+}
+
 .lecture-content{
-  margin-bottom: 35px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -452,15 +459,24 @@ video.whiteboard{
     display: none;
   }
 
+  .sm-chat-room{
+    display: initial;
+  }
+
   .lecture-top-bar{
     left: 2.3%;
     top: 2%;
   }
 
   .webcam-container{
-    right: 2.5%;
+    right: 0;
     bottom: 0px;
     padding-top:0;
+  }
+
+  .webcam-container img{
+    position:relative;
+    top: 2px;
   }
 
   .webcam-container video{
@@ -473,9 +489,13 @@ video.whiteboard{
     right: 3.5%;
   }
 
+  .videoContainer{
+    width: 95%;
+  }
+
   video.whiteboard{
     height: auto;
-    width: 95%;
+    width: 100%;
   }
 
   .top-logo-bar{
@@ -488,7 +508,7 @@ video.whiteboard{
     justify-content: space-evenly;
     align-self: center;
     justify-self: center;
-    width: 91.5vw;
+    width: 100%;
     border-radius: .25rem .25rem 0 0;
   }
 
@@ -502,7 +522,7 @@ video.whiteboard{
   }
   
   div#chat-view.active-menu-item{
-    width: 91.5vw !important;
+    width: 100% !important;
   }
 
   div.chat{
@@ -529,7 +549,7 @@ video.whiteboard{
   }
 
   input#message-input{
-    width: 88.5%;
+    width: 92%;
   }
 
   #send-container{
@@ -545,7 +565,7 @@ video.whiteboard{
     justify-self: center;
     align-self: center;
     text-align: center;
-    max-width: 91.5vw;
+    max-width: 100%;
   }
 
   div.pages{
@@ -576,11 +596,19 @@ video.whiteboard{
   .webcam-container video{
     height: 95px;
   }
+
+  input#message-input{
+    width: 89% !important;
+  }
 }
 
 @media only screen and (max-width: 490px) {
   .connect-on-phone{
     display:none;
+  }
+
+  input#message-input{
+    width: 84% !important;
   }
 
   .webcam-container video{
@@ -598,12 +626,6 @@ video.whiteboard{
   .specs-stats{
     top: .5px;
   }
-
-  div.left-menu,
-  div#boards-view.active-menu-item,
-  div#chat-view.active-menu-item{
-    width: 89.8vw !important;
-  }
 }
 
 @media only screen and (max-width: 410px) {
@@ -613,12 +635,6 @@ video.whiteboard{
 
   input#message-input{
     width: 80% !important;
-  }
-
-  div.left-menu,
-  div#boards-view.active-menu-item,
-  div#chat-view.active-menu-item{
-    width: 89.2vw !important;
   }
 }
 
@@ -794,7 +810,6 @@ video.whiteboard{
   display: block;/* default */
   background-color: var(--bg-primary);
   margin: auto;
-  padding: 20px;
   position: relative;
   top: 50%;
   transform: translateY(-50%);
@@ -803,7 +818,8 @@ video.whiteboard{
   width: 75%;
   border-radius: 10px;
   animation: fadein 0.7s;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   -webkit-box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
   box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
 }
@@ -947,8 +963,8 @@ video.whiteboard{
 }
 
 .student-details-container{
-  padding-top: 30px;
-  padding-bottom: 20px;
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
 
 .inputText{
@@ -1010,7 +1026,7 @@ video.whiteboard{
     align-items: center;
     float: unset;
     margin-top: 10px;
-    width: 300px;
+    width: 100%;
   }
   .inputText{
     float: unset;

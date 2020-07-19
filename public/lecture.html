@@ -139,7 +139,7 @@
                         </div>
                         <div class="message-container" id="message-container">
                         <div class="message-lecture-name">
-                            {{name}}
+                            {{name}} <text class="sm-chat-room">Chat Room</text>
                         </div>
                         <div id="preview" class="preview" style="display: none;">
                             <div class="preview-content">
@@ -221,7 +221,7 @@
       <!-- Start Modal content -->
         <div class="login-modal-content">
             <div id="join-content" class="modal-main-content">
-                <p id="modal-content-header">Welcome to {{name}}</p>
+                <p id="modal-content-header">{{name}}</p>
                 <img id="modal-image" />
                 <div class="student-details-container">
                     <p class="details-header">Student Details</p>
@@ -232,16 +232,6 @@
                     <input autocomplete="off" spellcheck="false" class="inputBox" type="text" id="studentName" name="studentName">
                 </div>
                 <div id="modal-buttons-container">
-                    <div
-                      title="Test your microphone"
-                      id="test-mic"
-                      class="test-mic-container mic-button"
-                    >
-                      <i class="fa fa-cog cog"></i>
-                      &nbsp;
-                      <span class="test-mic">Select Speaker</span>
-                      &nbsp;
-                    </div>
       
                   <button id="modal-select-button" class="live-button">Join Lecture</button>
                     
