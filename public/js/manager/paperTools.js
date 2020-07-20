@@ -72,7 +72,9 @@ var selectItem = function (event) {
 };
 
 var drag = function (event) {
-  onDragItem.item.position = event.point;
+  if(onDragItem){
+    onDragItem.item.position = event.point;
+  }
 };
 
 var deselectItem = function (event) {
@@ -135,6 +137,12 @@ var Zoom = function (scale, positionX, positionY, zoomDirection) {
   }else {
     view.zoom += zoomAmount;
   }
+  
+  var delItem = function () {
+    if (selectedItem) {
+      selectedItem.item.remove();
+    }
+  };
 };
 
 var setPathProperties = function () {
@@ -270,10 +278,10 @@ window.app = {
     this.paintCircle();
     for (var i in array) {
       var loadedPath = new Path({
-        pathData: array[i],
+        pathData: array[i][0],
       });
-      loadedPath.strokeColor = activeColor;
-      loadedPath.strokeWidth = activeWidth;
+      loadedPath.strokeColor = array[i][1];
+      loadedPath.strokeWidth = array[i][2];
       loadedPath.parent = items;
 
       drawsLayer.addChild(loadedPath);
@@ -290,5 +298,8 @@ window.app = {
   },
   copyItem: function () {
     cloneItem();
+  },
+  deleteItem: function () {
+    delItem();
   },
 };
