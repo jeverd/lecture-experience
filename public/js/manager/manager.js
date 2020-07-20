@@ -6,7 +6,7 @@
 import Whiteboard from '../classes/whiteboard.js';
 import initializeToolsMenu from '../tools.js';
 import initializeCanvasTopMenu from './canvasTopMenu.js';
-import initializeChat from './managerChat.js';
+import initializeManagerChat from './managerChat.js';
 import initializeModal from './canvasModal.js';
 import initializeBoards from './managerBoards.js';
 import initializeActionsMenu from './canvasActions.js';
@@ -49,7 +49,7 @@ function beginLecture(stream) {
     initializeActionsMenu(socket, whiteboard, canvasStream);
     initializeManagerRTC(room.lecture_details.id, stream, canvasStream);
     initializeBoards(socket, whiteboard, boards, boardActive, canvasStream);
-    initializeChat(socket, room.lecture_details.id);
+    initializeManagerChat(socket, room.lecture_details.id);
     document.getElementById('canvas').addEventListener('wheel', scrollZoom);
 
     function scrollZoom(e) {
@@ -73,7 +73,9 @@ window.onload = () => {
   const start = (stream = null) => {
     initializeModal(stream);
     $('#modal-select-button').click(() => {
-      fetch(`/validate/lecture?id=${managerId}`).then((req) => {
+      $('#welcome-lecture-modal').hide();
+      const roomId = $('#_id').val();
+      fetch(`/validate/lecture?id=${roomId}`).then((req) => {
         switch (req.status) {
           case 200:
             beginLecture(stream);

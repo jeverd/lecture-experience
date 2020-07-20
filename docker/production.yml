@@ -15,7 +15,7 @@ services:
         - ./letsencrypt:/etc/letsencrypt
     app:
       image: jeverd/liteboard-express:latest
-      links:
+      links:  # TODO verify this can be removed
         - redis_db
         - web-server
       environment:
@@ -31,6 +31,12 @@ services:
         - EMAIL=${EMAIL}
         - EMAIL_PASSWORD=${EMAIL_PASSWORD}
         - EMAIL_SERVICE=${EMAIL_SERVICE}
+        - REDIS_TURN_DB_NUMBER=${REDIS_TURN_DB_NUMBER}
+        - TURN_SERVER_SECRET=${TURN_SERVER_SECRET}
+        - TURN_SERVER_ENDPOINT=${TURN_SERVER_ENDPOINT}
+        - TURN_SERVER_PORT=${TURN_SERVER_PORT}  
+        - TURN_SERVER_ACTIVE=${TURN_SERVER_ACTIVE}
+        - TURN_SERVER_URL=${TURN_SERVER_URL} 
       depends_on:
         - redis_db
         - web-server
@@ -52,3 +58,12 @@ services:
       volumes:
         - ./docker-config/janus.jcfg:/usr/local/etc/janus/janus.jcfg  # might need to change this later, dk if this is best practice .... TODO
         - ./docker-config/janus.transport.http.jcfg:/usr/local/etc/janus/janus.transport.http.jcfg
+    coturn:
+      image: instrumentisto/coturn
+      command:
+        - -c=/etc/coturn/turnserver.conf
+      network_node: "host"
+      volumes:
+        - ./docker-config/turnserver.conf:/etc/coturn/turnserver.conf:ro
+
+

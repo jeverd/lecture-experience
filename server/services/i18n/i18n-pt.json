@@ -53,10 +53,16 @@
   "errorDontExist": "errorDontExist-pt.png",
   "errorSession": "errorSession-pt.png",
   "errorNotFound": "errorNotFound-pt.png",
+  "statsThanks": "thanksForUsingLiteboard-pt.png",
   "statsTitleStats": "Estatísticas de",
   "statsMaxNum": "Máximo de alunos",
   "statsAvgNum": "Média de alunos",
   "statsBoardsUsed": "Quadros criados",
   "statsDuration": "Duração da Aula",
-  "statsRateExperience": "Por favor nos dê seu feedback"
+  "statsRateExperience": "Por favor nos dê seu feedback",
+  "statusStarting": "Iniciando",
+  "statusHostDisconnected": "Host Desconectado",
+  "statusConnectionLost": "Conexão Perdida",
+  "statusLive": "Ao Vivo",
+  "guestLectureRoom": "Sala de Aula"
 }
