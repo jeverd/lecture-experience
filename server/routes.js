@@ -43,7 +43,7 @@ app.post('/create', (req, res) => {
 
 app.get('/validate/lecture', (req, res) => {
   logger.info(`GET request received: /validate/lecture for sessionId ${req.sessionId}`);
-  redisClient.hexists('managers', req.query.id, (err, roomExist) => {
+  redisClient.hexists('rooms', req.query.id, (err, roomExist) => {
     if (roomExist) {
       if (req.session.inRoom) {
         res.status(401);
@@ -62,7 +62,6 @@ app.get('/validate/lecture', (req, res) => {
 app.get('/lecture/:id', (req, res) => {
   const urlId = req.params.id;
   logger.info(`GET request received: /lecture for lecture id: ${urlId}`);
-
   redisClient.hmget('managers', urlId, (err, object) => {
     const isGuest = object[0] === null;
     const roomId = !isGuest && JSON.parse(object[0]).roomId;

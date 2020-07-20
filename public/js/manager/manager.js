@@ -67,7 +67,9 @@ window.onload = () => {
   const start = (stream = null) => {
     initializeModal(stream);
     $('#modal-select-button').click(() => {
-      fetch(`/validate/lecture?id=${managerId}`).then((req) => {
+      $('#welcome-lecture-modal').hide();
+      const roomId = $('#_id').val();
+      fetch(`/validate/lecture?id=${roomId}`).then((req) => {
         switch (req.status) {
           case 200:
             beginLecture(stream);
