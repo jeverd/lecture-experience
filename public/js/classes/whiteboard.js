@@ -30,6 +30,7 @@ export default class Whiteboard {
     this.paintWhite();
     this.boards = [];
     this.paths = [];
+    this.centerCoords = [];
     this.undoStack = [];
     this.redoStack = [];
     this.startingPoint = new Point();

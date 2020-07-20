@@ -13,7 +13,10 @@ var items = new Group();
 var imageLayer = new Layer();
 var drawsLayer = new Layer();
 var selectedItem = '';
+var boardZoomData = [];
 var onDragItem;
+var centerPoint;
+var lastMousePoint = 0;
 drawsLayer.addChild(items);
 drawsLayer.activate();
 imageLayer.insertBelow(drawsLayer);
@@ -65,14 +68,27 @@ var selectItem = function (event) {
     selectedItem.item.fullySelected = true;
   }
   if (!hitResult) {
-    selectedItem.item.fullySelected = false;
-    selectedItem = '';
+    if (selectedItem) {
+      selectedItem.item.fullySelected = false;
+      selectedItem = '';
+    }
+    centerPoint = {
+      currentX: view.center.x,
+      currentY: view.center.y,
+    };
   }
 };
 
 var drag = function (event) {
   if (onDragItem) {
     onDragItem.item.position = event.point;
+  } else {
+    var lastMousePoint = event.downPoint;
+    lastViewCenter = view.center;
+    view.center = view.center.add(
+      lastMousePoint.subtract(event.point),
+    );
+    lastMousePoint = event.point.add(view.center.subtract(lastViewCenter));
   }
 };
 
@@ -80,16 +96,66 @@ var deselectItem = function (event) {
   onDragItem = '';
 };
 
-var delItem = function () {
-  if (selectedItem) {
-    selectedItem.item.remove();
-  }
-};
+var Zoom = function (scale, positionX, positionY, zoomDirection) {
+  // move the center for the same amount comparing the position of the mouse with it
+  var zoomAmount = zoomDirection;
+  var centerAmount = 1000;
+  var verticalBorder = 300;
+  var horizontalBorder = 300;
+  var verticalCond = (positionY < view.center.y + horizontalBorder && positionY > view.center.y - horizontalBorder);
+  var horizontalCond = (positionX > view.center.x - verticalBorder && positionX < view.center.x + verticalBorder);
 
-var Zoom = function (scale, positionX, positionY) {
-  var mouseCoord = new Point(positionX, positionY);
-  view.zoom += 0.1;
-  // view.zoom += scale;
+  if (zoomDirection > 0) {
+    if (positionY < view.center.y && positionX < view.center.x + verticalBorder && positionX > view.center.x - verticalBorder) {
+      // mid up
+      view.center.y -= centerAmount;
+      view.zoom += zoomAmount;
+    } else if (positionY < view.center.y && positionX > view.center.x) {
+      // up right
+      view.center.y -= centerAmount / 2;
+      view.center.x += centerAmount;
+      view.zoom += zoomAmount;
+    } else if (positionY < view.center.y && positionX < view.center.x) {
+      // up left
+      view.center.y -= centerAmount / 2;
+      view.center.x -= centerAmount;
+      view.zoom += zoomAmount;
+    } else if (positionY > view.center.y && positionX > view.center.x - verticalBorder && positionX < view.center.x + verticalBorder) {
+      // mid down
+      view.center.y += centerAmount;
+      view.zoom += zoomAmount;
+    } else if (positionY > view.center.y && positionX > view.center.x) {
+      // down right
+      view.center.y += centerAmount / 2;
+      view.center.x += centerAmount;
+      view.zoom += zoomAmount;
+    } else if (positionY > view.center.y && positionX < view.center.x) {
+      // down left
+      view.center.y += centerAmount / 2;
+      view.center.x -= centerAmount;
+      view.zoom += zoomAmount;
+    } else if (positionY < view.center.y + horizontalBorder && positionY > view.center.y - horizontalBorder && positionX > view.center.x + verticalBorder) {
+      view.center.x += centerAmount / 2;
+      view.center.y += centerAmount / 2;
+      view.zoom += zoomAmount;
+    } else if (positionY < view.center.y + horizontalBorder && positionY > view.center.y - horizontalBorder && positionX < view.center.x + verticalBorder) {
+      view.center.x -= centerAmount;
+      view.center.y += centerAmount / 2;
+      view.zoom += zoomAmount;
+    } else if (verticalCond && horizontalCond) {
+      view.zoom += zoomAmount;
+    } else {
+      view.zoom += zoomAmount;
+    }
+  } else {
+    view.zoom += zoomAmount;
+  }
+
+  var delItem = function () {
+    if (selectedItem) {
+      selectedItem.item.remove();
+    }
+  };
 };
 
 var setPathProperties = function () {
@@ -171,12 +237,15 @@ window.app = {
   paintBackgroundWhite: function () {
     var rect = new Path.Rectangle({
       point: [0, 0],
-      size: [2 * view.size.width, 2 * view.size.height],
+      size: [10000, 10000],
       strokeColor: 'white',
     });
     rect.fillColor = 'white';
     rect.sendToBack();
     imageLayer.addChild(rect);
+    view.center = view.center.add(
+      view.center.subtract({ x: -3000, y: -3000 }),
+    );
   },
   paintCircle: function () {
     var circle = new Path.Rectangle(new Point(0, 0), view.size.width, view.size.height);
@@ -199,7 +268,23 @@ window.app = {
     });
   },
   zoom: function (scale, x, y) {
-    Zoom(scale, x, y);
+    Zoom(scale, x, y, this.zoomDirection(scale));
+  },
+  getZoomData: function () {
+    // ########
+    return {
+      zoom: view.zoom,
+      centerX: view.center.x,
+      centerY: view.center.y,
+    };
+  },
+  zoomDirection: function (scale) {
+    if (scale < 0) {
+      // inward movement
+      return 0.03;
+    }
+    // outward movement
+    return -0.03;
   },
   getElem: function () {
     return drawsLayer.children;
