@@ -15,6 +15,8 @@ var drawsLayer = new Layer();
 var selectedItem = '';
 var boardZoomData = [];
 var onDragItem;
+var centerPoint;
+var lastMousePoint = 0;
 drawsLayer.addChild(items);
 drawsLayer.activate();
 imageLayer.insertBelow(drawsLayer);
@@ -66,14 +68,27 @@ var selectItem = function (event) {
     selectedItem.item.fullySelected = true;
   }
   if (!hitResult) {
-    selectedItem.item.fullySelected = false;
-    selectedItem = '';
+    if (selectedItem){
+      selectedItem.item.fullySelected = false;
+      selectedItem = '';
+    }
+    centerPoint = {
+      currentX: view.center.x,
+      currentY: view.center.y
+    }
   }
 };
 
 var drag = function (event) {
   if(onDragItem){
     onDragItem.item.position = event.point;
+  }else {
+      var lastMousePoint = event.downPoint
+      lastViewCenter = view.center;
+      view.center = view.center.add(
+        lastMousePoint.subtract(event.point)
+      );
+      lastMousePoint = event.point.add(view.center.subtract(lastViewCenter));
   }
 };
 
@@ -83,7 +98,6 @@ var deselectItem = function (event) {
 
 var Zoom = function (scale, positionX, positionY, zoomDirection) {
   // move the center for the same amount comparing the position of the mouse with it
-  // console.log(view)
   var zoomAmount = zoomDirection;
   var centerAmount = 1000;
   var verticalBorder = 300;
@@ -96,7 +110,6 @@ var Zoom = function (scale, positionX, positionY, zoomDirection) {
       // mid up
       view.center.y -= centerAmount;
       view.zoom += zoomAmount;
-      console.log(view.center.y)
     }else if (positionY < view.center.y && positionX > view.center.x){
       // up right
       view.center.y -= centerAmount / 2;
@@ -224,12 +237,15 @@ window.app = {
   paintBackgroundWhite: function () {
     var rect = new Path.Rectangle({
       point: [0, 0],
-      size: [view.size.width, view.size.height],
+      size: [10000, 10000],
       strokeColor: 'white',
     });
     rect.fillColor = 'white';
     rect.sendToBack();
     imageLayer.addChild(rect);
+    view.center = view.center.add(
+      view.center.subtract({x: -3000, y: -3000})
+    );
   },
   paintCircle: function () {
     var circle = new Path.Rectangle(new Point(0, 0), view.size.width, view.size.height);
