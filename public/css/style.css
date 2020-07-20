@@ -126,6 +126,10 @@ body {
   #banner-style-2 {
     width: 100%;
   }
+
+  input, select, textarea {
+    font-size: 16px !important;
+  }
 }
 
 @media only screen and (max-width: 1024px) {
