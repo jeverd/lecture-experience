@@ -2,7 +2,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-undef */
 import {
-  getJanusUrl, addStream, getTurnServers, getStunServers, getStatusColor, getImageFromVideo,
+  getJanusUrl, addStream, getTurnServers, getStunServers, getStatusColor, getImageFromVideo, getJanusToken
 } from '../utility.js';
 
 export const changeStatus = {
@@ -96,7 +96,9 @@ export default async function initializeGuestRTC(roomId) {
   }
 
   const turnServers = await getTurnServers();
+  const janusToken = await getJanusToken();
   const stunServers = getStunServers();
+
   Janus.init({
     callback() {
       janus = new Janus(
@@ -104,6 +106,8 @@ export default async function initializeGuestRTC(roomId) {
           debug: 'all',
           server: janusUrl,
           iceServers: [...turnServers, ...stunServers],
+          token: janusToken,
+          // iceTransportPolicy: 'relay',   enable to force turn server
           success() {
             janus.attach(
               {

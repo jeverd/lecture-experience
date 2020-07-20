@@ -73,13 +73,11 @@ window.onload = async () => {
       $('#lecture-status .status-dot').css('background', getStatusColor('starting'));
       $('#lecture-status .status-text').html($('#status-starting').val());
       $('video#whiteboard').parent().addClass('running');
-      joinLecture();
-      $('#login-lecture-modal').hide();
 
-      /*
       fetch(`/validate/lecture?id=${roomId}`).then((req) => {
         switch (req.status) {
           case 200:
+            joinLecture();
             $('#login-lecture-modal').hide();
             break;
           case 404:
@@ -91,7 +89,6 @@ window.onload = async () => {
           default: break;
         }
       });
-      */
     }
   });
 

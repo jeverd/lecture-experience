@@ -4,23 +4,24 @@ const Sentry = require('@sentry/node');
 const { app } = require('./servers');
 const redisClient = require('./servers').client;
 const { logger } = require('./services/logger/logger');
-const credsGenerator = require('./services/credsGenerator');
+const { turnCredsGenerator, janusCredsGenerator } = require('./services/credsGenerator');
 const Stats = require('./models/stats');
 const Manager = require('./models/manager');
 const Room = require('./models/room');
 const {
-  expressPort, environment, turnServerSecret, redisTurnDbNumber, turnServerActive, turnServerPort, turnServerUrl, sentryDSN, sentryEnvironment,
+  expressPort, environment, turnServerSecret, redisTurnDbNumber,
+  turnServerActive, turnServerPort, turnServerUrl, sentryDSN, sentryEnvironment, janusServerSecret,
 } = require('../config/config');
 
 const { getLanguage, setLanguage } = require('./services/i18n/i18n');
 
 
 app.get('/', (req, res) => {
-  res.render('index.html', { sentryDSN, sentryEnvironment, ...getLanguage(req.cookies, req.locale) });
+  res.render('index.html', { sentryDSN, sentryEnvironment, ...getLanguage(req.session, req.locale) });
 });
 
 app.get('/create', (req, res) => {
-  res.render('create.html', { sentryDSN, sentryEnvironment, ...getLanguage(req.cookies, req.locale) });
+  res.render('create.html', { sentryDSN, sentryEnvironment, ...getLanguage(req.session, req.locale) });
 });
 
 app.post('/create', (req, res) => {
@@ -74,7 +75,7 @@ app.get('/lecture/:id', (req, res) => {
         roomJson.id = roomId;
         roomJson.sharableUrl = sharableUrl;
         const objToRender = {
-          sentryDSN, sentryEnvironment, ...roomJson, ...getLanguage(req.cookies, req.locale),
+          sentryDSN, sentryEnvironment, ...roomJson, ...getLanguage(req.session, req.locale),
         };
         if (isGuest) {
           delete roomJson.managerId;
@@ -99,7 +100,7 @@ app.get('/lecture/stats/:id', (req, res) => {
     } else {
       redisClient.hexists('stats', urlId, (er, statsExist) => {
         if (statsExist) {
-          res.render('stats.html', { sentryDSN, sentryEnvironment, ...getLanguage(req.cookies, req.locale) });
+          res.render('stats.html', { sentryDSN, sentryEnvironment, ...getLanguage(req.session, req.locale) });
         } else {
           res.status(404).redirect('/error?code=3');
         }
@@ -132,13 +133,14 @@ app.get('/error', (req, res) => {
   }
   if (errType) {
     res.render('error.html', {
-      [errType]: true, sentryDSN, sentryEnvironment, ...getLanguage(req.cookies, req.locale),
+      [errType]: true, sentryDSN, sentryEnvironment, ...getLanguage(req.session, req.locale),
     });
   } else {
     res.redirect('/');
   }
 });
 
+// auths
 app.get('/turnCreds', (req, res) => {
   if (!turnServerActive) {
     // it was a success, but server is not active, so notifying client to not use turn servers.
@@ -150,7 +152,7 @@ app.get('/turnCreds', (req, res) => {
 
       if (err) res.status(500).json({ error: `Could not select correct redis db: ${err}` });
       // !!lets not expose the secret!!!
-      const { username, password } = credsGenerator(name, turnServerSecret);
+      const { username, password } = turnCredsGenerator(name, turnServerSecret);
       redisClient.set(username, password, (err) => {
         if (err) res.status(500).json({ error: `Couldnot add turn creds to redis: ${err}` });
         res.json({
@@ -160,8 +162,14 @@ app.get('/turnCreds', (req, res) => {
     });
   }
 });
+
+app.get('/janusToken', (req, res) => {
+  const janusToken = janusCredsGenerator(['janus.plugin.videoroom'], janusServerSecret);
+  res.json({ janusToken, ttl: 86400 });
+});
+
 app.get('/setLanguage', (req, res) => {
-  setLanguage((key, value) => res.cookie(key, value), req.query.langCode);
+  setLanguage(req.session, req.query.langCode);
   res.redirect(req.query.pageRef || '/');
 });
 

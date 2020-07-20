@@ -14,7 +14,8 @@ module.exports = {
   ptHost: process.env.PT_HOST,
   ptPort: process.env.PT_PORT,
   redisUrl: process.env.REDIS_URL,
-  email: process.env.EMAIL,
+  emailUsername: process.env.EMAIL_USERNAME,
+  emailSender: process.env.EMAIL_SENDER,
   emailPassword: process.env.EMAIL_PASSWORD,
   emailService: process.env.EMAIL_SERVICE,
   loggerFlag: (process.env.LOGGER === 'true'),
@@ -29,4 +30,5 @@ module.exports = {
   supportedLanguages: SUPPORTED_LANGUAGES,
   sentryDSN: process.env.SENTRY_DSN,
   sentryEnvironment: process.env.SENTRY_ENVIRONMENT,
+  janusServerSecret: process.env.JANUS_SERVER_SECRET,
 };
