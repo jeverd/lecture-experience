@@ -74,8 +74,9 @@ window.onload = async () => {
       $('#lecture-status .status-text').html($('#status-starting').val());
       $('video#whiteboard').parent().addClass('running');
       joinLecture();
-      // $('#login-lecture-modal').hide();
+      $('#login-lecture-modal').hide();
 
+      /*
       fetch(`/validate/lecture?id=${roomId}`).then((req) => {
         switch (req.status) {
           case 200:
@@ -90,6 +91,7 @@ window.onload = async () => {
           default: break;
         }
       });
+      */
     }
   });
 

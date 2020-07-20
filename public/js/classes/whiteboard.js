@@ -109,6 +109,7 @@ export default class Whiteboard {
     let timeout;
     let paths = [];
     const onResizeDone = () => {
+      //COMEBACK TO THIS LATER
       this.paintWhite();
       window.app.addDraws(paths);
       handleBoardsViewButtonsDisplay();

@@ -11,7 +11,7 @@ export const TOOL_SELECTAREA = 'select-area';
 
 export default function initializeToolsMenu(whiteboard) {
   document.getElementById('canvas').addEventListener('wheel', (e) => {
-      whiteboard.onScroll(e.deltaY, e.clientX, e.clientY);
+    whiteboard.onScroll(e.deltaY, e.clientX, e.clientY);
   });
   document.querySelectorAll('.back-to-tool-menu').forEach(
     (backElem) => {
