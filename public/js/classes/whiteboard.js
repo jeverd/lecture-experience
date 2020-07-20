@@ -10,6 +10,7 @@
 /* eslint-disable no-underscore-dangle */
 
 import { getMouseCoordsOnCanvas, showInfoMessage } from '../utility.js';
+import { handleBoardsViewButtonsDisplay } from '../manager/managerBoards.js';
 import Fill from './fill.js';
 import Point from './point.js';
 import Tools from './Tools.js';
@@ -35,7 +36,7 @@ export default class Whiteboard {
     this.endPoint = new Point();
     this.isSelectionActive = false;
     window.onkeydown = this.handleShortcutKeys.bind(this);
-    // this.handleResize();
+    this.handleResize();
   }
 
   set activeTool(tool) {
@@ -103,33 +104,18 @@ export default class Whiteboard {
     window.app.deleteItem();
   }
 
-  /*
   handleResize() {
     let timeout;
-    let isStartingToResize = true;
-    const inMemCanvas = document.createElement('canvas');
-    const inMemCtx = inMemCanvas.getContext('2d');
     const onResizeDone = () => {
-      this.canvas.height = window.innerHeight;
-      this.canvas.width = window.innerWidth;
       this.paintWhite();
       this.setCurrentBoard(inMemCanvas);
       handleBoardsViewButtonsDisplay();
-      isStartingToResize = true;
     };
-    // eslint-disable-next-line no-undef
     $(window).on('resize', () => {
-      if (isStartingToResize) {
-        inMemCanvas.width = this.canvas.width;
-        inMemCanvas.height = this.canvas.height;
-        inMemCtx.drawImage(this.canvas, 0, 0);
-        isStartingToResize = false;
-      }
       clearTimeout(timeout);
-      timeout = setTimeout(onResizeDone, 100);
+      timeout = setTimeout(onResizeDone, 20);
     });
   }
-  */
 
   handleShortcutKeys(e) {
     if (e.key === 'c' && e.ctrlKey) {

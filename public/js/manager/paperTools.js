@@ -71,7 +71,9 @@ var selectItem = function (event) {
 };
 
 var drag = function (event) {
-  onDragItem.item.position = event.point;
+  if(onDragItem){
+    onDragItem.item.position = event.point;
+  }
 };
 
 var deselectItem = function (event) {
