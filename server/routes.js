@@ -4,13 +4,13 @@ const Sentry = require('@sentry/node');
 const { app } = require('./servers');
 const redisClient = require('./servers').client;
 const { logger } = require('./services/logger/logger');
-const credsGenerator = require('./services/credsGenerator');
+const { turnCredsGenerator, janusCredsGenerator } = require('./services/credsGenerator');
 const Stats = require('./models/stats');
 const Manager = require('./models/manager');
 const Room = require('./models/room');
 const {
   expressPort, environment, turnServerSecret, redisTurnDbNumber,
-  turnServerActive, turnServerPort, turnServerUrl, sentryDSN, sentryEnvironment,
+  turnServerActive, turnServerPort, turnServerUrl, sentryDSN, sentryEnvironment, janusServerSecret,
 } = require('../config/config');
 
 const { getLanguage, setLanguage } = require('./services/i18n/i18n');
@@ -140,6 +140,7 @@ app.get('/error', (req, res) => {
   }
 });
 
+// auths
 app.get('/turnCreds', (req, res) => {
   if (!turnServerActive) {
     // it was a success, but server is not active, so notifying client to not use turn servers.
@@ -151,7 +152,7 @@ app.get('/turnCreds', (req, res) => {
 
       if (err) res.status(500).json({ error: `Could not select correct redis db: ${err}` });
       // !!lets not expose the secret!!!
-      const { username, password } = credsGenerator(name, turnServerSecret);
+      const { username, password } = turnCredsGenerator(name, turnServerSecret);
       redisClient.set(username, password, (err) => {
         if (err) res.status(500).json({ error: `Couldnot add turn creds to redis: ${err}` });
         res.json({
@@ -161,6 +162,12 @@ app.get('/turnCreds', (req, res) => {
     });
   }
 });
+
+app.get('/janusToken', (req, res) => {
+  const janusToken = janusCredsGenerator(['janus.plugin.videoroom'], janusServerSecret);
+  res.json({ janusToken, ttl: 86400 });
+});
+
 app.get('/setLanguage', (req, res) => {
   setLanguage(req.session, req.query.langCode);
   res.redirect(req.query.pageRef || '/');
