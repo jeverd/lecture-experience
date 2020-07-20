@@ -142,6 +142,21 @@ export async function getJanusToken() {
   return null;
 }
 
+export function getStatusColor(status) {
+  switch (status) {
+    case 'starting':
+      return '#46c2ff';
+    case 'live':
+      return '#2ecc40';
+    case 'connection_lost':
+      return '#f44336';
+    case 'host_disconnected':
+      return '#f0ad4e';
+    default:
+      return 'lightgray';
+  }
+}
+
 export async function getTurnServers() {
   const response = await fetch('/turncreds');
   const turnServers = [];
@@ -170,4 +185,48 @@ export function getStunServers() {
     { url: 'stun:stun.voxgratia.org' },
     { url: 'stun:stun.xten.com' },
   ];
+}
+
+export function displayImagePopUpOnClick(e) {
+  const image = e.target;
+  const newImage = document.createElement('img');
+
+  const ratio = image.clientHeight / image.clientWidth;
+  newImage.classList.add(`modal-message-image-${ratio >= 1 ? 'vertical' : 'horizontal'}`);
+  newImage.src = image.src;
+
+  const downloadContainer = document.createElement('div');
+  const text = document.createElement('span');
+  const button = document.createElement('span');
+
+  text.innerHTML = $(image).attr('data-name');
+  button.innerHTML = "<i class='fas fa-cloud-download-alt'></i>";
+  downloadContainer.setAttribute('data-file', image.src);
+  downloadContainer.setAttribute('data-name', $(image).attr('data-name'));
+
+  downloadContainer.append(text);
+  downloadContainer.append(button);
+
+  document.getElementById('image-modal').append(newImage);
+  document.getElementById('image-modal').append(downloadContainer);
+  downloadContainer.classList.add('download-container');
+  const container = document.querySelector('.wrap-div-message-image');
+  container.innerHTML = '';
+  container.appendChild(newImage);
+  container.appendChild(downloadContainer);
+
+  $('#image-modal').show();
+}
+
+export function getImageFromVideo(video) {
+  const canvas = document.createElement('canvas');
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+  return canvas.toDataURL();
+}
+
+export function getRandomColor() {
+  const chatColors = ['red', 'green', 'blue', 'orange', 'grey'];
+  return chatColors[Math.floor(Math.random() * chatColors.length)];
 }

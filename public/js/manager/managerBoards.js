@@ -7,6 +7,7 @@ export function emitBoards(socket, whiteboard) {
     boards: whiteboard.boards,
     activeBoardIndex: whiteboard.currentBoard,
   });
+  socket.emit('currentBoardToAll', whiteboard.boards[whiteboard.currentBoard]);
 }
 
 export function handleBoardsViewButtonsDisplay() {
@@ -18,7 +19,7 @@ export function handleBoardsViewButtonsDisplay() {
       $('.scroll-boards-view-left').hide();
     }
     $('.scroll-boards-view-right').show();
-    if ($(boardView).scrollLeft() + boardView.offsetWidth >= boardView.scrollWidth) {
+    if ($(boardView).scrollLeft() + boardView.offsetWidth >= boardView.scrollWidth - 20) {
       $('.scroll-boards-view-right').hide();
     }
   } else {

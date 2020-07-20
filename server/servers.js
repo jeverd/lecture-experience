@@ -6,7 +6,6 @@ const socketio = require('socket.io');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const sharedSession = require('express-socket.io-session');
-const cookieParser = require('cookie-parser');
 const mustache = require('mustache-express');
 const Sentry = require('@sentry/node');
 const locale = require('locale');
@@ -42,7 +41,6 @@ app.use(express.static('public/images'));
 app.use(express.json({ limit: '50mb' }));
 app.use(locale(supportedLanguages, defaultLanguage));
 app.use(bodyParser.json());
-app.use(cookieParser());
 app.use(helmet());
 if (loggerFlag) app.use(logMiddleWare);
 

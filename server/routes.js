@@ -9,19 +9,19 @@ const Stats = require('./models/stats');
 const Manager = require('./models/manager');
 const Room = require('./models/room');
 const {
-  expressPort, environment, turnServerSecret, redisTurnDbNumber, turnServerActive,
-  turnServerPort, turnServerUrl, sentryDSN, sentryEnvironment, janusServerSecret,
+  expressPort, environment, turnServerSecret, redisTurnDbNumber,
+  turnServerActive, turnServerPort, turnServerUrl, sentryDSN, sentryEnvironment, janusServerSecret,
 } = require('../config/config');
 
 const { getLanguage, setLanguage } = require('./services/i18n/i18n');
 
 
 app.get('/', (req, res) => {
-  res.render('index.html', { sentryDSN, sentryEnvironment, ...getLanguage(req.cookies, req.locale) });
+  res.render('index.html', { sentryDSN, sentryEnvironment, ...getLanguage(req.session, req.locale) });
 });
 
 app.get('/create', (req, res) => {
-  res.render('create.html', { sentryDSN, sentryEnvironment, ...getLanguage(req.cookies, req.locale) });
+  res.render('create.html', { sentryDSN, sentryEnvironment, ...getLanguage(req.session, req.locale) });
 });
 
 app.post('/create', (req, res) => {
@@ -43,8 +43,8 @@ app.post('/create', (req, res) => {
 });
 
 app.get('/validate/lecture', (req, res) => {
-  logger.info(`GET request received: /validate/lecture for sessionId ${req.sessionId}`);
-  redisClient.hexists('managers', req.query.id, (err, roomExist) => {
+  logger.info(`GET request received: /validate/lecture for sessionId ${req.session.id}`);
+  redisClient.hexists('rooms', req.query.id, (err, roomExist) => {
     if (roomExist) {
       if (req.session.inRoom) {
         res.status(401);
@@ -63,7 +63,6 @@ app.get('/validate/lecture', (req, res) => {
 app.get('/lecture/:id', (req, res) => {
   const urlId = req.params.id;
   logger.info(`GET request received: /lecture for lecture id: ${urlId}`);
-
   redisClient.hmget('managers', urlId, (err, object) => {
     const isGuest = object[0] === null;
     const roomId = !isGuest && JSON.parse(object[0]).roomId;
@@ -76,7 +75,7 @@ app.get('/lecture/:id', (req, res) => {
         roomJson.id = roomId;
         roomJson.sharableUrl = sharableUrl;
         const objToRender = {
-          sentryDSN, sentryEnvironment, ...roomJson, ...getLanguage(req.cookies, req.locale),
+          sentryDSN, sentryEnvironment, ...roomJson, ...getLanguage(req.session, req.locale),
         };
         if (isGuest) {
           delete roomJson.managerId;
@@ -101,7 +100,7 @@ app.get('/lecture/stats/:id', (req, res) => {
     } else {
       redisClient.hexists('stats', urlId, (er, statsExist) => {
         if (statsExist) {
-          res.render('stats.html', { sentryDSN, sentryEnvironment, ...getLanguage(req.cookies, req.locale) });
+          res.render('stats.html', { sentryDSN, sentryEnvironment, ...getLanguage(req.session, req.locale) });
         } else {
           res.status(404).redirect('/error?code=3');
         }
@@ -134,7 +133,7 @@ app.get('/error', (req, res) => {
   }
   if (errType) {
     res.render('error.html', {
-      [errType]: true, sentryDSN, sentryEnvironment, ...getLanguage(req.cookies, req.locale),
+      [errType]: true, sentryDSN, sentryEnvironment, ...getLanguage(req.session, req.locale),
     });
   } else {
     res.redirect('/');
@@ -170,7 +169,7 @@ app.get('/janusToken', (req, res) => {
 });
 
 app.get('/setLanguage', (req, res) => {
-  setLanguage((key, value) => res.cookie(key, value), req.query.langCode);
+  setLanguage(req.session, req.query.langCode);
   res.redirect(req.query.pageRef || '/');
 });
 
