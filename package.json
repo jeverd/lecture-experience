@@ -4,7 +4,8 @@
   "description": "Liteboard's website Repository",
   "main": "servers.js",
   "scripts": {
-    "debug": "nodemon -e html,json,js index.js",
+    "debugClient": "nodemon -e html,json index.js",
+    "debugServer": "nodemon -e html,json,js index.js",
     "start": "node index.js",
     "test": "set LOGGER=false && mocha --exit"
   },
@@ -23,7 +24,6 @@
     "@sentry/apm": "^5.19.1",
     "@sentry/node": "^5.19.1",
     "connect-redis": "^4.0.4",
-    "cookie-parser": "^1.4.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-session": "^1.17.1",

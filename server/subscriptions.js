@@ -76,6 +76,7 @@ io.sockets.on('connection', (socket) => {
                 // Call this just to get last piece of stats about this lecture.
                 updateNumOfStudents(roomToJoin);
                 logger.info(`SOCKET: Successfully deleted room from redis, room_id: ${roomToJoin}`);
+                io.to(roomToJoin).emit('lectureEnd');
                 if (roomToJoin in io.sockets.adapter.rooms) {
                   const connectedSockets = io.sockets.adapter.rooms[roomToJoin].sockets;
                   Object.keys(connectedSockets).forEach((cliId) => {
@@ -97,6 +98,7 @@ io.sockets.on('connection', (socket) => {
         redisClient.hmset('managers', {
           [urlUuid]: JSON.stringify(managerObj),
         });
+        socket.broadcast.to(roomToJoin).emit('managerDisconnected');
         redisClient.hexists('rooms', roomToJoin, (er, roomExist) => {
           // Set timeout only if manager disconnected and didn't end lecture
           if (roomExist) {
@@ -188,6 +190,11 @@ io.sockets.on('connection', (socket) => {
     });
   });
 
+  socket.on('send-to-room', (room, message) => {
+    socket.broadcast.to(room).emit('send-to-room', message);
+  });
+
+  /* I'll comeback to this later!
   socket.on('send-to-guests', (room, message) => {
     socket.broadcast.to(room).emit('send-to-guests', message);
   });
@@ -213,4 +220,5 @@ io.sockets.on('connection', (socket) => {
       }
     });
   });
+  */
 });

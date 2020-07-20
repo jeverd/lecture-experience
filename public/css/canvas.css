@@ -848,13 +848,6 @@ button {
   margin: 30px;
 }
 
-.image-container img{
-  max-height: 360px;
-  height: 60vw;
-  border-radius: 0.75rem;
-  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
-}
-
 .wrap-div-message-image{
   position: absolute;
   top: 50%;
@@ -1594,6 +1587,21 @@ div.messages.active-chat{
   top: 10px;
 }
 
+.image-container img{
+  border-radius: 0.45rem;
+  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+}
+
+.modal-message-image-vertical{
+  max-height: 360px;
+  height: 60vw;
+}
+
+.modal-message-image-horizontal{
+  max-width: 800px;
+  width: 85vw;
+}
+
 #mic-buttons-container{
   display: inline-block;
   position: relative;
@@ -1763,4 +1771,8 @@ div.webcam-container{
 #inactive-webcam-view img:hover{
   opacity: 1;
   transform: scale(1.1);
+}
+
+.name-span{
+  font-weight: 600;
 }
