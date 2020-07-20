@@ -61,13 +61,12 @@ services:
         - "7089:7089"
         - "10000-10200:10000-10200/udp"
       volumes:
-        - ./docker-config/janus.jcfg:/usr/local/etc/janus/janus.jcfg  # might need to change this later, dk if this is best practice .... TODO
-        - ./docker-config/janus.transport.http.jcfg:/usr/local/etc/janus/janus.transport.http.jcfg
+        - ./docker-config/janus/janus.jcfg:/usr/local/etc/janus/janus.jcfg  # might need to change this later, dk if this is best practice .... TODO
     coturn:
       image: instrumentisto/coturn
       command:
         - -c=/etc/coturn/turnserver.conf
-      network_node: "host"
+      network_mode: "host"
       volumes:
         - ./docker-config/turnserver.conf:/etc/coturn/turnserver.conf:ro
 
