@@ -221,8 +221,6 @@ body {
 .highlighted-text {
   color: #46c2ff;
   background: linear-gradient(to right, #bd11fa 0%, #46c2ff 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
 }
 
 @media only screen and (max-width: 1200px) {
