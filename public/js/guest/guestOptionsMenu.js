@@ -53,5 +53,8 @@ export default function initializeOptionsMenu() {
     $(this).parent().find('audio')[0].muted = volumeIcon.hasClass('fa-volume-off');
   });
 
+  $('#connect-on-your-phone').click(() => $('#qr-code-modal').fadeIn());
+  $('#qr-code-modal').click(function (e) { e.stopPropagation(); $(this).fadeOut(); });
+
   $('#toggle-chat-view').click();
 }

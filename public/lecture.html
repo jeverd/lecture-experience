@@ -52,17 +52,23 @@
             </div>
             <div class="videoContainer">
                 <div class="left-menu">
-                    <div id="fullscreen-video">
+                    <div title="View fullscreen" id="fullscreen-video">
                         <img class="nav-icon" src="/expand.svg"/>
                     </div>
-                    <div class="connect-on-phone">
+                    <div title="Connect on your Phone" id="connect-on-your-phone" class="connect-on-phone">
                         <img class="nav-icon" src="/phone.svg"/>
+                        <div style="display: none;" class="modal" id="qr-code-modal">
+                            <div class="qrcode-modal-content">
+                                <div>Scan QR Code</div>
+                                <div id="qrcode"></div>
+                            </div>
+                        </div>
                     </div>
-                    <div id="toggle-boards-view" target-id="boards-view">
+                    <div title="Toggle boards view" id="toggle-boards-view" target-id="boards-view">
                         <img class="nav-icon" src="/whiteboard.svg" />
                         <div class="left-menu-badge"><span id="num-boards">0</span></div>
                     </div>
-                    <div id="toggle-chat-view" target-id="chat-view">
+                    <div title="Toggle lecture chat" id="toggle-chat-view" target-id="chat-view">
                         <i class="fas fa-comment-dots chat-info-icon"></i>
                         <div class="left-menu-badge"><span id="num-unread-messages">0</span></div>
                     </div>
@@ -271,6 +277,14 @@
     <script src="/socket.io/socket.io.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/6.4.0/adapter.min.js"></script>
     <script src="/lib/janus.js"></script>
+    <script src="/lib/qrcode.min.js"></script>
+    <script type="text/javascript">
+        new QRCode(document.getElementById('qrcode'), {
+            text: window.location.href,
+            width: 256,
+            height: 256,
+        });
+    </script>
     <script src="/guest/guest.js" type="module"></script>
     <script
       src="https://browser.sentry-cdn.com/5.19.1/bundle.min.js"

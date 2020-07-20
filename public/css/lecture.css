@@ -962,6 +962,12 @@ video.whiteboard{
   color:white;
 }
 
+.qrcode-modal{
+  display: none;
+  position: absolute;
+
+}
+
 .student-details-container{
   padding-top: 15px;
   padding-bottom: 15px;
@@ -1427,6 +1433,27 @@ div.messages.active-chat{
   overflow: auto; /* Enable scroll if needed */
   background-color: rgb(0, 0, 0); /* Fallback color */
   background-color: rgba(0, 0, 0, 0.7); /* Black w/ opacity */
+}
+
+.qrcode-modal-content{
+  background: #21212e;
+  color: white;
+  position: absolute;
+  font-size: calc(.75rem + 2vw);
+  padding: 10px 50px 30px 50px;
+  border-radius: .25rem;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  justify-content: center;
+  cursor: initial;
+}
+
+#qrcode{
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  background: white;
 }
 
 .download-container{
