@@ -7,12 +7,13 @@ services:
         - ./docker-config/redis_prod.conf:/redis.conf
       command: [ "redis-server", "/redis.conf" ]
     web-server:
-      image: jeverd/liteboard-ngnix:latest
+      image: nginx:alpine
       ports:
         - ${WEB_SERVER_PORT_HTTP}:${WEB_SERVER_PORT_HTTP}
         - ${WEB_SERVER_PORT_HTTPS}:${WEB_SERVER_PORT_HTTPS}
       volumes:
         - ./letsencrypt:/etc/letsencrypt
+        - ./nginx.conf:/etc/nginx/nginx.conf
     app:
       image: jeverd/liteboard-express:latest
       links:  # TODO verify this can be removed
