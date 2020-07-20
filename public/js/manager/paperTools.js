@@ -13,6 +13,7 @@ var items = new Group();
 var imageLayer = new Layer();
 var drawsLayer = new Layer();
 var selectedItem = '';
+var boardZoomData = [];
 var onDragItem;
 drawsLayer.addChild(items);
 drawsLayer.activate();
@@ -81,13 +82,59 @@ var deselectItem = function (event) {
 var Zoom = function (scale, positionX, positionY, zoomDirection) {
   // move the center for the same amount comparing the position of the mouse with it
   // console.log(view)
-  if (positionY < view.center.y && positionX > view.center.x - 100 && positionX < view.center.x + 100) {
-    view.center.y -= 500;
-    console.log(view.center.y)
+  var zoomAmount = zoomDirection;
+  var centerAmount = 1000;
+  var verticalBorder = 300;
+  var horizontalBorder = 300;
+  var verticalCond = (positionY < view.center.y + horizontalBorder && positionY > view.center.y - horizontalBorder);
+  var horizontalCond = (positionX > view.center.x - verticalBorder && positionX < view.center.x + verticalBorder);
+
+  if (zoomDirection > 0){
+    if (positionY < view.center.y && positionX < view.center.x + verticalBorder && positionX > view.center.x - verticalBorder) {
+      // mid up
+      view.center.y -= centerAmount;
+      view.zoom += zoomAmount;
+      console.log(view.center.y)
+    }else if (positionY < view.center.y && positionX > view.center.x){
+      // up right
+      view.center.y -= centerAmount / 2;
+      view.center.x += centerAmount;
+      view.zoom += zoomAmount;
+    }else if (positionY < view.center.y && positionX < view.center.x){
+      // up left
+      view.center.y -= centerAmount / 2;
+      view.center.x -= centerAmount;
+      view.zoom += zoomAmount;
+    }else if (positionY > view.center.y && positionX > view.center.x - verticalBorder && positionX < view.center.x + verticalBorder){
+      // mid down
+      view.center.y += centerAmount;
+      view.zoom += zoomAmount;
+    }else if (positionY > view.center.y && positionX > view.center.x){
+      // down right
+      view.center.y += centerAmount / 2;
+      view.center.x += centerAmount;
+      view.zoom += zoomAmount;
+    }else if (positionY > view.center.y && positionX < view.center.x){
+      // down left
+      view.center.y += centerAmount / 2;
+      view.center.x -= centerAmount;
+      view.zoom += zoomAmount;
+    }else if (positionY < view.center.y + horizontalBorder && positionY > view.center.y - horizontalBorder && positionX > view.center.x + verticalBorder){
+      view.center.x += centerAmount / 2;
+      view.center.y += centerAmount / 2;
+      view.zoom += zoomAmount;
+    }else if (positionY < view.center.y + horizontalBorder && positionY > view.center.y - horizontalBorder && positionX < view.center.x + verticalBorder){
+      view.center.x -= centerAmount;
+      view.center.y += centerAmount / 2;
+      view.zoom += zoomAmount;
+    }else if (verticalCond && horizontalCond){
+      view.zoom += zoomAmount;
+    }else {
+      view.zoom += zoomAmount;
+    }
+  }else {
+    view.zoom += zoomAmount;
   }
-  // var number = 0.01;
-  view.zoom += zoomDirection;
-  // view.zoom += scale;
 };
 
 var setPathProperties = function () {
@@ -199,13 +246,21 @@ window.app = {
   zoom: function (scale, x, y) {
     Zoom(scale, x, y, this.zoomDirection(scale));
   },
+  getZoomData: function () {
+    // ########
+    return {
+      zoom: view.zoom,
+      centerX: view.center.x,
+      centerY: view.center.y
+    }
+  },
   zoomDirection: function (scale) {
     if (scale < 0){
       // inward movement
-      return 0.01;
+      return 0.03;
     }else {
       // outward movement
-      return -0.01;
+      return -0.03;
     }
   },
   getElem: function () {
