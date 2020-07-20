@@ -30,6 +30,7 @@
       rel="stylesheet" type="text/css"
       href="//cdn.jsdelivr.net/gh/loadingio/ldbutton@v1.0.1/dist/ldbtn.min.css"
     />
+    <script type="text/javascript" src="/lib/paper.js"></script>
   </head>
 
   <body style="background-color: #ffffff;">
@@ -200,7 +201,7 @@
               <!--end show-bar-button-->
 
 
-    <canvas id="canvas"> </canvas>
+    <canvas id="canvas" hidpi resize> </canvas>
 
     <!--start right sidebar-->
     <nav class="right-bar animate__animated">
@@ -227,10 +228,10 @@
               </a>
             </li>
           </div>
-          <div class="item" data-tool="select-area" title="Select Area">
+          <div class="item" data-tool="pointer" title="Select an Object">
             <li class="left-bar-item">
               <a class="left-bar-link-svg">
-                <img src="/area.svg"/>
+                <img src="/cursor.png"/>
               </a>
             </li>
           </div>
@@ -629,5 +630,9 @@
         },
       });
     </script>
+    <script>
+      var activeColor = '#424242'; var activeWidth = 4;
+    </script>
+    <script src="/manager/paperTools.js" type="text/paperscript" canvas="canvas"></script>
   </body>
 </html>

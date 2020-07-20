@@ -10,6 +10,8 @@ export function emitBoards(socket, whiteboard) {
   socket.emit('currentBoardToAll', whiteboard.boards[whiteboard.currentBoard]);
 }
 
+
+
 export function handleBoardsViewButtonsDisplay() {
   const boardView = document.querySelector('.canvas-toggle-nav');
   if (boardView.offsetWidth < boardView.scrollWidth) {
@@ -34,8 +36,12 @@ export function updateBoardsBadge() {
 }
 
 function deactivateCurrentBoard(whiteboard) {
+  // console.log(whiteboard.getSvgImage().toDataURL("image/png"), 'SVG')
+  console.log(whiteboard.getSvgImage());
   const currentBoardImage = whiteboard.getImage();
+  const currentBoardPath = whiteboard.getDraws();
   whiteboard.boards[whiteboard.currentBoard] = currentBoardImage;
+  whiteboard.paths[whiteboard.currentBoard] = currentBoardPath;
   const currentBoardDiv = $('[data-page=page]').eq(`${whiteboard.currentBoard}`);
   currentBoardDiv.find('img').attr('src', currentBoardImage);
   currentBoardDiv.find('img').show();
@@ -52,8 +58,9 @@ function activateCurrentBoard(socket, whiteboard, stream, clickedBoardIndex) {
   clickedBoardDiv.find('video').show();
   const newBoardImg = document.createElement('img');
   newBoardImg.setAttribute('src', whiteboard.boards[clickedBoardIndex]);
+  const newBoardPath = whiteboard.paths[clickedBoardIndex];
   setTimeout(() => {
-    whiteboard.setCurrentBoard(newBoardImg);
+    whiteboard.setPaths(newBoardPath);
     socket.emit('currentBoardToAll', newBoardImg.getAttribute('src'));
   }, 0);
 }
@@ -67,6 +74,7 @@ export function createNonActiveBoardElem(socket, whiteboard, img, isActive, stre
 
   // making the new page image
   const newBoardImg = document.createElement('img');
+
   newBoardImg.setAttribute('src', img);
   // setting the class to item and active
   const outer = document.createElement('li');
@@ -103,7 +111,7 @@ export function createNonActiveBoardElem(socket, whiteboard, img, isActive, stre
 export function addBoard(socket, whiteboard, stream) {
   deactivateCurrentBoard(whiteboard);
   whiteboard.clearCanvas();
-  createNonActiveBoardElem(socket, whiteboard, whiteboard.getImage(), true, stream);
+  createNonActiveBoardElem(socket, whiteboard, whiteboard.getSvgImage(), true, stream);
   emitBoards(socket, whiteboard);
   $('.canvas-toggle-nav').animate({ scrollLeft: '+=100000px' }, 150, () => {
     handleBoardsViewButtonsDisplay();
