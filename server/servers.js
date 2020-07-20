@@ -6,7 +6,6 @@ const socketio = require('socket.io');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const sharedSession = require('express-socket.io-session');
-const cookieParser = require('cookie-parser');
 const mustache = require('mustache-express');
 const Sentry = require('@sentry/node');
 const locale = require('locale');
