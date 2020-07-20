@@ -9,7 +9,7 @@ const Stats = require('./models/stats');
 const Manager = require('./models/manager');
 const Room = require('./models/room');
 const {
-  expressPort, environment, turnServerSecret, redisTurnDbNumber, turnServerActive, turnServerPort, turnServerUrl,  sentryDSN, sentryEnvironment,
+  expressPort, environment, turnServerSecret, redisTurnDbNumber, turnServerActive, turnServerPort, turnServerUrl, sentryDSN, sentryEnvironment,
 } = require('../config/config');
 
 const { getLanguage, setLanguage } = require('./services/i18n/i18n');
@@ -42,7 +42,7 @@ app.post('/create', (req, res) => {
 });
 
 app.get('/validate/lecture', (req, res) => {
-  logger.info(`GET request received: /validate/lecture for sessionId ${req.sessionId}`);
+  logger.info(`GET request received: /validate/lecture for sessionId ${req.session.id}`);
   redisClient.hexists('rooms', req.query.id, (err, roomExist) => {
     if (roomExist) {
       if (req.session.inRoom) {
