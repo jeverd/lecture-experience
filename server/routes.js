@@ -1,22 +1,27 @@
 /* eslint-disable no-shadow */
-const path = require('path');
 const { v4: uuidv4 } = require('uuid');
+const Sentry = require('@sentry/node');
 const { app } = require('./servers');
 const redisClient = require('./servers').client;
 const { logger } = require('./services/logger/logger');
+const { turnCredsGenerator, janusCredsGenerator } = require('./services/credsGenerator');
 const Stats = require('./models/stats');
 const Manager = require('./models/manager');
 const Room = require('./models/room');
-const { expressPort, environment } = require('../config/config');
+const {
+  expressPort, environment, turnServerSecret, redisTurnDbNumber,
+  turnServerActive, turnServerPort, turnServerUrl, sentryDSN, sentryEnvironment, janusServerSecret,
+} = require('../config/config');
 
-const publicPath = path.join(__dirname, '../public');
+const { getLanguage, setLanguage } = require('./services/i18n/i18n');
+
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(publicPath, 'index.html'));
+  res.render('index.html', { sentryDSN, sentryEnvironment, ...getLanguage(req.session, req.locale) });
 });
 
 app.get('/create', (req, res) => {
-  res.sendFile('create.html', { root: path.join(publicPath) });
+  res.render('create.html', { sentryDSN, sentryEnvironment, ...getLanguage(req.session, req.locale) });
 });
 
 app.post('/create', (req, res) => {
@@ -38,8 +43,8 @@ app.post('/create', (req, res) => {
 });
 
 app.get('/validate/lecture', (req, res) => {
-  logger.info(`GET request received: /validate/lecture for sessionId ${req.sessionId}`);
-  redisClient.hexists('managers', req.query.id, (err, roomExist) => {
+  logger.info(`GET request received: /validate/lecture for sessionId ${req.session.id}`);
+  redisClient.hexists('rooms', req.query.id, (err, roomExist) => {
     if (roomExist) {
       if (req.session.inRoom) {
         res.status(401);
@@ -58,7 +63,6 @@ app.get('/validate/lecture', (req, res) => {
 app.get('/lecture/:id', (req, res) => {
   const urlId = req.params.id;
   logger.info(`GET request received: /lecture for lecture id: ${urlId}`);
-
   redisClient.hmget('managers', urlId, (err, object) => {
     const isGuest = object[0] === null;
     const roomId = !isGuest && JSON.parse(object[0]).roomId;
@@ -70,11 +74,14 @@ app.get('/lecture/:id', (req, res) => {
         const sharableUrl = `${host}/lecture/${roomId}`;
         roomJson.id = roomId;
         roomJson.sharableUrl = sharableUrl;
+        const objToRender = {
+          sentryDSN, sentryEnvironment, ...roomJson, ...getLanguage(req.session, req.locale),
+        };
         if (isGuest) {
           delete roomJson.managerId;
-          res.render('lecture.html', roomJson);
+          res.render('lecture.html', objToRender);
         } else {
-          res.render('whiteboard.html', roomJson);
+          res.render('whiteboard.html', objToRender);
         }
       } else {
         res.status(404);
@@ -87,17 +94,15 @@ app.get('/lecture/:id', (req, res) => {
 app.get('/lecture/stats/:id', (req, res) => {
   const urlId = req.params.id;
   logger.info(`GET request received: /lecture/stats for lecture id: ${urlId}`);
-  const renderNotFound = () => res.status(404).redirect('/error?code=3');
   redisClient.hexists('rooms', urlId, (er, roomExist) => {
     if (roomExist) {
-      // here add the error that the lecture is still under progress
-      renderNotFound();
+      res.status(404).redirect('/error?code=4');
     } else {
       redisClient.hexists('stats', urlId, (er, statsExist) => {
         if (statsExist) {
-          res.sendFile('stats.html', { root: path.join(publicPath) });
+          res.render('stats.html', { sentryDSN, sentryEnvironment, ...getLanguage(req.session, req.locale) });
         } else {
-          renderNotFound();
+          res.status(404).redirect('/error?code=3');
         }
       });
     }
@@ -123,15 +128,54 @@ app.get('/error', (req, res) => {
     case '1': errType = 'PageNotFound'; break;
     case '2': errType = 'InvalidSession'; break;
     case '3': errType = 'LectureNotFound'; break;
+    case '4': errType = 'LectureInProgress'; break;
     default: break;
   }
   if (errType) {
-    res.render('error.html', { [errType]: true });
+    res.render('error.html', {
+      [errType]: true, sentryDSN, sentryEnvironment, ...getLanguage(req.session, req.locale),
+    });
   } else {
     res.redirect('/');
   }
 });
 
+// auths
+app.get('/turnCreds', (req, res) => {
+  if (!turnServerActive) {
+    // it was a success, but server is not active, so notifying client to not use turn servers.
+    res.json({ active: false });
+  } else {
+    redisClient.select(redisTurnDbNumber, (err) => {
+      const name = uuidv4();
+      const uri = environment === 'DEVELOPMENT' ? `turn:localhost:${turnServerPort}` : `turn:${turnServerUrl}:${turnServerPort}`;
+
+      if (err) res.status(500).json({ error: `Could not select correct redis db: ${err}` });
+      // !!lets not expose the secret!!!
+      const { username, password } = turnCredsGenerator(name, turnServerSecret);
+      redisClient.set(username, password, (err) => {
+        if (err) res.status(500).json({ error: `Couldnot add turn creds to redis: ${err}` });
+        res.json({
+          username, password, ttl: 86400, uri, active: true,
+        }); // 86400 refers to one day, recommended here https://tools.ietf.org/html/draft-uberti-behave-turn-rest-00#section-2
+      });
+    });
+  }
+});
+
+app.get('/janusToken', (req, res) => {
+  const janusToken = janusCredsGenerator(['janus.plugin.videoroom'], janusServerSecret);
+  res.json({ janusToken, ttl: 86400 });
+});
+
+app.get('/setLanguage', (req, res) => {
+  setLanguage(req.session, req.query.langCode);
+  res.redirect(req.query.pageRef || '/');
+});
+
 app.get('*', (req, res) => {
   res.redirect('/error?code=1');
 });
+
+// error handling middleware, have to specify here, refer to docs https://docs.sentry.io/platforms/node/express/, error handlers should always be defined last
+app.use(Sentry.Handlers.errorHandler()); // will capture any statusCode of 500

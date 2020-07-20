@@ -10,6 +10,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <link rel='icon' href='/favicon.ico' type='image/x-icon'/>
   <link rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Open+Sans">
   <link
@@ -19,6 +21,7 @@
     crossorigin="anonymous"
   />
   <link rel="stylesheet" href="/style.css" />
+  <title>Liteboard</title>
 </head>
 
 
@@ -29,46 +32,73 @@
         <a href="#">upgrade your browser</a> to improve your experience.
       </p>
     <![endif]-->
+    <div class="set-languages">
+      <form action="/setLanguage">
+        <input type="hidden" name="langCode" value="pt-BR"/>
+        <input type="hidden" name="pageRef" value="/"/>
+        <button type="submit">
+          <img src="/brazil.svg" height="33"/>&nbsp;<span class="lang-name">Português</span>
+        </button>
+      </form>
+      <form action="/setLanguage">
+        <input type="hidden" name="langCode" value="en-US"/>
+        <input type="hidden" name="pageRef" value="/"/>
+        <button type="submit">
+          <img src="/uk.svg" height="33"/>&nbsp;<span class="lang-name">English</span>
+        </button>
+      </form>
+    </div>
 
   <div class="landing-container">
     <div class="landing-grid">
       <div class="landing-graphic">
-        <img src="/liteboardLandingCluster.png" />
+        <img src="/{{#lang}}{{indexLandingCluster}}{{/lang}}" />
       </div>
       <div class="landing-info">
         <img src="/landingBanner.png" id="banner-style-1" />
         <img src="/mobileBanner.png" id="banner-style-2" />
         <div class="buttons">
           <a href="/create" id="start-lecture-button">
-            <span>Create Lecture</span>
+            <span>{{#lang}}{{indexCreateLecture}}{{/lang}}</span>
           </a>
-          <a href="/" id="join-lecture-button">
-            <span>Join Lecture</span>
+          <a id="join-lecture-button">
+            <span>{{#lang}}{{indexLearnMore}}{{/lang}}</span>
           </a>
         </div>
       </div>
     </div>
   </div>
 
-    <div class="teach-container">
+    <div id="learn-more" class="teach-container">
       <div class="teach-content-container">
         <p class="teach-learn-header">
-          <span class="teach-learn-text"></span> from anywhere
+          <style>
+            .teach-learn-text::after {
+              content: "{{#lang}}{{indexTeach}}{{/lang}}";
+              color: #46c2ff;
+              background: linear-gradient(to right, #bd11fa 0%, #46c2ff 100%);
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+            }
+
+            .teach-learn-text:hover::after {
+              transition: 2s;
+              content: "{{#lang}}{{indexLearn}}{{/lang}}";
+            }
+          </style>
+          <!-- <span class="teach-learn-text"></span> -->
+          <span class="teach-learn-text"></span>
+          {{#lang}}{{indexFromAnywhere}}{{/lang}}
         </p>
         <img
           src="/whiteboardGraphicGradientV2.png"
           id="teach-whiteboard-graphic"
         />
         <p class="teach-learn-paragraph">
-          <span class="highlighted-text">Liteboard</span> provides a
-          <span class="highlighted-text"
-            >decentralized lightweight online experience.</span
-          >
-          This means we offer the quickest solution to hosting an online
-          learning experience. This experience provides
-          <span class="highlighted-text"
-            >a classroom outside of the classroom.</span
-          >
+          <span class="highlighted-text">Liteboard</span> {{#lang}}{{indexProvidesA}}{{/lang}}
+          <span class="highlighted-text">{{#lang}}{{indexDecentralizedExp}}{{/lang}}.</span>
+          {{#lang}}{{indexWeOffer}}{{/lang}}
+          <span class="highlighted-text">{{#lang}}{{indexLowLatency}}{{/lang}}</span>
         </p>
       </div>
     </div>
@@ -77,42 +107,55 @@
       <div class="about-content-container">
         <div class="about-content-grid">
           <div id="about-content-1" class="about-content">
+            <div id="icon-3" class="icon">
+              <i class="fas fa-wifi"></i>
+            </div>
+            <h2>{{#lang}}{{indexLiveStreamed}}{{/lang}}</h2>
+            <p>{{#lang}}{{indexLiveStreamedContent}}{{/lang}}</p>
+          </div>
+          <div id="about-content-2" class="about-content">
             <div id="icon-1" class="icon">
               <i class="fas fa-play-circle"></i>
             </div>
+
             <h2>
-              Real time audio sharing
+              {{#lang}}{{indexRecordLecture}}{{/lang}}<a href="#">*</a>
             </h2>
-            <p>text</p>
+            <p>{{#lang}}{{indexRecordLectureContent}}{{/lang}}</p>
           </div>
-          <div id="about-content-2" class="about-content">
+          <div id="about-content-3" class="about-content">
             <div id="icon-2" class="icon">
               <i class="fas fa-chalkboard"></i>
             </div>
-            <h2>Instant canvas sharing</h2>
-            <p>text</p>
-          </div>
-          <div id="about-content-3" class="about-content">
-            <div id="icon-3" class="icon">
-              <i class="fas fa-phone"></i>
-            </div>
-            <h2>Lightweight calls</h2>
-            <p>text</p>
+            <h2>{{#lang}}{{indexIntegratedBoard}}{{/lang}}</h2>
+            <p>{{#lang}}{{indexIntegratedBoardContent}}{{/lang}}</p>
           </div>
           <div id="about-content-4" class="about-content">
             <div id="icon-4" class="icon">
               <i class="far fa-chart-bar"></i>
             </div>
-            <h2>In-depth analytics</h2>
-            <p>text</p>
+            <h2>{{#lang}}{{indexAnalytics}}{{/lang}}</h2>
+            <p>{{#lang}}{{indexAnalyticsContent}}{{/lang}}</p>
           </div>
         </div>
+      </div>
+
+      <hr class="final-divider"/>
+
+      <div class="final-message-container">
+        <p>
+          {{#lang}}{{indexFromStudentToProf}}{{/lang}}<br/>
+          {{#lang}}{{indexTryLiteboard}}{{/lang}}
+        </p>
+        <a href="/create">
+          <button>{{#lang}}{{indexCreateALecture}}{{/lang}}</button>
+        </a>
       </div>
     </div>
 
     <div class="footer">
       <div class="footer-grid">
-        <div class="footer-grid-left">
+        <div class="footer-entry">
           <a
             href="https://github.com/jeverd/lecture-experience"
             target="_blank"
@@ -121,28 +164,118 @@
             <i class="fab fa-github-alt"></i>
           </a>
         </div>
-        <div class="footer-grid-right">
+        <div class="footer-entry">
           <p class="glossy-text">&copy; 2020 Liteboard</p>
+        </div>
+        <div class="footer-entry language">
+          <div class="language-selection-footer">
+            <form action="/setLanguage">
+              <input type="hidden" name="langCode" value="pt-BR"/>
+              <input type="hidden" name="pageRef" value="/"/>
+              <button type="submit">
+                <span>
+                  <img src="/brazil.svg" height="33"/>&nbsp;<span class="lang-name">Português</span>
+                </span>
+              </button>
+            </form>
+            <form action="/setLanguage">
+              <input type="hidden" name="langCode" value="en-US"/>
+              <input type="hidden" name="pageRef" value="/"/>
+              <button type="submit">
+                <span>
+                  <img src="/uk.svg" height="33"/>&nbsp;<span class="lang-name">English</span>
+                </span>
+              </button>
+            </form>
+          </div>
+          <svg width=".8em" height=".8em" viewBox="0 0 16 16" class="bi bi-globe" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M1.018 7.5h2.49c.03-.877.138-1.718.312-2.5H1.674a6.958 6.958 0 0 0-.656 2.5zM2.255 4H4.09a9.266 9.266 0 0 1 .64-1.539 6.7 6.7 0 0 1 .597-.933A7.024 7.024 0 0 0 2.255 4zM8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm-.5 1.077c-.67.204-1.335.82-1.887 1.855-.173.324-.33.682-.468 1.068H7.5V1.077zM7.5 5H4.847a12.5 12.5 0 0 0-.338 2.5H7.5V5zm1 2.5V5h2.653c.187.765.306 1.608.338 2.5H8.5zm-1 1H4.51a12.5 12.5 0 0 0 .337 2.5H7.5V8.5zm1 2.5V8.5h2.99a12.495 12.495 0 0 1-.337 2.5H8.5zm-1 1H5.145c.138.386.295.744.468 1.068.552 1.035 1.218 1.65 1.887 1.855V12zm-2.173 2.472a6.695 6.695 0 0 1-.597-.933A9.267 9.267 0 0 1 4.09 12H2.255a7.024 7.024 0 0 0 3.072 2.472zM1.674 11H3.82a13.651 13.651 0 0 1-.312-2.5h-2.49c.062.89.291 1.733.656 2.5zm8.999 3.472A7.024 7.024 0 0 0 13.745 12h-1.834a9.278 9.278 0 0 1-.641 1.539 6.688 6.688 0 0 1-.597.933zM10.855 12H8.5v2.923c.67-.204 1.335-.82 1.887-1.855A7.98 7.98 0 0 0 10.855 12zm1.325-1h2.146c.365-.767.594-1.61.656-2.5h-2.49a13.65 13.65 0 0 1-.312 2.5zm.312-3.5h2.49a6.959 6.959 0 0 0-.656-2.5H12.18c.174.782.282 1.623.312 2.5zM11.91 4a9.277 9.277 0 0 0-.64-1.539 6.692 6.692 0 0 0-.597-.933A7.024 7.024 0 0 1 13.745 4h-1.834zm-1.055 0H8.5V1.077c.67.204 1.335.82 1.887 1.855.173.324.33.682.468 1.068z"/>
+          </svg>
+          {{#lang}}{{footerLanguage}}{{/lang}}
+        </div>
+        <div class="footer-entry bug-report">
+          <svg width=".8em" height=".8em" viewBox="0 0 16 16" class="bi bi-bug-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M4.978.855a.5.5 0 1 0-.956.29l.41 1.352A4.985 4.985 0 0 0 3 6h10a4.985 4.985 0 0 0-1.432-3.503l.41-1.352a.5.5 0 1 0-.956-.29l-.291.956A4.978 4.978 0 0 0 8 1a4.979 4.979 0 0 0-2.731.811l-.29-.956zM13 6v1H8.5v8.975A5 5 0 0 0 13 11h.5a.5.5 0 0 1 .5.5v.5a.5.5 0 1 0 1 0v-.5a1.5 1.5 0 0 0-1.5-1.5H13V9h1.5a.5.5 0 0 0 0-1H13V7h.5A1.5 1.5 0 0 0 15 5.5V5a.5.5 0 0 0-1 0v.5a.5.5 0 0 1-.5.5H13zm-5.5 9.975V7H3V6h-.5a.5.5 0 0 1-.5-.5V5a.5.5 0 0 0-1 0v.5A1.5 1.5 0 0 0 2.5 7H3v1H1.5a.5.5 0 0 0 0 1H3v1h-.5A1.5 1.5 0 0 0 1 11.5v.5a.5.5 0 1 0 1 0v-.5a.5.5 0 0 1 .5-.5H3a5 5 0 0 0 4.5 4.975z"/>
+          </svg>
+          {{#lang}}{{footerReportBug}}{{/lang}}
         </div>
       </div>
     </div>
 
     <h2 class="responsive-condition">
-      Sorry, Liteboard isn't supported on this device yet
+      {{#lang}}{{deviceNotSupported}}{{/lang}}
     </h2>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
+    <script
+      src="https://browser.sentry-cdn.com/5.19.1/bundle.min.js"
+      integrity="sha384-ibWewy8LWP0FdvEBD3iLjNmbFkkh/FKtOz8GR9C8ZBWjDTbjbdIDpa4nc/AasWns"
+      crossorigin="anonymous"></script>
     <script>
-      ScrollReveal().reveal(".landing-graphic", { delay: 100 });
-      ScrollReveal().reveal(".landing-info", { delay: 600 });
-      ScrollReveal().reveal(".buttons", { delay: 1100 });
-      ScrollReveal().reveal(".teach-learn-header", { delay: 200 });
-      ScrollReveal().reveal("#teach-whiteboard-graphic", { delay: 700 });
-      ScrollReveal().reveal(".teach-learn-paragraph", { delay: 1200 });
-      ScrollReveal().reveal("#about-content-1", { delay: 100 });
-      ScrollReveal().reveal("#about-content-2", { delay: 600 });
-      ScrollReveal().reveal("#about-content-3", { delay: 1100 });
-      ScrollReveal().reveal("#about-content-4", { delay: 1600 });
+      Sentry.init({
+        dsn: '{{{sentryDSN}}}',
+        environment: '{{sentryEnvironment}}',
+        beforeSend(event, hint) {
+          // Check if it is an exception, and if so, show the report dialog
+          if (event.exception) {
+            const modal = {
+              subtitle2: '',
+              labelName: '{{#lang}}{{reportBugLabelName}}{{/lang}}',
+              labelEmail: '{{#lang}}{{reportBugLabelEmail}}{{/lang}}',
+              labelClose: '{{#lang}}{{reportBugLabelClose}}{{/lang}}',
+              labelSubmit: '{{#lang}}{{reportBugLabelSubmit}}{{/lang}}',
+              labelComments: '{{#lang}}{{reportBugLabelIssue}}{{/lang}}',
+              errorFormEntry: '{{#lang}}{{reportBugFormError}}{{/lang}}',
+              successMessage: '{{#lang}}{{reportBugSuccess}}{{/lang}}'
+            };
+            if (hint.originalException.message === 'BUG_REPORT'){
+              modal.title = '{{#lang}}{{reportBugTitle}}{{/lang}}';
+              modal.subtitle = '{{#lang}}{{reportBugSubtitle}}{{/lang}}';
+            } else {
+              modal.title = '{{#lang}}{{actualBugTitle}}{{/lang}}';
+              modal.subtitle = '{{#lang}}{{actualBugSubtitle}}{{/lang}}';
+            }
+            Sentry.showReportDialog({eventId: event.event_id, ...modal})
+          }
+          return event;
+        },
+      });
+
+      document.querySelector('div.footer-entry.bug-report').addEventListener('click', () => {
+        Sentry.captureException(new Error('BUG_REPORT'));
+      });
     </script>
-    <script src="" async defer></script>
+    <script>
+      const slideLeft = {
+        distance: '102%',
+        origin: 'right',
+        duration: 1200,
+        opacity: 0,
+      }
+      const slideUp = {
+        distance: '40%',
+        origin: 'bottom',
+        duration: 1200,
+        opacity: 0,
+      };
+      ScrollReveal().reveal(".landing-graphic", { delay: 100 });
+      ScrollReveal().reveal(".landing-info", { delay: 600, });
+      ScrollReveal().reveal(".buttons", { delay: 1100 });
+      ScrollReveal().reveal(".teach-learn-header", { delay: 200, ...slideUp });
+      ScrollReveal().reveal("#teach-whiteboard-graphic", { delay: 500, ...slideLeft });
+      ScrollReveal().reveal(".teach-learn-paragraph", { delay: 800, ...slideUp });
+      ScrollReveal().reveal("#about-content-1", { delay: 300, ...slideUp });
+      ScrollReveal().reveal("#about-content-2", { delay: 900, ...slideUp });
+      ScrollReveal().reveal("#about-content-3", { delay: 300, ...slideUp });
+      ScrollReveal().reveal("#about-content-4", { delay: 900, ...slideUp });
+      ScrollReveal().reveal(".final-message-container p", { delay: 300, ...slideUp });
+      ScrollReveal().reveal(".final-message-container button", { delay: 800});
+
+      $("#join-lecture-button").click(function() {
+        $('html, body').animate({
+            scrollTop: $("#learn-more").offset().top
+        }, 1000);
+      });
+    </script>
   </body>
 </html>

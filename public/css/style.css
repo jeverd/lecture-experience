@@ -7,6 +7,7 @@
 
 body {
   background-color: #21212e;
+  overflow-x: hidden;
 }
 
 .responsive-condition {
@@ -38,6 +39,9 @@ body {
   margin: auto;
   width: 60%;
   background-color: transparent;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  -webkit-font-smoothing: subpixel-antialiased;
 }
 
 .landing-info img {
@@ -54,7 +58,7 @@ body {
 
 .buttons > a > span{
   position:relative;
-  top:12.5px;
+  top:11px;
 }
 .buttons a {
   text-decoration: none;
@@ -67,22 +71,22 @@ body {
   );
   border: none;
   border-radius: 2px;
-  box-shadow: 0 0 30px rgba(189, 31, 250, 1);
-  -webkit-box-shadow: 0 0 30px rgba(189, 31, 250, 1);
+  box-shadow: 0 0 15px rgba(189, 31, 250, 1);
+  -webkit-box-shadow: 0 0 15px rgba(189, 31, 250, 1);
   outline: none;
   width: 160px;
   height: 45px;
   text-align: center;
   margin: auto;
-  transition: 1.5s;
   cursor: pointer;
   align-items: center;
   justify-content:center;
+  transition: 0.5s ease;
 }
 
 .buttons a:hover {
-  transition: 1.5s;
-  transform: scale(1.05);
+  box-shadow: 0 0 30px rgba(189, 31, 250, 1);
+  -webkit-box-shadow: 0 0 30px rgba(189, 31, 250, 1);
 }
 
 .landing-graphic {
@@ -107,6 +111,15 @@ body {
   #banner-style-2 {
     width: 125%;
   }
+
+  div.footer-entry.bug-report{
+    right: 0px;
+  }
+
+  div.footer-entry i.fa-github-alt{
+    left: 0px;
+  }
+
 }
 
 @media only screen and (max-width: 768px) {
@@ -126,6 +139,10 @@ body {
     transform: translateY(-10%);
   }
 
+  .landing-info div.buttons{
+    width: 75%;
+  }
+
   .landing-graphic img,
   #banner-style-1 {
     display: none;
@@ -141,16 +158,12 @@ body {
     width: 450px;
   }
 
+  .landing-info .buttons{
+    width: 120%;
+  }
+
   .landing-graphic img {
     width: 500px;
-  }
-
-  .landing-info .buttons {
-    flex-direction: column;
-  }
-
-  #join-lecture-button {
-    margin-top: 1rem;
   }
 }
 
@@ -158,7 +171,6 @@ body {
 
 .teach-container {
   background-color: #21212e;
-  height: auto;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -192,13 +204,13 @@ body {
 
 .teach-container img {
   margin: auto;
-  width: 800px;
+  width: 750px;
 }
 
 .teach-content-container .teach-learn-paragraph {
-  margin-top: 3rem;
+  margin-top: 1.5rem;
   text-align: center;
-  width: 800px;
+  max-width: 800px;
   font-size: 1.1rem;
 }
 
@@ -235,6 +247,14 @@ body {
     width: 400px;
   }
 
+  .landing-info .buttons {
+    flex-direction: column;
+  }
+
+  #join-lecture-button {
+    margin-top: 1rem;
+  }
+
   .teach-content-container .teach-learn-paragraph {
     margin-top: 1rem;
     width: 400px;
@@ -264,12 +284,16 @@ body {
 .about-container {
   margin-top: 4rem;
   margin-bottom: 4rem;
-  background-image: url(/liteboardLandingBGlightinverse2.png);
   height: auto;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+}
+
+.about-content-container{
+  background-image: url(/liteboardLandingBGlightinverse2.png);  
+  height: auto;
 }
 
 .about-content-grid {
@@ -279,6 +303,9 @@ body {
 }
 
 .icon {
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  -webkit-font-smoothing: subpixel-antialiased;
   border-radius: 69% 31% 26% 76% / 49% 65% 35% 52%;
   width: 10rem;
   height: 10rem;
@@ -324,10 +351,24 @@ body {
   color: white;
 }
 
+.about-content h2 > a {
+  font-size: .8rem;
+  position: relative;
+  color: white;
+  cursor: pointer;
+  text-decoration: none;
+  top: -7px;
+}
+
+.about-content h2 > a:hover{
+  text-decoration: underline;
+}
+
 .about-content p {
   margin-top: 0.2rem;
   font-size: 1rem;
-  color: white;
+  color: lightgray;
+  opacity: 1;
 }
 
 @media only screen and (max-width: 670px) {
@@ -357,28 +398,118 @@ body {
 }
 
 .footer-grid {
-  display: grid;
-  grid-template-columns: 50% 50%;
+  display: flex;
+  justify-content: space-between;
 }
 
-.footer-grid-right,
-.footer-grid-left {
-  padding: 2rem 0 2rem 0;
+.footer-entry:first-child{
+  padding-left: 3rem; 
+}
+
+.footer-entry:last-child{
+  padding-right: 3rem; 
+}
+
+.footer-entry {
+  padding: 2rem 0;
   font-size: 1rem;
 }
 
-.footer-grid-left i {
-  transition: 1s;
+.footer-entry i.fa-github-alt {
+  transition: .4s;
   color: #46c2ff;
   background: linear-gradient(to right, #bd11fa 0%, #46c2ff 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  transform: scale(1.4);
+  transform: scale(1.5);
+  position: relative;
+  left: 25px;
 }
 
-.footer-grid-left i:hover{
-  transform: scale(1.6);
+.footer-entry i:hover{
+  transform: translateY(-3px) scale(1.7);
 }
+
+.footer-entry.language{
+  position: relative;
+  cursor: default;
+}
+
+.language-selection-footer{
+  position: absolute;
+  bottom: 53px;
+  visibility: hidden;
+  border-radius: 0.25em;
+  z-index: 2;
+  width: 140px;
+  padding: 3.5px 5px 0px 10px;
+  text-align: left;
+  background-color: #323242;
+  opacity: 0.8;
+}
+
+.language-selection-footer button{
+  outline: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-style: inherit;
+  color: inherit;
+
+}
+
+.language-selection-footer button:hover{
+  color: white;
+}
+
+.footer-entry.language:hover .language-selection-footer{
+  visibility: visible;
+}
+
+.footer-entry.bug-report{
+  cursor: pointer;
+  position: relative;
+  right: 25px;
+}
+
+.footer-entry.language,
+.footer-entry.bug-report{
+  opacity: 0.75;
+  transition: .4s ease;
+}
+
+.footer-entry.language:hover,
+.footer-entry.bug-report:hover{
+  opacity: 1;
+}
+
+@media only screen and (max-width: 686px) {
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 100%;
+  }
+
+  div.footer-entry i.fa-github-alt {
+    top: 5px;
+  }
+
+  .footer-entry{
+    padding: 1rem 0 0 0; 
+  }
+  .footer-entry:first-child{
+    padding-left: 0;
+  }
+  .footer-entry:last-child{
+    padding: 1rem 0 1rem 0; 
+  }
+
+  .language-selection-footer{
+    left: 50%;
+    bottom: 20px;
+    transform: translateX(-50%);
+  }
+}
+
 
 /* end footer */
 
@@ -406,23 +537,6 @@ body {
   }
 }
 
-@media only screen and (max-width: 414px) {
-  .footer-grid {
-    display: grid;
-    grid-template-columns: 100%;
-  }
-
-  .footer-grid-right {
-    padding: 1rem 0 1.5rem 0;
-    font-size: 1rem;
-  }
-
-  .footer-grid-left {
-    padding: 1.5rem 0 0rem 0;
-    font-size: 1rem;
-  }
-}
-
 /* end animations */
 
 /* start responsive conditions */
@@ -438,4 +552,116 @@ body {
     display: block;
     color: whitesmoke;
   }
+
+  div.set-languages{
+    display: none;
+  }
+
+}
+
+.set-languages{
+  position: absolute;
+  z-index: 10000;
+  top: 15px; 
+  right: 15px;
+  display:flex;
+}
+
+.set-languages form {
+  margin-right: 10px;
+}
+
+.set-languages button {
+  opacity: 0.8;
+  outline: none;
+  border: none;
+  color:white;
+  background-color: transparent;
+  font-weight: 700;
+  font-size: .8rem;
+  cursor: pointer;
+  transition: 0.4s ease;
+}
+
+.set-languages button:hover{
+  opacity: 1;
+}
+
+.lang-name {
+  position: relative;
+  bottom: 10px;
+}
+
+.final-message-container{
+  width: 100%;
+  padding-top: 85px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-weight: 700;
+  font-size:calc(1.4rem + 1.7vw);
+  color: white;
+  text-align: center;
+  height: 400px;
+}
+
+.final-message-container p{
+  position: relative;
+  bottom: 15px;
+}
+
+.final-message-container a{
+  margin-top: 45px;
+  margin-bottom: 15px;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+
+.final-message-container button{
+  display: inline-block;
+  color: white;
+  font-size: calc(.55rem + 1.175vw);
+  background: linear-gradient(
+    135deg,
+    rgba(70, 194, 255, 1) 0%,
+    rgba(189, 31, 250, 1) 100%
+  );
+  box-shadow: 0 0 15px rgba(189, 31, 250, 1);
+  -webkit-box-shadow: 0 0 15px rgba(189, 31, 250, 1);
+  border: none;
+  border-radius: .25em;
+  max-width: 280px;
+  min-width: 200px;
+  max-height: 65px;
+  height: calc(47.5px + 2vw);
+  min-height: 50px;
+  width: 30vw;
+  transition: .7s ease;
+  cursor: pointer;
+  text-decoration: none;
+  outline: none;
+  font-family: inherit;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+
+.final-message-container button:hover{
+  transform: scale(1.05);
+  box-shadow: 0 0 23.33px rgba(189, 31, 250, 1);
+  -webkit-box-shadow: 0 0 23.33px rgba(189, 31, 250, 1);
+}
+
+.final-divider{
+  border: 0;
+  height: 1px;
+  margin-top: 100px;
+  position: relative;
+  opacity: 0.85;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 85%;
+  background: #333;
 }

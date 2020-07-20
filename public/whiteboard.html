@@ -26,6 +26,11 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css" 
     />
+    <link
+      rel="stylesheet" type="text/css"
+      href="//cdn.jsdelivr.net/gh/loadingio/ldbutton@v1.0.1/dist/ldbtn.min.css"
+    />
+    <script type="text/javascript" src="/lib/paper.js"></script>
   </head>
 
   <body style="background-color: #ffffff;">
@@ -196,7 +201,7 @@
               <!--end show-bar-button-->
 
 
-    <canvas id="canvas"> </canvas>
+    <canvas id="canvas" hidpi resize> </canvas>
 
     <!--start right sidebar-->
     <nav class="right-bar animate__animated">
@@ -223,10 +228,10 @@
               </a>
             </li>
           </div>
-          <div class="item" data-tool="select-area" title="Select Area">
+          <div class="item" data-tool="pointer" title="Select an Object">
             <li class="left-bar-item">
               <a class="left-bar-link-svg">
-                <img src="/area.svg"/>
+                <img src="/cursor.png"/>
               </a>
             </li>
           </div>
@@ -580,10 +585,54 @@
     <div id="image-modal" style="display: none;" class="modal image-container">
       <div class="wrap-div-message-image"></div>
     </div>
+    <input type="hidden" id="_id" value="{{id}}"/>
+    {{#lectureTools}}
+      <input type="hidden" id="webcamValidator" value="{{webcam}}"/>
+      <input type="hidden" id="audioValidator" value="{{audio}}"/>
+      <input type="hidden" id="whiteboardValidator" value="{{whiteboard}}"/>
+    {{/lectureTools}}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/6.4.0/adapter.min.js"></script>
     <script src="/lib/janus.js"></script>
     <script src="/manager/manager.js" type="module"></script>
+    <script
+      src="https://browser.sentry-cdn.com/5.19.1/bundle.min.js"
+      integrity="sha384-ibWewy8LWP0FdvEBD3iLjNmbFkkh/FKtOz8GR9C8ZBWjDTbjbdIDpa4nc/AasWns"
+      crossorigin="anonymous"></script>
+    <script>
+      Sentry.init({
+        dsn: '{{{sentryDSN}}}',
+        environment: '{{sentryEnvironment}}',
+        beforeSend(event, hint) {
+          // Check if it is an exception, and if so, show the report dialog
+          if (event.exception) {
+            const modal = {
+              subtitle2: '',
+              labelName: '{{#lang}}{{reportBugLabelName}}{{/lang}}',
+              labelEmail: '{{#lang}}{{reportBugLabelEmail}}{{/lang}}',
+              labelClose: '{{#lang}}{{reportBugLabelClose}}{{/lang}}',
+              labelSubmit: '{{#lang}}{{reportBugLabelSubmit}}{{/lang}}',
+              labelComments: '{{#lang}}{{reportBugLabelIssue}}{{/lang}}',
+              errorFormEntry: '{{#lang}}{{reportBugFormError}}{{/lang}}',
+              successMessage: '{{#lang}}{{reportBugSuccess}}{{/lang}}'
+            };
+            if (hint.originalException.message === 'BUG_REPORT'){
+              modal.title = '{{#lang}}{{reportBugTitle}}{{/lang}}';
+              modal.subtitle = '{{#lang}}{{reportBugSubtitle}}{{/lang}}';
+            } else {
+              modal.title = '{{#lang}}{{actualBugTitle}}{{/lang}}';
+              modal.subtitle = '{{#lang}}{{actualBugSubtitle}}{{/lang}}';
+            }
+            Sentry.showReportDialog({eventId: event.event_id, ...modal})
+          }
+          return event;
+        },
+      });
+    </script>
+    <script>
+      var activeColor = '#424242'; var activeWidth = 4;
+    </script>
+    <script src="/manager/paperTools.js" type="text/paperscript" canvas="canvas"></script>
   </body>
 </html>
