@@ -53,10 +53,16 @@
   "errorDontExist": "errorDontExist-en.png",
   "errorSession": "errorSession-en.png",
   "errorNotFound": "errorNotFound-en.png",
+  "statsThanks": "thanksForUsingLiteboard-en.png",
   "statsTitleStats": "Analytics of",
   "statsMaxNum": "Max of students",
   "statsAvgNum": "Average of students",
   "statsBoardsUsed": "Boards created",
   "statsDuration": "Lecture duration",
-  "statsRateExperience": "Please rate your experience"
+  "statsRateExperience": "Please rate your experience",
+  "statusStarting": "Starting",
+  "statusHostDisconnected": "Host Disconnected",
+  "statusConnectionLost": "Connection Lost",
+  "statusLive": "Live",
+  "guestLectureRoom": "Lecture Room"
 }

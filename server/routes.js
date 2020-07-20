@@ -4,13 +4,16 @@ const Sentry = require('@sentry/node');
 const { app } = require('./servers');
 const redisClient = require('./servers').client;
 const { logger } = require('./services/logger/logger');
-const { getLanguage, setLanguage } = require('./services/i18n/i18n');
-const {
-  expressPort, environment, sentryDSN, sentryEnvironment,
-} = require('../config/config');
+const credsGenerator = require('./services/credsGenerator');
 const Stats = require('./models/stats');
 const Manager = require('./models/manager');
 const Room = require('./models/room');
+const {
+  expressPort, environment, turnServerSecret, redisTurnDbNumber, turnServerActive, turnServerPort, turnServerUrl, sentryDSN, sentryEnvironment,
+} = require('../config/config');
+
+const { getLanguage, setLanguage } = require('./services/i18n/i18n');
+
 
 app.get('/', (req, res) => {
   res.render('index.html', { sentryDSN, sentryEnvironment, ...getLanguage(req.cookies, req.locale) });
@@ -39,8 +42,8 @@ app.post('/create', (req, res) => {
 });
 
 app.get('/validate/lecture', (req, res) => {
-  logger.info(`GET request received: /validate/lecture for sessionId ${req.sessionId}`);
-  redisClient.hexists('managers', req.query.id, (err, roomExist) => {
+  logger.info(`GET request received: /validate/lecture for sessionId ${req.session.id}`);
+  redisClient.hexists('rooms', req.query.id, (err, roomExist) => {
     if (roomExist) {
       if (req.session.inRoom) {
         res.status(401);
@@ -59,7 +62,6 @@ app.get('/validate/lecture', (req, res) => {
 app.get('/lecture/:id', (req, res) => {
   const urlId = req.params.id;
   logger.info(`GET request received: /lecture for lecture id: ${urlId}`);
-
   redisClient.hmget('managers', urlId, (err, object) => {
     const isGuest = object[0] === null;
     const roomId = !isGuest && JSON.parse(object[0]).roomId;
@@ -137,6 +139,27 @@ app.get('/error', (req, res) => {
   }
 });
 
+app.get('/turnCreds', (req, res) => {
+  if (!turnServerActive) {
+    // it was a success, but server is not active, so notifying client to not use turn servers.
+    res.json({ active: false });
+  } else {
+    redisClient.select(redisTurnDbNumber, (err) => {
+      const name = uuidv4();
+      const uri = environment === 'DEVELOPMENT' ? `turn:localhost:${turnServerPort}` : `turn:${turnServerUrl}:${turnServerPort}`;
+
+      if (err) res.status(500).json({ error: `Could not select correct redis db: ${err}` });
+      // !!lets not expose the secret!!!
+      const { username, password } = credsGenerator(name, turnServerSecret);
+      redisClient.set(username, password, (err) => {
+        if (err) res.status(500).json({ error: `Couldnot add turn creds to redis: ${err}` });
+        res.json({
+          username, password, ttl: 86400, uri, active: true,
+        }); // 86400 refers to one day, recommended here https://tools.ietf.org/html/draft-uberti-behave-turn-rest-00#section-2
+      });
+    });
+  }
+});
 app.get('/setLanguage', (req, res) => {
   setLanguage((key, value) => res.cookie(key, value), req.query.langCode);
   res.redirect(req.query.pageRef || '/');
