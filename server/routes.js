@@ -9,18 +9,19 @@ const Stats = require('./models/stats');
 const Manager = require('./models/manager');
 const Room = require('./models/room');
 const {
-  expressPort, environment, turnServerSecret, redisTurnDbNumber, turnServerActive, turnServerPort, turnServerUrl, sentryDSN, sentryEnvironment,
+  expressPort, environment, turnServerSecret, redisTurnDbNumber,
+  turnServerActive, turnServerPort, turnServerUrl, sentryDSN, sentryEnvironment,
 } = require('../config/config');
 
 const { getLanguage, setLanguage } = require('./services/i18n/i18n');
 
 
 app.get('/', (req, res) => {
-  res.render('index.html', { sentryDSN, sentryEnvironment, ...getLanguage(req.cookies, req.locale) });
+  res.render('index.html', { sentryDSN, sentryEnvironment, ...getLanguage(req.session, req.locale) });
 });
 
 app.get('/create', (req, res) => {
-  res.render('create.html', { sentryDSN, sentryEnvironment, ...getLanguage(req.cookies, req.locale) });
+  res.render('create.html', { sentryDSN, sentryEnvironment, ...getLanguage(req.session, req.locale) });
 });
 
 app.post('/create', (req, res) => {
@@ -74,7 +75,7 @@ app.get('/lecture/:id', (req, res) => {
         roomJson.id = roomId;
         roomJson.sharableUrl = sharableUrl;
         const objToRender = {
-          sentryDSN, sentryEnvironment, ...roomJson, ...getLanguage(req.cookies, req.locale),
+          sentryDSN, sentryEnvironment, ...roomJson, ...getLanguage(req.session, req.locale),
         };
         if (isGuest) {
           delete roomJson.managerId;
@@ -99,7 +100,7 @@ app.get('/lecture/stats/:id', (req, res) => {
     } else {
       redisClient.hexists('stats', urlId, (er, statsExist) => {
         if (statsExist) {
-          res.render('stats.html', { sentryDSN, sentryEnvironment, ...getLanguage(req.cookies, req.locale) });
+          res.render('stats.html', { sentryDSN, sentryEnvironment, ...getLanguage(req.session, req.locale) });
         } else {
           res.status(404).redirect('/error?code=3');
         }
@@ -132,7 +133,7 @@ app.get('/error', (req, res) => {
   }
   if (errType) {
     res.render('error.html', {
-      [errType]: true, sentryDSN, sentryEnvironment, ...getLanguage(req.cookies, req.locale),
+      [errType]: true, sentryDSN, sentryEnvironment, ...getLanguage(req.session, req.locale),
     });
   } else {
     res.redirect('/');
@@ -161,7 +162,7 @@ app.get('/turnCreds', (req, res) => {
   }
 });
 app.get('/setLanguage', (req, res) => {
-  setLanguage((key, value) => res.cookie(key, value), req.query.langCode);
+  setLanguage(req.session, req.query.langCode);
   res.redirect(req.query.pageRef || '/');
 });
 
