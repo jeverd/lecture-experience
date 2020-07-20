@@ -114,6 +114,7 @@ config/.env
 
 #janus config file
 /docker/docker-config/janus/janus.jcfg
+/docker/docker-config/janus.jcfg
 /docker/docker-config/turnserver.conf
 /docker/docker-config/example_turnserver.conf
 /docker/docker-config/janus/janus.transport.http.jcfg

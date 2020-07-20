@@ -2,7 +2,7 @@
 /* eslint-disable no-param-reassign */
 export const TOOL_SQUARE = 'square';
 export const TOOL_TRIANGLE = 'triangle';
-export const TOOL_PAINT_BUCKET = 'paint-bucket';
+export const TOOL_PAINT_BUCKET = 'pointer';
 export const TOOL_PENCIL = 'pencil';
 export const TOOL_ERASER = 'eraser';
 export const TOOL_LINE = 'line';
@@ -10,6 +10,9 @@ export const TOOL_CIRCLE = 'circle';
 export const TOOL_SELECTAREA = 'select-area';
 
 export default function initializeToolsMenu(whiteboard) {
+  document.getElementById('canvas').addEventListener('wheel', (e) => {
+    whiteboard.onScroll(e.deltaY, e.clientX, e.clientY);
+  });
   document.querySelectorAll('.back-to-tool-menu').forEach(
     (backElem) => {
       backElem.addEventListener('click', () => {
@@ -38,14 +41,13 @@ export default function initializeToolsMenu(whiteboard) {
   document.querySelectorAll('[data-tool]').forEach(
     (item) => (
       item.addEventListener('click', () => {
-        whiteboard.removeSelectedRegion();
         $('[data-tool]').find('.tool-active-svg').removeClass('tool-active-svg');
         $('[data-tool]').find('.tool-active').removeClass('tool-active');
 
         $(item).find('.left-bar-link-svg').addClass('tool-active-svg');
         $(item).find('.left-bar-link').addClass('tool-active');
-
-        whiteboard.activeTool = item.getAttribute('data-tool');
+        const clickedTool = item.getAttribute('data-tool');
+        whiteboard.tools.switchTo(clickedTool);
       })),
   );
 
@@ -55,8 +57,8 @@ export default function initializeToolsMenu(whiteboard) {
         $('[data-line-width]').find('.tool-active').removeClass('tool-active');
         $(item).find('.left-bar-link').addClass('tool-active');
 
-        const lineWidth = item.getAttribute('data-line-width');
-        whiteboard.lineWidth = lineWidth;
+        const selectedWidth = item.getAttribute('data-line-width');
+        activeWidth = selectedWidth;
       });
     },
   );
@@ -66,7 +68,8 @@ export default function initializeToolsMenu(whiteboard) {
       item.addEventListener('click', () => {
         $('[data-color]').find('.tool-active').removeClass('tool-active');
         $(item).find('.right-bar-link').addClass('tool-active');
-        whiteboard.selectedColor = item.getAttribute('data-color');
+        const selectedColor = item.getAttribute('data-color');
+        activeColor = selectedColor;
       });
     },
   );
