@@ -19,12 +19,79 @@ Liteboard provides a platform, where anyone can host a lecture, via webcam, whit
 
 ## Contents
 - [Requirements](#-requirements)
-- [Building your first React Native app](#-building-your-first-react-native-app)
-- [Documentation](#-documentation)
+- [Getting Started](#-building-your-first-react-native-app)
+- [Environment Variables](#-documentation)
 - [Upgrading](#-upgrading)
 - [How to Contribute](#-how-to-contribute)
 - [Code of Conduct](#code-of-conduct)
 - [License](#-license)
+
+
+## 📝  Requirements
+
+To run liteboard locally, you will need the following:
+   - [Node](https://nodejs.org/en/download/)
+   - [Docker and Docker compose](https://docs.docker.com/get-docker/)
+
+
+## 📝  Getting Started
+##### Clone
+- Clone this repo by running the following command `git clone https://github.com/jeverd/lecture-experience.git`
+
+#### Setup
+- Starting up docker containers
+> generating janus configuration file
+```shell
+    cd docker
+    cd docker-config
+    cd janus
+    cp example_janus.jcfg janus.jcfg   # if you want play with janus configs, do it in janus.jcfg
+```
+> now we start up our `janus` and `redis` containers
+```shell
+    cd .. # assuming you are in the docker-config directory
+    docker-compose up -d  # this will start up redis and janus containers
+```
+- Installing dependencies
+> now navigate to the root directory and install npm packages
+```shell
+    npm install 
+```
+- Creating `.env` file
+> navigate to the config directory, create `.env` file, and then copy contents of `example.dev.env` into the file
+```shell
+    cd config # assuming you are in root directory
+    cp example.dev.env .env  #more info on env var below
+```
+- Running the App
+> now we can start the app
+```shell
+    npm run debug # this run it with nodemon
+```
+
+#### Environment Variables
+
+| Variable Name       | Type             | Description   | Environment                                                                                                                                                               |
+| ---------------- | ---------------- | -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| NODE_ENV | string | true | 
+| allowChildInteraction | bool| true | By default, the user can touch and interact with the child element. When this prop is false, the user cannot interact with the child element while the tooltip is visible. |
+| arrowSize        | `Size`           | { width: 16, height: 8 }               | The dimensions of the arrow on the bubble pointing to the highlighted element                                                                                                                                  |
+| backgroundColor  | string           | 'rgba(0,0,0,0.5)'                      | Color of the fullscreen background beneath the tooltip. **_Overrides_** the `backgroundStyle` prop                                                                                                             |
+| childContentSpacing | number | 4 | The distance between the tooltip-rendered child and the arrow pointing to it |
+| closeOnChildInteraction | bool | true | When child interaction is allowed, this prop determines if `onClose` should be called when the user interacts with the child element. Default is true (usually means the tooltip will dismiss once the user touches the element highlighted) |
+| closeOnContentInteraction | bool | true | this prop determines if `onClose` should be called when the user interacts with the content element. Default is true (usually means the tooltip will dismiss once the user touches the content element) |
+| content          | function/Element | `<View />`                             | This is the view displayed in the tooltip popover bubble                                                                                                                                                       |
+| displayInsets | object | { top: 24, bottom: 24, left: 24, right: 24 } | The number of pixels to inset the tooltip on the screen (think of it like padding). The tooltip bubble should never render outside of these insets, so you may need to adjust your `content` accordingly |
+| isVisible        | bool             | false                                  | When true, tooltip is displayed                                                                                                                                                                                |                                                            |
+| onClose          | function         | null                                   | Callback fired when the user taps the tooltip background overlay                                                                                                                                               |
+| placement        | string           | "top" \| "center"                                  | Where to position the tooltip - options: `top, bottom, left, right, center`. Default is `top` for tooltips rendered with children Default is `center` for tooltips rendered without children. <br><br>NOTE: `center` is only available with a childless placement, and the content will be centered within the bounds defined by the `displayInsets`. |
+| showChildInTooltip | bool | true | Set this to `false` if you do NOT want to display the child alongside the tooltip when the tooltip is visible |
+| supportedOrientations | array | ["portrait", "landscape"] | This prop allows you to control the supported orientations the tooltip modal can be displayed. It correlates directly with [the prop for React Native's Modal component](https://facebook.github.io/react-native/docs/modal#supportedorientations) (has no effect if `useReactNativeModal` is false) |
+| topAdjustment          | number         | 0                                   | Value which provides additional vertical offest for the child element displayed in a tooltip. Commonly set to: `Platform.OS === 'android' ? -StatusBar.currentHeight : 0` due to an issue with React Native's measure function on Android
+| useInteractionManager | bool | false | Set this to true if you want the tooltip to wait to become visible until the callback for `InteractionManager.runAfterInteractions` is executed. Can be useful if you need to wait for navigation transitions to complete, etc. [See docs on InteractionManager here](https://facebook.github.io/react-native/docs/interactionmanager)
+| useReactNativeModal | bool| true | By default, this library uses a `<Modal>` component from React Native. If you need to disable this, and simply render an absolutely positioned full-screen view, set `useReactNativeModal={false}`. This is especially useful if you desire to render a Tooltip while you have a different `Modal` rendered.
+
+
 
 <!-- [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/facebook/react/blob/master/LICENSE) [![CircleCI Status](https://circleci.com/gh/jeverd/lecture-experience.svg?style=shield&circle-token=:circle-token)]()
 
