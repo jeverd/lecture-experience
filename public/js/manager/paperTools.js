@@ -71,7 +71,7 @@ var selectItem = function (event) {
 };
 
 var drag = function (event) {
-  if(onDragItem){
+  if (onDragItem) {
     onDragItem.item.position = event.point;
   }
 };
@@ -171,7 +171,7 @@ window.app = {
   paintBackgroundWhite: function () {
     var rect = new Path.Rectangle({
       point: [0, 0],
-      size: [view.size.width, view.size.height],
+      size: [2 * view.size.width, 2 * view.size.height],
       strokeColor: 'white',
     });
     rect.fillColor = 'white';

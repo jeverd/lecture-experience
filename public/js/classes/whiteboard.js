@@ -106,12 +106,17 @@ export default class Whiteboard {
 
   handleResize() {
     let timeout;
+    let paths = [];
     const onResizeDone = () => {
       this.paintWhite();
-      this.setCurrentBoard(inMemCanvas);
+      window.app.addDraws(paths);
       handleBoardsViewButtonsDisplay();
     };
     $(window).on('resize', () => {
+      for (var i in window.app.getElem()) {
+        const completePath = window.app.getElem()[i];
+        paths.push([completePath.pathData, completePath.strokeColor, completePath.strokeWidth]);
+      }
       clearTimeout(timeout);
       timeout = setTimeout(onResizeDone, 20);
     });
