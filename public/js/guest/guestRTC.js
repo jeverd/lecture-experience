@@ -28,6 +28,7 @@ export const changeStatus = {
 export default async function initializeGuestRTC(roomId) {
   const hasWebcam = $('#webcamValidator').val() === 'true';
   const hasWhiteboard = $('#whiteboardValidator').val() === 'true';
+  const hasAudio = $('#audioValidator').val() === 'true';
   const webcam = document.getElementById('webcam');
   const whiteboard = document.getElementById('whiteboard');
   const speaker = document.getElementById('speaker');
@@ -88,7 +89,12 @@ export default async function initializeGuestRTC(roomId) {
                 addStream(whiteboard, videoTrack);
               }
             }
-            setTimeout(changeStatus.live, 500);
+            setTimeout(() => {
+              changeStatus.live();
+              if (hasWebcam) webcam.play();
+              if (hasWebcam) whiteboard.play();
+              if (hasAudio) speaker.play();
+            }, 500);
           },
         });
       });
