@@ -27,9 +27,8 @@ export default function initializeGuestChat(socket, roomId, name) {
   sendContainer.addEventListener('submit', (e) => {
     e.preventDefault();
     const messageContent = messageInput.value.trim();
-    const newFile = document.getElementById('file-input').files[0];
-    if (!(messageContent === '' && typeof newFile === 'undefined')) {
-      const message = new Message(messageContent, newFile, name, guestChatColor);
+    if (messageContent !== '' || chat.preview !== null) {
+      const message = new Message(messageContent, chat.preview, name, guestChatColor);
       socket.emit('send-to-room', roomId, message);
       chat.appendMessage(message, false);
       messageInput.value = '';

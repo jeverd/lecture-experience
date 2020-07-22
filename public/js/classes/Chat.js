@@ -3,6 +3,7 @@ export default class Chat {
     this.container = document.getElementById(containerId);
     this.unreadCount = 0;
     this.history = [];
+    this.preview = null;
   }
 
   /**
@@ -83,5 +84,9 @@ export default class Chat {
 
   scrollToBottom() {
     this.container.scrollTop = this.container.scrollHeight;
+  }
+
+  setPreview(src) {
+    this.preview = src;
   }
 }
