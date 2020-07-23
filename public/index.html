@@ -32,22 +32,28 @@
         <a href="#">upgrade your browser</a> to improve your experience.
       </p>
     <![endif]-->
-    <div class="set-languages">
-      <form action="/setLanguage">
-        <input type="hidden" name="langCode" value="pt-BR"/>
-        <input type="hidden" name="pageRef" value="/"/>
-        <button type="submit">
-          <img src="/brazil.svg" height="33"/>&nbsp;<span class="lang-name">Português</span>
-        </button>
-      </form>
-      <form action="/setLanguage">
-        <input type="hidden" name="langCode" value="en-US"/>
-        <input type="hidden" name="pageRef" value="/"/>
-        <button type="submit">
-          <img src="/uk.svg" height="33"/>&nbsp;<span class="lang-name">English</span>
-        </button>
-      </form>
+    <div class="top-logo-bar">
+      <a class="top-logo-ref" href="/">
+          <img class="top-logo-img" src="/logo.png"/>
+      </a>
+      <div class="set-languages">
+        <form action="/setLanguage">
+          <input type="hidden" name="langCode" value="pt-BR"/>
+          <input type="hidden" name="pageRef" value="/"/>
+          <button type="submit">
+            <img src="/brazil.svg" height="33"/>&nbsp;<span class="lang-name">Português</span>
+          </button>
+        </form>
+        <form action="/setLanguage">
+          <input type="hidden" name="langCode" value="en-US"/>
+          <input type="hidden" name="pageRef" value="/"/>
+          <button type="submit">
+            <img src="/uk.svg" height="33"/>&nbsp;<span class="lang-name">English</span>
+          </button>
+        </form>
+      </div>
     </div>
+
 
   <div class="landing-container">
     <div class="landing-grid">
