@@ -47,7 +47,7 @@
   "reportBugSuccess": "Your feedback has been sent. Thank you!",
   "reportBugLabelClose": "Close",
   "reportBugLabelSubmit": "Submit",
-  "actualBugTitle": "It looks like we're having internal issues",
+  "actualBugTitle": "It looks like we are having internal issues",
   "actualBugSubtitle": "Our team has been notified. If you'd like to help, tell us what happened below.",
   "errorInProgress": "errorInProgress-en.png",
   "errorDontExist": "errorDontExist-en.png",
