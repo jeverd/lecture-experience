@@ -47,7 +47,7 @@ export default async function initializeManagerRTC(roomId, stream, canvasStream)
           const webcam = document.getElementById('webcam');
           const videoTracks = localStream.getTracks().filter((track) => track.kind === 'video');
           videoTracks.forEach((video) => {
-            if (typeof video.canvas === 'undefined') {
+            if (typeof video.canvas === 'undefined' && video.label !== '') {
               addStream(webcam, video);
             }
           });

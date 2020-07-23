@@ -126,6 +126,10 @@ body {
   #banner-style-2 {
     width: 100%;
   }
+
+  input, select, textarea {
+    font-size: 16px !important;
+  }
 }
 
 @media only screen and (max-width: 1024px) {
@@ -217,8 +221,9 @@ body {
 .highlighted-text {
   color: #46c2ff;
   background: linear-gradient(to right, #bd11fa 0%, #46c2ff 100%);
-  -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
 }
 
 @media only screen and (max-width: 1200px) {

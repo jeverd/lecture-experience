@@ -175,7 +175,9 @@ export default function initializeModal(stream) {
 
     // Start Select input
     let currentDevice;
-    stream.getAudioTracks().forEach((e) => { currentDevice = e.getCapabilities().deviceId; });
+    stream.getAudioTracks().forEach((track) => {
+      currentDevice = track.label;
+    });
 
     navigator.mediaDevices.enumerateDevices().then(gotDevices);
 
@@ -189,7 +191,7 @@ export default function initializeModal(stream) {
           newSpan.classList.add('custom-option');
           document.getElementById('select-options').appendChild(newSpan);
 
-          if (deviceInfo.deviceId === currentDevice) {
+          if (deviceInfo.label === currentDevice || true) {
             newSpan.classList.add('selected');
             newSpan.closest('.custom-select').querySelector('.custom-select__trigger span').textContent = newSpan.textContent;
           }
