@@ -249,7 +249,6 @@ window.app = {
     });
     rect.fillColor = 'white';
     rect.sendToBack();
-    console.log(view.center)
     imageLayer.addChild(rect);
     view.center = view.center.add(
       view.center.subtract({x: -3000, y: -3000})

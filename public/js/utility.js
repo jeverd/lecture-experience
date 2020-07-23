@@ -124,13 +124,11 @@ export function addStream(htmlElem, streamTrack) {
   if (typeof streamTrack !== 'undefined') {
     const stream = new MediaStream();
     stream.addTrack(streamTrack);
-    htmlElem.load();
     if ('srcObject' in htmlElem) {
       htmlElem.srcObject = stream;
     } else {
       htmlElem.src = window.URL.createObjURL(stream);
     }
-    htmlElem.play();
   }
 }
 
