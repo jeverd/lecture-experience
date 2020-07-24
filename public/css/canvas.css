@@ -1792,19 +1792,18 @@ div.webcam-container{
 }
 
 .zoom-wrapper{
-  height: 30px;
-  width: 50px;
+  height: 32px;
+  width: 55px;
   border-radius: 15px;
   color: rgba(65, 65, 65, 0.5);
   background-color: rgba(196, 196, 196, 0.5);
 }
 
 .zoom-span{
-  display: flex;
-  position: relative;
-  justify-content: center;
-  top: 10px;
-  left: 20px;/*put in the center*/  
+  position: absolute;
+  top: 50%;
+  left: 50%;/*put in the center*/
+  transform: translate(-50%, -50%);
 }
 
 .visible {
