@@ -88,7 +88,7 @@ export default async function initializeGuestRTC(roomId) {
                 addStream(whiteboard, videoTrack);
               }
             }
-            setTimeout(() => changeStatus.live, 500);
+            setTimeout(changeStatus.live, 500);
           },
         });
       });

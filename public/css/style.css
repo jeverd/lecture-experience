@@ -12,7 +12,6 @@ body {
 
 .landing-container {
   background-image: url(/liteboardLandingBGlight.png);
-  min-height: 100vh;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -43,7 +42,7 @@ body {
 }
 
 .landing-info img {
-  width: calc(500px + 7.5vw);
+  width: calc(440px + 7.5vw);
   min-width: 300px;
 }
 
@@ -72,7 +71,7 @@ body {
   box-shadow: 0 0 15px rgba(189, 31, 250, 1);
   -webkit-box-shadow: 0 0 15px rgba(189, 31, 250, 1);
   outline: none;
-  width: calc(140px + 3vw);
+  width: calc(140px + 2vw);
   height: 45px;
   text-align: center;
   margin: auto;
@@ -212,7 +211,7 @@ body {
 }
 
 .teach-content-container .teach-learn-header {
-  font-size: calc(5rem + 1.25vw);
+  font-size: calc(4.25rem + 1.25vw);
 }
 
 .teach-learn-text::after {
@@ -230,11 +229,11 @@ body {
 
 .teach-container img {
   margin: auto;
-  width: calc(750px + 10vw);
+  width: calc(690px + 10vw);
 }
 
 .teach-content-container .teach-learn-paragraph {
-  margin-top: calc(1.5rem + 2vw);
+  margin-top: .25rem;
   text-align: center;
   width: 75%;
   max-width: 950px;
@@ -260,7 +259,7 @@ body {
   }
 
   .teach-content-container .teach-learn-paragraph {
-    margin-top: 2rem;
+    margin-top: 1rem;
     width: 700px;
   }
 }
