@@ -95,6 +95,26 @@ body {
   left: -25px;
 }
 
+@media only screen and (min-height: 880px) and (min-width: 740px){
+  .view-container .footer{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+@media only screen and (min-height: 620px) and (min-width: 740px) and (max-width: 1300px){
+  div.view-container .footer{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+.lecture-container{
+  margin: 20px 0;
+}
+
 .top-logo-bar{
   width: 100%;
   padding-top: 20px;
@@ -335,6 +355,16 @@ div.ld-over.running:before{
   top:1px;
   font-size: .85rem;
   color: var(--bg-primary);
+}
+
+@media only screen and (min-width: 1500px){
+  div video.whiteboard#whiteboard{
+    height: 530px;
+  }
+  div.page-list{
+    min-height: calc(530px - 35px);
+    max-height: calc(530px - 35px);
+  }
 }
 
 @media only screen and (min-width: 1350px){

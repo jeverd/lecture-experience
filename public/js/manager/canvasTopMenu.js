@@ -42,7 +42,7 @@ export default function initializeCanvasTopMenu(socket, whiteboard, roomId) {
   });
 
   $('.show-bar-button').click(() => {
-    $('.show-bar-button-container').fadeToggle();
+    $('.show-bar-button-container').fadeToggle(1200);
     $('.classroom-info').delay().fadeToggle();
     $('.left-bar').show().removeClass('animate__fadeOutLeft').addClass('animate__fadeInLeft');
     $('.right-bar').show().removeClass('animate__fadeOutRight').addClass('animate__fadeInRight');
@@ -50,4 +50,6 @@ export default function initializeCanvasTopMenu(socket, whiteboard, roomId) {
     $('.webcam-container').show().removeClass('animate__fadeOut').addClass('animate__fadeIn');
     $('.canvas-toggle-bar').show().removeClass('animate__fadeOutDown').addClass('animate__fadeInLeft');
   });
+
+  setTimeout(() => $('.show-bar-button').click(), 300)
 }

@@ -10,11 +10,6 @@ body {
   overflow-x: hidden;
 }
 
-.responsive-condition {
-  display: none;
-  margin: 15px;
-}
-
 .landing-container {
   background-image: url(/liteboardLandingBGlight.png);
   min-height: 100vh;
@@ -22,6 +17,9 @@ body {
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .landing-grid {
@@ -140,7 +138,6 @@ body {
   div.footer-entry i.fa-github-alt{
     left: 0px;
   }
-
 }
 
 @media only screen and (max-width: 768px) {
@@ -162,6 +159,10 @@ body {
     text-align: center;
     min-height: 100vh;
     transform: translateY(-10%);
+  }
+
+  div.landing-container{
+    display: block;
   }
 
   .landing-info div.buttons{
@@ -406,7 +407,13 @@ body {
 
 /* end about container */
 
+.view-container{
+  min-height: 100vh;
+  position:relative;
+}
+
 /* start footer */
+
 .footer {
   position: relative;
   left: 0;
@@ -573,11 +580,6 @@ body {
   .teach-container,
   .about-container {
     display: none;
-  }
-
-  .responsive-condition {
-    display: block;
-    color: whitesmoke;
   }
 
   div.set-languages{
