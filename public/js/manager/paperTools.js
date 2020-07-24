@@ -68,7 +68,7 @@ var selectItem = function (event) {
     selectedItem.item.fullySelected = true;
   }
   if (!hitResult) {
-    if (selectedItem){
+    if (selectedItem) {
       selectedItem.item.fullySelected = false;
       selectedItem = '';
     }
@@ -105,7 +105,7 @@ var Zoom = function (scale, positionX, positionY, zoomDirection) {
   var verticalCond = (positionY < view.center.y + horizontalBorder && positionY > view.center.y - horizontalBorder);
   var horizontalCond = (positionX > view.center.x - verticalBorder && positionX < view.center.x + verticalBorder);
 
-  if (zoomDirection < 0){
+  if (zoomDirection < 0) {
     //COMEBACK TO THIS LATER
     /*
     if (positionY < view.center.y && positionX < view.center.x + verticalBorder && positionX > view.center.x - verticalBorder) {
