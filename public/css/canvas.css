@@ -1778,3 +1778,35 @@ div.webcam-container{
 .name-span{
   font-weight: 600;
 }
+
+/*zoom*/
+
+.zoom-modal{
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  margin: 0 auto;
+  top: 50%;
+  left: 50%;/*put in the center*/
+  transform: translate(-50%, -50%);
+}
+
+.zoom-wrapper{
+  height: calc(28px + 0.7vw);
+  width: calc(50px + 0.7vw);
+  font-size: 1.2rem;
+  border-radius: 15px;
+  color: rgba(65, 65, 65, 0.5);
+  background-color: rgba(196, 196, 196, 0.5);
+  display: flex; 
+  justify-content:center;
+  align-items:center;
+  text-align: center;
+  padding: 2px 2px;
+}
+
+.visible {
+  visibility: visible;
+  opacity: 1;
+  animation: fade-in 1s;
+}
