@@ -33,9 +33,8 @@ export default function initializeManagerChat(socket, roomId) {
   sendContainer.addEventListener('submit', (e) => {
     e.preventDefault();
     const messageContent = messageInput.value.trim();
-    const newFile = document.getElementById('file-input').files[0];
-    if (!(messageContent === '' && typeof newFile === 'undefined')) {
-      const message = new Message(messageContent, newFile, 'Professor', 'yellow');
+    if (messageContent !== '' || chat.preview !== null) {
+      const message = new Message(messageContent, chat.preview, 'Professor', 'yellow');
       socket.emit('send-to-room', roomId, message);
       chat.appendMessage(message, false);
       messageInput.value = '';

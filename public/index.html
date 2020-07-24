@@ -9,7 +9,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   
   <link rel='icon' href='/favicon.ico' type='image/x-icon'/>
   <link rel="stylesheet"
@@ -32,42 +32,50 @@
         <a href="#">upgrade your browser</a> to improve your experience.
       </p>
     <![endif]-->
-    <div class="set-languages">
-      <form action="/setLanguage">
-        <input type="hidden" name="langCode" value="pt-BR"/>
-        <input type="hidden" name="pageRef" value="/"/>
-        <button type="submit">
-          <img src="/brazil.svg" height="33"/>&nbsp;<span class="lang-name">Português</span>
-        </button>
-      </form>
-      <form action="/setLanguage">
-        <input type="hidden" name="langCode" value="en-US"/>
-        <input type="hidden" name="pageRef" value="/"/>
-        <button type="submit">
-          <img src="/uk.svg" height="33"/>&nbsp;<span class="lang-name">English</span>
-        </button>
-      </form>
-    </div>
-
-  <div class="landing-container">
-    <div class="landing-grid">
-      <div class="landing-graphic">
-        <img src="/{{#lang}}{{indexLandingCluster}}{{/lang}}" />
+    <div class="view-container">
+      <div class="top-logo-bar">
+        <a class="top-logo-ref" href="/">
+            <img class="top-logo-img" src="/logo.png"/>
+        </a>
+        <div class="set-languages">
+          <form action="/setLanguage">
+            <input type="hidden" name="langCode" value="pt-BR"/>
+            <input type="hidden" name="pageRef" value="/"/>
+            <button type="submit">
+              <img src="/brazil.svg" height="33"/>&nbsp;<span class="lang-name">Português</span>
+            </button>
+          </form>
+          <form action="/setLanguage">
+            <input type="hidden" name="langCode" value="en-US"/>
+            <input type="hidden" name="pageRef" value="/"/>
+            <button type="submit">
+              <img src="/uk.svg" height="33"/>&nbsp;<span class="lang-name">English</span>
+            </button>
+          </form>
+        </div>
       </div>
-      <div class="landing-info">
-        <img src="/landingBanner.png" id="banner-style-1" />
-        <img src="/mobileBanner.png" id="banner-style-2" />
-        <div class="buttons">
-          <a href="/create" id="start-lecture-button">
-            <span>{{#lang}}{{indexCreateLecture}}{{/lang}}</span>
-          </a>
-          <a id="join-lecture-button">
-            <span>{{#lang}}{{indexLearnMore}}{{/lang}}</span>
-          </a>
+  
+  
+    <div class="landing-container">
+      <div class="landing-grid">
+        <div class="landing-graphic">
+          <img src="/{{#lang}}{{indexLandingCluster}}{{/lang}}" />
+        </div>
+        <div class="landing-info">
+          <img src="/landingBanner.png" id="banner-style-1" />
+          <img src="/mobileBanner.png" id="banner-style-2" />
+          <div class="buttons">
+            <a href="/create" id="start-lecture-button">
+              <span>{{#lang}}{{indexCreateLecture}}{{/lang}}</span>
+            </a>
+            <a id="join-lecture-button">
+              <span>{{#lang}}{{indexLearnMore}}{{/lang}}</span>
+            </a>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+    </div>
 
     <div id="learn-more" class="teach-container">
       <div class="teach-content-container">
@@ -202,9 +210,6 @@
       </div>
     </div>
 
-    <h2 class="responsive-condition">
-      {{#lang}}{{deviceNotSupported}}{{/lang}}
-    </h2>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
     <script

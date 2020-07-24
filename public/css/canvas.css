@@ -1049,7 +1049,7 @@ div.messages {
   bottom: 0;
   right: 0;
   z-index: 7;
-  width: 340px;
+  width: calc(340px + 1.5vw);
   height: 30px;
   transition: 0.25s ease;
   -webkit-box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3),
@@ -1058,11 +1058,11 @@ div.messages {
 }
 
 div.messages.active-chat{
-  height: 300px;
+  height: calc(300px + 10vh);
 }
 
 #message-input {
-  width: 260px;
+  width: calc(260px + 1.5vw);
   position: relative;
   left: -3px;
   border-radius: 20px;
@@ -1184,7 +1184,7 @@ div.messages.active-chat{
 
 .messages-main{
   position: relative;
-  height: 240px;
+  height: calc(240px + 10vh);
   overflow: hidden;
   padding: 0px;
   background: white;

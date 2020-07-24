@@ -1,7 +1,8 @@
 import { displayImagePopUpOnClick } from '../utility.js';
+import Attachment from './classes/Attachment.js';
 
 /* eslint-disable no-undef */
-export function downloadFile(file, fileName) {
+function downloadFile(file, fileName) {
   const messageContainer = document.getElementById('message-container');
   const messageElement = document.createElement('tr');
   messageElement.style.display = 'none';
@@ -16,33 +17,28 @@ export function downloadFile(file, fileName) {
   $(messageElement).remove();
 }
 
-export function readURL(input) {
-  if (input.files && input.files[0]) {
-    const reader = new FileReader();
-
-    reader.onload = function (e) {
-      $('#image-preview').attr('src', e.target.result);
-    };
-
-    reader.readAsDataURL(input.files[0]);
-  }
-}
-
 export default function initializeChat(chat) {
   const fileInput = document.getElementById('file-input');
 
   fileInput.addEventListener('change', (e) => {
     document.querySelector('#message-container').appendChild(document.querySelector('#preview'));
     const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.onload = function (fileLoadedEvent) {
+      if (file.type.includes('image')) {
+        $('#image-preview').attr('src', fileLoadedEvent.target.result);
+      }
+      chat.setPreview(new Attachment(fileLoadedEvent.target.result, file.name, file.type));
+    };
+    reader.readAsDataURL(file);
     if (file.type.includes('image')) {
-      readURL(fileInput);
       $('#file-preview').hide();
       $('#preview').show();
       $('#close-preview').css('bottom', '55px');
       // show image
       let imgWidth = 0;
       $('img').load(function () {
-        imgWidth = ($(this).width());
+        imgWidth = $(this).width();
         const left = (15 + imgWidth + 15);
         $('#close-preview').css('left', `${left}px`);
         chat.scrollToBottom();

@@ -10,18 +10,15 @@ body {
   overflow-x: hidden;
 }
 
-.responsive-condition {
-  display: none;
-  margin: 15px;
-}
-
 .landing-container {
   background-image: url(/liteboardLandingBGlight.png);
-  min-height: 100vh;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .landing-grid {
@@ -45,7 +42,7 @@ body {
 }
 
 .landing-info img {
-  width: 500px;
+  width: calc(440px + 7.5vw);
   min-width: 300px;
 }
 
@@ -74,7 +71,7 @@ body {
   box-shadow: 0 0 15px rgba(189, 31, 250, 1);
   -webkit-box-shadow: 0 0 15px rgba(189, 31, 250, 1);
   outline: none;
-  width: 160px;
+  width: calc(140px + 2vw);
   height: 45px;
   text-align: center;
   margin: auto;
@@ -95,6 +92,27 @@ body {
   justify-content: center;
   align-items: center;
   margin: 3.5rem 0 0 3rem;
+}
+
+.top-logo-bar{
+  width: 100%;
+  padding-top: 20px;
+  padding-left: 50px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.top-logo-bar .top-logo-ref{
+  padding: 5px 10px;
+  border-radius: 0.25rem;
+  box-shadow: 0px 0px 5px .5px rgba(0,0,0,0.75);
+  text-decoration: none;
+}
+
+.top-logo-bar .top-logo-img{
+  height: 30px;
+  position: relative;
+  top:2px;
 }
 
 #banner-style-2 {
@@ -119,12 +137,15 @@ body {
   div.footer-entry i.fa-github-alt{
     left: 0px;
   }
-
 }
 
 @media only screen and (max-width: 768px) {
   #banner-style-2 {
     width: 100%;
+  }
+
+  input, select, textarea {
+    font-size: 16px !important;
   }
 }
 
@@ -137,6 +158,10 @@ body {
     text-align: center;
     min-height: 100vh;
     transform: translateY(-10%);
+  }
+
+  div.landing-container{
+    display: block;
   }
 
   .landing-info div.buttons{
@@ -153,7 +178,7 @@ body {
   }
 }
 
-@media only screen and (max-width: 1200px) {
+@media only screen and (max-width: 1270px) {
   .landing-info img {
     width: 450px;
   }
@@ -186,7 +211,7 @@ body {
 }
 
 .teach-content-container .teach-learn-header {
-  font-size: 5rem;
+  font-size: calc(4.25rem + 1.25vw);
 }
 
 .teach-learn-text::after {
@@ -204,21 +229,23 @@ body {
 
 .teach-container img {
   margin: auto;
-  width: 750px;
+  width: calc(690px + 10vw);
 }
 
 .teach-content-container .teach-learn-paragraph {
-  margin-top: 1.5rem;
+  margin-top: .25rem;
   text-align: center;
-  max-width: 800px;
+  width: 75%;
+  max-width: 950px;
   font-size: 1.1rem;
 }
 
 .highlighted-text {
   color: #46c2ff;
   background: linear-gradient(to right, #bd11fa 0%, #46c2ff 100%);
-  -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
 }
 
 @media only screen and (max-width: 1200px) {
@@ -232,7 +259,7 @@ body {
   }
 
   .teach-content-container .teach-learn-paragraph {
-    margin-top: 2rem;
+    margin-top: 1rem;
     width: 700px;
   }
 }
@@ -268,12 +295,12 @@ body {
 
   .teach-container img {
     margin: auto;
-    width: 200px;
+    width: 320px;
   }
 
   .teach-content-container .teach-learn-paragraph {
     margin-top: 1rem;
-    width: 200px;
+    width: 320px;
   }
 }
 
@@ -379,7 +406,13 @@ body {
 
 /* end about container */
 
+.view-container{
+  min-height: 100vh;
+  position:relative;
+}
+
 /* start footer */
+
 .footer {
   position: relative;
   left: 0;
@@ -548,22 +581,14 @@ body {
     display: none;
   }
 
-  .responsive-condition {
-    display: block;
-    color: whitesmoke;
-  }
-
   div.set-languages{
     display: none;
   }
 
 }
 
-.set-languages{
-  position: absolute;
-  z-index: 10000;
-  top: 15px; 
-  right: 15px;
+.set-languages{ 
+  padding-right: 15px;
   display:flex;
 }
 
@@ -578,7 +603,7 @@ body {
   color:white;
   background-color: transparent;
   font-weight: 700;
-  font-size: .8rem;
+  font-size: calc(.7rem + .25vw);
   cursor: pointer;
   transition: 0.4s ease;
 }
@@ -622,7 +647,7 @@ body {
 .final-message-container button{
   display: inline-block;
   color: white;
-  font-size: calc(.55rem + 1.175vw);
+  font-size: calc(.75rem + .55vw);
   background: linear-gradient(
     135deg,
     rgba(70, 194, 255, 1) 0%,

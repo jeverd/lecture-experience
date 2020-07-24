@@ -19,6 +19,7 @@ function beginLecture(stream) {
   const whiteboard = new Whiteboard('canvas');
 
   const canvasStream = whiteboard.getStream();
+
   stream = stream || canvasStream;
 
   const socket = io('/', { query: `id=${managerId}` });
@@ -56,12 +57,6 @@ function beginLecture(stream) {
 window.onload = () => {
   $('#welcome-lecture-modal').show();
 
-  const getUserMedia = navigator.mediaDevices.getUserMedia
-                    || navigator.getUserMedia
-                    || navigator.webkitGetUserMedia
-                    || navigator.mozGetUserMedia
-                    || navigator.msGetUserMedia;
-
   const isWebcamActive = document.getElementById('webcam') !== null;
   const isAudioActive = document.getElementById('audio') !== null;
   const start = (stream = null) => {
@@ -88,7 +83,7 @@ window.onload = () => {
   };
 
   if (isWebcamActive || isAudioActive) {
-    getUserMedia({ audio: isAudioActive, video: isWebcamActive })
+    navigator.mediaDevices.getUserMedia({ audio: isAudioActive, video: isWebcamActive })
       .then(start)
       .catch((error) => {
       // handle error properly here.

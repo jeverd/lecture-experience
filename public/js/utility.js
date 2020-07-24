@@ -124,7 +124,6 @@ export function addStream(htmlElem, streamTrack) {
   if (typeof streamTrack !== 'undefined') {
     const stream = new MediaStream();
     stream.addTrack(streamTrack);
-    htmlElem.srcObject = stream;
     if ('srcObject' in htmlElem) {
       htmlElem.srcObject = stream;
     } else {
@@ -172,18 +171,10 @@ export async function getTurnServers() {
 
 export function getStunServers() {
   return [
-    { urls: 'stun:stun.l.google.com:19302' },
-    { urls: 'stun:stun1.l.google.com:19302' },
-    { urls: 'stun:stun2.l.google.com:19302' },
-    { url: 'stun:stun01.sipphone.com' },
-    { url: 'stun:stun.ekiga.net' },
+    { url: 'stun:stun.l.google.com:19302' },
+    { url: 'stun:stun1.l.google.com:19302' },
+    { url: 'stun:stun2.l.google.com:19302' },
     { url: 'stun:stunserver.org' },
-    { url: 'stun:stun.softjoys.com' },
-    { url: 'stun:stun.voiparound.com' },
-    { url: 'stun:stun.voipbuster.com' },
-    { url: 'stun:stun.voipstunt.com' },
-    { url: 'stun:stun.voxgratia.org' },
-    { url: 'stun:stun.xten.com' },
   ];
 }
 

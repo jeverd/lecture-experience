@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <link rel='icon' href='/favicon.ico' type='image/x-icon'/>
     <link rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Open+Sans">
     <link
@@ -38,187 +39,189 @@
 
 
 <body>
-    <div class="top-logo-bar">
-        <a href="/">
-            <img src="/logo.png"/>
-        </a>
-    </div>
-    <div class="lecture-container">
-        <div class="lecture-content">
-            <div class="titleBoard">
-                <img class="title-circle" src="/liteboardCircle.png"/>
-                <img class="title-triangle" src="/liteboardTriangle.png"/>
-                    <span class="title" id="lectureTitle"><span>{{#lang}}{{guestLectureRoom}}{{/lang}} | </span><b>{{name}}</b></span>
-            </div>
-            <div class="videoContainer">
-                <div class="left-menu">
-                    <div title="View fullscreen" id="fullscreen-video">
-                        <img class="nav-icon" src="/expand.svg"/>
-                    </div>
-                    <div title="Connect on your Phone" id="connect-on-your-phone" class="connect-on-phone">
-                        <img class="nav-icon" src="/phone.svg"/>
-                        <div style="display: none;" class="modal" id="qr-code-modal">
-                            <div class="qrcode-modal-content">
-                                <div>Scan QR Code</div>
-                                <div id="qrcode"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div title="Toggle boards view" id="toggle-boards-view" target-id="boards-view">
-                        <img class="nav-icon" src="/whiteboard.svg" />
-                        <div class="left-menu-badge"><span id="num-boards">0</span></div>
-                    </div>
-                    <div title="Toggle lecture chat" id="toggle-chat-view" target-id="chat-view">
-                        <i class="fas fa-comment-dots chat-info-icon"></i>
-                        <div class="left-menu-badge"><span id="num-unread-messages">0</span></div>
-                    </div>
+    <div class="view-container">
+        <div class="top-logo-bar">
+            <a href="/">
+                <img src="/logo.png"/>
+            </a>
+        </div>
+        <div class="lecture-container">
+            <div class="lecture-content">
+                <div class="titleBoard">
+                    <img class="title-circle" src="/liteboardCircle.png"/>
+                    <img class="title-triangle" src="/liteboardTriangle.png"/>
+                        <span class="title" id="lectureTitle"><span>{{#lang}}{{guestLectureRoom}}{{/lang}} | </span><b>{{name}}</b></span>
                 </div>
-                <div class="main-stream-container">
-                    <div id="info-popup">No other boards to display</div>
-                    <div class="lecture-top-bar">
-                        <div id="lecture-status">
-                            <input type="hidden" id="status-starting" value="{{#lang}}{{statusStarting}}{{/lang}}"/>
-                            <input type="hidden" id="status-host-disconnected" value="{{#lang}}{{statusHostDisconnected}}{{/lang}}"/>
-                            <input type="hidden" id="status-connection-lost" value="{{#lang}}{{statusConnectionLost}}{{/lang}}"/>
-                            <input type="hidden" id="status-live" value="{{#lang}}{{statusLive}}{{/lang}}"/>
-                            <div class="status-dot"></div>
-                            &nbsp;
-                            <span class="status-text"></span>
+                <div class="videoContainer">
+                    <div class="left-menu">
+                        <div title="View fullscreen" id="fullscreen-video">
+                            <img class="nav-icon" src="/expand.svg"/>
                         </div>
-                        <div class="specs-stats">
-                            <i class="fas fa-eye"></i>
-                            &nbsp;
-                            <span id="specs"></span>
+                        <div title="Connect on your Phone" id="connect-on-your-phone" class="connect-on-phone">
+                            <img class="nav-icon" src="/phone.svg"/>
+                            <div style="display: none;" class="modal" id="qr-code-modal">
+                                <div class="qrcode-modal-content">
+                                    <div>Scan QR Code</div>
+                                    <div id="qrcode"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div title="Toggle boards view" id="toggle-boards-view" target-id="boards-view">
+                            <img class="nav-icon" src="/whiteboard.svg" />
+                            <div class="left-menu-badge"><span id="num-boards">0</span></div>
+                        </div>
+                        <div title="Toggle lecture chat" id="toggle-chat-view" target-id="chat-view">
+                            <i class="fas fa-comment-dots chat-info-icon"></i>
+                            <div class="left-menu-badge"><span id="num-unread-messages">0</span></div>
                         </div>
                     </div>
-                    {{#lectureTools}}
-                        {{#whiteboard}}
-                            <div class="center ld-over" id="board-container">
-                                <i style="font-size:2rem; color: gray;" class="ld ld-ring ld-spin"></i>
-                                <video class="whiteboard" id="whiteboard" playsinline autoplay muted ></video>
+                    <div class="main-stream-container">
+                        <div id="info-popup">No other boards to display</div>
+                        <div class="lecture-top-bar">
+                            <div id="lecture-status">
+                                <input type="hidden" id="status-starting" value="{{#lang}}{{statusStarting}}{{/lang}}"/>
+                                <input type="hidden" id="status-host-disconnected" value="{{#lang}}{{statusHostDisconnected}}{{/lang}}"/>
+                                <input type="hidden" id="status-connection-lost" value="{{#lang}}{{statusConnectionLost}}{{/lang}}"/>
+                                <input type="hidden" id="status-live" value="{{#lang}}{{statusLive}}{{/lang}}"/>
+                                <div class="status-dot"></div>
+                                &nbsp;
+                                <span class="status-text"></span>
                             </div>
-                            {{#webcam}}
-                                <div class="webcam-container">
-                                    <div class="options-webcam">
-                                        <div id="expand-webcam-view" title="Expand">
-                                            <i class="fa fa-arrows-alt"></i>
-                                        </div>
-                                        <div title="Minimize" id="minimize-webcam-view">
-                                            <i class="fa fa-minus"></i>
-                                        </div>
-                                    </div>
-                                    <img title="Open" id="open-webcam-view" src="https://img.icons8.com/fluent/48/000000/webcam.png"/>
-                                    <video muted id="webcam" playsinline autoplay></video>
-                                </div>
-                            {{/webcam}}
-                        {{/whiteboard}}
-                        {{^whiteboard}}
-                            {{#webcam}}
+                            <div class="specs-stats">
+                                <i class="fas fa-eye"></i>
+                                &nbsp;
+                                <span id="specs"></span>
+                            </div>
+                        </div>
+                        {{#lectureTools}}
+                            {{#whiteboard}}
                                 <div class="center ld-over" id="board-container">
                                     <i style="font-size:2rem; color: gray;" class="ld ld-ring ld-spin"></i>
                                     <video class="whiteboard" id="whiteboard" playsinline autoplay muted ></video>
                                 </div>
-                            {{/webcam}}
-                        {{/whiteboard}}
-                        {{#audio}}
-                            <audio style="display: none;" id="speaker" autoplay ></audio> 
-                            <div class="audio" id="toggle-speaker">    
-                                <i class="fa fa-volume-up" aria-hidden="true"></i>
-                            </div>
-                        {{/audio}}
-                    {{/lectureTools}}
-                </div>
-                <div style="display: none; width: 0; height: 0;" id="boards-view" class="pages">
-                    <div title="Minimize Boards Used View" id="close-non-active-boards" class="non-active-boards-title">
-                        <i class="fas fa-arrow-down"></i>
-                        <span>Boards Used</span>
+                                {{#webcam}}
+                                    <div class="webcam-container">
+                                        <div class="options-webcam">
+                                            <div id="expand-webcam-view" title="Expand">
+                                                <i class="fa fa-arrows-alt"></i>
+                                            </div>
+                                            <div title="Minimize" id="minimize-webcam-view">
+                                                <i class="fa fa-minus"></i>
+                                            </div>
+                                        </div>
+                                        <img title="Open" id="open-webcam-view" src="https://img.icons8.com/fluent/48/000000/webcam.png"/>
+                                        <video muted id="webcam" playsinline autoplay></video>
+                                    </div>
+                                {{/webcam}}
+                            {{/whiteboard}}
+                            {{^whiteboard}}
+                                {{#webcam}}
+                                    <div class="center ld-over" id="board-container">
+                                        <i style="font-size:2rem; color: gray;" class="ld ld-ring ld-spin"></i>
+                                        <video class="whiteboard" id="whiteboard" playsinline autoplay muted ></video>
+                                    </div>
+                                {{/webcam}}
+                            {{/whiteboard}}
+                            {{#audio}}
+                                <audio style="display: none;" id="speaker" autoplay ></audio> 
+                                <div class="audio" id="toggle-speaker">    
+                                    <i class="fa fa-volume-up" aria-hidden="true"></i>
+                                </div>
+                            {{/audio}}
+                        {{/lectureTools}}
                     </div>
-                    <div class="page-list" id="non-active-boards"></div>
-                </div>
-                <div style="display: none; width: 0; height: 0;" id="chat-view" class="chat">
-                    <div id="wrapper" class="messages-main">
-                        <div title="Minimize Chat View" class="minimize-chat-view">
-                            <div>Lecture Chat</div>
-                            <div id="minimize-chat-view">
-                                <i class="fa fa-minus" aria-hidden="true"></i>
+                    <div style="display: none; width: 0; height: 0;" id="boards-view" class="pages">
+                        <div title="Minimize Boards Used View" id="close-non-active-boards" class="non-active-boards-title">
+                            <i class="fas fa-arrow-down"></i>
+                            <span>Boards Used</span>
+                        </div>
+                        <div class="page-list" id="non-active-boards"></div>
+                    </div>
+                    <div style="display: none; width: 0; height: 0;" id="chat-view" class="chat">
+                        <div id="wrapper" class="messages-main">
+                            <div title="Minimize Chat View" class="minimize-chat-view">
+                                <div>Lecture Chat</div>
+                                <div id="minimize-chat-view">
+                                    <i class="fa fa-minus" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                            <div class="message-container" id="message-container">
+                            <div class="message-lecture-name">
+                                {{name}} <text class="sm-chat-room">Chat Room</text>
+                            </div>
+                            <div id="preview" class="preview" style="display: none;">
+                                <div class="preview-content">
+                                <i class="fas fa-file" id="file-preview"></i>
+                                <img src="" id='image-preview' class='image-preview'>
+                                <span id="name-file"></span>
+                                <i class="fas fa-times close-preview" id="close-preview"></i>
+                                </div> 
+                            </div>
                             </div>
                         </div>
-                        <div class="message-container" id="message-container">
-                        <div class="message-lecture-name">
-                            {{name}} <text class="sm-chat-room">Chat Room</text>
+                        <div id="send-wrapper">
+                            
+                            <form id="send-container">
+                                <span class="v_divider"></span>
+                                <input autocomplete="off" spellcheck="false" type="text" id="message-input">
+                                <input type="file" name="file" id="file-input" class="inputfile" />
+                                <label for="file-input">
+                                    <i class="fas fa-paperclip paperclip"></i>
+                                </label>
+                                <button type="submit" id="send-button"><i class="fas fa-chevron-right send-icon"></i></button>
+                            </form>        
                         </div>
-                        <div id="preview" class="preview" style="display: none;">
-                            <div class="preview-content">
-                            <i class="fas fa-file" id="file-preview"></i>
-                            <img src="" id='image-preview' class='image-preview'>
-                            <span id="name-file"></span>
-                            <i class="fas fa-times close-preview" id="close-preview"></i>
-                            </div> 
-                        </div>
-                        </div>
-                    </div>
-                    <div id="send-wrapper">
-                        
-                        <form id="send-container">
-                            <span class="v_divider"></span>
-                            <input autocomplete="off" spellcheck="false" type="text" id="message-input">
-                            <input type="file" name="file" id="file-input" class="inputfile" />
-                            <label for="file-input">
-                                <i class="fas fa-paperclip paperclip"></i>
-                            </label>
-                            <button type="submit" id="send-button"><i class="fas fa-chevron-right send-icon"></i></button>
-                        </form>        
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="footer">
-        <div class="footer-grid">
-            <div class="footer-entry">
-            <a
-                href="https://github.com/jeverd/lecture-experience"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                <i class="fab fa-github-alt"></i>
-            </a>
-            </div>
-            <div class="footer-entry">
-            <p class="glossy-text">&copy; 2020 Liteboard</p>
-            </div>
-            <div class="footer-entry language">
-            <div class="language-selection-footer">
-                <form action="/setLanguage">
-                <input type="hidden" name="langCode" value="pt-BR"/>
-                <input type="hidden" name="pageRef"/>
-                <button type="submit">
-                    <span>
-                    <img src="/brazil.svg" height="33"/>&nbsp;<span class="lang-name">Português</span>
-                    </span>
-                </button>
-                </form>
-                <form action="/setLanguage">
-                <input type="hidden" name="langCode" value="en-US"/>
-                <input type="hidden" name="pageRef"/>
-                <button type="submit">
-                    <span>
-                    <img src="/uk.svg" height="33"/>&nbsp;<span class="lang-name">English</span>
-                    </span>
-                </button>
-                </form>
-            </div>
-            <svg width=".8em" height=".8em" viewBox="0 0 16 16" class="bi bi-globe" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" d="M1.018 7.5h2.49c.03-.877.138-1.718.312-2.5H1.674a6.958 6.958 0 0 0-.656 2.5zM2.255 4H4.09a9.266 9.266 0 0 1 .64-1.539 6.7 6.7 0 0 1 .597-.933A7.024 7.024 0 0 0 2.255 4zM8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm-.5 1.077c-.67.204-1.335.82-1.887 1.855-.173.324-.33.682-.468 1.068H7.5V1.077zM7.5 5H4.847a12.5 12.5 0 0 0-.338 2.5H7.5V5zm1 2.5V5h2.653c.187.765.306 1.608.338 2.5H8.5zm-1 1H4.51a12.5 12.5 0 0 0 .337 2.5H7.5V8.5zm1 2.5V8.5h2.99a12.495 12.495 0 0 1-.337 2.5H8.5zm-1 1H5.145c.138.386.295.744.468 1.068.552 1.035 1.218 1.65 1.887 1.855V12zm-2.173 2.472a6.695 6.695 0 0 1-.597-.933A9.267 9.267 0 0 1 4.09 12H2.255a7.024 7.024 0 0 0 3.072 2.472zM1.674 11H3.82a13.651 13.651 0 0 1-.312-2.5h-2.49c.062.89.291 1.733.656 2.5zm8.999 3.472A7.024 7.024 0 0 0 13.745 12h-1.834a9.278 9.278 0 0 1-.641 1.539 6.688 6.688 0 0 1-.597.933zM10.855 12H8.5v2.923c.67-.204 1.335-.82 1.887-1.855A7.98 7.98 0 0 0 10.855 12zm1.325-1h2.146c.365-.767.594-1.61.656-2.5h-2.49a13.65 13.65 0 0 1-.312 2.5zm.312-3.5h2.49a6.959 6.959 0 0 0-.656-2.5H12.18c.174.782.282 1.623.312 2.5zM11.91 4a9.277 9.277 0 0 0-.64-1.539 6.692 6.692 0 0 0-.597-.933A7.024 7.024 0 0 1 13.745 4h-1.834zm-1.055 0H8.5V1.077c.67.204 1.335.82 1.887 1.855.173.324.33.682.468 1.068z"/>
-            </svg>
-            {{#lang}}{{footerLanguage}}{{/lang}}
-            </div>
-            <div class="footer-entry bug-report">
-            <svg width=".8em" height=".8em" viewBox="0 0 16 16" class="bi bi-bug-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" d="M4.978.855a.5.5 0 1 0-.956.29l.41 1.352A4.985 4.985 0 0 0 3 6h10a4.985 4.985 0 0 0-1.432-3.503l.41-1.352a.5.5 0 1 0-.956-.29l-.291.956A4.978 4.978 0 0 0 8 1a4.979 4.979 0 0 0-2.731.811l-.29-.956zM13 6v1H8.5v8.975A5 5 0 0 0 13 11h.5a.5.5 0 0 1 .5.5v.5a.5.5 0 1 0 1 0v-.5a1.5 1.5 0 0 0-1.5-1.5H13V9h1.5a.5.5 0 0 0 0-1H13V7h.5A1.5 1.5 0 0 0 15 5.5V5a.5.5 0 0 0-1 0v.5a.5.5 0 0 1-.5.5H13zm-5.5 9.975V7H3V6h-.5a.5.5 0 0 1-.5-.5V5a.5.5 0 0 0-1 0v.5A1.5 1.5 0 0 0 2.5 7H3v1H1.5a.5.5 0 0 0 0 1H3v1h-.5A1.5 1.5 0 0 0 1 11.5v.5a.5.5 0 1 0 1 0v-.5a.5.5 0 0 1 .5-.5H3a5 5 0 0 0 4.5 4.975z"/>
-            </svg>
-            {{#lang}}{{footerReportBug}}{{/lang}}
+    
+        <div class="footer">
+            <div class="footer-grid">
+                <div class="footer-entry">
+                <a
+                    href="https://github.com/jeverd/lecture-experience"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    <i class="fab fa-github-alt"></i>
+                </a>
+                </div>
+                <div class="footer-entry">
+                <p class="glossy-text">&copy; 2020 Liteboard</p>
+                </div>
+                <div class="footer-entry language">
+                <div class="language-selection-footer">
+                    <form action="/setLanguage">
+                    <input type="hidden" name="langCode" value="pt-BR"/>
+                    <input type="hidden" name="pageRef"/>
+                    <button type="submit">
+                        <span>
+                        <img src="/brazil.svg" height="33"/>&nbsp;<span class="lang-name">Português</span>
+                        </span>
+                    </button>
+                    </form>
+                    <form action="/setLanguage">
+                    <input type="hidden" name="langCode" value="en-US"/>
+                    <input type="hidden" name="pageRef"/>
+                    <button type="submit">
+                        <span>
+                        <img src="/uk.svg" height="33"/>&nbsp;<span class="lang-name">English</span>
+                        </span>
+                    </button>
+                    </form>
+                </div>
+                <svg width=".8em" height=".8em" viewBox="0 0 16 16" class="bi bi-globe" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M1.018 7.5h2.49c.03-.877.138-1.718.312-2.5H1.674a6.958 6.958 0 0 0-.656 2.5zM2.255 4H4.09a9.266 9.266 0 0 1 .64-1.539 6.7 6.7 0 0 1 .597-.933A7.024 7.024 0 0 0 2.255 4zM8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm-.5 1.077c-.67.204-1.335.82-1.887 1.855-.173.324-.33.682-.468 1.068H7.5V1.077zM7.5 5H4.847a12.5 12.5 0 0 0-.338 2.5H7.5V5zm1 2.5V5h2.653c.187.765.306 1.608.338 2.5H8.5zm-1 1H4.51a12.5 12.5 0 0 0 .337 2.5H7.5V8.5zm1 2.5V8.5h2.99a12.495 12.495 0 0 1-.337 2.5H8.5zm-1 1H5.145c.138.386.295.744.468 1.068.552 1.035 1.218 1.65 1.887 1.855V12zm-2.173 2.472a6.695 6.695 0 0 1-.597-.933A9.267 9.267 0 0 1 4.09 12H2.255a7.024 7.024 0 0 0 3.072 2.472zM1.674 11H3.82a13.651 13.651 0 0 1-.312-2.5h-2.49c.062.89.291 1.733.656 2.5zm8.999 3.472A7.024 7.024 0 0 0 13.745 12h-1.834a9.278 9.278 0 0 1-.641 1.539 6.688 6.688 0 0 1-.597.933zM10.855 12H8.5v2.923c.67-.204 1.335-.82 1.887-1.855A7.98 7.98 0 0 0 10.855 12zm1.325-1h2.146c.365-.767.594-1.61.656-2.5h-2.49a13.65 13.65 0 0 1-.312 2.5zm.312-3.5h2.49a6.959 6.959 0 0 0-.656-2.5H12.18c.174.782.282 1.623.312 2.5zM11.91 4a9.277 9.277 0 0 0-.64-1.539 6.692 6.692 0 0 0-.597-.933A7.024 7.024 0 0 1 13.745 4h-1.834zm-1.055 0H8.5V1.077c.67.204 1.335.82 1.887 1.855.173.324.33.682.468 1.068z"/>
+                </svg>
+                {{#lang}}{{footerLanguage}}{{/lang}}
+                </div>
+                <div class="footer-entry bug-report">
+                <svg width=".8em" height=".8em" viewBox="0 0 16 16" class="bi bi-bug-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M4.978.855a.5.5 0 1 0-.956.29l.41 1.352A4.985 4.985 0 0 0 3 6h10a4.985 4.985 0 0 0-1.432-3.503l.41-1.352a.5.5 0 1 0-.956-.29l-.291.956A4.978 4.978 0 0 0 8 1a4.979 4.979 0 0 0-2.731.811l-.29-.956zM13 6v1H8.5v8.975A5 5 0 0 0 13 11h.5a.5.5 0 0 1 .5.5v.5a.5.5 0 1 0 1 0v-.5a1.5 1.5 0 0 0-1.5-1.5H13V9h1.5a.5.5 0 0 0 0-1H13V7h.5A1.5 1.5 0 0 0 15 5.5V5a.5.5 0 0 0-1 0v.5a.5.5 0 0 1-.5.5H13zm-5.5 9.975V7H3V6h-.5a.5.5 0 0 1-.5-.5V5a.5.5 0 0 0-1 0v.5A1.5 1.5 0 0 0 2.5 7H3v1H1.5a.5.5 0 0 0 0 1H3v1h-.5A1.5 1.5 0 0 0 1 11.5v.5a.5.5 0 1 0 1 0v-.5a.5.5 0 0 1 .5-.5H3a5 5 0 0 0 4.5 4.975z"/>
+                </svg>
+                {{#lang}}{{footerReportBug}}{{/lang}}
+                </div>
             </div>
         </div>
     </div>
