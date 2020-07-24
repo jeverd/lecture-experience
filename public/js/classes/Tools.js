@@ -9,7 +9,6 @@ class Tools {
     if (tool in Tools.toolbox) {
       Tools.toolbox[tool].activate();
       this.activeTool = Tools.toolbox[tool];
-      console.log(tool);
       if (tool !== 'pointer') {
         window.app.deselectOnToolChange();
       }
