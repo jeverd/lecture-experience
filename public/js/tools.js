@@ -10,8 +10,17 @@ export const TOOL_CIRCLE = 'circle';
 export const TOOL_SELECTAREA = 'select-area';
 
 export default function initializeToolsMenu(whiteboard) {
+  let timeout;
+  const onZoomDone = () => {
+    $('#zoom-modal').hide();
+  };
   document.getElementById('canvas').addEventListener('wheel', (e) => {
     whiteboard.onScroll(e.deltaY, e.clientX, e.clientY);
+    const { zoom } = whiteboard.getZoom();
+    $('#zoom-modal').show();
+    $('#zoom-span').html(`${Math.ceil(zoom * 100)}%`);
+    clearTimeout(timeout);
+    timeout = setTimeout(onZoomDone, 300);
   });
   document.querySelectorAll('.back-to-tool-menu').forEach(
     (backElem) => {

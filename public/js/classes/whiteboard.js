@@ -97,6 +97,10 @@ export default class Whiteboard {
     window.app.zoom(e, x, y);
   }
 
+  getZoom() {
+    return window.app.getZoomData();
+  }
+
   cloneItem() {
     window.app.copyItem();
   }
@@ -107,18 +111,10 @@ export default class Whiteboard {
 
   handleResize() {
     let timeout;
-    let paths = [];
     const onResizeDone = () => {
-      //COMEBACK TO THIS LATER
-      this.paintWhite();
-      window.app.addDraws(paths);
       handleBoardsViewButtonsDisplay();
     };
     $(window).on('resize', () => {
-      for (var i in window.app.getElem()) {
-        const completePath = window.app.getElem()[i];
-        paths.push([completePath.pathData, completePath.strokeColor, completePath.strokeWidth]);
-      }
       clearTimeout(timeout);
       timeout = setTimeout(onResizeDone, 20);
     });

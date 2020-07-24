@@ -31,7 +31,7 @@ var erase = function (event) {
         hitResult.item.remove();
         hitResult = null;
       }
-    }, 150);
+    }, 100);
   }
 };
 
@@ -153,10 +153,18 @@ var Zoom = function (scale, positionX, positionY, zoomDirection) {
     view.zoom += zoomAmount;
   }
   */  
-   view.zoom += zoomAmount;
-}else {
-  view.zoom += zoomAmount;
-}
+   if(view.zoom + zoomAmount<0.2) {
+     view.zoom = 0.2;
+   } else {
+     view.zoom += zoomAmount;
+   }
+  } else {
+  if(view.zoom + zoomAmount<0.2) {
+    view.zoom = 0.2;
+  } else {
+    view.zoom += zoomAmount;
+  }
+  }
 };
 
 var delItem = function () {
