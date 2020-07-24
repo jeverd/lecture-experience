@@ -68,14 +68,14 @@ var selectItem = function (event) {
     selectedItem.item.fullySelected = true;
   }
   if (!hitResult) {
-    if (selectedItem) {
+    if (selectedItem){
       selectedItem.item.fullySelected = false;
       selectedItem = '';
     }
     centerPoint = {
       currentX: view.center.x,
-      currentY: view.center.y,
-    };
+      currentY: view.center.y
+    }
   }
 };
 
@@ -83,10 +83,10 @@ var drag = function (event) {
   if (onDragItem) {
     onDragItem.item.position = event.point;
   } else {
-    var lastMousePoint = event.downPoint;
+    var lastMousePoint = event.downPoint
     lastViewCenter = view.center;
     view.center = view.center.add(
-      lastMousePoint.subtract(event.point),
+      lastMousePoint.subtract(event.point)
     );
     lastMousePoint = event.point.add(view.center.subtract(lastViewCenter));
   }
@@ -105,8 +105,8 @@ var Zoom = function (scale, positionX, positionY, zoomDirection) {
   var verticalCond = (positionY < view.center.y + horizontalBorder && positionY > view.center.y - horizontalBorder);
   var horizontalCond = (positionX > view.center.x - verticalBorder && positionX < view.center.x + verticalBorder);
 
-  if (zoomDirection < 0) {
-    // COMEBACK TO THIS LATER
+  if (zoomDirection < 0){
+    //COMEBACK TO THIS LATER
     /*
     if (positionY < view.center.y && positionX < view.center.x + verticalBorder && positionX > view.center.x - verticalBorder) {
       // mid up
@@ -152,16 +152,18 @@ var Zoom = function (scale, positionX, positionY, zoomDirection) {
   }else {
     view.zoom += zoomAmount;
   }
-  */
+  */  
     if (view.zoom + zoomAmount < 0.2) {
       view.zoom = 0.2;
     } else {
       view.zoom += zoomAmount;
     }
-  } else if (view.zoom + zoomAmount < 0.2) {
-    view.zoom = 0.2;
   } else {
-    view.zoom += zoomAmount;
+    if (view.zoom + zoomAmount < 0.2) {
+      view.zoom = 0.2;
+    } else {
+      view.zoom += zoomAmount;
+    }
   }
 };
 
@@ -257,7 +259,7 @@ window.app = {
     rect.sendToBack();
     imageLayer.addChild(rect);
     view.center = view.center.add(
-      view.center.subtract({ x: -3000, y: -3000 }),
+      view.center.subtract({x: -3000, y: -3000})
     );
   },
   paintCircle: function () {
@@ -288,16 +290,17 @@ window.app = {
     return {
       zoom: view.zoom,
       centerX: view.center.x,
-      centerY: view.center.y,
-    };
+      centerY: view.center.y
+    }
   },
   zoomDirection: function (scale) {
     if (scale < 0) {
       // inward movement
       return 0.03;
+    } else {
+      // outward movement
+      return -0.03;
     }
-    // outward movement
-    return -0.03;
   },
   getElem: function () {
     return drawsLayer.children;
