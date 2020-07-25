@@ -36,40 +36,59 @@ var erase = function (event) {
 };
 
 var desItem = function () {
-  selectedItem.item.fullySelected = false;
+  selectedItem.fullySelected = false;
   selectedItem = '';
 };
 
 var onChangeTool = function () {
   if (selectedItem) {
-    selectedItem.item.fullySelected = false;
+    selectedItem.fullySelected = false;
     selectedItem = '';
   }
 };
 
 var cloneItem = function () {
   if (selectedItem) {
-    var clone = selectedItem.item.clone();
+    var clone = selectedItem.clone();
 
-    clone.position = selectedItem.item.position + (100, 100);
+    clone.position = selectedItem.position + (100, 100);
     clone.fullySelected = false;
     drawsLayer.addChild(clone);
   }
 };
 
+var paint = function (event) {
+  for (var i in drawsLayer.children) {
+    var currentPath = drawsLayer.children[i];
+    if (currentPath.contains(event.point)) {
+      currentPath.fillColor = activeColor;
+    }
+  }
+};
+
 var selectItem = function (event) {
   var hitResult = drawsLayer.hitTest(event.point);
+  /* COMEBACK TO THIS LATER
+  for (var i in drawsLayer.children) {
+    var currentPath = drawsLayer.children[i];
+    if (currentPath.contains(event.point)) {
+      selectedItem = currentPath;
+      onDragItem = currentPath;
+      currentPath.fullySelected = true;
+    }
+  }
+  */
   if (hitResult) {
     if (selectedItem) {
-      selectedItem.item.fullySelected = false;
+      selectedItem.fullySelected = false;
     }
-    selectedItem = hitResult;
-    onDragItem = hitResult;
-    selectedItem.item.fullySelected = true;
+    selectedItem = hitResult.item;
+    onDragItem = hitResult.item;
+    selectedItem.fullySelected = true;
   }
   if (!hitResult) {
     if (selectedItem) {
-      selectedItem.item.fullySelected = false;
+      selectedItem.fullySelected = false;
       selectedItem = '';
     }
     centerPoint = {
@@ -81,7 +100,7 @@ var selectItem = function (event) {
 
 var drag = function (event) {
   if (onDragItem) {
-    onDragItem.item.position = event.point;
+    onDragItem.position = event.point;
   } else {
     var lastMousePoint = event.downPoint
     lastViewCenter = view.center;
@@ -169,7 +188,7 @@ var Zoom = function (scale, positionX, positionY, zoomDirection) {
 
 var delItem = function () {
   if (selectedItem) {
-    selectedItem.item.remove();
+    selectedItem.remove();
   }
 };
 
@@ -207,6 +226,9 @@ window.app = {
       onMouseDown: selectItem,
       onMouseDrag: drag,
       onMouseUp: deselectItem,
+    }),
+    bucket: new Tool({
+      onMouseDown: paint,
     }),
     eraser: new Tool({
       onMouseDown: erase,
