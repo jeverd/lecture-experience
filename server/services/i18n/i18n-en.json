@@ -131,5 +131,6 @@
   "errTitle": "Error",
   "statsPopupSpecs": "Spectators",
   "statsPopupTime": "Time",
-  "waitingDevices": "Waiting for devices..."
+  "waitingDevices": "Waiting for devices...",
+  "lectureChatRoom": "Chat Room"
 }
