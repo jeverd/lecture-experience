@@ -14,6 +14,7 @@ import { handleBoardsViewButtonsDisplay } from '../manager/managerBoards.js';
 import Fill from './fill.js';
 import Point from './point.js';
 import Tools from './Tools.js';
+import Board from './Board.js';
 
 const DEFAULT_COLOR = '#424242';
 
@@ -29,7 +30,6 @@ export default class Whiteboard {
     this.onScroll();
     this.paintWhite();
     this.boards = [];
-    this.paths = [];
     this.centerCoords = [];
     this.undoStack = [];
     this.redoStack = [];
@@ -184,6 +184,10 @@ export default class Whiteboard {
       array.push([completePath.pathData, completePath.strokeColor, completePath.strokeWidth]);
     }
     return array;
+  }
+
+  makeNewBoard() {
+    return new Board(this.getDraws(), this.getImage());
   }
 
   pushToUndoStack() {
