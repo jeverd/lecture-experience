@@ -10,6 +10,11 @@
 import { copyTextToClipboard } from '../utility.js';
 
 export default function initializeModal(stream) {
+  $('#modal-select-button').removeClass('live-button-inactive').find('.ld').fadeOut(function () {
+    $(this).parent().find('span').fadeIn();
+  });
+  $('.waiting-for-devices').fadeOut(() => $('#test-mic').fadeIn());
+
   // Mic button
   document.getElementById('test-mic').addEventListener('click', () => {
     const joinContent = document.getElementById('join-content');

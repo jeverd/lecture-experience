@@ -124,7 +124,6 @@ export function addStream(htmlElem, streamTrack) {
   if (typeof streamTrack !== 'undefined') {
     const stream = new MediaStream();
     stream.addTrack(streamTrack);
-    htmlElem.srcObject = stream;
     if ('srcObject' in htmlElem) {
       htmlElem.srcObject = stream;
     } else {

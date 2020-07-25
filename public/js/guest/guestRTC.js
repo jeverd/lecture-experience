@@ -2,7 +2,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-undef */
 import {
-  getJanusUrl, addStream, getTurnServers, getStunServers, getStatusColor, getImageFromVideo, getJanusToken
+  getJanusUrl, addStream, getTurnServers, getStunServers, getStatusColor, getImageFromVideo, getJanusToken,
 } from '../utility.js';
 
 export const changeStatus = {
@@ -26,9 +26,9 @@ export const changeStatus = {
 };
 
 export default async function initializeGuestRTC(roomId) {
+  const hasAudio = $('#audioValidator').val() === 'true';
   const hasWebcam = $('#webcamValidator').val() === 'true';
   const hasWhiteboard = $('#whiteboardValidator').val() === 'true';
-  const hasAudio = $('#audioValidator').val() === 'true';
   const webcam = document.getElementById('webcam');
   const whiteboard = document.getElementById('whiteboard');
   const speaker = document.getElementById('speaker');
@@ -89,12 +89,7 @@ export default async function initializeGuestRTC(roomId) {
                 addStream(whiteboard, videoTrack);
               }
             }
-            setTimeout(() => {
-              changeStatus.live();
-              if (hasWebcam) webcam.play();
-              if (hasWebcam) whiteboard.play();
-              if (hasAudio) speaker.play();
-            }, 500);
+            setTimeout(changeStatus.live, 500);
           },
         });
       });
@@ -175,4 +170,10 @@ export default async function initializeGuestRTC(roomId) {
       $('.options-webcam').fadeIn();
     });
   });
+
+  if (hasAudio) {
+    setTimeout(() => {
+      speaker.muted = false;
+    }, 400);
+  }
 }

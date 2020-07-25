@@ -4,7 +4,7 @@
   "description": "Liteboard's website Repository",
   "main": "servers.js",
   "scripts": {
-    "debug:client": "nodemon -e html,json index.js",
+    "debug:client": "set DEBUG_CLIENT=true && nodemon -e html,json index.js",
     "debug:server": "nodemon -e html,json,js index.js",
     "start": "node index.js",
     "test": "set LOGGER=false && mocha --exit"

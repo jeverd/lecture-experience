@@ -71,7 +71,7 @@ function buildGraph(statsObj) {
 
     const formatted = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 
-    popup.innerHTML = `Spectators:  ${averageWatchers[i]} <br/> Time:  ${formatted}`;
+    popup.innerHTML = `${$('#spectators-popup').val()}:  ${averageWatchers[i]} <br/> ${$('#time-popup').val()}:  ${formatted}`;
 
     inner.appendChild(popup);
 

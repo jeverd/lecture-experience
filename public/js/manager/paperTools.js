@@ -31,7 +31,7 @@ var erase = function (event) {
         hitResult.item.remove();
         hitResult = null;
       }
-    }, 150);
+    }, 100);
   }
 };
 
@@ -68,7 +68,7 @@ var selectItem = function (event) {
     selectedItem.item.fullySelected = true;
   }
   if (!hitResult) {
-    if (selectedItem){
+    if (selectedItem) {
       selectedItem.item.fullySelected = false;
       selectedItem = '';
     }
@@ -82,13 +82,13 @@ var selectItem = function (event) {
 var drag = function (event) {
   if (onDragItem) {
     onDragItem.item.position = event.point;
-  }else {
-      var lastMousePoint = event.downPoint
-      lastViewCenter = view.center;
-      view.center = view.center.add(
-        lastMousePoint.subtract(event.point)
-      );
-      lastMousePoint = event.point.add(view.center.subtract(lastViewCenter));
+  } else {
+    var lastMousePoint = event.downPoint
+    lastViewCenter = view.center;
+    view.center = view.center.add(
+      lastMousePoint.subtract(event.point)
+    );
+    lastMousePoint = event.point.add(view.center.subtract(lastViewCenter));
   }
 };
 
@@ -105,7 +105,7 @@ var Zoom = function (scale, positionX, positionY, zoomDirection) {
   var verticalCond = (positionY < view.center.y + horizontalBorder && positionY > view.center.y - horizontalBorder);
   var horizontalCond = (positionX > view.center.x - verticalBorder && positionX < view.center.x + verticalBorder);
 
-  if (zoomDirection < 0){
+  if (zoomDirection < 0) {
     //COMEBACK TO THIS LATER
     /*
     if (positionY < view.center.y && positionX < view.center.x + verticalBorder && positionX > view.center.x - verticalBorder) {
@@ -153,17 +153,25 @@ var Zoom = function (scale, positionX, positionY, zoomDirection) {
     view.zoom += zoomAmount;
   }
   */  
-   view.zoom += zoomAmount;
-}else {
-  view.zoom += zoomAmount;
-}
+    if (view.zoom + zoomAmount < 0.2) {
+      view.zoom = 0.2;
+    } else {
+      view.zoom += zoomAmount;
+    }
+  } else {
+    if (view.zoom + zoomAmount < 0.2) {
+      view.zoom = 0.2;
+    } else {
+      view.zoom += zoomAmount;
+    }
+  }
 };
 
 var delItem = function () {
-    if (selectedItem) {
-      selectedItem.item.remove();
-    }
-  };
+  if (selectedItem) {
+    selectedItem.item.remove();
+  }
+};
 
 var setPathProperties = function () {
   path.fillColor = 'transparent';
@@ -249,7 +257,6 @@ window.app = {
     });
     rect.fillColor = 'white';
     rect.sendToBack();
-    console.log(view.center)
     imageLayer.addChild(rect);
     view.center = view.center.add(
       view.center.subtract({x: -3000, y: -3000})
@@ -290,7 +297,7 @@ window.app = {
     if (scale < 0) {
       // inward movement
       return 0.03;
-    }else {
+    } else {
       // outward movement
       return -0.03;
     }
