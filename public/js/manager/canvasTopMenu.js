@@ -51,5 +51,5 @@ export default function initializeCanvasTopMenu(socket, whiteboard, roomId) {
     $('.canvas-toggle-bar').show().removeClass('animate__fadeOutDown').addClass('animate__fadeInLeft');
   });
 
-  setTimeout(() => $('.show-bar-button').click(), 300)
+  setTimeout(() => $('.show-bar-button').click(), 400);
 }

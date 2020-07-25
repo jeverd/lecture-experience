@@ -10,12 +10,13 @@ import initializeManagerChat from './managerChat.js';
 import initializeModal from './canvasModal.js';
 import initializeBoards from './managerBoards.js';
 import initializeActionsMenu from './canvasActions.js';
-import initializeManagerRTC from './managerRTC.js';
+import initializeManagerRTC, { changeStatus } from './managerRTC.js';
 import { getUrlId, reloadWindow } from '../utility.js';
 
 const managerId = getUrlId();
 
 function beginLecture(stream) {
+  changeStatus.starting();
   const whiteboard = new Whiteboard('canvas');
 
   const canvasStream = whiteboard.getStream();
@@ -30,6 +31,8 @@ function beginLecture(stream) {
       studentSocket: studentSocketId,
     });
   });
+
+  socket.on('disconnect', changeStatus.connection_lost);
 
   socket.on('attemptToConnectMultipleManagers', () => {
     window.location.replace('/error?code=2');

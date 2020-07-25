@@ -1,8 +1,19 @@
 /* eslint-disable import/extensions */
 /* eslint-disable no-undef */
 import {
-  getJanusUrl, addStream, getTurnServers, getStunServers, getJanusToken,
+  getJanusUrl, addStream, getTurnServers, getStunServers, getJanusToken, getStatusColor,
 } from '../utility.js';
+
+function changeLectureStatus(status) {
+  $('.status-dot').css('color', getStatusColor(status));
+  $('.lecture-running-text').html($(`#status-${status}`).val());
+}
+
+export const changeStatus = {
+  starting: () => changeLectureStatus('starting'),
+  live: () => changeLectureStatus('live'),
+  connection_lost: () => changeLectureStatus('connection_lost'),
+};
 
 export default async function initializeManagerRTC(roomId, stream, canvasStream) {
   const hasAudio = $('#audioValidator').val() === 'true';
@@ -52,6 +63,7 @@ export default async function initializeManagerRTC(roomId, stream, canvasStream)
             }
           });
         }
+        setTimeout(changeStatus.live, 1000);
       },
     });
   }

@@ -55,31 +55,15 @@
       </p>
     <![endif]-->
 
-    <!-- <div id="area-selection-menu">
-      <div class="area-selection-menu-row">
-        <span>Copy</span>
-        <span>Ctrl + C</span>
-      </div>
-      <div class="area-selection-menu-row">
-        <span>Cut</span>
-        <span>Ctrl + X</span>
-      </div>
-      <div>
-        <span>Duplicate</span>
-        <span>Ctrl + D</span>
-      </div>
-      <div class="area-selection-menu-row">
-        <span>Delete</span>
-        <span>Backspace</span>
-      </div>
-    </div> -->
-
     <!--start whiteboard topbar-->
     <div class="classroom-info">
       <div class="classroom-info-flexbox">
         <div class="lecture-running">
           <span class="status-dot"><i class="fas fa-circle"></i> &nbsp;</span>
-          <span class="lecture-running-text">Lecture Running</span>
+          <input type="hidden" value="{{#lang}}{{statusStarting}}{{/lang}}" id="status-starting"/>
+          <input type="hidden" value="{{#lang}}{{statusConnectionLost}}{{/lang}}" id="status-connection_lost"/>
+          <input type="hidden" value="{{#lang}}{{statusLive}}{{/lang}}" id="status-live"/>
+          <span class="lecture-running-text"></span>
           <span class="divider"></span>
         </div>
 
