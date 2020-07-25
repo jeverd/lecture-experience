@@ -55,6 +55,7 @@
   "errorNotFound": "errorNotFound-en.png",
   "statsThanks": "thanksForUsingLiteboard-en.png",
   "statsTitleStats": "Analytics of",
+  "statsTitle": "Lecture Analytics",
   "statsMaxNum": "Max of students",
   "statsAvgNum": "Average of students",
   "statsBoardsUsed": "Boards Used",
@@ -85,5 +86,10 @@
   "joinLecture": "Join Lecture",
   "devicesErrorTitle": "Failed to load input devices",
   "devicesErrorText": "Please, make sure the devices you have selected are connected to your computer, are not being used in another program and allow us to use them.",
-  "devicesErrorHelp": "Here's how to fix"
+  "devicesErrorHelp": "Here's how to fix",
+  "liteboardDescription": "Liteboard is a decentralized lightweight platform for online lectures",
+  "liteboardDescriptionLecture": "Invitation to join",
+  "liteboardDescriptionCreate": "Create a Liteboard lecture",
+  "liteboardDescriptionStats": "View analytics of the lecture",
+  "errTitle": "Error"
 }
