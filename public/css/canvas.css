@@ -139,6 +139,14 @@ body {
   position: relative;
 }
 
+.test-mic-container{
+  text-align: center;
+}
+
+.hidden{
+  display: none;
+}
+
 .my-boards-button-container > img {
   height: 22.5px;
 }
@@ -971,6 +979,16 @@ button {
   transform: scale(1.05);
 }
 
+button.live-button-inactive{
+  cursor: initial;
+  filter: grayscale(100%);
+  opacity: .8;
+}
+
+button.live-button-inactive:hover{
+  transform: none;
+}
+
 .test-mic-button{
   position: relative;
   left: 10px;
@@ -1406,10 +1424,6 @@ div.messages.active-chat{
   left: 20px;
 }
 
-.mic-button{
-  width: 160px;
-}
-
 .back-button{
   display: flex;
   justify-content: flex-start;
@@ -1592,6 +1606,13 @@ div.messages.active-chat{
 .image-container img{
   border-radius: 0.45rem;
   box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+}
+
+.waiting-for-devices{
+  color: white;
+  opacity: .8;
+  text-align: center;
+  margin: 2px;
 }
 
 .modal-message-image-vertical{

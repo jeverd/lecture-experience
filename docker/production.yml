@@ -42,6 +42,7 @@ services:
         - SENTRY_DSN=${SENTRY_DSN}
         - SENTRY_ENVIRONMENT=${SENTRY_ENVIRONMENT}
         - DEFAULT_LANGUAGE=${DEFAULT_LANGUAGE}
+        - DEBUG_CLIENT=${DEBUG_CLIENT}
       depends_on:
         - redis_db
         - web-server

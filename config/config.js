@@ -31,4 +31,5 @@ module.exports = {
   sentryDSN: process.env.SENTRY_DSN,
   sentryEnvironment: process.env.SENTRY_ENVIRONMENT,
   janusServerSecret: process.env.JANUS_SERVER_SECRET,
+  debugClient: process.env.DEBUG_CLIENT,
 };

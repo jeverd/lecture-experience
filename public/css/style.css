@@ -95,6 +95,8 @@ body {
 }
 
 .top-logo-bar{
+  position: relative;
+  z-index: 1;
   width: 100%;
   padding-top: 20px;
   padding-left: 50px;
@@ -233,10 +235,10 @@ body {
 }
 
 .teach-content-container .teach-learn-paragraph {
-  margin-top: .25rem;
+  margin-top: .75rem;
   text-align: center;
   width: 75%;
-  max-width: 950px;
+  max-width: calc(800px + 5vw);
   font-size: 1.1rem;
 }
 

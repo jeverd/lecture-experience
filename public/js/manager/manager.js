@@ -85,9 +85,23 @@ window.onload = () => {
   if (isWebcamActive || isAudioActive) {
     navigator.mediaDevices.getUserMedia({ audio: isAudioActive, video: isWebcamActive })
       .then(start)
-      .catch((error) => {
-      // handle error properly here.
-        console.log(`Media error: ${error}`);
+      .catch(() => {
+        Swal.fire({
+          icon: 'error',
+          title: `<strong style="font-size: 1.2rem">${$('#swal-title').val()}</strong>`,
+          html: `<div style="font-size: .9rem; opacity: .85;">
+            ${$('#swal-text').val()}
+          </div>`,
+          confirmButtonColor: 'rgba(70, 194, 255, 1)',
+          confirmButtonText: 'Ok',
+          showClass: {
+            popup: 'animate__animated animate__fadeIn',
+          },
+          footer: `
+            <a style="color: gray; text-decoration: none;" href="https://getacclaim.zendesk.com/hc/en-us/articles/360001547832-Setting-the-default-camera-on-your-browser">
+              <i class="fa fa-question-circle" aria-hidden="true"></i> ${$('#swal-help').val()}
+            </a>`,
+        }).then(reloadWindow);
       });
   } else start();
 };

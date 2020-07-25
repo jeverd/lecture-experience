@@ -12,7 +12,7 @@ const locale = require('locale');
 
 const RedisStore = require('connect-redis')(session);
 const {
-  redisPort, expressPort, environment,
+  redisPort, expressPort, environment, debugClient,
   redisUrl, loggerFlag, sessionSecret, sessionName,
   defaultLanguage, supportedLanguages, sentryDSN,
 } = require('../config/config');
@@ -75,10 +75,11 @@ io.use(sharedSession(expressSession, {
 
 logger.info(`Express and socketio are listening on port: ${expressPort}`);
 
-
-client.flushall((err, succeeded) => {
-  logger.info(`Redis status: ${succeeded}`);
-});
+if (debugClient === 'false') {
+  client.flushall((err, succeeded) => {
+    logger.info(`Redis cleared: ${succeeded}`);
+  });
+}
 
 
 client.on('connect', () => {

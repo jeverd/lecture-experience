@@ -2,7 +2,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-undef */
 import {
-  getJanusUrl, addStream, getTurnServers, getStunServers, getStatusColor, getImageFromVideo, getJanusToken
+  getJanusUrl, addStream, getTurnServers, getStunServers, getStatusColor, getImageFromVideo, getJanusToken,
 } from '../utility.js';
 
 export const changeStatus = {
@@ -26,6 +26,7 @@ export const changeStatus = {
 };
 
 export default async function initializeGuestRTC(roomId) {
+  const hasAudio = $('#audioValidator').val() === 'true';
   const hasWebcam = $('#webcamValidator').val() === 'true';
   const hasWhiteboard = $('#whiteboardValidator').val() === 'true';
   const webcam = document.getElementById('webcam');
@@ -169,4 +170,10 @@ export default async function initializeGuestRTC(roomId) {
       $('.options-webcam').fadeIn();
     });
   });
+
+  if (hasAudio) {
+    setTimeout(() => {
+      speaker.muted = false;
+    }, 400);
+  }
 }

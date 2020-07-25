@@ -1,7 +1,5 @@
 #create-lecture-graphic {
-    margin-top: 20px;
     width: 600px;
-    /* height: auto; */
   }
 
   .survey-button {
@@ -22,16 +20,12 @@
     border-radius: 25px;
     box-shadow: 10px 10px 54px -6px rgba(0,0,0,0.75);
     margin-bottom: 50px;
-    margin-top: 50px;
-    /* display: flex;
-    flex-direction: row; */
+    margin-top: 20px;
     padding: 15px;
-
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
     position: relative;
   }
   
@@ -45,8 +39,32 @@
   @media only screen and (max-width: 1200px) {
     .infoBoard{
       width: 80%;
-      
     }
+  }
+
+  @media only screen and (max-width: 740px) {
+    div.top-logo-bar{
+      justify-content: center;
+      padding-left: 0;
+    }
+  }
+
+  @media only screen and (max-width: 640px) {
+    div.infoBoard{
+      width: 95%;
+    }
+
+    div.myProgress{
+      height: 285px;
+    }
+
+    div.maxText > div:last-child{
+      margin-top: 250px;
+    }
+  }
+
+  .maxText > div:last-child{
+    margin-top: 315px;
   }
 
   .titleText{

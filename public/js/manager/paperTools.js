@@ -93,8 +93,8 @@ var selectItem = function (event) {
     }
     centerPoint = {
       currentX: view.center.x,
-      currentY: view.center.y,
-    };
+      currentY: view.center.y
+    }
   }
 };
 
