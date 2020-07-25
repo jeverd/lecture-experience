@@ -82,5 +82,8 @@
   "lectureNoteThat": "Note that your classmates will see your name",
   "lectureInvalidName": "Please, provide your name",
   "readyToJoin": "Ready to Join?",
-  "joinLecture": "Join Lecture"
+  "joinLecture": "Join Lecture",
+  "devicesErrorTitle": "Failed to load input devices",
+  "devicesErrorText": "Please, make sure the devices you have selected are connected to your computer, are not being used in another program and allow us to use them.",
+  "devicesErrorHelp": "Here's how to fix"
 }
