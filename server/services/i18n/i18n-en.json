@@ -91,5 +91,7 @@
   "liteboardDescriptionLecture": "Invitation to join",
   "liteboardDescriptionCreate": "Create a Liteboard lecture",
   "liteboardDescriptionStats": "View analytics of the lecture",
-  "errTitle": "Error"
+  "errTitle": "Error",
+  "statsPopupSpecs": "Spectators",
+  "statsPopupTime": "Time"
 }

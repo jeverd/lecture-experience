@@ -91,5 +91,7 @@
   "liteboardDescriptionLecture": "Convite para participar de",
   "liteboardDescriptionCreate": "Crie uma aula com Liteboard",
   "liteboardDescriptionStats": "Veja as estatísticas da aula",
-  "errTitle": "Erro"
+  "errTitle": "Erro",
+  "statsPopupSpecs": "Espectadores",
+  "statsPopupTime": "Tempo"
 }
