@@ -78,5 +78,9 @@
   "expand": "Expand",
   "minimize": "Minimize",
   "addAttachment": "Add attachment",
-  "send": "Send"
+  "send": "Send",
+  "lectureNoteThat": "Note that your classmates will see your name",
+  "lectureInvalidName": "Please, provide your name",
+  "readyToJoin": "Ready to Join?",
+  "joinLecture": "Join Lecture"
 }

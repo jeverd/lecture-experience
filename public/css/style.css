@@ -95,6 +95,8 @@ body {
 }
 
 .top-logo-bar{
+  position: relative;
+  z-index: 1;
   width: 100%;
   padding-top: 20px;
   padding-left: 50px;

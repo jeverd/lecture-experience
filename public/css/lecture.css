@@ -11,21 +11,18 @@ body {
     margin: 0;
   }
 
-.login-modal-content::-webkit-scrollbar,
 .message-container::-webkit-scrollbar,
 .page-list::-webkit-scrollbar {
   width: 7px;
 }
 
 /* Track */
-.login-modal-content::-webkit-scrollbar-track,
 .message-container::-webkit-scrollbar-track,
 .page-list::-webkit-scrollbar-track {
   background: #f1f1f1;
 }
 
 /* Handle */
-.login-modal-content::-webkit-scrollbar-thumb,
 .message-container::-webkit-scrollbar-thumb,
 .page-list::-webkit-scrollbar-thumb {
   background: rgb(150, 150, 150);
@@ -33,7 +30,6 @@ body {
 }
 
 /* Handle on hover */
-.login-modal-content::-webkit-scrollbar-thumb:hover,
 .message-container::-webkit-scrollbar-thumb:hover
 .page-list::-webkit-scrollbar-thumb:hover {
   background: #555;
@@ -116,6 +112,8 @@ body {
 }
 
 .top-logo-bar{
+  position: relative;
+  z-index: 1;
   width: 100%;
   padding-top: 20px;
   padding-left: 50px;
@@ -633,6 +631,18 @@ video.whiteboard{
     height: 95px;
   }
 
+  input.inputBox{
+    width: 90%;
+  }
+
+  div.guest-name-input-container span{
+    font-size: .69rem;
+  }
+
+  div.inputText{
+    margin-left: 5.5%;
+  }
+
   input#message-input{
     width: 89% !important;
   }
@@ -823,27 +833,9 @@ video.whiteboard{
   -webkit-text-fill-color: transparent;
 }
 
-  /* The Modal (background) */
-.login-modal {
-  display: block; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 11000000; /* Sit on top */
-  margin: 0 auto;
-  top: 50%;
-  left: 50%;/*put in the center*/
-  transform: translate(-50%, -50%);
-  
-  width: 100%; /* Full width */
-  height: 100%;
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0, 0, 0); /* Fallback color */
-  background-color: rgba(0, 0, 0, 0.7); /* Black w/ opacity */
-  
-}
-
 /* Modal Content */
 .login-modal-content {
-  display: block;/* default */
+  display: block; /* default */
   background-color: var(--bg-primary);
   margin: auto;
   position: relative;
@@ -851,11 +843,11 @@ video.whiteboard{
   transform: translateY(-50%);
   max-width: 600px;
   max-height: 75%;
-  width: 75%;
+  width: 85%;
   border-radius: 10px;
   animation: fadein 0.7s;
-  overflow-x: hidden;
-  overflow-y: auto;
+  padding: 30px;
+  padding-bottom: 20px;
   -webkit-box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
   box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
 }
@@ -868,10 +860,6 @@ video.whiteboard{
   --bg-primary: #23232e;
   --bg-secondary: #141418;
   --transition-speed: 600ms;
-}
-
-.modal-main-content{
-  margin: 30px;
 }
 
 #modal-content-header {
@@ -907,15 +895,7 @@ video.whiteboard{
 }
 
 #modal-buttons-container {
-  position: relative;
-  display: inline-block;
-  justify-content: center;
-  align-items: center;
-  margin: 1rem 0rem;
-  left: 50%;
-  top: 70px;
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
+  text-align: center;
 }
 
 .live-button{
@@ -1011,23 +991,38 @@ video.whiteboard{
 
 .inputText{
   color: white;
-  float: left;
   font-size: 18px;
-  margin-left: 30px;
+  margin-left: 15.5%;
+  text-align: left;
+}
+
+.guest-name-input-wrap{
+  display: flex;
+  flex-direction: column;
 }
 
 .create-lecture-inputs{
-  margin-top: 20px;
-  margin-bottom: 20px;
-  padding-right: 40px;
+  margin: 30px 0;
+  text-align: center;
+}
+
+.modal-content-subtitle{
+  font-size: 1.2rem;
+  opacity: 0.6;
+  color: white;
+  display: flex;
+  justify-content: center;
+}
+
+.guest-name-input-container span{
+  color: white;
+  opacity: 0.6;
+  font-size: .75rem;
 }
 
 .inputBox{
-  float: right;
   border-radius: 25px;
-  margin-left: 20px;
-  padding-right: 20px;
-  width: 60%;
+  width: 70%;
   height: 30px;
   border-color: white;
   box-shadow: 0px 0px 0px 0px white;
@@ -1037,53 +1032,15 @@ video.whiteboard{
 }
 
 .invalid-name{
-  position: absolute;
   opacity: 0;
   transition: .6s ease;
-  display: inline-block;
   color: rgb(255, 95, 95);
-  left: 57%;
-  transform: translateX(-50%);
   font-size: .9em;
-  width: 100%;
-  bottom: -20px;
 }
 
 @media only screen and (max-width: 720px) {
-  .create-lecture-inputs{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    padding-right: 0px;
-    align-items: center;
-  }
-
-  .inputBox{
-    margin-left: 0px;
-    padding-right: 0px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    float: unset;
-    margin-top: 10px;
-    width: 100%;
-  }
-  .inputText{
-    float: unset;
-    display: flex;
-    align-items: center;
-    margin-left: 0px;
-  }
-
   #modal-content-header{
     font-size: calc(30px + 1.5vw);
-  }
-
-  .invalid-name{
-    width: 120%;
-    left: 57%;
   }
   
 }
@@ -1104,10 +1061,6 @@ video.whiteboard{
   
   .live-button{
     font-size: 1.2rem;
-  }
-
-  .invalid-name{
-    bottom: -20px;
   }
 }
 
@@ -1456,7 +1409,7 @@ div.messages.active-chat{
 }
 
 .modal {
-  display: none; /* Hidden by default */
+  display: block; /* Hidden by default */
   position: fixed; /* Stay in place */
   z-index: 1100000000000; /* Sit on top */
   margin: 0 auto;

@@ -230,29 +230,36 @@
         </div>
     </div>
 
-    <div id="login-lecture-modal" class="login-modal">
+    <div id="login-lecture-modal" class="modal">
       <!-- Start Modal content -->
         <div class="login-modal-content">
-            <div id="join-content" class="modal-main-content">
-                <p id="modal-content-header">{{name}}</p>
-                <img id="modal-image" />
-                <div class="student-details-container">
-                    <p class="details-header">Student Details</p>
-                    <p class="note-header">Note: This name will be used by the professor to identify you, so choose it wisely.</p>
+            <div id="join-content">
+                <div>
+                    <p id="modal-content-header">{{#lang}}{{readyToJoin}}{{/lang}}</p>
+                    <div class="modal-content-subtitle">
+                        <div>
+                            <i class="fas fa-chalkboard-teacher"></i>
+                            {{#lang}}{{guestLectureRoom}}{{/lang}} | {{name}}
+                        </div>
+                    </div>
                 </div>
+
                 <div class="create-lecture-inputs">
-                    <label class="inputText" for="lectureName">Your Name:</label>
-                    <input autocomplete="off" spellcheck="false" class="inputBox" type="text" id="studentName" name="studentName">
+                    <div class="guest-name-input-wrap">
+                        <div class="inputText"><b>{{#lang}}{{reportBugLabelName}}{{/lang}}</b></div>
+                        <div>
+                            <input autocomplete="off" spellcheck="false" class="inputBox" type="text" id="studentName" name="studentName">
+                        </div>
+                    </div>
+                    <div class="guest-name-input-container">
+                        <span>{{#lang}}{{lectureNoteThat}}{{/lang}}</span>
+                    </div>
                 </div>
                 <div id="modal-buttons-container">
-      
-                  <button id="modal-select-button" class="live-button">Join Lecture</button>
-                    
+                  <button id="modal-select-button" class="live-button">{{#lang}}{{joinLecture}}{{/lang}}</button>
                   <div class="invalid-name" id="invalid-student-name">
-                    Please provide a lecture user name
+                      {{#lang}}{{lectureInvalidName}}{{/lang}}
                   </div>
-
-                  <!--<button class = "modal-select-button mic_button">Test Mic</button>-->
                 </div> 
               </div>
         </div>
