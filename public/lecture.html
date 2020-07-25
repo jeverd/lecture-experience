@@ -6,14 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <link rel='icon' href='/favicon.ico' type='image/x-icon'/>
     <link rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Open+Sans">
+      href="https://fonts.googleapis.com/css?family=Open+Sans"/>
     <link
       rel="stylesheet"
       href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
       integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
       crossorigin="anonymous"
     />  
-    <link rel="stylesheet" href="/lecture.css">
+    <link rel="stylesheet" href="/lecture.css"/>
     <link rel="stylesheet" href="/style.css" />
     <link
       rel="stylesheet"
@@ -54,29 +54,29 @@
                 </div>
                 <div class="videoContainer">
                     <div class="left-menu">
-                        <div title="View fullscreen" id="fullscreen-video">
+                        <div title="{{#lang}}{{lectureViewFullscreen}}{{/lang}}" id="fullscreen-video">
                             <img class="nav-icon" src="/expand.svg"/>
                         </div>
-                        <div title="Connect on your Phone" id="connect-on-your-phone" class="connect-on-phone">
+                        <div title="{{#lang}}{{lectureConnectOnPhone}}{{/lang}}" id="connect-on-your-phone" class="connect-on-phone">
                             <img class="nav-icon" src="/phone.svg"/>
                             <div style="display: none;" class="modal" id="qr-code-modal">
                                 <div class="qrcode-modal-content">
-                                    <div>Scan QR Code</div>
+                                    <div>{{#lang}}{{guestScanQRCode}}{{/lang}}</div>
                                     <div id="qrcode"></div>
                                 </div>
                             </div>
                         </div>
-                        <div title="Toggle boards view" id="toggle-boards-view" target-id="boards-view">
+                        <div title="{{#lang}}{{lectureToggleBoards}}{{/lang}}" id="toggle-boards-view" target-id="boards-view">
                             <img class="nav-icon" src="/whiteboard.svg" />
                             <div class="left-menu-badge"><span id="num-boards">0</span></div>
                         </div>
-                        <div title="Toggle lecture chat" id="toggle-chat-view" target-id="chat-view">
+                        <div title="{{#lang}}{{lectureToggleChat}}{{/lang}}" id="toggle-chat-view" target-id="chat-view">
                             <i class="fas fa-comment-dots chat-info-icon"></i>
                             <div class="left-menu-badge"><span id="num-unread-messages">0</span></div>
                         </div>
                     </div>
                     <div class="main-stream-container">
-                        <div id="info-popup">No other boards to display</div>
+                        <div id="info-popup">{{#lang}}{{guestNoOtherBoards}}{{/lang}}</div>
                         <div class="lecture-top-bar">
                             <div id="lecture-status">
                                 <input type="hidden" id="status-starting" value="{{#lang}}{{statusStarting}}{{/lang}}"/>
@@ -102,14 +102,18 @@
                                 {{#webcam}}
                                     <div class="webcam-container">
                                         <div class="options-webcam">
-                                            <div id="expand-webcam-view" title="Expand">
-                                                <i class="fa fa-arrows-alt"></i>
+                                            <div id="expand-webcam-view" title="{{#lang}}{{expand}}{{/lang}}">
+                                                <svg width=".9em" height=".9em" viewBox="0 0 16 16" class="bi bi-arrows-angle-expand" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                    <path fill-rule="evenodd" d="M1.5 10.036a.5.5 0 0 1 .5.5v3.5h3.5a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5v-4a.5.5 0 0 1 .5-.5z"/>
+                                                    <path fill-rule="evenodd" d="M6.354 9.646a.5.5 0 0 1 0 .708l-4.5 4.5a.5.5 0 0 1-.708-.708l4.5-4.5a.5.5 0 0 1 .708 0zm8.5-8.5a.5.5 0 0 1 0 .708l-4.5 4.5a.5.5 0 0 1-.708-.708l4.5-4.5a.5.5 0 0 1 .708 0z"/>
+                                                    <path fill-rule="evenodd" d="M10.036 1.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 1 1-1 0V2h-3.5a.5.5 0 0 1-.5-.5z"/>
+                                                </svg>
                                             </div>
-                                            <div title="Minimize" id="minimize-webcam-view">
+                                            <div title="{{#lang}}{{minimize}}{{/lang}}" id="minimize-webcam-view">
                                                 <i class="fa fa-minus"></i>
                                             </div>
                                         </div>
-                                        <img title="Open" id="open-webcam-view" src="https://img.icons8.com/fluent/48/000000/webcam.png"/>
+                                        <img title="{{#lang}}{{open}}{{/lang}}" id="open-webcam-view" src="https://img.icons8.com/fluent/48/000000/webcam.png"/>
                                         <video muted id="webcam" playsinline autoplay></video>
                                     </div>
                                 {{/webcam}}
@@ -131,23 +135,23 @@
                         {{/lectureTools}}
                     </div>
                     <div style="display: none; width: 0; height: 0;" id="boards-view" class="pages">
-                        <div title="Minimize Boards Used View" id="close-non-active-boards" class="non-active-boards-title">
+                        <div title="{{#lang}}{{lectureMinimizeView}}{{/lang}}" id="close-non-active-boards" class="non-active-boards-title">
                             <i class="fas fa-arrow-down"></i>
-                            <span>Boards Used</span>
+                            <span>{{#lang}}{{statsBoardsUsed}}{{/lang}}</span>
                         </div>
                         <div class="page-list" id="non-active-boards"></div>
                     </div>
                     <div style="display: none; width: 0; height: 0;" id="chat-view" class="chat">
                         <div id="wrapper" class="messages-main">
-                            <div title="Minimize Chat View" class="minimize-chat-view">
-                                <div>Lecture Chat</div>
+                            <div title="{{#lang}}{{lectureMinimizeView}}{{/lang}}Minimize Chat View" class="minimize-chat-view">
+                                <div>{{#lang}}{{lectureChat}}{{/lang}}</div>
                                 <div id="minimize-chat-view">
                                     <i class="fa fa-minus" aria-hidden="true"></i>
                                 </div>
                             </div>
                             <div class="message-container" id="message-container">
                             <div class="message-lecture-name">
-                                {{name}} <text class="sm-chat-room">Chat Room</text>
+                                {{name}}&nbsp;<text class="sm-chat-room">{{#lang}}{{lectureChatRoom}}{{/lang}}</text>
                             </div>
                             <div id="preview" class="preview" style="display: none;">
                                 <div class="preview-content">
@@ -165,10 +169,10 @@
                                 <span class="v_divider"></span>
                                 <input autocomplete="off" spellcheck="false" type="text" id="message-input">
                                 <input type="file" name="file" id="file-input" class="inputfile" />
-                                <label for="file-input">
+                                <label title="{{#lang}}{{addAttachment}}{{/lang}}" for="file-input">
                                     <i class="fas fa-paperclip paperclip"></i>
                                 </label>
-                                <button type="submit" id="send-button"><i class="fas fa-chevron-right send-icon"></i></button>
+                                <button title="{{#lang}}{{send}}{{/lang}}" type="submit" id="send-button"><i class="fas fa-chevron-right send-icon"></i></button>
                             </form>        
                         </div>
                     </div>

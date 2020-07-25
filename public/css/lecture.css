@@ -350,6 +350,12 @@ div.ld-over.running:before{
   transform: translateY(-1.5px);
 }
 
+.options-webcam svg{
+  position: relative;
+  top:.5px;
+  color: var(--bg-primary);
+}
+
 .options-webcam i {
   position: relative;
   top:1px;
