@@ -130,5 +130,6 @@
   "liteboardDescriptionStats": "View analytics of the lecture",
   "errTitle": "Error",
   "statsPopupSpecs": "Spectators",
-  "statsPopupTime": "Time"
+  "statsPopupTime": "Time",
+  "waitingDevices": "Waiting for devices..."
 }

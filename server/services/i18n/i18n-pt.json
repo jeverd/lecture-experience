@@ -131,5 +131,6 @@
   "liteboardDescriptionStats": "Veja as estatísticas da aula",
   "errTitle": "Erro",
   "statsPopupSpecs": "Espectadores",
-  "statsPopupTime": "Tempo"
+  "statsPopupTime": "Tempo",
+  "waitingDevices": "Carregando dispositivos..."
 }
