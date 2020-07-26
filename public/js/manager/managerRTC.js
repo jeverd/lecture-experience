@@ -1,7 +1,10 @@
 /* eslint-disable import/extensions */
 /* eslint-disable no-undef */
+import initializeStreamConfigurations from './streamConfigurations.js';
+
 import {
-  getJanusUrl, addStream, getTurnServers, getStunServers, getJanusToken, getStatusColor,
+  getJanusUrl, addStream, getTurnServers, getStunServers,
+  getJanusToken, getStatusColor, reloadWindow,
 } from '../utility.js';
 
 function changeLectureStatus(status) {
@@ -15,7 +18,7 @@ export const changeStatus = {
   connection_lost: () => changeLectureStatus('connection_lost'),
 };
 
-export default async function initializeManagerRTC(roomId, stream, canvasStream) {
+export default function initializeManagerRTC(roomId, canvasStream, beginLectureCb) {
   const hasAudio = $('#audioValidator').val() === 'true';
   const hasWebcam = $('#webcamValidator').val() === 'true';
   const hasWhiteboard = $('#whiteboardValidator').val() === 'true';
@@ -30,7 +33,7 @@ export default async function initializeManagerRTC(roomId, stream, canvasStream)
         feedHandle = handle;
         feedHandle.send({
           message: {
-            request: 'join', ptype: 'publisher', room: roomId, display: label,
+            request: 'join', ptype: 'publisher', room: parseInt(roomId), display: label,
           },
         });
       },
@@ -68,34 +71,90 @@ export default async function initializeManagerRTC(roomId, stream, canvasStream)
     });
   }
 
-  const turnServers = await getTurnServers();
-  const janusToken = await getJanusToken();
-  const stunServers = getStunServers();
+  async function initializeJanus(stream) {
+    const turnServers = await getTurnServers();
+    const janusToken = await getJanusToken();
+    const stunServers = getStunServers();
 
-  Janus.init({
-    debug: 'all',
-    callback() {
-      janus = new Janus({
-        server: janusUrl,
-        iceServers: [...turnServers, ...stunServers],
-        token: janusToken,
-        // iceTransportPolicy: 'relay',   enable to force turn server
-        success() {
-          if (hasWhiteboard && hasWebcam) {
-            publishFeed(stream, 'stream');
-            publishFeed(canvasStream, 'canvasStream');
-          } else if (hasWhiteboard && hasAudio) {
-            stream.addTrack(canvasStream.getTracks()[0]);
-            publishFeed(stream, 'canvasStream');
-          } else if (!hasWhiteboard) {
-            publishFeed(stream, 'stream');
-          } else {
-            publishFeed(canvasStream, 'canvasStream');
-          }
-        },
+    Janus.init({
+      debug: 'all',
+      callback() {
+        janus = new Janus({
+          server: janusUrl,
+          iceServers: [...turnServers, ...stunServers],
+          token: janusToken,
+          // iceTransportPolicy: 'relay',   enable to force turn server
+          success() {
+            if (hasWhiteboard && hasWebcam) {
+              publishFeed(stream, 'stream');
+              publishFeed(canvasStream, 'canvasStream');
+            } else if (hasWhiteboard && hasAudio) {
+              stream.addTrack(canvasStream.getTracks()[0]);
+              publishFeed(stream, 'canvasStream');
+            } else if (!hasWhiteboard) {
+              publishFeed(stream, 'stream');
+            } else {
+              publishFeed(canvasStream, 'canvasStream');
+            }
+          },
+        });
+      },
+    });
+  }
+
+  function getUserMedia(successCb, devices = {}) {
+    const mediaConstraints = {
+      audio: typeof devices.audio !== 'undefined' ? { deviceId: { exact: devices.audio } } : hasAudio,
+      video: typeof devices.video !== 'undefined' ? { deviceId: { exact: devices.video } } : hasWebcam,
+    };
+    navigator.mediaDevices.getUserMedia(mediaConstraints)
+      .then((stream) => {
+        successCb(stream);
+        initializeJanus(stream);
+      })
+      .catch((error) => {
+        console.log(error);
+        Swal.fire({
+          icon: 'error',
+          title: `<strong style="font-size: 1.2rem">${$('#swal-title').val()}</strong>`,
+          html: `<div style="font-size: .9rem; opacity: .85;">
+              ${$('#swal-text').val()}
+            </div>`,
+          confirmButtonColor: 'rgba(70, 194, 255, 1)',
+          confirmButtonText: 'Ok',
+          showClass: {
+            popup: 'animate__animated animate__fadeIn',
+          },
+          footer: `
+              <a style="color: gray; text-decoration: none;" href="https://getacclaim.zendesk.com/hc/en-us/articles/360001547832-Setting-the-default-camera-on-your-browser">
+                <i class="fa fa-question-circle" aria-hidden="true"></i> ${$('#swal-help').val()}
+              </a>`,
+        }).then(reloadWindow);
       });
-    },
-  });
+  }
+
+  function changeDevice(stream, device) {
+    if (typeof janus !== 'undefined') {
+      janus.destroy();
+    }
+    stream.getTracks().forEach((track) => {
+      track.stop();
+      stream.removeTrack(track);
+    });
+    getUserMedia((updatedStream) => {
+      updatedStream.getTracks().forEach((updatedTrack) => {
+        stream.addTrack(updatedTrack);
+      });
+      changeStatus.starting();
+    }, device);
+  }
+
+  if (hasAudio || hasWebcam) {
+    getUserMedia((stream) => {
+      beginLectureCb();
+      initializeStreamConfigurations(stream, changeDevice);
+    });
+  } else beginLectureCb();
 
   $('#minimize-webcam-view').click(() => {
     $('#active-webcam-view').fadeOut(() => $('#inactive-webcam-view').fadeIn());
