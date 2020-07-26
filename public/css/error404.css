@@ -13,6 +13,14 @@
     height: auto;
 }
 
+@media only screen and (min-height: 880px) and (min-width: 740px){
+  .view-container .footer{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
   .buttons {
     margin-bottom: 50px;
     margin-top: 10px;

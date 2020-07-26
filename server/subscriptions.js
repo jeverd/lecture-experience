@@ -137,8 +137,8 @@ io.sockets.on('connection', (socket) => {
           }
         });
       });
-      socket.on('currentBoardToAll', (board) => {
-        socket.broadcast.to(roomToJoin).emit('currentBoard', board.image);
+      socket.on('currentBoardToAll', (boardImg) => {
+        socket.broadcast.to(roomToJoin).emit('currentBoard', boardImg);
       });
       socket.on('currentBoard', (obj) => {
         const { studentSocket, boardImg } = obj;

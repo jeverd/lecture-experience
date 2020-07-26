@@ -54,7 +54,8 @@ export default function initializeOptionsMenu() {
   });
 
   $('#connect-on-your-phone').click(() => $('#qr-code-modal').fadeIn());
-  $('#qr-code-modal').click(function (e) { e.stopPropagation(); $(this).fadeOut(); });
+  $('.qrcode-modal-content').click((e) => e.stopPropagation());
+  $('#qr-code-modal').click(function () { $(this).fadeOut(); });
 
   $('#toggle-chat-view').click();
 }

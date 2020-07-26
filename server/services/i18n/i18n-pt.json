@@ -132,5 +132,7 @@
   "errTitle": "Erro",
   "statsPopupSpecs": "Espectadores",
   "statsPopupTime": "Tempo",
-  "waitingDevices": "Carregando dispositivos..."
+  "waitingDevices": "Carregando dispositivos...",
+  "hostNameChat": "Moderador da sala",
+  "youNameChat": "Você"
 }

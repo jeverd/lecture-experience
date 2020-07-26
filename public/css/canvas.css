@@ -580,10 +580,6 @@ button {
   width: 100%;
 }
 
-.bottom-padding{
-  padding-bottom: 6px;
-}
-
 .image-preview{
   height: 120px;
   position: relative;
@@ -877,6 +873,8 @@ button {
 .download-container span{
   color: grey;
   margin-left: 10px;
+  position: relative;
+  z-index: 1;
 }
 
 .download-container:hover{
@@ -1079,9 +1077,16 @@ div.messages.active-chat{
   width: calc(260px + 1.5vw);
   position: relative;
   left: -3px;
+  top: -.4px;
   border-radius: 20px;
   padding: 4px 9px; 
   outline: none;
+  border-radius: 10px;
+  border-style: solid;
+  border-width: thin;
+  border-color: lightgray;
+  font-family: inherit;
+  color: var(--bg-primary);
 }
 
 @media only screen and (max-width: 1000px) {
@@ -1793,7 +1798,10 @@ div.webcam-container{
 }
 
 .name-span{
-  font-weight: 600;
+  font-weight: 800;
+  font-size: .8rem;
+  color: var(--bg-primary);
+  opacity: 0.6;
 }
 
 /*zoom*/

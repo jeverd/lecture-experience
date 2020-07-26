@@ -132,5 +132,7 @@
   "statsPopupSpecs": "Spectators",
   "statsPopupTime": "Time",
   "waitingDevices": "Waiting for devices...",
-  "lectureChatRoom": "Chat Room"
+  "lectureChatRoom": "Chat Room",
+  "hostNameChat": "Room Host",
+  "youNameChat": "You"
 }

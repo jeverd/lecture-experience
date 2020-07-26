@@ -59,6 +59,7 @@ export default function initializeChat(chat) {
   });
 
   $(document).on('click', '.download-container', (e) => {
+    // e.stopPropagation();
     let containerElem = $(e.target);
     while (!containerElem.hasClass('download-container')) containerElem = containerElem.parent();
     downloadFile(containerElem.attr('data-file'), containerElem.attr('data-name'));
@@ -66,22 +67,25 @@ export default function initializeChat(chat) {
 
   $(document).on('click', '.message-image', displayImagePopUpOnClick);
 
-  let click = 0;
-  window.addEventListener('click', (e) => {
-    const image = document.querySelector('.modal-message-image-vertical') || document.querySelector('.modal-message-image-horizontal');
-    const modal = document.getElementById('image-modal');
-    const download = document.querySelector('.download-container');
-    if (image !== null && modal.style.display === 'block') {
-      if (!image.contains(e.target) && !download.contains(e.target) && click > 0) {
-        $(modal).hide();
-        $(image).remove();
-        $(download).remove();
-        click = 0;
-      } else {
-        click += 1;
-      }
-    }
-  });
+  // $('.wrap-div-message-image').click((e) => e.stopPropagation());
+  $('#image-modal').click(function () { $(this).fadeOut(); });
+
+  // let click = 0;
+  // window.addEventListener('click', (e) => {
+  //   const image = document.querySelector('.modal-message-image-vertical') || document.querySelector('.modal-message-image-horizontal');
+  //   const modal = document.getElementById('image-modal');
+  //   const download = document.querySelector('.download-container');
+  //   if (image !== null && modal.style.display === 'block') {
+  //     if (!image.contains(e.target) && !download.contains(e.target) && click > 0) {
+  //       $(modal).hide();
+  //       $(image).remove();
+  //       $(download).remove();
+  //       click = 0;
+  //     } else {
+  //       click += 1;
+  //     }
+  //   }
+  // });
 
   $('#close-preview').click(() => {
     fileInput.value = '';

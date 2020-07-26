@@ -1110,7 +1110,7 @@ video.whiteboard{
 }
 
 .out{
-  background: #00EC98;
+  background: rgb(255, 255, 255);
   width: auto;
   color: rgba(33,33,46, 1);
 }
@@ -1121,10 +1121,6 @@ video.whiteboard{
   background: rgba(70, 194, 255, 0.9);
   width: auto;
   color: rgba(33,33,46, 1);
-}
-
-.message-text{
-  color:rgb(218, 218, 218);
 }
 
 /* Wrapper for button and messages */
@@ -1458,6 +1454,8 @@ div.messages.active-chat{
 }
 
 .download-container span{
+  position: relative;
+  z-index: 1;
   color: grey;
   margin-left: 10px;
 }
@@ -1466,11 +1464,9 @@ div.messages.active-chat{
   opacity: 1;
 }
 
-.bottom-padding{
-  padding-bottom: 6px;
-}
-
 .name-span{
   font-weight: 800;
-  color: rgb(39, 39, 39);
+  font-size: .8rem;
+  color: var(--bg-primary);
+  opacity: 0.6;
 }

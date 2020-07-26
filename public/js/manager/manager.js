@@ -27,7 +27,7 @@ function beginLecture(stream) {
 
   socket.on('currentBoard', (studentSocketId) => {
     socket.emit('currentBoard', {
-      board: whiteboard.getImage(),
+      boardImg: whiteboard.getImage(),
       studentSocket: studentSocketId,
     });
   });

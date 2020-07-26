@@ -58,8 +58,8 @@ function joinLecture() {
 
   socket.on('boards', setNonActiveBoards);
 
-  socket.on('currentBoard', (board) => {
-    currentBoard = board;
+  socket.on('currentBoard', (boardImg) => {
+    currentBoard = boardImg;
     document.querySelector('#whiteboard').poster = currentBoard;
   });
 }
