@@ -108,10 +108,10 @@ Thanks goes to these wonderful people:
 </table>
 
 
-### Contributing
+## Contributing
 We encourge anyone interested, to open Pull Requests!
 
-### 📄 License
+## 📄 License
 Liteboard is MIT licensed. Please refer to license file [here][1]
 
 
