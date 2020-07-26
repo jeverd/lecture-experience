@@ -14,6 +14,8 @@ import initializeManagerRTC, { changeStatus } from './managerRTC.js';
 import { getUrlId, reloadWindow } from '../utility.js';
 
 const managerId = getUrlId();
+const hasAudio = $('#audioValidator').val() === 'true';
+const hasWebcam = $('#webcamValidator').val() === 'true';
 
 function beginLecture(stream) {
   changeStatus.starting();
@@ -48,7 +50,7 @@ function beginLecture(stream) {
   socket.on('ready', (room) => {
     const { boards, boardActive } = room.lecture_details;
     whiteboard.initialize();
-    initializeCanvasTopMenu(socket, whiteboard, room.lecture_details.id);
+    initializeCanvasTopMenu(socket, room.lecture_details.id);
     initializeToolsMenu(whiteboard);
     initializeActionsMenu(socket, whiteboard, canvasStream);
     initializeManagerRTC(room.lecture_details.id, stream, canvasStream);
@@ -58,8 +60,8 @@ function beginLecture(stream) {
 }
 
 window.onload = () => {
+  if (!(hasAudio || hasWebcam)) $('#modal-select-button').css('margin-bottom', '30px');
   $('#welcome-lecture-modal').show();
-
   const isWebcamActive = document.getElementById('webcam') !== null;
   const isAudioActive = document.getElementById('audio') !== null;
   const start = (stream = null) => {
@@ -84,7 +86,6 @@ window.onload = () => {
       });
     });
   };
-
   if (isWebcamActive || isAudioActive) {
     navigator.mediaDevices.getUserMedia({ audio: isAudioActive, video: isWebcamActive })
       .then(start)

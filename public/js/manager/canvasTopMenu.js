@@ -2,7 +2,9 @@
 /* eslint-disable no-undef */
 import { showInfoMessage, redirectToStats, copyTextToClipboard } from '../utility.js';
 
-export default function initializeCanvasTopMenu(socket, whiteboard, roomId) {
+export default function initializeCanvasTopMenu(socket, roomId) {
+  const hasAudio = $('#audioValidator').val() === 'true';
+  const hasWebcam = $('#webcamValidator').val() === 'true';
   $('.hide-options-right').click(() => {
     $('.right-bar').fadeToggle();
   });
@@ -15,20 +17,25 @@ export default function initializeCanvasTopMenu(socket, whiteboard, roomId) {
     showInfoMessage('Link Copied!');
   });
 
+  if (hasAudio || hasWebcam) {
+    document.querySelector('#mic-config').addEventListener('click', () => {
+      $('#welcome-lecture-modal').show();
+      $('#join-content').hide();
+      $('#mic-content').show();
+      $('#go-back').hide();
+      document.querySelector('.modal-content').classList.add('lecture');
+    });
+  } else {
+    $('#mic-config').hide();
+    $('#config-divider').hide();
+  }
+
   socket.on('updateNumOfStudents', (num) => {
     document.getElementById('specs').innerHTML = num;
   });
 
   document.querySelector('#end-lecture').addEventListener('click', () => {
     socket.emit('lectureEnd', () => redirectToStats(roomId));
-  });
-
-  document.querySelector('#mic-config').addEventListener('click', () => {
-    $('#welcome-lecture-modal').show();
-    $('#join-content').hide();
-    $('#mic-content').show();
-    $('#go-back').hide();
-    document.querySelector('.modal-content').classList.add('lecture');
   });
 
   $('.hide-bar-button').click(() => {

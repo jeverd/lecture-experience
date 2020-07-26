@@ -1731,7 +1731,6 @@ div.webcam-container{
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
 
-#info-webcam,
 #minimize-webcam-view{
   height: 21px;
   width: 21px;
@@ -1761,15 +1760,6 @@ div.webcam-container{
   color: var(--bg-primary);
 }
 
-#info-webcam{
-  right: 35px;
-}
-
-#info-webcam i {
-  color: var(--bg-primary);
-}
-
-#info-webcam:hover,
 #minimize-webcam-view:hover{
   opacity: 1;
   transform: translateY(-2px);

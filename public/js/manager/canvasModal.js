@@ -13,15 +13,6 @@ export default function initializeModal(stream) {
   $('#modal-select-button').removeClass('live-button-inactive').find('.ld').fadeOut(function () {
     $(this).parent().find('span').fadeIn();
   });
-  $('.waiting-for-devices').fadeOut(() => $('#test-mic').fadeIn());
-
-  // Mic button
-  document.getElementById('test-mic').addEventListener('click', () => {
-    const joinContent = document.getElementById('join-content');
-    const micContent = document.getElementById('mic-content');
-    joinContent.style.display = 'none';
-    micContent.style.display = 'block';
-  });
 
   $('#modal-copy-link').click(function () {
     const copyText = document.querySelector('.modal-url-share');
@@ -41,7 +32,14 @@ export default function initializeModal(stream) {
   });
 
   if (stream !== null) {
-    // back button
+    $('.waiting-for-devices').fadeOut(() => $('#test-mic').fadeIn());
+    document.getElementById('test-mic').addEventListener('click', () => {
+      const joinContent = document.getElementById('join-content');
+      const micContent = document.getElementById('mic-content');
+      joinContent.style.display = 'none';
+      micContent.style.display = 'block';
+    });
+
     document.getElementById('go-back').addEventListener('click', () => {
       const joinContent = document.getElementById('join-content');
       const micContent = document.getElementById('mic-content');
@@ -235,6 +233,5 @@ export default function initializeModal(stream) {
         select.classList.remove('open');
       }
     });
-  // End Select input
   }
 }
