@@ -4,7 +4,7 @@
 const { io } = require('./servers');
 const redisClient = require('./servers').client;
 const { logger } = require('./services/logger/logger');
-const { sendManagerDisconnectEmail } = require('./services/emailer');
+const { sendManagerDisconnectEmail } = require('./services/emailer/emailer');
 const Stats = require('./models/stats');
 
 
