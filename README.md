@@ -90,8 +90,11 @@ To run liteboard locally, you will need the following:
 
 ## Contributors ✨
 
-Thanks goes to these wonderful people!
+Thanks goes to these wonderful people:
 
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
 <table>
   <tr>
     <td align="center"><a href="https://lucasnogueira.ca/"><img src="https://avatars0.githubusercontent.com/u/48890798?s=460&u=6c62615de3bc32628e8aec4e8a4c320fe6d77869&v=4" width="100px;" alt=""/><br /><sub><b>Lucas Nogueira</b></sub></a><br /><a href="#question-kentcdodds" title="Answering Questions">💬</a> <a href="https://github.com/jeverd/lecture-experience/commits?author=lnogueirs" title="Documentation">📖</a> <a href="https://github.com/all-contributors/all-contributors/pulls?q=is%3Apr+reviewed-by%3Akentcdodds" title="Reviewed Pull Requests">👀</a> <a href="#talk-kentcdodds" title="Talks">📢</a></td>
@@ -100,7 +103,7 @@ Thanks goes to these wonderful people!
     <td align="center"><a href="https://www.aasirvalji.com/"><img src="https://avatars2.githubusercontent.com/u/45238682?s=460&u=17011f159eecbdc2aad99719c24d4b178e0618ae&v=4" width="100px;" alt=""/><br /><sub><b>Aasir Valji</b></sub></a><br /><a href="https://github.com/jeverd/lecture-experience/commits?author=aasirvalji" title="Documentation">📖</a></td>
     <td align="center"><img src="https://avatars0.githubusercontent.com/u/35204758?s=460&v=4" width="100px;" alt=""/><br /><sub><b>SultanEm</b></sub></a><br /><a href="https://github.com/jeverd/lecture-experience/commits?author=SultanEm" title="Documentation">📖</a></td>
     <td align="center"><img src="https://avatars2.githubusercontent.com/u/55399020?s=460&u=6ffb1175921b2a38be05ec26ac4fa3dd66beb62d&v=4" width="100px;" alt=""/><br /><sub><b>Gabriel Lemos Rodrigues</b></sub></a><br /><a href="https://github.com/jeverd/lecture-experience/commits?author=Lemos00" title="Documentation">📖</a></td>
-    <td align="center"><img src="https://avatars1.githubusercontent.com/u/35978975?s=460&u=05153ea0426075ea9edf9960bdd2443e167b31ce&v=4" width="100px;" alt=""/><br /><sub><b>Michael DeMarco</b></sub></a><br /><a href="https://github.com/jeverd/lecture-experience/commits?author=michaelfromyeg" title="Documentation">📖</a></td>s
+    <td align="center"><img src="https://avatars1.githubusercontent.com/u/35978975?s=460&u=05153ea0426075ea9edf9960bdd2443e167b31ce&v=4" width="100px;" alt=""/><br /><sub><b>Michael DeMarco</b></sub></a><br /><a href="https://github.com/jeverd/lecture-experience/commits?author=michaelfromyeg" title="Documentation">📖</a></td>
   </tr>
 </table>
 
