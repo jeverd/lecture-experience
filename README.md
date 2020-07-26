@@ -23,14 +23,14 @@ Liteboard provides a platform, where anyone can host a lecture, via webcam, whit
 - [License](#-license)
 
 
-## 📝Requirements
+## 📝 Requirements
 
 To run liteboard locally, you will need the following:
    - [Node](https://nodejs.org/en/download/)
    - [Docker and Docker compose](https://docs.docker.com/get-docker/)
 
 
-## 🏃Getting Started
+## 🏃 Getting Started
 ##### Clone
 - Clone this repo by running the following command `git clone https://github.com/jeverd/lecture-experience.git`
 
@@ -88,6 +88,13 @@ To run liteboard locally, you will need the following:
 
 
 
+## Contributing
+We encourge anyone interested, to open Pull Requests!
+
+## 📄 License
+Liteboard is MIT licensed. Please refer to license file [here][1]
+
+
 ## Contributors ✨
 
 Thanks goes to these wonderful people:
@@ -107,12 +114,6 @@ Thanks goes to these wonderful people:
   </tr>
 </table>
 
-
-## Contributing
-We encourge anyone interested, to open Pull Requests!
-
-## 📄 License
-Liteboard is MIT licensed. Please refer to license file [here][1]
 
 
 
