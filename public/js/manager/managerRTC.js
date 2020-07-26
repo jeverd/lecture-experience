@@ -19,6 +19,7 @@ export default async function initializeManagerRTC(roomId, stream, canvasStream)
   const hasAudio = $('#audioValidator').val() === 'true';
   const hasWebcam = $('#webcamValidator').val() === 'true';
   const hasWhiteboard = $('#whiteboardValidator').val() === 'true';
+
   const janusUrl = getJanusUrl();
   let janus;
 

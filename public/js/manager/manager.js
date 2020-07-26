@@ -16,23 +16,30 @@ import { getUrlId, reloadWindow } from '../utility.js';
 const managerId = getUrlId();
 const hasAudio = $('#audioValidator').val() === 'true';
 const hasWebcam = $('#webcamValidator').val() === 'true';
+let canvasStream;
+let whiteboard;
+const canvas = document.getElementById('canvas');
 
 function beginLecture(stream) {
+  console.log('ola')
   changeStatus.starting();
-  const whiteboard = new Whiteboard('canvas');
-
-  const canvasStream = whiteboard.getStream();
+  if (canvas) {
+    whiteboard = new Whiteboard('canvas');
+    canvasStream = whiteboard.getStream();
+  }
 
   stream = stream || canvasStream;
 
   const socket = io('/', { query: `id=${managerId}` });
 
-  socket.on('currentBoard', (studentSocketId) => {
-    socket.emit('currentBoard', {
-      boardImg: whiteboard.getImage(),
-      studentSocket: studentSocketId,
+  if (canvas) {
+    socket.on('currentBoard', (studentSocketId) => {
+      socket.emit('currentBoard', {
+        boardImg: whiteboard.getImage(),
+        studentSocket: studentSocketId,
+      });
     });
-  });
+  }
 
   socket.on('disconnect', changeStatus.connection_lost);
 
@@ -49,12 +56,15 @@ function beginLecture(stream) {
 
   socket.on('ready', (room) => {
     const { boards, boardActive } = room.lecture_details;
-    whiteboard.initialize();
     initializeCanvasTopMenu(socket, room.lecture_details.id);
-    initializeToolsMenu(whiteboard);
-    initializeActionsMenu(socket, whiteboard, canvasStream);
-    initializeManagerRTC(room.lecture_details.id, stream, canvasStream);
-    initializeBoards(socket, whiteboard, boards, boardActive, canvasStream);
+    if (canvas) {
+      whiteboard.initialize();
+      initializeToolsMenu(whiteboard);
+      initializeActionsMenu(socket, whiteboard, canvasStream);
+      initializeManagerRTC(room.lecture_details.id, stream, canvasStream);
+      initializeBoards(socket, whiteboard, boards, boardActive, canvasStream);
+    }
+    initializeManagerRTC(room.lecture_details.id, stream, undefined);
     initializeManagerChat(socket, room.lecture_details.id);
   });
 }
@@ -65,6 +75,9 @@ window.onload = () => {
   const isWebcamActive = document.getElementById('webcam') !== null;
   const isAudioActive = document.getElementById('audio') !== null;
   const start = (stream = null) => {
+    if (!canvas) {
+      beginLecture(stream); // modal in webcam page does not exist yet
+    }
     initializeModal(stream);
     $('#modal-select-button').click(() => {
       $('#welcome-lecture-modal').hide();
