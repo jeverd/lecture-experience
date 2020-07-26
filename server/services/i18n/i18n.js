@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 const fs = require('fs');
 const path = require('path');
 const { supportedLanguages, defaultLanguage } = require('../../../config/config');
@@ -11,13 +12,13 @@ supportedLanguages.forEach((langCode) => {
 });
 
 
-function setLanguage(setCookie, language) {
+function setLanguage(session, language) {
   const langToSet = language in langCodeMap ? language : defaultLanguage;
-  setCookie('lang', langToSet);
+  session.lang = langToSet;
 }
 
-function getLanguage(cookies, locale) {
-  const langToUse = 'lang' in cookies ? cookies.lang : locale;
+function getLanguage(session, locale) {
+  const langToUse = 'lang' in session ? session.lang : locale;
   return { lang: langCodeMap[langToUse] };
 }
 

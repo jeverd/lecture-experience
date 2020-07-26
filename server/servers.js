@@ -6,14 +6,13 @@ const socketio = require('socket.io');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const sharedSession = require('express-socket.io-session');
-const cookieParser = require('cookie-parser');
 const mustache = require('mustache-express');
 const Sentry = require('@sentry/node');
 const locale = require('locale');
 
 const RedisStore = require('connect-redis')(session);
 const {
-  redisPort, expressPort, environment,
+  redisPort, expressPort, environment, debugClient,
   redisUrl, loggerFlag, sessionSecret, sessionName,
   defaultLanguage, supportedLanguages, sentryDSN,
 } = require('../config/config');
@@ -42,7 +41,6 @@ app.use(express.static('public/images'));
 app.use(express.json({ limit: '50mb' }));
 app.use(locale(supportedLanguages, defaultLanguage));
 app.use(bodyParser.json());
-app.use(cookieParser());
 app.use(helmet());
 if (loggerFlag) app.use(logMiddleWare);
 
@@ -77,10 +75,11 @@ io.use(sharedSession(expressSession, {
 
 logger.info(`Express and socketio are listening on port: ${expressPort}`);
 
-
-// client.flushall((err, succeeded) => {
-//   logger.info(`Redis status: ${succeeded}`);
-// });
+if (debugClient === 'false') {
+  client.flushall((err, succeeded) => {
+    logger.info(`Redis cleared: ${succeeded}`);
+  });
+}
 
 
 client.on('connect', () => {

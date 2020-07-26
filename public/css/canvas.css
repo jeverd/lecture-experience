@@ -139,6 +139,14 @@ body {
   position: relative;
 }
 
+.test-mic-container{
+  text-align: center;
+}
+
+.hidden{
+  display: none;
+}
+
 .my-boards-button-container > img {
   height: 22.5px;
 }
@@ -149,10 +157,6 @@ body {
 
 .v_divider{
   padding: 1.2rem 0rem 1rem 0rem;
-}
-
-.status-dot {
-  color: #2ecc40;
 }
 
 .copy-share-link {
@@ -237,6 +241,8 @@ body {
   left: 50%;
   background-color: white;
   transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
 }
 
 /* start right side-bar */
@@ -574,10 +580,6 @@ button {
   width: 100%;
 }
 
-.bottom-padding{
-  padding-bottom: 6px;
-}
-
 .image-preview{
   height: 120px;
   position: relative;
@@ -848,13 +850,6 @@ button {
   margin: 30px;
 }
 
-.image-container img{
-  max-height: 360px;
-  height: 60vw;
-  border-radius: 0.75rem;
-  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
-}
-
 .wrap-div-message-image{
   position: absolute;
   top: 50%;
@@ -878,6 +873,8 @@ button {
 .download-container span{
   color: grey;
   margin-left: 10px;
+  position: relative;
+  z-index: 1;
 }
 
 .download-container:hover{
@@ -976,6 +973,16 @@ button {
   transform: scale(1.05);
 }
 
+button.live-button-inactive{
+  cursor: initial;
+  filter: grayscale(100%);
+  opacity: .8;
+}
+
+button.live-button-inactive:hover{
+  transform: none;
+}
+
 .test-mic-button{
   position: relative;
   left: 10px;
@@ -1054,7 +1061,7 @@ div.messages {
   bottom: 0;
   right: 0;
   z-index: 7;
-  width: 340px;
+  width: calc(340px + 1.5vw);
   height: 30px;
   transition: 0.25s ease;
   -webkit-box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3),
@@ -1063,16 +1070,23 @@ div.messages {
 }
 
 div.messages.active-chat{
-  height: 300px;
+  height: calc(300px + 10vh);
 }
 
 #message-input {
-  width: 260px;
+  width: calc(260px + 1.5vw);
   position: relative;
   left: -3px;
+  top: -.4px;
   border-radius: 20px;
   padding: 4px 9px; 
   outline: none;
+  border-radius: 10px;
+  border-style: solid;
+  border-width: thin;
+  border-color: lightgray;
+  font-family: inherit;
+  color: var(--bg-primary);
 }
 
 @media only screen and (max-width: 1000px) {
@@ -1189,7 +1203,7 @@ div.messages.active-chat{
 
 .messages-main{
   position: relative;
-  height: 240px;
+  height: calc(240px + 10vh);
   overflow: hidden;
   padding: 0px;
   background: white;
@@ -1411,10 +1425,6 @@ div.messages.active-chat{
   left: 20px;
 }
 
-.mic-button{
-  width: 160px;
-}
-
 .back-button{
   display: flex;
   justify-content: flex-start;
@@ -1594,6 +1604,28 @@ div.messages.active-chat{
   top: 10px;
 }
 
+.image-container img{
+  border-radius: 0.45rem;
+  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+}
+
+.waiting-for-devices{
+  color: white;
+  opacity: .8;
+  text-align: center;
+  margin: 2px;
+}
+
+.modal-message-image-vertical{
+  max-height: 360px;
+  height: 60vw;
+}
+
+.modal-message-image-horizontal{
+  max-width: 800px;
+  width: 85vw;
+}
+
 #mic-buttons-container{
   display: inline-block;
   position: relative;
@@ -1699,7 +1731,6 @@ div.webcam-container{
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
 
-#info-webcam,
 #minimize-webcam-view{
   height: 21px;
   width: 21px;
@@ -1729,15 +1760,6 @@ div.webcam-container{
   color: var(--bg-primary);
 }
 
-#info-webcam{
-  right: 35px;
-}
-
-#info-webcam i {
-  color: var(--bg-primary);
-}
-
-#info-webcam:hover,
 #minimize-webcam-view:hover{
   opacity: 1;
   transform: translateY(-2px);
@@ -1766,5 +1788,40 @@ div.webcam-container{
 }
 
 .name-span{
-  font-weight: 600;
+  font-weight: 800;
+  font-size: .8rem;
+  color: var(--bg-primary);
+  opacity: 0.6;
+}
+
+/*zoom*/
+
+.zoom-modal{
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  margin: 0 auto;
+  top: 50%;
+  left: 50%;/*put in the center*/
+  transform: translate(-50%, -50%);
+}
+
+.zoom-wrapper{
+  height: calc(28px + 0.7vw);
+  width: calc(50px + 0.7vw);
+  font-size: 1.2rem;
+  border-radius: 15px;
+  color: rgba(65, 65, 65, 0.5);
+  background-color: rgba(196, 196, 196, 0.5);
+  display: flex; 
+  justify-content:center;
+  align-items:center;
+  text-align: center;
+  padding: 2px 2px;
+}
+
+.visible {
+  visibility: visible;
+  opacity: 1;
+  animation: fade-in 1s;
 }

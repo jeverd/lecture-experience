@@ -1,14 +1,28 @@
 /* eslint-disable import/extensions */
 /* eslint-disable no-undef */
 import {
-  getJanusUrl, addStream, getTurnServers, getStunServers,
+  getJanusUrl, addStream, getTurnServers, getStunServers, getJanusToken, getStatusColor,
 } from '../utility.js';
 
+function changeLectureStatus(status) {
+  $('.status-dot').css('color', getStatusColor(status));
+  $('.lecture-running-text').html($(`#status-${status}`).val());
+}
+
+export const changeStatus = {
+  starting: () => changeLectureStatus('starting'),
+  live: () => changeLectureStatus('live'),
+  connection_lost: () => changeLectureStatus('connection_lost'),
+};
+
 export default async function initializeManagerRTC(roomId, stream, canvasStream) {
+  const hasAudio = $('#audioValidator').val() === 'true';
+  const hasWebcam = $('#webcamValidator').val() === 'true';
+  const hasWhiteboard = $('#whiteboardValidator').val() === 'true';
   const janusUrl = getJanusUrl();
   let janus;
 
-  function publishFeed(feedStream) {
+  function publishFeed(feedStream, label) {
     let feedHandle;
     janus.attach({
       plugin: 'janus.plugin.videoroom',
@@ -16,7 +30,7 @@ export default async function initializeManagerRTC(roomId, stream, canvasStream)
         feedHandle = handle;
         feedHandle.send({
           message: {
-            request: 'join', ptype: 'publisher', room: roomId,
+            request: 'join', ptype: 'publisher', room: roomId, display: label,
           },
         });
       },
@@ -25,7 +39,7 @@ export default async function initializeManagerRTC(roomId, stream, canvasStream)
           feedHandle.handleRemoteJsep({ jsep: feedJsep });
         }
         if (feedMsg.videoroom === 'joined') {
-          const feedRequest = { request: 'configure', display: '' };
+          const feedRequest = { request: 'configure' };
           feedRequest.video = feedStream.getVideoTracks().length > 0;
           feedRequest.audio = feedStream.getAudioTracks().length > 0;
           feedHandle.createOffer({
@@ -40,35 +54,43 @@ export default async function initializeManagerRTC(roomId, stream, canvasStream)
         }
       },
       onlocalstream(localStream) {
-        const videoTracks = localStream.getTracks().filter((track) => track.kind === 'video');
-        videoTracks.forEach((video) => {
-          if (typeof video.canvas === 'undefined') {
-            const webcamOutput = document.querySelector('#webcam');
-            addStream(webcamOutput, video);
-          }
-        });
+        if (hasWebcam) {
+          const webcam = document.getElementById('webcam');
+          const videoTracks = localStream.getTracks().filter((track) => track.kind === 'video');
+          videoTracks.forEach((video) => {
+            if (typeof video.canvas === 'undefined' && video.label !== '') {
+              addStream(webcam, video);
+            }
+          });
+        }
+        setTimeout(changeStatus.live, 1000);
       },
     });
   }
 
   const turnServers = await getTurnServers();
+  const janusToken = await getJanusToken();
   const stunServers = getStunServers();
+
   Janus.init({
     debug: 'all',
     callback() {
       janus = new Janus({
         server: janusUrl,
         iceServers: [...turnServers, ...stunServers],
+        token: janusToken,
         // iceTransportPolicy: 'relay',   enable to force turn server
         success() {
-          if (stream.getVideoTracks().length === 0) {
+          if (hasWhiteboard && hasWebcam) {
+            publishFeed(stream, 'stream');
+            publishFeed(canvasStream, 'canvasStream');
+          } else if (hasWhiteboard && hasAudio) {
             stream.addTrack(canvasStream.getTracks()[0]);
-            publishFeed(stream);
+            publishFeed(stream, 'canvasStream');
+          } else if (!hasWhiteboard) {
+            publishFeed(stream, 'stream');
           } else {
-            publishFeed(stream);
-            if (stream !== canvasStream) {
-              publishFeed(canvasStream);
-            }
+            publishFeed(canvasStream, 'canvasStream');
           }
         },
       });

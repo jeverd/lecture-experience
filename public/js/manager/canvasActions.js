@@ -10,7 +10,6 @@ export default function initializeActionsMenu(socket, whiteboard, stream) {
   document.querySelectorAll('[data-command]').forEach((item) => {
     item.addEventListener('click', () => {
       const command = item.getAttribute('data-command'); // not doing shit here still
-      const currImage = whiteboard.getImage();
       switch (command) {
         case 'redo':
           whiteboard.redoPaint();
@@ -19,11 +18,11 @@ export default function initializeActionsMenu(socket, whiteboard, stream) {
           whiteboard.undoPaint();
           break;
         case 'save':
-          whiteboard.boards[whiteboard.currentBoard] = currImage;
+          whiteboard.boards[whiteboard.currentBoard] = whiteboard.makeNewBoard();
           $('[data-page=page]')
             .eq(`${whiteboard.currentBoard}`)
             .find('img')
-            .attr('src', currImage);
+            .attr('src', whiteboard.boards[whiteboard.currentBoard].image);
           emitBoards(socket, whiteboard);
           showInfoMessage(`Boards Saved: ${whiteboard.boards.length}`);
           break;

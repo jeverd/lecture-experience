@@ -7,7 +7,7 @@ export function emitBoards(socket, whiteboard) {
     boards: whiteboard.boards,
     activeBoardIndex: whiteboard.currentBoard,
   });
-  socket.emit('currentBoardToAll', whiteboard.boards[whiteboard.currentBoard]);
+  socket.emit('currentBoardToAll', whiteboard.boards[whiteboard.currentBoard].image);
 }
 
 export function handleBoardsViewButtonsDisplay() {
@@ -34,10 +34,10 @@ export function updateBoardsBadge() {
 }
 
 function deactivateCurrentBoard(whiteboard) {
-  const currentBoardImage = whiteboard.getImage();
-  whiteboard.boards[whiteboard.currentBoard] = currentBoardImage;
+  // console.log(whiteboard.getSvgImage());
+  whiteboard.boards[whiteboard.currentBoard] = whiteboard.makeNewBoard();
   const currentBoardDiv = $('[data-page=page]').eq(`${whiteboard.currentBoard}`);
-  currentBoardDiv.find('img').attr('src', currentBoardImage);
+  currentBoardDiv.find('img').attr('src', whiteboard.boards[whiteboard.currentBoard].image);
   currentBoardDiv.find('img').show();
   currentBoardDiv.find('video')[0].srcObject = null;
   currentBoardDiv.find('video').hide();
@@ -51,14 +51,15 @@ function activateCurrentBoard(socket, whiteboard, stream, clickedBoardIndex) {
   clickedBoardDiv.find('video')[0].srcObject = stream;
   clickedBoardDiv.find('video').show();
   const newBoardImg = document.createElement('img');
-  newBoardImg.setAttribute('src', whiteboard.boards[clickedBoardIndex]);
+  newBoardImg.setAttribute('src', whiteboard.boards[clickedBoardIndex].image);
+  const newBoardPath = whiteboard.boards[clickedBoardIndex].pathsData;
   setTimeout(() => {
-    whiteboard.setCurrentBoard(newBoardImg);
+    whiteboard.setPaths(newBoardPath);
     socket.emit('currentBoardToAll', newBoardImg.getAttribute('src'));
   }, 0);
 }
 
-export function createNonActiveBoardElem(socket, whiteboard, img, isActive, stream) {
+export function createNonActiveBoardElem(socket, whiteboard, board, isActive, stream) {
   function onClickNonActiveBoardElem() {
     deactivateCurrentBoard(whiteboard);
     const clickedBoardIndex = $(this).index();
@@ -67,7 +68,8 @@ export function createNonActiveBoardElem(socket, whiteboard, img, isActive, stre
 
   // making the new page image
   const newBoardImg = document.createElement('img');
-  newBoardImg.setAttribute('src', img);
+
+  newBoardImg.setAttribute('src', board.image);
   // setting the class to item and active
   const outer = document.createElement('li');
   outer.classList.add('canvas-toggle-item');
@@ -88,7 +90,7 @@ export function createNonActiveBoardElem(socket, whiteboard, img, isActive, stre
   boardBadge.classList.add('board-badge');
   inner.appendChild(boardBadge);
 
-  whiteboard.boards[whiteboard.boards.length] = img;
+  whiteboard.boards[whiteboard.boards.length] = board;
   newBoardImg.addEventListener('click', onClickNonActiveBoardElem.bind(outer));
   if (isActive) {
     activateCurrentBoard(socket, whiteboard, stream, whiteboard.boards.length - 1);
@@ -103,7 +105,7 @@ export function createNonActiveBoardElem(socket, whiteboard, img, isActive, stre
 export function addBoard(socket, whiteboard, stream) {
   deactivateCurrentBoard(whiteboard);
   whiteboard.clearCanvas();
-  createNonActiveBoardElem(socket, whiteboard, whiteboard.getImage(), true, stream);
+  createNonActiveBoardElem(socket, whiteboard, whiteboard.makeNewBoard(), true, stream);
   emitBoards(socket, whiteboard);
   $('.canvas-toggle-nav').animate({ scrollLeft: '+=100000px' }, 150, () => {
     handleBoardsViewButtonsDisplay();
@@ -126,11 +128,11 @@ export function removeBoard(socket, whiteboard, stream) {
 
 export default function initializeBoards(socket, whiteboard, boards, boardActive, stream) {
   if (boards.length > 0) {
-    boards.forEach((boardImg, i) => {
-      createNonActiveBoardElem(socket, whiteboard, boardImg, i === boardActive, stream);
+    boards.forEach((board, i) => {
+      createNonActiveBoardElem(socket, whiteboard, board, i === boardActive, stream);
     });
   } else {
-    createNonActiveBoardElem(socket, whiteboard, whiteboard.getImage(), true, stream);
+    createNonActiveBoardElem(socket, whiteboard, whiteboard.makeNewBoard(), true, stream);
   }
 
   document.querySelector('.scroll-boards-view-left').addEventListener('click', () => {

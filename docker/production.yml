@@ -7,12 +7,13 @@ services:
         - ./docker-config/redis_prod.conf:/redis.conf
       command: [ "redis-server", "/redis.conf" ]
     web-server:
-      image: jeverd/liteboard-ngnix:latest
+      image: nginx:alpine
       ports:
         - ${WEB_SERVER_PORT_HTTP}:${WEB_SERVER_PORT_HTTP}
         - ${WEB_SERVER_PORT_HTTPS}:${WEB_SERVER_PORT_HTTPS}
       volumes:
         - ./letsencrypt:/etc/letsencrypt
+        - ./nginx.conf:/etc/nginx/nginx.conf
     app:
       image: jeverd/liteboard-express:latest
       links:  # TODO verify this can be removed
@@ -27,16 +28,21 @@ services:
         - SESSION_SECRET=${SESSION_SECRET}
         - SESSION_NAME=${SESSION_NAME}
         - SESSION_TTLE=${SESSION_TTLE}
-        - LOGGER= ${LOGGER}
-        - EMAIL=${EMAIL}
+        - LOGGER=${LOGGER}
+        - EMAIL_USERNAME=${EMAIL_USERNAME}
+        - EMAIL_SENDER=${EMAIL_SENDER}
         - EMAIL_PASSWORD=${EMAIL_PASSWORD}
         - EMAIL_SERVICE=${EMAIL_SERVICE}
+        - JANUS_SERVER_SECRET=${JANUS_SERVER_SECRET}
         - REDIS_TURN_DB_NUMBER=${REDIS_TURN_DB_NUMBER}
         - TURN_SERVER_SECRET=${TURN_SERVER_SECRET}
-        - TURN_SERVER_ENDPOINT=${TURN_SERVER_ENDPOINT}
         - TURN_SERVER_PORT=${TURN_SERVER_PORT}  
         - TURN_SERVER_ACTIVE=${TURN_SERVER_ACTIVE}
-        - TURN_SERVER_URL=${TURN_SERVER_URL} 
+        - TURN_SERVER_URL=${TURN_SERVER_URL}
+        - SENTRY_DSN=${SENTRY_DSN}
+        - SENTRY_ENVIRONMENT=${SENTRY_ENVIRONMENT}
+        - DEFAULT_LANGUAGE=${DEFAULT_LANGUAGE}
+        - DEBUG_CLIENT=${DEBUG_CLIENT}
       depends_on:
         - redis_db
         - web-server
@@ -56,13 +62,12 @@ services:
         - "7089:7089"
         - "10000-10200:10000-10200/udp"
       volumes:
-        - ./docker-config/janus.jcfg:/usr/local/etc/janus/janus.jcfg  # might need to change this later, dk if this is best practice .... TODO
-        - ./docker-config/janus.transport.http.jcfg:/usr/local/etc/janus/janus.transport.http.jcfg
+        - ./docker-config/janus/janus.jcfg:/usr/local/etc/janus/janus.jcfg  # might need to change this later, dk if this is best practice .... TODO
     coturn:
       image: instrumentisto/coturn
       command:
         - -c=/etc/coturn/turnserver.conf
-      network_node: "host"
+      network_mode: "host"
       volumes:
         - ./docker-config/turnserver.conf:/etc/coturn/turnserver.conf:ro
 

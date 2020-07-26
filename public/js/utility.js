@@ -124,13 +124,21 @@ export function addStream(htmlElem, streamTrack) {
   if (typeof streamTrack !== 'undefined') {
     const stream = new MediaStream();
     stream.addTrack(streamTrack);
-    htmlElem.srcObject = stream;
     if ('srcObject' in htmlElem) {
       htmlElem.srcObject = stream;
     } else {
       htmlElem.src = window.URL.createObjURL(stream);
     }
   }
+}
+
+export async function getJanusToken() {
+  const response = await fetch('/janusToken');
+  if (response.status === 200) {
+    const { janusToken } = await response.json();
+    return janusToken;
+  }
+  return null;
 }
 
 export function getStatusColor(status) {
@@ -163,17 +171,60 @@ export async function getTurnServers() {
 
 export function getStunServers() {
   return [
-    { urls: 'stun:stun.l.google.com:19302' },
-    { urls: 'stun:stun1.l.google.com:19302' },
-    { urls: 'stun:stun2.l.google.com:19302' },
-    { url: 'stun:stun01.sipphone.com' },
-    { url: 'stun:stun.ekiga.net' },
+    { url: 'stun:stun.l.google.com:19302' },
+    { url: 'stun:stun1.l.google.com:19302' },
+    { url: 'stun:stun2.l.google.com:19302' },
     { url: 'stun:stunserver.org' },
-    { url: 'stun:stun.softjoys.com' },
-    { url: 'stun:stun.voiparound.com' },
-    { url: 'stun:stun.voipbuster.com' },
-    { url: 'stun:stun.voipstunt.com' },
-    { url: 'stun:stun.voxgratia.org' },
-    { url: 'stun:stun.xten.com' },
   ];
+}
+
+export function displayImagePopUpOnClick(e) {
+  const image = e.target;
+  const newImage = document.createElement('img');
+
+  const ratio = image.clientHeight / image.clientWidth;
+  newImage.classList.add(`modal-message-image-${ratio >= 1 ? 'vertical' : 'horizontal'}`);
+  newImage.src = image.src;
+
+  const downloadContainer = document.createElement('div');
+  const text = document.createElement('span');
+  const button = document.createElement('span');
+
+  text.innerHTML = $(image).attr('data-name');
+  button.innerHTML = "<i class='fas fa-cloud-download-alt'></i>";
+  downloadContainer.setAttribute('data-file', image.src);
+  downloadContainer.setAttribute('data-name', $(image).attr('data-name'));
+
+  downloadContainer.append(text);
+  downloadContainer.append(button);
+
+  document.getElementById('image-modal').append(newImage);
+  document.getElementById('image-modal').append(downloadContainer);
+  downloadContainer.classList.add('download-container');
+  const container = document.querySelector('.wrap-div-message-image');
+  container.innerHTML = '';
+  container.appendChild(newImage);
+  container.appendChild(downloadContainer);
+
+  $('#image-modal').show();
+}
+
+export function getImageFromVideo(video) {
+  const canvas = document.createElement('canvas');
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+  return canvas.toDataURL();
+}
+
+export function getRandomColor() {
+  const chatColors = [
+    'linear-gradient(315deg, #bdd4e7 0%, #91acdd 74%)',
+    'linear-gradient(315deg, #7cffcb 0%, #74f2ce 74%)',
+    'linear-gradient(315deg, #c0abf0 0%, #b498f3 74%)',
+    'linear-gradient(315deg, #f39f86 0%, #f9d976 74%)',
+    'linear-gradient(315deg, #abe9cd 0%, #8ad7ee 74%)',
+  ];
+
+  return chatColors[Math.floor(Math.random() * chatColors.length)];
 }

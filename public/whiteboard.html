@@ -9,9 +9,14 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title></title>
-    <meta name="description" content="" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <link rel="canonical" href="https://liteboard.io" />
+    <meta name="theme-color" content="#21212e" />
+    <meta name="description" content="{{#lang}}{{liteboardDescription}}{{/lang}}" />
+    <link rel="apple-touch-icon" href="/favicon.ico" />
+    <link rel='icon' href='/favicon.ico' type='image/x-icon'/>
+    <meta name="robots" content="noindex">
+    <title>{{name}}</title>
     <link rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Open+Sans">
     <link rel="stylesheet" href="/canvas.css" />
@@ -28,7 +33,17 @@
     />
     <link
       rel="stylesheet" type="text/css"
-      href="//cdn.jsdelivr.net/gh/loadingio/ldbutton@v1.0.1/dist/ldbtn.min.css"
+      href="https://cdn.jsdelivr.net/gh/loadingio/ldbutton@v1.0.1/dist/ldbtn.min.css"
+    />
+    <link
+      rel="stylesheet" type="text/css"
+      href="https://cdn.jsdelivr.net/gh/loadingio/loading.css@v2.0.0/dist/loading.min.css"
+    />
+    <script type="text/javascript" src="/lib/paper.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css" 
     />
   </head>
 
@@ -40,74 +55,58 @@
       </p>
     <![endif]-->
 
-    <!-- <div id="area-selection-menu">
-      <div class="area-selection-menu-row">
-        <span>Copy</span>
-        <span>Ctrl + C</span>
-      </div>
-      <div class="area-selection-menu-row">
-        <span>Cut</span>
-        <span>Ctrl + X</span>
-      </div>
-      <div>
-        <span>Duplicate</span>
-        <span>Ctrl + D</span>
-      </div>
-      <div class="area-selection-menu-row">
-        <span>Delete</span>
-        <span>Backspace</span>
-      </div>
-    </div> -->
-
     <!--start whiteboard topbar-->
     <div class="classroom-info">
       <div class="classroom-info-flexbox">
         <div class="lecture-running">
           <span class="status-dot"><i class="fas fa-circle"></i> &nbsp;</span>
-          <span class="lecture-running-text">Lecture Running</span>
+          <input type="hidden" value="{{#lang}}{{statusStarting}}{{/lang}}" id="status-starting"/>
+          <input type="hidden" value="{{#lang}}{{statusConnectionLost}}{{/lang}}" id="status-connection_lost"/>
+          <input type="hidden" value="{{#lang}}{{statusLive}}{{/lang}}" id="status-live"/>
+          <span class="lecture-running-text"></span>
           <span class="divider"></span>
         </div>
 
         <div
-          title="Click to end lecture"
+          title="{{#lang}}{{clickEndLecture}}{{/lang}}"
           id="end-lecture"
           class="end-lecture-container"
         >
           <i class="fas fa-sign-out-alt end-lecture-icon"></i>
           &nbsp;
-          <span class="end-lecture-text">End Lecture</span>
+          <span class="end-lecture-text">{{#lang}}{{endLecture}}{{/lang}}</span>
           &nbsp;
         </div>
 
         <span class="divider"></span>
 
         <div
-          title="Share lecture link"
+          title="{{#lang}}{{shareLectureLink}}{{/lang}}"
           id="copy-share-link"
           class="copy-link-container"
         >
           <i class="fas fa-link sharelink-info-icon"></i>
           &nbsp;
-          <span class="copy-link-text">Share Link</span>
+          <span class="copy-link-text">{{#lang}}{{shareLink}}{{/lang}}</span>
           &nbsp;
         </div>
 
         <span class="divider"></span>
 
         <div
-          title="Lecture Settings"
+          title="{{#lang}}{{lectureSettings}}{{/lang}}"
           id="mic-config"
           class="mic-config-container"
         >
           <i class="fa fa-cog cog config-icon-top-menu"></i>
           &nbsp;
-          <span class="mic-config-text">Configure</span>
+          <span class="mic-config-text">{{#lang}}{{Configure}}{{/lang}}</span>
           &nbsp;
         </div>
 
-        <span class="divider"></span>
+        <span id="config-divider" class="divider"></span>
 
-        <div title="Number of Spectators" class="lecture-spectators">
+        <div title="{{#lang}}{{spectatorsNumber}}{{/lang}}" class="lecture-spectators">
           <span>
             <i class="fas fa-eye"></i>
             &nbsp;
@@ -117,7 +116,7 @@
 
         <span class="divider"></span>
 
-        <div title="Minimize View" class="hide-bar-button-container">
+        <div title="{{#lang}}{{lectureMinimizeView}}{{/lang}}" class="hide-bar-button-container">
           <button class="hide-bar-button">
             <i class="fas fa-level-up-alt"></i>
           </button>
@@ -134,14 +133,11 @@
       {{#webcam}}
         <div class="webcam-container animate__animated">
           <div id="inactive-webcam-view">
-            <img title="Open Webcam View" src="https://img.icons8.com/fluent/48/000000/webcam.png"/>
+            <img title="{{#lang}}{{openWebcamView}}{{/lang}}" src="https://img.icons8.com/fluent/48/000000/webcam.png"/>
           </div>
           <div id="active-webcam-view">
-            <div title="Minimize Webcam View" id="minimize-webcam-view">
+            <div title="{{#lang}}{{minimizeWebcamView}}{{/lang}}" id="minimize-webcam-view">
               <i class="fa fa-minus" aria-hidden="true"></i>
-            </div>
-            <div title="Webcam Info" id="info-webcam">
-              <i class="fas fa-info"></i>
             </div>
             <video muted id="webcam" playsinline autoplay></video>
           </div>
@@ -154,7 +150,7 @@
         <div>
           <div class="chat-title-wrap">
             <div class="new-messages-badge">0</div>
-            <span class="chat-title">Lecture Chat</span>
+            <span class="chat-title">{{#lang}}{{lectureChat}}{{/lang}}</span>
           </div>
           <i class="fa fa-minus close-chat" aria-hidden="true"></i>
         </div>
@@ -163,7 +159,7 @@
         <div class="message-container" id="message-container">
           <div class="message-lecture-name">
             <span>
-              {{name}} chat room
+              {{name}} {{#lang}}{{lectureChatRoom}}{{/lang}}
             </span>
           </div>
           <div id="preview" class="preview">
@@ -192,7 +188,7 @@
 
     <!--start show-bar-button-->
     <div class="show-bar-button-container">
-      <button title="Expand Menu" class="show-bar-button">
+      <button title="{{#lang}}{{expandMenu}}{{/lang}}" class="show-bar-button">
         <i class="fa fa-bars" aria-hidden="true"></i>
         <!-- <i class="fas fa-level-up-alt"></i> -->
       </button>
@@ -200,55 +196,55 @@
               <!--end show-bar-button-->
 
 
-    <canvas id="canvas"> </canvas>
+    <canvas id="canvas" hidpi resize> </canvas>
 
     <!--start right sidebar-->
     <nav class="right-bar animate__animated">
       <ul class="right-bar-nav">
         <div id="right-bar-main">
-          <div data-tool="pencil" title="Pencil Tool">
+          <div data-tool="pencil" title="{{#lang}}{{pencilTool}}{{/lang}}">
             <li class="left-bar-item">
               <a class="left-bar-link tool-active">
                 <i class="fas fa-pencil-alt"></i>
               </a>
             </li>
           </div>
-          <div class="item" data-tool="eraser" title="Eraser Tool">
+          <div class="item" data-tool="eraser" title="{{#lang}}{{eraserTool}}{{/lang}}">
             <li class="left-bar-item">
               <a class="left-bar-link">
                 <i class="fas fa-eraser"></i>
               </a>
             </li>
           </div>
-          <div class="item" data-tool="paint-bucket" title="Paint Bucket Tool">
+          <div class="item" data-tool="bucket" title="{{#lang}}{{paintBucketTool}}{{/lang}}">
             <li class="left-bar-item">
               <a class="left-bar-link">
                 <i class="fas fa-fill"></i>
               </a>
             </li>
           </div>
-          <div class="item" data-tool="select-area" title="Select Area">
+          <div class="item" data-tool="pointer" title="{{#lang}}{{selectObjectTool}}{{/lang}}">
             <li class="left-bar-item">
               <a class="left-bar-link-svg">
-                <img src="/area.svg"/>
+                <img src="/cursor.png"/>
               </a>
             </li>
           </div>
-          <div class="item" data-main="colors" title="Colors">
+          <div class="item" data-main="colors" title="{{#lang}}{{Colors}}{{/lang}}">
             <li class="left-bar-item">
               <a class="left-bar-link">
                 <i class="fas fa-palette"></i>
               </a>
             </li>
           </div>
-          <div class="item" data-main="thickness" title="Stroke Thickness">
+          <div class="item" data-main="thickness" title="{{#lang}}{{strokeThickness}}{{/lang}}">
             <li class="left-bar-item">
               <a class="left-bar-link-svg">
                 <img src="/width.svg"/>
               </a>
             </li>
           </div>
-          <div class="item" data-main="shapes" title="Shapes">
+          <div class="item" data-main="shapes" title="{{#lang}}{{Shapes}}{{/lang}}">
             <li class="left-bar-item">
               <a class="left-bar-link-svg">
                 <img src="/shape.svg"/>
@@ -347,7 +343,7 @@
             <i class="fas fa-arrow-left"></i>
           </a>
         </li>
-        <div class="item" data-tool="line" title="Line Tool">
+        <div class="item" data-tool="line" title="{{#lang}}{{lineTool}}{{/lang}}">
           <li class="left-bar-item">
             <a style="transform: rotate(45deg)" class="left-bar-link-svg">
               <img src="/dash.svg"/>
@@ -356,7 +352,7 @@
           </li>
         </div>
 
-        <div class="item" data-tool="circle" title="Circle Tool">
+        <div class="item" data-tool="circle" title="{{#lang}}{{circleTool}}{{/lang}}">
           <li class="left-bar-item">
             <a class="left-bar-link">
               <i class="far fa-circle"></i>
@@ -364,7 +360,7 @@
           </li>
         </div>
 
-        <div class="item" data-tool="square" title="Square Tool">
+        <div class="item" data-tool="square" title="{{#lang}}{{squareTool}}{{/lang}}">
           <li class="left-bar-item">
             <a class="left-bar-link">
               <i class="far fa-square"></i>
@@ -372,7 +368,7 @@
           </li>
         </div>
 
-        <div class="item" data-tool="triangle" title="Triangle Tool">
+        <div class="item" data-tool="triangle" title="{{#lang}}{{triangleTool}}{{/lang}}">
           <li class="left-bar-item">
             <a class="left-bar-link-svg">
               <img src="/triangle.svg"/>
@@ -390,7 +386,7 @@
       <ul class="left-bar-nav">
         <!--group commands-->
         <div class="group commands">
-          <div class="item" data-command="redo" title="Redo - Ctrl + Y">
+          <div class="item" data-command="redo" title="{{#lang}}{{Redo}}{{/lang}} - Ctrl + Y">
             <li class="left-bar-item">
               <a style="height: 3rem" class="left-bar-link">
                 <i style="transform: scaleX(-1);" class="fas fa-undo"></i>
@@ -398,7 +394,7 @@
             </li>
           </div>
 
-          <div class="item" data-command="undo" title="Undo - Ctrl + Z">
+          <div class="item" data-command="undo" title="{{#lang}}{{Undo}}{{/lang}} - Ctrl + Z">
             <li class="left-bar-item">
               <a style="height: 3rem" class="left-bar-link">
                 <i class="fas fa-undo"></i>
@@ -406,7 +402,7 @@
             </li>
           </div>
 
-          <div class="item" data-command="save" title="Save Boards">
+          <div class="item" data-command="save" title="{{#lang}}{{saveBoards}}{{/lang}}">
             <li class="left-bar-item">
               <a class="left-bar-img">
                 <img src="https://img.icons8.com/fluent/48/000000/save.png"/>
@@ -414,7 +410,7 @@
             </li>
           </div>
 
-          <div class="item" data-command="add-page" title="Add New Board">
+          <div class="item" data-command="add-page" title="{{#lang}}{{addNewBoard}}{{/lang}}">
             <li class="left-bar-item">
               <a class="left-bar-img">
                 <img src="https://img.icons8.com/fluent/48/000000/plus-2-math.png"/>
@@ -422,7 +418,7 @@
             </li>
           </div>
 
-          <div class="item" data-command="remove-page" title="Delete Current Board">
+          <div class="item" data-command="remove-page" title="{{#lang}}{{deleteCurrentBoard}}{{/lang}}">
             <li class="left-bar-item">
               <a class="left-bar-img">
                 <img src="https://img.icons8.com/color/48/000000/delete-forever.png"/>
@@ -430,7 +426,7 @@
             </li>
           </div>
 
-          <div class="item" data-command="clear-page" title="Clear Board">
+          <div class="item" data-command="clear-page" title="{{#lang}}{{clearBoard}}{{/lang}}">
             <li class="left-bar-item">
               <a class="left-bar-img">
                 <img style="position:relative;left:-2px;" src="https://img.icons8.com/dusk/64/000000/broom.png"/>
@@ -461,121 +457,153 @@
       <!-- Start Modal content -->
       <div class="modal-content">
         <div id="join-content" class="modal-main-content">
-          <p id="modal-content-header">Ready to Join?</p>
+          <p id="modal-content-header">{{#lang}}{{readyToJoin}}{{/lang}}</p>
           <img id="modal-image" />
           <div id="modal-buttons-container">
 
-            <button id="modal-select-button" class="live-button">Go live</button>
-
+            <div class="running">
+              <button id="modal-select-button" class="live-button live-button-inactive">
+                <div style="position: relative;top:2.4px;" class="ld ld-ring ld-spin"></div>
+                <span class="hidden">{{#lang}}{{goLive}}{{/lang}}</span>
+              </button>
+            </div>
             <div
-              title="Test your microphone"
+              title="{{#lang}}{{micTest}}{{/lang}}"
               id="test-mic"
-              class="test-mic-container mic-button"
+              class="test-mic-container hidden"
             >
               <i class="fa fa-cog cog"></i>
-              &nbsp;
-              <span class="test-mic">Test Microphone</span>
-              &nbsp;
+              <span class="test-mic">{{#lang}}{{Configure}}{{/lang}}</span>
             </div>
-  
-            <!--<button class = "modal-select-button mic_button">Test Mic</button>-->
+            {{#lectureTools}}
+              {{#webcam}}
+                {{#audio}}
+                  <div class="waiting-for-devices">
+                    {{#lang}}{{waitingDevices}}{{/lang}}
+                  </div>  
+                {{/audio}}
+              {{/webcam}}
+            {{/lectureTools}}
+            {{#lectureTools}}
+              {{^webcam}}
+                {{#audio}}
+                  <div class="waiting-for-devices">
+                    {{#lang}}{{waitingDevices}}{{/lang}}
+                  </div>  
+                {{/audio}}
+              {{/webcam}}
+            {{/lectureTools}}
+            {{#lectureTools}}
+              {{#webcam}}
+                {{^audio}}
+                  <div class="waiting-for-devices">
+                    {{#lang}}{{waitingDevices}}{{/lang}}
+                  </div>  
+                {{/audio}}
+              {{/webcam}}
+            {{/lectureTools}}
           </div>
           <!--Share Container-->
           <div class="share-container">
             <div>
               <div class="share-link-modal-title">
-                Share Your Lecture URL
+                {{#lang}}{{shareURL}}{{/lang}}
               </div>
               <div class="modal-url-share-container">
                 <div class="modal-url-share">
                   {{sharableUrl}}
                 </div>
                 <div id="modal-copy-link" class="modal-copy-button">
-                  Copy
+                  {{#lang}}{{Copy}}{{/lang}}
                 </div>
               </div>
             </div>
           </div>  
         </div>
-        <!--Start Mic content-->
-        <div id="mic-content" class="mic-content">
-          <div
-              id="go-back"
-              class="go-back back-button"
-            >
-              <i class="fa fa-arrow-left arrow-back"></i>
-              &nbsp;
-              <span class="go-back-modal">Go Live</span>
-              &nbsp;
-          </div>
-          <p id="mic-content-header">Voice Settings</p>
-          <div>
-            <p class="device-header">Input Device</p>
-          </div>
-          <div id="input-container">
-  
-            <div class="custom-select-wrapper">
-              <div class="custom-select">
-                  <div class="custom-select__trigger"><span></span>
-                      <div class="arrow"></div>
-                  </div>
-                  <div class="custom-options" id="select-options">
-            
+
+        {{#lectureTools}}
+          {{#audio}}
+            <!--Start Mic content-->
+            <div id="mic-content" class="mic-content">
+              <div
+                  id="go-back"
+                  class="go-back back-button"
+                >
+                  <i class="fa fa-arrow-left arrow-back"></i>
+                  &nbsp;
+                  <span class="go-back-modal">{{#lang}}{{goLive}}{{/lang}}</span>
+                  &nbsp;
+              </div>
+              <p id="mic-content-header">{{#lang}}{{voiceSettings}}{{/lang}}</p>
+              <div>
+                <p class="device-header">{{#lang}}{{inputDevice}}{{/lang}}</p>
+              </div>
+              <div id="input-container">
+      
+                <div class="custom-select-wrapper">
+                  <div class="custom-select">
+                      <div class="custom-select__trigger"><span></span>
+                          <div class="arrow"></div>
+                      </div>
+                      <div class="custom-options" id="select-options">
+                
+                      </div>
                   </div>
               </div>
-          </div>
-            <div
-              title="Mute"
-              id="mute-mic"
-              class="copy-link-container copy-button "
-            >
-            <i id="mute-icon" class="fa fa-microphone microphone" data-value=""></i>
-            <i id="muted-icon" class="fa fa-microphone-slash microphone" style='display: none;'></i>
-              &nbsp;
-              <span class="copy-link-modal"></span>
-              &nbsp;
-            </div>
-          </div>
-          <div>
-            <div id="mic-test-header">
-              <p class="mic-test-header">Mic Test</p>
-              <p class="mic-test-comment">Start a test to check up your mic!</p>
-            </div>
-            <div id="mic-test">
-              <div id="mic-buttons-container">
-                <button id = "test-mic-button" class = "test-mic-button">Check Mic</button>
-                <div id="myProgress">
-                  <div class="myProgress" id="myProgress1"></div>
-                  <div class="myProgress" id="myProgress2"></div>
-                  <div class="myProgress" id="myProgress3"></div>
-                  <div class="myProgress" id="myProgress4" ></div>
-                  <div class="myProgress" id="myProgress5"></div>
-                  <div class="myProgress" id="myProgress6"></div>
-                  <div class="myProgress" id="myProgress7"></div>
-                  <div class="myProgress" id="myProgress8"></div>
-                  <div class="myProgress" id="myProgress9"></div>
-                  <div class="myProgress" id="myProgress10"></div>
-                  <div class="myProgress" id="myProgress11"></div>
-                  <div class="myProgress" id="myProgress12"></div>
-                  <div class="myProgress" id="myProgress13"></div>
-                  <div class="myProgress" id="myProgress14"></div>
-                  <div class="myProgress" id="myProgress15"></div>
-                  <div class="myProgress" id="myProgress16"></div>
-                  <div class="myProgress" id="myProgress17"></div>
-                  <div class="myProgress" id="myProgress18"></div>
-                  <div class="myProgress" id="myProgress19"></div>
-                  <div class="myProgress" id="myProgress20"></div>
-                  <div class="myProgress" id="myProgress21"></div>
-                  <div class="myProgress" id="myProgress22"></div>
-                  <div class="myProgress" id="myProgress23"></div>
-                  <div class="myProgress" id="myProgress24"></div>
-                  <div class="myProgress" id="myProgress25"></div>             
+                <div
+                  title="{{#lang}}{{Mute}}{{/lang}}"
+                  id="mute-mic"
+                  class="copy-link-container copy-button "
+                >
+                <i id="mute-icon" class="fa fa-microphone microphone" data-value=""></i>
+                <i id="muted-icon" class="fa fa-microphone-slash microphone" style='display: none;'></i>
+                  &nbsp;
+                  <span class="copy-link-modal"></span>
+                  &nbsp;
                 </div>
+              </div>
+              <div>
+                <div id="mic-test-header">
+                  <p class="mic-test-header">{{#lang}}{{micTest}}{{/lang}}</p>
+                  <p class="mic-test-comment">{{#lang}}{{startMicTest}}{{/lang}}</p>
+                </div>
+                <div id="mic-test">
+                  <div id="mic-buttons-container">
+                    <button id = "test-mic-button" class = "test-mic-button">{{#lang}}{{checkMic}}{{/lang}}</button>
+                    <div id="myProgress">
+                      <div class="myProgress" id="myProgress1"></div>
+                      <div class="myProgress" id="myProgress2"></div>
+                      <div class="myProgress" id="myProgress3"></div>
+                      <div class="myProgress" id="myProgress4" ></div>
+                      <div class="myProgress" id="myProgress5"></div>
+                      <div class="myProgress" id="myProgress6"></div>
+                      <div class="myProgress" id="myProgress7"></div>
+                      <div class="myProgress" id="myProgress8"></div>
+                      <div class="myProgress" id="myProgress9"></div>
+                      <div class="myProgress" id="myProgress10"></div>
+                      <div class="myProgress" id="myProgress11"></div>
+                      <div class="myProgress" id="myProgress12"></div>
+                      <div class="myProgress" id="myProgress13"></div>
+                      <div class="myProgress" id="myProgress14"></div>
+                      <div class="myProgress" id="myProgress15"></div>
+                      <div class="myProgress" id="myProgress16"></div>
+                      <div class="myProgress" id="myProgress17"></div>
+                      <div class="myProgress" id="myProgress18"></div>
+                      <div class="myProgress" id="myProgress19"></div>
+                      <div class="myProgress" id="myProgress20"></div>
+                      <div class="myProgress" id="myProgress21"></div>
+                      <div class="myProgress" id="myProgress22"></div>
+                      <div class="myProgress" id="myProgress23"></div>
+                      <div class="myProgress" id="myProgress24"></div>
+                      <div class="myProgress" id="myProgress25"></div>             
+                    </div>
 
-              </div>  
+                  </div>  
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          {{/audio}}
+        {{/lectureTools}}
       </div>
       <!-- End Modal content -->
     </div>
@@ -584,6 +612,23 @@
     <div id="image-modal" style="display: none;" class="modal image-container">
       <div class="wrap-div-message-image"></div>
     </div>
+    <!-- Zoom Modal-->
+    <div id=zoom-modal style="display: none;" class="zoom-modal">
+      <div class="zoom-wrapper">
+        <span id="zoom-span"></span>
+      </div>
+    </div>
+    <input type="hidden" id="_id" value="{{id}}"/>
+    <input type="hidden" id="swal-title" value="{{#lang}}{{devicesErrorTitle}}{{/lang}}"/>
+    <input type="hidden" id="swal-text" value="{{#lang}}{{devicesErrorText}}{{/lang}}"/>
+    <input type="hidden" id="swal-help" value="{{#lang}}{{devicesErrorHelp}}{{/lang}}"/>
+    <input type="hidden" id="host-name-chat" value="{{#lang}}{{hostNameChat}}{{/lang}}"/>
+    <input type="hidden" id="you-name-chat" value="{{#lang}}{{youNameChat}}{{/lang}}"/>
+    {{#lectureTools}}
+      <input type="hidden" id="webcamValidator" value="{{webcam}}"/>
+      <input type="hidden" id="audioValidator" value="{{audio}}"/>
+      <input type="hidden" id="whiteboardValidator" value="{{whiteboard}}"/>
+    {{/lectureTools}}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/6.4.0/adapter.min.js"></script>
@@ -623,5 +668,9 @@
         },
       });
     </script>
+    <script>
+      var activeColor = '#424242'; var activeWidth = 4;
+    </script>
+    <script src="/manager/paperTools.js" type="text/paperscript" canvas="canvas"></script>
   </body>
 </html>

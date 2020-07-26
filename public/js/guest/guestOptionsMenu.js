@@ -1,30 +1,41 @@
+import { showInfoMessage } from '../utility.js';
+
+
 function handleOptionClick() {
   const targetId = this.getAttribute('target-id');
   const targetElem = $(`#${targetId}`);
+  if (targetId === 'boards-view' && $('#num-boards').html() === '0') {
+    showInfoMessage('No other boards to display');
+    return;
+  }
   const activeOptionClass = 'active-menu-item';
   const activeOptionButtonClass = 'active-menu-item-button';
-  const optionsMenu = $('.options-menu');
-  const noOptionsBoardersClass = 'menu-borders';
   if (targetElem.hasClass(activeOptionClass)) {
     targetElem.hide();
-    optionsMenu.addClass(noOptionsBoardersClass);
     targetElem.removeClass(activeOptionClass);
     $(this).removeClass(activeOptionButtonClass);
   } else {
-    optionsMenu.removeClass(noOptionsBoardersClass);
+    if (targetId === 'chat-view') {
+      $('#num-unread-messages').html(0);
+      $('.message-lecture-name').css('opacity', 0);
+      $('.message-content').css('opacity', 0);
+      $('.minimize-chat-view').css('opacity', 0);
+    } else if (targetId === 'boards-view') {
+      $('.non-active-boards-title').css('opacity', 0);
+    }
     $(`.${activeOptionClass}`).hide();
     $(`.${activeOptionClass}`).removeClass(activeOptionClass);
     $(`.${activeOptionButtonClass}`).removeClass(activeOptionButtonClass);
-    if (targetId === 'chat-view') {
-      $('.message-content').css('opacity', 0);
-    }
     targetElem.show();
     setTimeout(() => {
       targetElem.addClass(activeOptionClass);
       $(this).addClass(activeOptionButtonClass);
       setTimeout(() => {
+        $('.message-lecture-name').css('opacity', 0.4);
         $('.message-content').css('opacity', 1);
-      }, 300);
+        $('.non-active-boards-title').css('opacity', 1);
+        $('.minimize-chat-view').css('opacity', 1);
+      }, 700);
     }, 0);
   }
 }
@@ -32,4 +43,19 @@ function handleOptionClick() {
 export default function initializeOptionsMenu() {
   $('#toggle-boards-view').click(handleOptionClick);
   $('#toggle-chat-view').click(handleOptionClick);
+  $('#close-non-active-boards').click(() => $('#toggle-boards-view').click());
+  $('#minimize-chat-view').click(() => $('#toggle-chat-view').click());
+
+  $('#toggle-speaker').click(function () {
+    const volumeIcon = $(this).find('i');
+    volumeIcon.toggleClass('fa-volume-up');
+    volumeIcon.toggleClass('fa-volume-off');
+    $(this).parent().find('audio')[0].muted = volumeIcon.hasClass('fa-volume-off');
+  });
+
+  $('#connect-on-your-phone').click(() => $('#qr-code-modal').fadeIn());
+  $('.qrcode-modal-content').click((e) => e.stopPropagation());
+  $('#qr-code-modal').click(function () { $(this).fadeOut(); });
+
+  $('#toggle-chat-view').click();
 }

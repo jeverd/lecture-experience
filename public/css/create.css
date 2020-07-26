@@ -46,15 +46,30 @@ body,html{
   bottom: 3px;
 }
 
+.page-container{
+  background-image: url(/liteboardLandingBGlight.png);
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
 
 #create-lecture-graphic{
     margin: auto auto;
     padding-top: 1%;
     width: 80%;
-    max-width: 800px;
+    max-width: 1050px;
     min-width: 350px;
     position: relative;
     left: -5px;
+  }
+
+  @media only screen and (min-height: 860px) {
+    .view-container .footer{
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
   }
   
   #create-lecture-info{
@@ -125,8 +140,6 @@ body,html{
     justify-content: center;
     align-items: center;
     text-align: center;
-    min-height: 100vh;
-    margin-top: -80px;
   }
   
   .tooltip {
@@ -185,11 +198,10 @@ body,html{
   }
 
   .create-lecture-container{
-    background-image: url(/liteboardLandingBGlight.png);
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
+    display: flex;
+    justify-content: center;  
+    align-items: center;
+    margin: auto;
   }
 
   .back-to-homepage{
@@ -236,7 +248,7 @@ body,html{
 
     #create-lecture-info{
       width: 85%;
-      height: 400px;
+      margin-top: 3vh;
     }
   
     #info{

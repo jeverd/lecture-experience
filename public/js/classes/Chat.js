@@ -3,6 +3,7 @@ export default class Chat {
     this.container = document.getElementById(containerId);
     this.unreadCount = 0;
     this.history = [];
+    this.preview = null;
   }
 
   /**
@@ -26,7 +27,7 @@ export default class Chat {
     const nameSpan = document.createElement('span');
     nameSpan.classList.add('name-span');
     if (tableData.classList.contains('out')) {
-      nameSpan.innerHTML = 'You';
+      nameSpan.innerHTML = $('#you-name-chat').val();
       nameDiv.append(nameSpan);
       tableData.append(nameDiv);
     }
@@ -83,5 +84,9 @@ export default class Chat {
 
   scrollToBottom() {
     this.container.scrollTop = this.container.scrollHeight;
+  }
+
+  setPreview(src) {
+    this.preview = src;
   }
 }

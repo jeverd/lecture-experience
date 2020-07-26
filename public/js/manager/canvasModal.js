@@ -10,12 +10,8 @@
 import { copyTextToClipboard } from '../utility.js';
 
 export default function initializeModal(stream) {
-  // Mic button
-  document.getElementById('test-mic').addEventListener('click', () => {
-    const joinContent = document.getElementById('join-content');
-    const micContent = document.getElementById('mic-content');
-    joinContent.style.display = 'none';
-    micContent.style.display = 'block';
+  $('#modal-select-button').removeClass('live-button-inactive').find('.ld').fadeOut(function () {
+    $(this).parent().find('span').fadeIn();
   });
 
   $('#modal-copy-link').click(function () {
@@ -36,7 +32,14 @@ export default function initializeModal(stream) {
   });
 
   if (stream !== null) {
-    // back button
+    $('.waiting-for-devices').fadeOut(() => $('#test-mic').fadeIn());
+    document.getElementById('test-mic').addEventListener('click', () => {
+      const joinContent = document.getElementById('join-content');
+      const micContent = document.getElementById('mic-content');
+      joinContent.style.display = 'none';
+      micContent.style.display = 'block';
+    });
+
     document.getElementById('go-back').addEventListener('click', () => {
       const joinContent = document.getElementById('join-content');
       const micContent = document.getElementById('mic-content');
@@ -175,7 +178,9 @@ export default function initializeModal(stream) {
 
     // Start Select input
     let currentDevice;
-    stream.getAudioTracks().forEach((e) => { currentDevice = e.getCapabilities().deviceId; });
+    stream.getAudioTracks().forEach((track) => {
+      currentDevice = track.label;
+    });
 
     navigator.mediaDevices.enumerateDevices().then(gotDevices);
 
@@ -189,7 +194,7 @@ export default function initializeModal(stream) {
           newSpan.classList.add('custom-option');
           document.getElementById('select-options').appendChild(newSpan);
 
-          if (deviceInfo.deviceId === currentDevice) {
+          if (deviceInfo.label === currentDevice || true) {
             newSpan.classList.add('selected');
             newSpan.closest('.custom-select').querySelector('.custom-select__trigger span').textContent = newSpan.textContent;
           }
@@ -228,6 +233,5 @@ export default function initializeModal(stream) {
         select.classList.remove('open');
       }
     });
-  // End Select input
   }
 }

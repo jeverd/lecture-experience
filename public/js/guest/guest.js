@@ -2,9 +2,10 @@
 /* eslint-disable import/extensions */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-undef */
-import initializeChat from './guestChat.js';
+import initializeGuestChat from './guestChat.js';
 import { getUrlId, redirectToStats, getStatusColor } from '../utility.js';
 import initializeGuestRTC, { changeStatus } from './guestRTC.js';
+import setNonActiveBoards from './guestBoards.js';
 import initializeOptionsMenu from './guestOptionsMenu.js';
 import initializeTopMenu from './guestTopMenu.js';
 
@@ -15,15 +16,6 @@ let studentName;
 let currentBoard;
 
 function joinLecture() {
-  function setNonActiveBoards(boards) {
-    const boardsDiv = document.getElementById('non-active-boards');
-    boardsDiv.innerHTML = '';
-    boards.forEach((board) => {
-      const imgElem = document.createElement('img');
-      imgElem.src = board;
-      boardsDiv.appendChild(imgElem);
-    });
-  }
   const socket = io('/', {
     query: `id=${roomId}`,
   });
@@ -40,7 +32,7 @@ function joinLecture() {
     initializeOptionsMenu();
     initializeGuestRTC(roomIdAsInt);
     initializeTopMenu();
-    initializeChat(socket, room.lecture_details.id, studentName);
+    initializeGuestChat(socket, room.lecture_details.id, studentName);
   });
 
   socket.on('lectureEnd', () => {
@@ -66,8 +58,8 @@ function joinLecture() {
 
   socket.on('boards', setNonActiveBoards);
 
-  socket.on('currentBoard', (board) => {
-    currentBoard = board;
+  socket.on('currentBoard', (boardImg) => {
+    currentBoard = boardImg;
     document.querySelector('#whiteboard').poster = currentBoard;
   });
 }
@@ -81,12 +73,15 @@ window.onload = async () => {
       $('#lecture-status .status-dot').css('background', getStatusColor('starting'));
       $('#lecture-status .status-text').html($('#status-starting').val());
       $('video#whiteboard').parent().addClass('running');
-      joinLecture();
-      $('#login-lecture-modal').hide();
-      /*
+
+      // joinLecture();
+      // $('#login-lecture-modal').hide();
+
       fetch(`/validate/lecture?id=${roomId}`).then((req) => {
         switch (req.status) {
           case 200:
+            joinLecture();
+            $('#login-lecture-modal').hide();
             break;
           case 404:
             window.location.replace('/error?code=1');
@@ -97,7 +92,6 @@ window.onload = async () => {
           default: break;
         }
       });
-      */
     }
   });
 
