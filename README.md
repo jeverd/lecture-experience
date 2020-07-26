@@ -88,7 +88,7 @@ To run liteboard locally, you will need the following:
 
 
 
-## Contributing
+## 👏 Contributing
 We encourge anyone interested, to open Pull Requests!
 
 
