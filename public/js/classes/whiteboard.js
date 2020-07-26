@@ -181,7 +181,7 @@ export default class Whiteboard {
     var array = [];
     for (var i in window.app.getElem()) {
       const completePath = window.app.getElem()[i];
-      array.push([completePath.pathData, completePath.strokeColor, completePath.strokeWidth]);
+      array.push([completePath.pathData, completePath.strokeColor, completePath.strokeWidth, completePath.fillColor]);
     }
     return array;
   }
@@ -195,7 +195,7 @@ export default class Whiteboard {
     var array = [];
     for (var i in window.app.getElem()) {
       const completePath = window.app.getElem()[i];
-      array.push([completePath.pathData, completePath.strokeColor, completePath.strokeWidth]);
+      array.push([completePath.pathData, completePath.strokeColor, completePath.strokeWidth, completePath.fillColor]);
     }
     this.saveData = array;
     if (this.undoStack.length >= undoLimit) this.undoStack.shift();
@@ -207,7 +207,7 @@ export default class Whiteboard {
     var array = [];
     for (var i in window.app.getElem()) {
       const completePath = window.app.getElem()[i];
-      array.push([completePath.pathData, completePath.strokeColor, completePath.strokeWidth]);
+      array.push([completePath.pathData, completePath.strokeColor, completePath.strokeWidth, completePath.fillColor]);
     }
     this.saveData = array;
     if (this.undoStack.length >= redoLimit) this.redoStack.shift();

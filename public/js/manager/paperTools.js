@@ -335,6 +335,7 @@ window.app = {
       });
       loadedPath.strokeColor = array[i][1];
       loadedPath.strokeWidth = array[i][2];
+      loadedPath.fillColor = array[i][3];
       loadedPath.parent = items;
 
       drawsLayer.addChild(loadedPath);
