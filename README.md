@@ -17,10 +17,10 @@ Liteboard provides a platform, where anyone can host a lecture, via webcam, whit
 ## Contents
 - [Requirements](#-requirements)
 - [Getting Started](#-getting-started)
-- [Environment Variables](#-documentation)
+- [Environment Variables](#-Environment-Variables)
 - [How to Contribute](#-contributing)
-- [Code of Conduct](#code-of-conduct)
-- [License](#-license)
+- [License](#-License)
+- [Contributers](#-CONTRIBUTORS)
 
 
 ## 📝 Requirements
@@ -66,7 +66,7 @@ To run liteboard locally, you will need the following:
 ```
 
 
-#### Environment Variables
+#### 🌲 Environment Variables
 
 | Variable Name       | Type   | Description                                                                                                                                                            | Allowed                                       |
 |---------------------|--------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------|
@@ -91,11 +91,12 @@ To run liteboard locally, you will need the following:
 ## Contributing
 We encourge anyone interested, to open Pull Requests!
 
+
 ## 📄 License
 Liteboard is MIT licensed. Please refer to license file [here][1]
 
 
-## Contributors ✨
+## ✨ Contributors 
 
 Thanks goes to these wonderful people:
 
