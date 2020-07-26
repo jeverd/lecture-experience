@@ -20,7 +20,7 @@ Liteboard provides a platform, where anyone can host a lecture, via webcam, whit
 - [Environment Variables](#-Environment-Variables)
 - [How to Contribute](#-contributing)
 - [License](#-License)
-- [Contributers](#-CONTRIBUTORS)
+- [Contributors](#-CONTRIBUTORS)
 
 
 ## 📝 Requirements
