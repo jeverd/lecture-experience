@@ -1140,10 +1140,6 @@ div.messages.active-chat{
     left: 5px;
   }
 
-  .mic-content-header{
-    font-size: 18px!important;
-  }
-
   .myProgress{
     width: 7px !important;
   }
@@ -1443,14 +1439,6 @@ div.messages.active-chat{
   color: rgb(68, 65, 65);
 }
 
-#mic-content-header{
-  position: relative;
-  color: rgb(228, 225, 225);
-  left: 10px;
-  font-size: 20px;
-
-}
-
 .device-header,
 .mic-test-header{
   position: relative;
@@ -1468,7 +1456,7 @@ div.messages.active-chat{
 
 }
 
-#input-container{
+.input-container{
   position: relative;
   display: flex;
   left: 10px;
@@ -1637,11 +1625,6 @@ div.messages.active-chat{
   color: grey;
   font-size: 30px;
   display: inline-block;
-}
-
-#mute-mic{
-  position: relative;
-  left: -10px;  
 }
 
 .preview{
@@ -1824,4 +1807,70 @@ div.webcam-container{
   visibility: visible;
   opacity: 1;
   animation: fade-in 1s;
+}
+
+.configuration-modal-header{
+  display: flex;
+  justify-content: space-around;
+  margin: 10px;
+  color: rgb(228, 225, 225);
+  font-size: 1.2rem;
+  flex-wrap: wrap;
+}
+
+#mic-test-header{
+  position: relative;
+  top: 15px;
+}
+
+#goto-video-settings,
+#goto-audio-settings{
+  opacity: 0.5;
+  transition: 0.4s ease;
+  cursor: pointer;
+}
+
+.mute-audio-section{
+  font-size: 17px;
+  color: rgb(102, 102, 102);
+  display: flex;
+  margin-top: 20px;
+  position: relative;
+  top: 10px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.mute-audio-section > div#toggle-mute-text{
+  margin-left: 7.5px;
+  position: relative;
+  top: 4px;
+}
+
+.test-webcam-container{
+  text-align: center;
+  position: relative;
+  top: 20px;
+}
+
+.test-webcam-container video{
+  height: 200px;
+  border-radius: 0.25rem;
+}
+
+.test-webcam-button{
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  color: white;
+  background: rgb(70, 194, 255);
+  background: linear-gradient(200deg, #b10dc9 0%, #85144b 100%);
+  border: none;
+  border-radius: 0 .25rem 0 .25rem;
+  height: 27px;
+  transition: 1.5s;
+  cursor: pointer;
+  text-decoration: none;
+  outline: none;
 }
