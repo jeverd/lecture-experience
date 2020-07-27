@@ -163,7 +163,7 @@ app.get('/turnCreds', (req, res) => {
   }
 });
 
-app.get('/janusToken', (req, res) => {
+app.get('/rtcToken', (req, res) => {
   const janusToken = janusCredsGenerator(['janus.plugin.videoroom'], janusServerSecret);
   res.json({ janusToken, ttl: 86400 });
 });
