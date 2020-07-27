@@ -494,4 +494,198 @@ div.message-container {
 
 .incoming-message {
   margin-bottom: 8px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.outgoing-message {
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: flex-end;
+  justify-items: flex-start;
+}
+
+.name-span {
+  font-weight: 800;
+  font-size: .8rem;
+  color: var(--bg-primary);
+  opacity: 0.6;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.message-text{
+  text-align: left;
+}
+
+/*preview*/
+
+.preview{
+  position: relative;
+  top: -3px;
+  display: flex;
+  flex: 1;
+}
+
+.preview-content{
+  padding-top: 10px; 
+  padding-right: 30px; 
+  overflow: auto;
+}
+
+/*Preview*/
+.preview{
+  position: relative;
+  top: -3px;
+  display: flex;
+  flex: 1;
+  background-color: rgb(53, 53, 73);
+}
+
+.preview-content{
+  padding-top: 10px; 
+  padding-right: 30px; 
+  overflow: auto;
+}
+
+.close-preview{
+  cursor: pointer;
+  position: absolute;
+  right: 15px;
+  bottom: 55px;
+  color: var(--bg-primary);
+  opacity: 0.8;
+  transition: 0.25 ease;
+}
+
+.close-preview:hover{
+  opacity: 1;
+  transform: translateY(-2px) ;
+}
+
+#file-preview{
+  color: lightgray;
+  position: absolute;
+  left: 10px;
+  bottom: 5px;
+}
+
+.file-preview{
+  position: relative;
+  left: 0px;
+  top: -3px;
+  margin-left: 6px;
+}
+
+.file-preview i{
+  color : lightgray;
+}
+
+#name-file{
+  color: darkgray;
+  position: absolute;
+  left: 35px;
+  overflow: hidden;
+  text-overflow: ellipsis; 
+  white-space: nowrap;
+  width: 10rem;
+}
+
+.name-file{
+  color: darkgray;
+  position: relative;
+  margin-left: 7.5px;
+  top: 5px;
+  overflow: hidden;
+  display: inline-block;
+  text-overflow: ellipsis; 
+  white-space: nowrap;
+  max-width: 10rem;
+  transition: 0.25 ease;
+  cursor: pointer;
+}
+
+.name-file:hover{
+  text-decoration: underline;
+}
+
+.image-preview{
+  height: 120px;
+  position: relative;
+  left: 15px; 
+  border-radius: 0.25rem;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+.message-image{
+  display: flex;
+  height: 140px;
+  position: relative; 
+  border-radius: 0.25rem;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  cursor: pointer;
+}
+
+.image-container img{
+  border-radius: 0.45rem;
+  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+}
+
+.modal-message-image-vertical{
+  max-height: 360px;
+  height: 60vw;
+}
+
+.modal-message-image-horizontal{
+  max-width: 800px;
+  width: 85vw;
+}
+
+.wrap-div-message-image{
+  position: absolute;
+  width: auto;
+  height: auto;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.modal {
+  display: block; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1100000000000; /* Sit on top */
+  margin: 0 auto;
+  top: 50%;
+  left: 50%;/*put in the center*/
+  transform: translate(-50%, -50%);
+  
+  width: 100%; /* Full width */
+  height: 100%;
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.7); /* Black w/ opacity */
+}
+
+.download-container span {
+  position: relative;
+  z-index: 1;
+  color: grey;
+  margin-left: 10px;
+}
+
+.download-container {
+  position: absolute;
+  bottom: -17.5px;
+  left: 50%;
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%);
+  cursor: pointer;
+  display: flex;
+  opacity: 0.8;
+  transition: 0.25 ease;
+}
+
+.download-container:hover {
+  opacity: 1;
 }

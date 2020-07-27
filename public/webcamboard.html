@@ -59,50 +59,50 @@
                 <div class="classroom-info-flexbox">
                   <div class="lecture-running">
                     <span class="status-dot"><i class="fas fa-circle"></i> &nbsp;</span>
-                    <span class="lecture-running-text">Lecture Running</span>
+                    <span class="lecture-running-text">{{#lang}}{{statusLive}}{{/lang}}</span>
                     <span class="divider"></span>
                   </div>
           
                   <div
-                    title="Click to end lecture"
+                    title="{{#lang}}{{clickEndLecture}}{{/lang}}"
                     id="end-lecture"
                     class="end-lecture-container"
                   >
                     <i class="fas fa-sign-out-alt end-lecture-icon"></i>
                     &nbsp;
-                    <span class="end-lecture-text">End Lecture</span>
+                    <span class="end-lecture-text">{{#lang}}{{endLecture}}{{/lang}}</span>
                     &nbsp;
                   </div>
           
                   <span class="divider"></span>
           
                   <div
-                    title="Share lecture link"
+                    title="{{#lang}}{{shareLectureLink}}{{/lang}}"
                     id="copy-share-link"
                     class="copy-link-container"
                   >
                     <i class="fas fa-link sharelink-info-icon"></i>
                     &nbsp;
-                    <span class="copy-link-text">Share Link</span>
+                    <span class="copy-link-text">{{#lang}}{{shareLink}}{{/lang}}</span>
                     &nbsp;
                   </div>
           
                   <span class="divider"></span>
           
                   <div
-                    title="Lecture Settings"
+                    title="{{#lang}}{{lectureSettings}}{{/lang}}"
                     id="mic-config"
                     class="mic-config-container"
                   >
                     <i class="fa fa-cog cog config-icon-top-menu"></i>
                     &nbsp;
-                    <span class="mic-config-text">Configure</span>
+                    <span class="mic-config-text">{{#lang}}{{Configure}}{{/lang}}</span>
                     &nbsp;
                   </div>
           
                   <span class="divider"></span>
           
-                  <div title="Number of Spectators" class="lecture-spectators">
+                  <div title="{{#lang}}{{spectatorsNumber}}{{/lang}}" class="lecture-spectators">
                     <span>
                       <i class="fas fa-eye"></i>
                       &nbsp;
@@ -112,7 +112,7 @@
           
                   <span class="divider"></span>
           
-                  <div title="Minimize View" class="hide-bar-button-container">
+                  <div title="{{#lang}}{{lectureMinimizeView}}{{/lang}}" class="hide-bar-button-container">
                     <button class="hide-bar-button">
                       <i class="fas fa-level-up-alt"></i>
                     </button>
@@ -122,7 +122,7 @@
             </div>
             <div id="chat-view" class="chat active-menu-item">
               <div id="wrapper" class="messages-main">
-                  <div title="{{#lang}}{{lectureMinimizeView}}{{/lang}}Minimize Chat View" class="minimize-chat-view">
+                  <div title="{{#lang}}{{lectureMinimizeView}}{{/lang}}" class="minimize-chat-view">
                       <div>{{#lang}}{{lectureChat}}{{/lang}}</div>
                       <div id="minimize-chat-view">
                           <i class="fa fa-minus" aria-hidden="true"></i>
@@ -220,6 +220,9 @@
   <h2 class="responsive-condition">
     Sorry, Liteboard isn't supported on this device yet
   </h2>
+  <div id="image-modal" style="display: none;" class="modal image-container">
+    <div class="wrap-div-message-image"></div>
+  </div>
 
   <script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
   <script>

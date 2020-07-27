@@ -1335,7 +1335,7 @@ div.messages.active-chat{
 }
 
 #name-file{
-  color: lightgray;
+  color: darkgray;
   position: absolute;
   left: 35px;
   overflow: hidden;
@@ -1345,7 +1345,7 @@ div.messages.active-chat{
 }
 
 .name-file{
-  color: white;
+  color: darkgray;
   position: relative;
   margin-left: 7.5px;
   top: 5px;
