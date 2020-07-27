@@ -110,7 +110,6 @@ export default function initializeManagerRTC(roomId, canvasStream, beginLectureC
     navigator.mediaDevices.getUserMedia(mediaConstraints)
       .then((stream) => {
         successCb(stream);
-        initializeJanus(stream);
       })
       .catch((error) => {
         console.log(error);
@@ -146,6 +145,7 @@ export default function initializeManagerRTC(roomId, canvasStream, beginLectureC
         stream.addTrack(updatedTrack);
       });
       changeStatus.starting();
+      initializeJanus(updatedStream);
     }, device);
   }
 
@@ -153,8 +153,12 @@ export default function initializeManagerRTC(roomId, canvasStream, beginLectureC
     getUserMedia((stream) => {
       beginLectureCb();
       initializeStreamConfigurations(stream, changeDevice);
+      initializeJanus(stream);
     });
-  } else beginLectureCb();
+  } else {
+    beginLectureCb();
+    initializeJanus();
+  }
 
   $('#minimize-webcam-view').click(() => {
     $('#active-webcam-view').fadeOut(() => $('#inactive-webcam-view').fadeIn());

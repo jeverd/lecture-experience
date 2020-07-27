@@ -54,8 +54,8 @@ const sendManagerDisconnectEmail = (toEmail, id) => { // doesn't matter because 
     if (err) {
       logger.error('EMAIL: issue reading html file ');
     } else {
-      const renderHtml = Mustache.render(html, { link });
-      sendEmail(toEmail, subject, renderHtml);
+      const renderedHtml = Mustache.render(html, { link });
+      sendEmail(toEmail, subject, renderedHtml);
     }
   });
 };
