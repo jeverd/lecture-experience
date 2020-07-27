@@ -14,6 +14,7 @@ import { handleBoardsViewButtonsDisplay } from '../manager/managerBoards.js';
 import Fill from './fill.js';
 import Point from './point.js';
 import Tools from './Tools.js';
+import Board from './Board.js';
 
 const DEFAULT_COLOR = '#424242';
 
@@ -29,7 +30,6 @@ export default class Whiteboard {
     this.onScroll();
     this.paintWhite();
     this.boards = [];
-    this.paths = [];
     this.centerCoords = [];
     this.undoStack = [];
     this.redoStack = [];
@@ -181,9 +181,13 @@ export default class Whiteboard {
     var array = [];
     for (var i in window.app.getElem()) {
       const completePath = window.app.getElem()[i];
-      array.push([completePath.pathData, completePath.strokeColor, completePath.strokeWidth]);
+      array.push([completePath.pathData, completePath.strokeColor, completePath.strokeWidth, completePath.fillColor]);
     }
     return array;
+  }
+
+  makeNewBoard() {
+    return new Board(this.getDraws(), this.getImage());
   }
 
   pushToUndoStack() {
@@ -191,7 +195,7 @@ export default class Whiteboard {
     var array = [];
     for (var i in window.app.getElem()) {
       const completePath = window.app.getElem()[i];
-      array.push([completePath.pathData, completePath.strokeColor, completePath.strokeWidth]);
+      array.push([completePath.pathData, completePath.strokeColor, completePath.strokeWidth, completePath.fillColor]);
     }
     this.saveData = array;
     if (this.undoStack.length >= undoLimit) this.undoStack.shift();
@@ -203,7 +207,7 @@ export default class Whiteboard {
     var array = [];
     for (var i in window.app.getElem()) {
       const completePath = window.app.getElem()[i];
-      array.push([completePath.pathData, completePath.strokeColor, completePath.strokeWidth]);
+      array.push([completePath.pathData, completePath.strokeColor, completePath.strokeWidth, completePath.fillColor]);
     }
     this.saveData = array;
     if (this.undoStack.length >= redoLimit) this.redoStack.shift();

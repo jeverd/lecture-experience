@@ -34,11 +34,12 @@ export default function initializeManagerChat(socket, roomId) {
     e.preventDefault();
     const messageContent = messageInput.value.trim();
     if (messageContent !== '' || chat.preview !== null) {
-      const message = new Message(messageContent, chat.preview, 'Professor', 'yellow');
+      const message = new Message(messageContent, chat.preview, $('#host-name-chat').val(), 'rgba(70, 194, 255, 1)');
       socket.emit('send-to-room', roomId, message);
       chat.appendMessage(message, false);
       messageInput.value = '';
       fileInput.value = '';
+      chat.preview = null;
     }
   });
 }

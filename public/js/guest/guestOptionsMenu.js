@@ -53,7 +53,9 @@ export default function initializeOptionsMenu() {
     $(this).parent().find('audio')[0].muted = volumeIcon.hasClass('fa-volume-off');
   });
 
+  // check this later to use it on the other modals.
   $('#connect-on-your-phone').click(() => $('#qr-code-modal').fadeIn());
+  $('.qrcode-modal-content').click((e) => e.stopPropagation());
   $('#qr-code-modal').click(function (e) { e.stopPropagation(); $(this).fadeOut(); });
 
   $('#toggle-chat-view').click();

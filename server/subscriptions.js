@@ -4,7 +4,7 @@
 const { io } = require('./servers');
 const redisClient = require('./servers').client;
 const { logger } = require('./services/logger/logger');
-const { sendManagerDisconnectEmail } = require('./services/emailer');
+const { sendManagerDisconnectEmail } = require('./services/emailer/emailer');
 const Stats = require('./models/stats');
 
 
@@ -130,18 +130,20 @@ io.sockets.on('connection', (socket) => {
             redisClient.hmset('rooms', {
               [roomToJoin]: JSON.stringify(roomObj),
             });
-            socket.broadcast.to(roomToJoin).emit('boards',
-              boardObj.boards.filter((e, i) => i !== boardObj.activeBoardIndex));
+            socket.broadcast.to(roomToJoin).emit('boards', boardObj.boards.reduce((boardImgs, board, i) => {
+              if (i !== boardObj.activeBoardIndex) boardImgs.push(board.image);
+              return boardImgs;
+            }, []));
           }
         });
       });
-      socket.on('currentBoardToAll', (board) => {
-        socket.broadcast.to(roomToJoin).emit('currentBoard', board);
+      socket.on('currentBoardToAll', (boardImg) => {
+        socket.broadcast.to(roomToJoin).emit('currentBoard', boardImg);
       });
       socket.on('currentBoard', (obj) => {
-        const { studentSocket, board } = obj;
+        const { studentSocket, boardImg } = obj;
         if (studentSocket in io.in(roomToJoin).connected) {
-          io.in(roomToJoin).connected[studentSocket].emit('currentBoard', board);
+          io.in(roomToJoin).connected[studentSocket].emit('currentBoard', boardImg);
         }
       });
       logger.info(`SOCKET: Initializing ${roomToJoin}  - manager joined`);
@@ -170,6 +172,7 @@ io.sockets.on('connection', (socket) => {
         const { managerId } = lectureObj;
         if (isIncomingStudent) {
           delete lectureObj.managerId;
+          lectureObj.boards = lectureObj.boards.map((board) => board.image);
           // notify manager to about incoming student
           redisClient.hmget('managers', managerId, (error, manager) => {
             manager = manager.pop();

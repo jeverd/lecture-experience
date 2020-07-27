@@ -6,6 +6,11 @@ import {
 } from '../utility.js';
 
 export const changeStatus = {
+  starting: () => {
+    $('#lecture-status .status-dot').css('background', getStatusColor('starting'));
+    $('#lecture-status .status-text').html($('#status-starting').val());
+    $('video#whiteboard').parent().addClass('running');
+  },
   host_disconnected: () => {
     $('video#whiteboard').parent().addClass('running');
     $('video#whiteboard').attr('srcObject', null);
@@ -130,6 +135,7 @@ export default async function initializeGuestRTC(roomId) {
                     case 'event':
                       if (typeof msg.unpublished !== 'undefined' || typeof msg.leaving !== 'undefined') {
                         // Handle here properly when the manager disconnects
+                        changeStatus.host_disconnected();
                       } else if (typeof msg.publishers !== 'undefined') {
                         joinFeed(msg.publishers);
                       }

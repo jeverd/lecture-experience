@@ -33,6 +33,7 @@ export default function initializeGuestChat(socket, roomId, name) {
       chat.appendMessage(message, false);
       messageInput.value = '';
       fileInput.value = '';
+      chat.preview = null;
     }
   });
 }
