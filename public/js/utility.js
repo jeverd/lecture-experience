@@ -133,7 +133,7 @@ export function addStream(htmlElem, streamTrack) {
 }
 
 export async function getJanusToken() {
-  const response = await fetch('/janusToken');
+  const response = await fetch('/rtcToken');
   if (response.status === 200) {
     const { janusToken } = await response.json();
     return janusToken;

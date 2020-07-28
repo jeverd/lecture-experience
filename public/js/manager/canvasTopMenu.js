@@ -1,6 +1,7 @@
 /* eslint-disable import/extensions */
 /* eslint-disable no-undef */
 import { showInfoMessage, redirectToStats, copyTextToClipboard } from '../utility.js';
+import { showConfigModal } from './streamConfigurations.js';
 
 export default function initializeCanvasTopMenu(socket, roomId) {
   const hasAudio = $('#audioValidator').val() === 'true';
@@ -19,10 +20,11 @@ export default function initializeCanvasTopMenu(socket, roomId) {
 
   if (hasAudio || hasWebcam) {
     document.querySelector('#mic-config').addEventListener('click', () => {
+
       $('#welcome-lecture-modal').show();
       $('#join-content').hide();
-      $('#mic-content').show();
       $('#go-back').hide();
+      showConfigModal();
       document.querySelector('.modal-content').classList.add('lecture');
     });
   } else {
