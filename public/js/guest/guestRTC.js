@@ -176,10 +176,4 @@ export default async function initializeGuestRTC(roomId) {
       $('.options-webcam').fadeIn();
     });
   });
-
-  if (hasAudio) {
-    setTimeout(() => {
-      speaker.muted = false;
-    }, 400);
-  }
 }

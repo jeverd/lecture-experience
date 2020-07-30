@@ -49,8 +49,8 @@ export default function initializeOptionsMenu() {
   $('#toggle-speaker').click(function () {
     const volumeIcon = $(this).find('i');
     volumeIcon.toggleClass('fa-volume-up');
-    volumeIcon.toggleClass('fa-volume-off');
-    $(this).parent().find('audio')[0].muted = volumeIcon.hasClass('fa-volume-off');
+    volumeIcon.toggleClass('fa-volume-mute');
+    $(this).parent().find('audio')[0].muted = volumeIcon.hasClass('fa-volume-mute');
   });
 
   // check this later to use it on the other modals.
