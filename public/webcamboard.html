@@ -7,6 +7,15 @@
 <!--<![endif]-->
 
 <head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-173522034-1"></script>
+    <script>
+      if (document.location.hostname.search("liteboard.io") !== -1) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-173522034-1');
+      }
+    </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet"
@@ -43,7 +52,7 @@
         <div class="centered ">
 
           
-
+          
           <div class="content">
             <div class="webcam">
               <!-- <video id="my_video_1" class="video-js vjs-default-skin" width="800px" height="400px"
@@ -53,8 +62,8 @@
                 <source src="https://vjs.zencdn.net/v/oceans.mp4" type='video/mp4' />
                 <source src="https://vjs.zencdn.net/v/oceans.webm" type='video/webm' />
               </video> -->
-              <img style="height: auto; width: 100%;" src="https://mattstauffer.com/assets/images/content/streaming-setup/sony-key-lights-blue.jpg" alt="">
               
+              <video muted id="webcam" playsinline autoplay></video>
               <div class="classroom-info">
                 <div class="classroom-info-flexbox">
                   <div class="lecture-running">
@@ -158,6 +167,212 @@
           </div>
         </div>
       </div>
+    <!-- Start Modal -->
+    <div id="welcome-lecture-modal" class="modal">
+      <!-- Start Modal content -->
+      <div class="modal-content">
+        <div id="join-content" class="modal-main-content">
+          <p id="modal-content-header">{{#lang}}{{readyToJoin}}{{/lang}}</p>
+          <img id="modal-image" />
+          <div id="modal-buttons-container">
+
+            <div class="running">
+              <button id="modal-select-button" class="live-button live-button-inactive">
+                <div style="position: relative;top:2.4px;" class="ld ld-ring ld-spin"></div>
+                <span class="hidden">{{#lang}}{{goLive}}{{/lang}}</span>
+              </button>
+            </div>
+            <div
+              title="{{#lang}}{{micTest}}{{/lang}}"
+              id="open-device-configuration"
+              class="test-mic-container hidden"
+            >
+              <i class="fa fa-cog cog"></i>
+              <span class="test-mic">{{#lang}}{{Configure}}{{/lang}}</span>
+            </div>
+            {{#lectureTools}}
+              {{#webcam}}
+                {{#audio}}
+                  <div class="waiting-for-devices">
+                    {{#lang}}{{waitingDevices}}{{/lang}}
+                  </div>  
+                {{/audio}}
+              {{/webcam}}
+            {{/lectureTools}}
+            {{#lectureTools}}
+              {{^webcam}}
+                {{#audio}}
+                  <div class="waiting-for-devices">
+                    {{#lang}}{{waitingDevices}}{{/lang}}
+                  </div>  
+                {{/audio}}
+              {{/webcam}}
+            {{/lectureTools}}
+            {{#lectureTools}}
+              {{#webcam}}
+                {{^audio}}
+                  <div class="waiting-for-devices">
+                    {{#lang}}{{waitingDevices}}{{/lang}}
+                  </div>  
+                {{/audio}}
+              {{/webcam}}
+            {{/lectureTools}}
+          </div>
+          <!--Share Container-->
+          <div class="share-container">
+            <div>
+              <div class="share-link-modal-title">
+                {{#lang}}{{shareURL}}{{/lang}}
+              </div>
+              <div class="modal-url-share-container">
+                <div class="modal-url-share">
+                  {{sharableUrl}}
+                </div>
+                <div id="modal-copy-link" class="modal-copy-button">
+                  {{#lang}}{{Copy}}{{/lang}}
+                </div>
+              </div>
+            </div>
+          </div>  
+        </div>
+
+        <div id="device-configuration-header" style="display: none;">
+          <div
+            id="go-back"
+            class="go-back back-button"
+          >
+            <i class="fa fa-arrow-left arrow-back"></i>
+            &nbsp;
+            <span class="go-back-modal">{{#lang}}{{goLive}}{{/lang}}</span>
+            &nbsp;
+          </div>
+          <div class="configuration-modal-header">
+            {{#lectureTools}}
+              {{#audio}}
+                <div id="goto-audio-settings">
+                  Audio Settings
+                </div>
+              {{/audio}}
+              {{#webcam}}
+                <div id="goto-video-settings">
+                  Video Settings
+                </div>
+              {{/webcam}}
+            {{/lectureTools}}
+          </div>
+          {{#lectureTools}}
+            {{#audio}}
+              <!--Start Mic content-->
+              <div id="mic-content" class="mic-content">
+                <div>
+                  <p class="device-header">{{#lang}}{{inputDevice}}{{/lang}}</p>
+                </div>
+                <div class="input-container">
+        
+                  <div class="custom-select-wrapper">
+                    <div class="custom-select">
+                        <div class="custom-select__trigger"><span></span>
+                            <div class="arrow"></div>
+                        </div>
+                        <div class="custom-options" id="select-options-audio">
+                  
+                        </div>
+                    </div>
+                  </div>
+                </div>
+                <input type="hidden" id="unmute-text" value="{{#lang}}{{Unmute}}{{/lang}}"/>
+                <input type="hidden" id="mute-text" value="{{#lang}}{{Mute}}{{/lang}}"/>
+                <div
+                  title="{{#lang}}{{Mute}}{{/lang}}"
+                  id="mute-mic"
+                  class="mute-audio-section"
+                >
+                  <i id="mute-icon" class="fa fa-microphone microphone" data-value=""></i>
+                  <i id="muted-icon" class="fa fa-microphone-slash microphone" style='display: none;'></i>
+                  <div id="toggle-mute-text">{{#lang}}{{Mute}}{{/lang}}</div>
+                </div>
+                <div>
+                  <div id="mic-test-header">
+                    <p class="mic-test-header">{{#lang}}{{micTest}}{{/lang}}</p>
+                  </div>
+                  <div id="mic-test">
+                    <div id="mic-buttons-container">
+                      <input type="hidden" id="check-audio-text" value="{{#lang}}{{check}}{{/lang}}"/>
+                      <input type="hidden" id="stop-test-audio-text" value="{{#lang}}{{stop}}{{/lang}}"/>
+                      <button id = "test-mic-button" class = "test-mic-button">{{#lang}}{{check}}{{/lang}}</button>
+                      <div id="myProgress">
+                        <div class="myProgress" id="myProgress1"></div>
+                        <div class="myProgress" id="myProgress2"></div>
+                        <div class="myProgress" id="myProgress3"></div>
+                        <div class="myProgress" id="myProgress4" ></div>
+                        <div class="myProgress" id="myProgress5"></div>
+                        <div class="myProgress" id="myProgress6"></div>
+                        <div class="myProgress" id="myProgress7"></div>
+                        <div class="myProgress" id="myProgress8"></div>
+                        <div class="myProgress" id="myProgress9"></div>
+                        <div class="myProgress" id="myProgress10"></div>
+                        <div class="myProgress" id="myProgress11"></div>
+                        <div class="myProgress" id="myProgress12"></div>
+                        <div class="myProgress" id="myProgress13"></div>
+                        <div class="myProgress" id="myProgress14"></div>
+                        <div class="myProgress" id="myProgress15"></div>
+                        <div class="myProgress" id="myProgress16"></div>
+                        <div class="myProgress" id="myProgress17"></div>
+                        <div class="myProgress" id="myProgress18"></div>
+                        <div class="myProgress" id="myProgress19"></div>
+                        <div class="myProgress" id="myProgress20"></div>
+                        <div class="myProgress" id="myProgress21"></div>
+                        <div class="myProgress" id="myProgress22"></div>
+                        <div class="myProgress" id="myProgress23"></div>
+                        <div class="myProgress" id="myProgress24"></div>
+                        <div class="myProgress" id="myProgress25"></div>             
+                      </div>
+                    </div>  
+                  </div>
+                </div>
+              </div>
+            {{/audio}}
+          {{/lectureTools}}
+          {{#lectureTools}}
+            {{#webcam}}
+              <!--Start Mic content-->
+              <div id="webcam-content" class="mic-content">
+                <div>
+                  <p class="device-header">{{#lang}}{{inputDevice}}{{/lang}}</p>
+                </div>
+                <div class="input-container">
+                  <div class="custom-select-wrapper">
+                    <div class="custom-select">
+                        <div class="custom-select__trigger"><span></span>
+                            <div class="arrow"></div>
+                        </div>
+                        <div class="custom-options" id="select-options-webcam">
+                  
+                        </div>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <div id="mic-test-header">
+                    <p class="mic-test-header" style="margin: 0;">{{#lang}}{{testWebcam}}{{/lang}}</p>
+                  </div>
+                  <div class="test-webcam-container">
+                    <div style="display: inline-block;position:relative;">
+                      <input type="hidden" id="check-webcam-text" value="{{#lang}}{{check}}{{/lang}}"/>
+                      <input type="hidden" id="stop-test-webcam-text" value="{{#lang}}{{stop}}{{/lang}}"/>
+                      <button id="test-webcam-button" class="test-webcam-button">{{#lang}}{{check}}{{/lang}}</button>
+                      <video id="test-webcam-src" poster="/test-webcam.png" playsinline muted autoplay></video>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {{/webcam}}
+          {{/lectureTools}}
+        </div>
+      </div>
+      <!-- End Modal content -->
+    </div>
+    <!-- End Modal -->  
 
    
 
@@ -230,11 +445,46 @@
     ScrollReveal().reveal("#create-lecture-info", { delay: 300 });
   </script>
   <script src="https://vjs.zencdn.net/7.8.3/video.js"></script>
+
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
   <script src="/socket.io/socket.io.js"></script>
   <script type="text/javascript" async defer src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/6.4.0/adapter.min.js"></script>
   <script src="/lib/janus.js" async defer></script>
   <script src="/manager/manager.js" type="module"></script>
+  <script
+      src="https://browser.sentry-cdn.com/5.19.1/bundle.min.js"
+      integrity="sha384-ibWewy8LWP0FdvEBD3iLjNmbFkkh/FKtOz8GR9C8ZBWjDTbjbdIDpa4nc/AasWns"
+      crossorigin="anonymous"></script>
+  <script>
+    Sentry.init({
+    dsn: '{{{sentryDSN}}}',
+    environment: '{{sentryEnvironment}}',
+    beforeSend(event, hint) {
+      // Check if it is an exception, and if so, show the report dialog
+      if (event.exception) {
+        const modal = {
+          subtitle2: '',
+          labelName: '{{#lang}}{{reportBugLabelName}}{{/lang}}',
+          labelEmail: '{{#lang}}{{reportBugLabelEmail}}{{/lang}}',
+          labelClose: '{{#lang}}{{reportBugLabelClose}}{{/lang}}',
+          labelSubmit: '{{#lang}}{{reportBugLabelSubmit}}{{/lang}}',
+          labelComments: '{{#lang}}{{reportBugLabelIssue}}{{/lang}}',
+          errorFormEntry: '{{#lang}}{{reportBugFormError}}{{/lang}}',
+          successMessage: '{{#lang}}{{reportBugSuccess}}{{/lang}}'
+        };
+        if (hint.originalException.message === 'BUG_REPORT'){
+          modal.title = '{{#lang}}{{reportBugTitle}}{{/lang}}';
+          modal.subtitle = '{{#lang}}{{reportBugSubtitle}}{{/lang}}';
+        } else {
+          modal.title = '{{#lang}}{{actualBugTitle}}{{/lang}}';
+          modal.subtitle = '{{#lang}}{{actualBugSubtitle}}{{/lang}}';
+        }
+        Sentry.showReportDialog({eventId: event.event_id, ...modal})
+      }
+      return event;
+    },
+  });
+</script>    
 </body>
 
 </html>

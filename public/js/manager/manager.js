@@ -18,6 +18,7 @@ const hasWebcam = $('#webcamValidator').val() === 'true';
 const hasWhiteboard = $('#whiteboardValidator').val() === 'true';
 const canvas = document.getElementById('canvas');
 
+
 function beginLecture(whiteboard, canvasStream) {
   const socket = io('/', { query: `id=${managerId}` });
 
@@ -44,11 +45,14 @@ function beginLecture(whiteboard, canvasStream) {
   socket.on('invalidLecture', reloadWindow);
 
   socket.on('ready', (room) => {
-    const { boards, boardActive } = room.lecture_details;
+    if (hasWhiteboard) {
+      const { boards, boardActive } = room.lecture_details;
+      whiteboard.initialize();
+      initializeToolsMenu(whiteboard);
+      initializeActionsMenu(socket, whiteboard, canvasStream);
+      initializeBoards(socket, whiteboard, boards, boardActive, canvasStream);
+    }
     initializeCanvasTopMenu(socket, room.lecture_details.id);
-    initializeToolsMenu(whiteboard);
-    initializeActionsMenu(socket, whiteboard, canvasStream);
-    initializeBoards(socket, whiteboard, boards, boardActive, canvasStream);
     initializeManagerChat(socket, room.lecture_details.id);
   });
 }
@@ -85,21 +89,26 @@ window.onload = () => {
 
     $('#modal-select-button').click(() => {
       $('#welcome-lecture-modal').hide();
-      fetch(`/validate/lecture?id=${roomId}`).then((req) => {
-        switch (req.status) {
-          case 200:
-            beginLecture(whiteboard, canvasStream);
-            $('#welcome-lecture-modal').hide();
-            break;
-          case 404:
-            window.location.replace('/error?code=1');
-            break;
-          case 401:
-            window.location.replace('/error?code=2');
-            break;
-          default: break;
-        }
-      });
+      if (!hasWhiteboard) {
+        beginLecture(whiteboard, canvasStream);
+        $('#welcome-lecture-modal').hide();
+      } else {
+        fetch(`/validate/lecture?id=${roomId}`).then((req) => {
+          switch (req.status) {
+            case 200:
+              beginLecture(whiteboard, canvasStream);
+              $('#welcome-lecture-modal').hide();
+              break;
+            case 404:
+              window.location.replace('/error?code=1');
+              break;
+            case 401:
+              window.location.replace('/error?code=2');
+              break;
+            default: break;
+          }
+        });
+      }
     });
   });
 };
