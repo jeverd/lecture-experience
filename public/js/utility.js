@@ -70,13 +70,11 @@ export function getUrlId() {
 }
 
 export function getJanusUrl() {
-  let { host } = window.location;
+  const { host } = window.location;
   if (host.includes('localhost')) {
-    host = 'localhost:8088';
-  } else {
-    host = 'janus:8088';
+    return 'http://localhost:8088/janus';
   }
-  return `http://${host}/janus`;
+  return '/janus';
 }
 
 export function buildPostRequestOpts(body) {
