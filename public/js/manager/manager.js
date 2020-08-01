@@ -82,24 +82,22 @@ window.onload = () => {
 
 
     $('#modal-select-button').click(() => {
-      beginLecture(whiteboard, canvasStream);
-      $('#welcome-lecture-modal').hide();
 
-      // fetch(`/validate/lecture?id=${roomId}`).then((req) => {
-      //   switch (req.status) {
-      //     case 200:
-      //       beginLecture(whiteboard, canvasStream);
-      //       $('#welcome-lecture-modal').hide();
-      //       break;
-      //     case 404:
-      //       window.location.replace('/error?code=1');
-      //       break;
-      //     case 401:
-      //       window.location.replace('/error?code=2');
-      //       break;
-      //     default: break;
-      //   }
-      // });
+      fetch(`/validate/lecture?id=${roomId}`).then((req) => {
+        switch (req.status) {
+          case 200:
+            beginLecture(whiteboard, canvasStream);
+            $('#welcome-lecture-modal').hide();
+            break;
+          case 404:
+            window.location.replace('/error?code=1');
+            break;
+          case 401:
+            window.location.replace('/error?code=2');
+            break;
+          default: break;
+        }
+      });
     });
   });
 };

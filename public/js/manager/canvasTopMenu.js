@@ -20,7 +20,6 @@ export default function initializeCanvasTopMenu(socket, roomId) {
 
   if (hasAudio || hasWebcam) {
     document.querySelector('#mic-config').addEventListener('click', () => {
-
       $('#welcome-lecture-modal').show();
       $('#join-content').hide();
       $('#go-back').hide();
@@ -32,8 +31,10 @@ export default function initializeCanvasTopMenu(socket, roomId) {
     $('#config-divider').hide();
   }
 
-  socket.on('updateNumOfStudents', (num) => {
-    document.getElementById('specs').innerHTML = num;
+  socket.on('updateNumOfStudents', (roomSizeObj) => {
+    if (`${roomSizeObj.room}` === `${roomId}`) {
+      document.getElementById('specs').innerHTML = roomSizeObj.size;
+    }
   });
 
   document.querySelector('#end-lecture').addEventListener('click', () => {

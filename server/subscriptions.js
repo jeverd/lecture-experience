@@ -5,6 +5,7 @@ const { io } = require('./servers');
 const redisClient = require('./servers').client;
 const { logger } = require('./services/logger/logger');
 const { sendManagerDisconnectEmail } = require('./services/emailer/emailer');
+const { environment } = require('../config/config');
 const Stats = require('./models/stats');
 
 
@@ -15,7 +16,8 @@ function updateNumOfStudents(room) {
     const roomObj = io.sockets.adapter.rooms[room];
     const roomSize = roomObj.length;
     const numOfStudents = roomSize + (room in roomsTimeout ? 0 : -1);
-    io.in(room).emit('updateNumOfStudents', numOfStudents);
+    logger.info(`SOCKET: updating number of students for room ${room}`);
+    io.sockets.in(room).emit('updateNumOfStudents', { size: numOfStudents, room });
     redisClient.hmget('stats', room, (error, stats) => {
       stats = stats.pop();
       logger.info(`STATS: adding stats on room ${room}`);
@@ -33,7 +35,7 @@ function updateNumOfStudents(room) {
 
 io.sockets.on('connection', (socket) => {
   const urlUuid = socket.handshake.query.id;
-  socket.handshake.session.inRoom = true;
+  socket.handshake.session.inRoom = environment === 'PRODUCTION' || environment === 'STAGING';
   socket.handshake.session.save();
   const deleteSession = () => {
     if (socket.handshake.session.inRoom) {
@@ -153,22 +155,21 @@ io.sockets.on('connection', (socket) => {
       redisClient.hmset('managers', {
         [urlUuid]: JSON.stringify(managerObj),
       });
-
-      socket.join(roomToJoin);
     } else {
       roomToJoin = urlUuid;
       socket.on('disconnect', () => {
+        logger.info(`SOCKET: student disconnecting from room ${roomToJoin}`);
         deleteSession();
         updateNumOfStudents(roomToJoin);
       });
       logger.info(`SOCKET: Student joining room ${roomToJoin}`);
       isIncomingStudent = true;
-      socket.join(roomToJoin);
     }
     redisClient.hmget('rooms', roomToJoin, (error, roomObj) => {
       logger.info(`SOCKET: Retreiving room object on room ${roomToJoin}`);
       roomObj = roomObj.pop();
       if (roomObj) {
+        socket.join(roomToJoin);
         const lectureObj = JSON.parse(roomObj);
         lectureObj.id = roomToJoin;
         const { managerId } = lectureObj;
