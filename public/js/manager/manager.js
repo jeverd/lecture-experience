@@ -80,8 +80,9 @@ window.onload = () => {
       }, 2000);
     });
 
+
     $('#modal-select-button').click(() => {
-      $('#welcome-lecture-modal').hide();
+
       fetch(`/validate/lecture?id=${roomId}`).then((req) => {
         switch (req.status) {
           case 200:
