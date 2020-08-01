@@ -63,6 +63,12 @@ if (environment === 'PRODUCTION' || environment === 'STAGING') {
 }
 
 const logger = winston.createLogger({
+  format: winston.format.combine(
+    winston.format.timestamp({
+      format: 'YYYY-MM-DD HH:mm:ss',
+    }),
+    winston.format.simple(),
+  ),
   transports: loggerTransports,
 });
 
