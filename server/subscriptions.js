@@ -11,8 +11,10 @@ const Stats = require('./models/stats');
 const roomsTimeout = {};
 
 function updateNumOfStudents(room) {
-  io.in(room).clients((error, clients) => {
-    const numOfStudents = clients.length + (room in roomsTimeout ? 0 : -1);
+  if (room in io.sockets.adapter.rooms) {
+    const roomObj = io.sockets.adapter.rooms[room];
+    const roomSize = roomObj.length;
+    const numOfStudents = roomSize + (room in roomsTimeout ? 0 : -1);
     io.in(room).emit('updateNumOfStudents', numOfStudents);
     redisClient.hmget('stats', room, (error, stats) => {
       stats = stats.pop();
@@ -22,11 +24,11 @@ function updateNumOfStudents(room) {
           lectureName, userTracker, maxNumOfUsers, numOfBoards,
         } = JSON.parse(stats);
         const updatedStat = new Stats(lectureName, userTracker, maxNumOfUsers, numOfBoards);
-        updatedStat.addUserTrack(new Date(), clients.length);
+        updatedStat.addUserTrack(new Date(), roomSize);
         redisClient.hmset('stats', { [room]: JSON.stringify(updatedStat) });
       }
     });
-  });
+  }
 }
 
 io.sockets.on('connection', (socket) => {
