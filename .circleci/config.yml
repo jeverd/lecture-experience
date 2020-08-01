@@ -38,5 +38,6 @@ workflows:
               only: 
                 - dev
                 - switch-device
+                - jawad/Staging
       - tests
           
