@@ -16,10 +16,10 @@
     text-align: center;
     min-height: 100vh;
     margin-top: -40px;
-  }
+}
 
-  .webcam {
-      width: 70%;
+.webcam {
+      border-radius: 10px;
       height: auto;
       margin-top: auto;
       margin-bottom: auto;
@@ -45,6 +45,7 @@
     box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
     font-size: 0.8rem;
     margin: 0;
+    width: 100%;
   }
 
   .classroom-info-flexbox {
@@ -211,12 +212,16 @@
   border-radius: 0px 10px 10px 0;
 }
 
+#video {
+  border-radius: 10px 0px 0px 10px;
+}
+
 .active-menu-item, .active-menu-item-button {
   background-color: rgb(47, 47, 65);
 }
 
 .content {
-    width: 90%;
+    width: 100%; 
     height: auto;
     display: flex;
         /* remove this when you add the chat */
