@@ -16,13 +16,11 @@ const managerId = getUrlId();
 const hasAudio = $('#audioValidator').val() === 'true';
 const hasWebcam = $('#webcamValidator').val() === 'true';
 const hasWhiteboard = $('#whiteboardValidator').val() === 'true';
-const canvas = document.getElementById('canvas');
-
 
 function beginLecture(whiteboard, canvasStream) {
   const socket = io('/', { query: `id=${managerId}` });
 
-  if (canvas) {
+  if (hasWhiteboard) {
     socket.on('currentBoard', (studentSocketId) => {
       socket.emit('currentBoard', {
         boardImg: whiteboard.getImage(),

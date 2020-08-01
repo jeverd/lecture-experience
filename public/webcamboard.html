@@ -22,12 +22,17 @@
       href="https://fonts.googleapis.com/css?family=Open+Sans">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
     integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous" />
+    <link
+    rel="stylesheet" type="text/css"
+    href="https://cdn.jsdelivr.net/gh/loadingio/ldbutton@v1.0.1/dist/ldbtn.min.css"
+  />
+  <link
+      rel="stylesheet" type="text/css"
+      href="https://cdn.jsdelivr.net/gh/loadingio/loading.css@v2.0.0/dist/loading.min.css"
+    />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
   <link rel="stylesheet" href="/style.css" />
   <link rel="stylesheet" href="/webcam.css" />
-  <link href="https://vjs.zencdn.net/7.8.3/video-js.css" rel="stylesheet" />
-
-  <!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
-  <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
 </head>
 
 <body>
@@ -54,15 +59,7 @@
           
           
           <div class="content">
-            <div class="webcam">
-              <!-- <video id="my_video_1" class="video-js vjs-default-skin" width="800px" height="400px"
-              autoplay muted preload="none" poster='http://video-js.zencoder.com/oceans-clip.jpg'
-              data-setup='{ "aspectRatio":"640:267", "playbackRates": [1, 1.5, 2] }'>
-              
-                <source src="https://vjs.zencdn.net/v/oceans.mp4" type='video/mp4' />
-                <source src="https://vjs.zencdn.net/v/oceans.webm" type='video/webm' />
-              </video> -->
-              
+            <div class="webcam">              
               <video muted id="webcam" playsinline autoplay></video>
               <div class="classroom-info">
                 <div class="classroom-info-flexbox">
@@ -425,6 +422,7 @@
       </div>
     </div>
     
+    <input type="hidden" id="_id" value="{{id}}"/>
     <input type="hidden" id="host-name-chat" value="{{#lang}}{{hostNameChat}}{{/lang}}"/>
     <input type="hidden" id="you-name-chat" value="{{#lang}}{{youNameChat}}{{/lang}}"/>
     {{#lectureTools}}

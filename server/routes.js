@@ -77,23 +77,16 @@ app.get('/lecture/:id', (req, res) => {
         const objToRender = {
           sentryDSN, sentryEnvironment, ...roomJson, ...getLanguage(req.session, req.locale),
         };
-        console.log(roomJson);
-        console.log(roomJson.lectureTools.audio);
-        console.log(roomJson.lectureTools.webcam);
-        console.log(roomJson.lectureTools.whiteboard);
 
         if (isGuest) {
           delete roomJson.managerId;
           res.render('lecture.html', objToRender);
+        } else if (roomJson.lectureTools.whiteboard) {
+          res.render('whiteboard.html', objToRender);
         } else {
-          if (roomJson.lectureTools.webcam && roomJson.lectureTools.whiteboard){
-            res.render('whiteboard.html', objToRender);
-          } else if (roomJson.lectureTools.webcam){
-            res.render('webcamboard.html', objToRender);
-          } else {
-            res.render('whiteboard.html', objToRender);
-          }
+          res.render('webcamboard.html', objToRender);
         }
+
       } else {
         res.status(404);
         res.redirect('/error?code=3');
