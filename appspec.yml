@@ -3,11 +3,9 @@ os: linux
 files:
   - source: /docker/production.yml
     destination: /lecture-experience/docker/
-    overwrite: true
 # hooks:
-#   BeforeInstall:
-#     - location: Scripts/UnzipResourceBundle.sh
-#     - location: Scripts/UnzipDataBundle.sh
+  BeforeInstall:
+    - location: scripts/setup.sh
 #   AfterInstall:
 #     - location: Scripts/RunResourceTests.sh
 #       timeout: 180
