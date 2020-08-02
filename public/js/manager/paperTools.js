@@ -139,10 +139,21 @@ var changeZoomCenter = function(delta, mousePosition) {
 };
 
 var Zoom = function (zoomDirection) {
-  var newZoom = 0;
+  var zoomAmount = zoomDirection;
   var zoomFactor = 1.05;
   if (zoomDirection < 0) {
     newZoom = view.zoom * zoomFactor;
+    if (view.zoom + zoomAmount < 0.2) {
+      view.zoom = 0.2;
+    } else {
+      view.zoom += zoomAmount;
+    }
+    } else {
+    if (view.zoom + zoomAmount < 0.2) {
+      view.zoom = 0.2;
+    } else {
+      view.zoom += zoomAmount;
+    }
   }
   if (zoomDirection > 0) {
     newZoom = view.zoom / zoomFactor;
