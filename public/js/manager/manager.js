@@ -85,6 +85,7 @@ window.onload = () => {
       }, 2000);
     });
 
+
     $('#modal-select-button').click(() => {
       fetch(`/validate/lecture?id=${roomId}`).then((req) => {
         switch (req.status) {

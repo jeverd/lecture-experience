@@ -52,8 +52,10 @@ function joinLecture() {
     changeStatus.host_disconnected();
   });
 
-  socket.on('updateNumOfStudents', (num) => {
-    document.getElementById('specs').innerHTML = num;
+  socket.on('updateNumOfStudents', (roomSizeObj) => {
+    if (`${roomSizeObj.room}` === `${roomId}`) {
+      document.getElementById('specs').innerHTML = roomSizeObj.size;
+    }
   });
 
   socket.on('boards', setNonActiveBoards);
@@ -74,10 +76,11 @@ window.onload = async () => {
       $('#lecture-status .status-text').html($('#status-starting').val());
       $('video#whiteboard').parent().addClass('running');
 
+      /*
       joinLecture();
       $('#login-lecture-modal').hide();
+      */
 
-      /*
       fetch(`/validate/lecture?id=${roomId}`).then((req) => {
         switch (req.status) {
           case 200:
@@ -93,7 +96,6 @@ window.onload = async () => {
           default: break;
         }
       });
-      */
     }
   });
 
