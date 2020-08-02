@@ -100,7 +100,56 @@
     width: 100.2%;
     border-radius: 0px 0px 0rem 0rem;
   }
+
+  .modal-content{
+    overflow-y: scroll !important;
+  }
 }
+
+@media only screen and (max-width: 580px) {
+  .mic-test-comment{
+    font-size: 13px !important;
+  }
+
+  .custom-select__trigger{
+    height: 37px !important;
+  }
+
+  .mic-test-header{
+    font-size: 16px !important;
+  }
+
+  .device-header{
+    font-size: 16px !important;
+  }
+
+  .microphone{
+    font-size: 25px !important;
+    position: relative;
+    left: 5px;
+  }
+
+  .myProgress{
+    width: 7px !important;
+  }
+
+  .test-mic-button{
+    width: 80px !important;
+    font-size: 13px;
+  }
+
+  .custom-select-wrapper{
+    left: -10px;
+  }
+}
+
+@media only screen and (max-width: 470px){
+  #myProgress{
+    left: 10px !important;
+  }
+}
+
+
 
 .divider {
     padding: 0rem 0rem 0rem 0rem;
