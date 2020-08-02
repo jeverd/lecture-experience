@@ -1,7 +1,7 @@
 version: 0.0
 os: linux
 files:
-  - source: lecture-experience/docker/production.yml
+  - source: /docker/production.yml
     destination: lecture-experience/docker/production.yml
 # hooks:
 #   BeforeInstall:
