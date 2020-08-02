@@ -3,7 +3,7 @@ os: linux
 files:
   - source: /docker/production.yml
     destination: /lecture-experience/docker/
-# hooks:
+hooks:
   BeforeInstall:
     - location: scripts/setup.sh
 #   AfterInstall:
