@@ -63,6 +63,6 @@ services:
         - -c=/etc/coturn/turnserver.conf
       network_mode: "host"
       volumes:
-        - ./docker-config/turnserver.conf:/etc/coturn/turnserver.conf:ro
+        - ./docker-config/turnserver.conf:/etc/coturn/turnserver.conf:ro  # check if this is good to do ... BEST PRACTICE!
 
 

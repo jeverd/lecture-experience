@@ -1,10 +1,8 @@
 version: 0.0
 os: linux
 files:
-#   - source: Config/config.txt
-#     destination: /webapps/Config
-#   - source: source
-#     destination: /webapps/myApp
+  - source: lecture-experience/docker/production.yml
+    destination: lecture-experience/docker/production.yml
 # hooks:
 #   BeforeInstall:
 #     - location: Scripts/UnzipResourceBundle.sh
