@@ -85,8 +85,8 @@ export default class Whiteboard {
     document.ontouchend = null;
   }
 
-  onScroll(e, x, y) {
-    window.app.zoom(e, x, y);
+  onScroll(e, offsetX, offsetY) {
+    window.app.zoom(e, offsetX, offsetY);
   }
 
   getZoom() {
