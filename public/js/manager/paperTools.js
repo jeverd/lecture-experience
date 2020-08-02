@@ -119,22 +119,24 @@ var changeZoomCenter = function(delta, mousePosition) {
   if (!delta) {
     return;
   }
-  var oldZoom = view.zoom;
-  var oldCenter = view.center;
-  var viewPos = view.viewToProject(mousePosition);
-  var factor = 1.10;
-  var newZoom = delta > 0
-  ? view.zoom * factor
-  : view.zoom / factor
-
-  if (!newZoom) {
-    return;
+  if (delta > 0){
+    var oldZoom = view.zoom;
+    var oldCenter = view.center;
+    var viewPos = view.viewToProject(mousePosition);
+    var factor = 1.10;
+    var newZoom = delta > 0
+    ? view.zoom * factor
+    : view.zoom / factor
+  
+    if (!newZoom) {
+      return;
+    }
+    var zoomScale = oldZoom / newZoom;
+    var centerAdjust = viewPos.subtract(oldCenter);
+    var offset = viewPos.subtract(centerAdjust.multiply(zoomScale))
+            .subtract(oldCenter);
+    view.center = view.center.add(offset);
   }
-  var zoomScale = oldZoom / newZoom;
-  var centerAdjust = viewPos.subtract(oldCenter);
-  var offset = viewPos.subtract(centerAdjust.multiply(zoomScale))
-          .subtract(oldCenter);
-  view.center = view.center.add(offset);
   Zoom(delta);
 };
 
