@@ -132,7 +132,7 @@ export default class Whiteboard {
       const draws = this.undoStack.pop();
       window.app.addDraws(draws);
     } else {
-      showInfoMessage('Nothing to undo.');
+      showInfoMessage($('#nothing-to-undo').val());
     }
   }
 
@@ -146,7 +146,7 @@ export default class Whiteboard {
       const draws = this.redoStack.pop();
       window.app.addDraws(draws);
     } else {
-      showInfoMessage('Nothing to redo.');
+      showInfoMessage($('#nothing-to-redo').val());
     }
   }
 
@@ -183,6 +183,7 @@ export default class Whiteboard {
   }
 
   pushToUndoStack() {
+    console.log('fui chamada')
     var undoLimit = 40;
     var array = [];
     for (var i in window.app.getElem()) {
