@@ -137,5 +137,6 @@
   "waitingDevices": "Waiting for devices...",
   "lectureChatRoom": "Chat Room",
   "hostNameChat": "Room Host",
-  "youNameChat": "You"
+  "youNameChat": "You",
+  "selectOneVideoSource": "Select one video source"
 }
