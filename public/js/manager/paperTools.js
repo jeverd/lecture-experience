@@ -338,30 +338,30 @@ window.app = {
       centerY: view.center.y
     }
   },
-  // changeZoomCenter: function(delta, mousePosition) {
-  //   if (!delta) {
-  //     return
-  //   }
+  changeZoomCenter: function(delta, mousePosition) {
+    if (!delta) {
+      return;
+    }
 
-  //   const oldZoom = view.zoom;
-  //   const oldCenter = view.center;
-  //   const viewPos = view.viewToProject(mousePosition);
+    const oldZoom = view.zoom;
+    const oldCenter = view.center;
+    const viewPos = view.viewToProject(mousePosition);
 
-  //   let newZoom = delta > 0
-  //   ? view.zoom * this.factor
-  //   : view.zoom / this.factor
-  //   newZoom = this.setZoomConstrained(newZoom);
+    let newZoom = delta > 0
+    ? view.zoom * this.factor
+    : view.zoom / this.factor
+    newZoom = this.setZoomConstrained(newZoom);
 
-  //   if (!newZoom) {
-  //     return;
-  //   }
+    if (!newZoom) {
+      return;
+    }
 
-  //   const zoomScale = oldZoom / newZoom;
-  //   const centerAdjust = viewPos.subtract(oldCenter);
-  //   const offset = viewPos.subtract(centerAdjust.multiply(zoomScale))
-  //           .subtract(oldCenter);
-  //   view.center = view.center.add(offset);
-  // },
+    const zoomScale = oldZoom / newZoom;
+    const centerAdjust = viewPos.subtract(oldCenter);
+    const offset = viewPos.subtract(centerAdjust.multiply(zoomScale))
+            .subtract(oldCenter);
+    view.center = view.center.add(offset);
+  },
   zoomDirection: function (scale) {
     if (scale < 0) {
       // inward movement
