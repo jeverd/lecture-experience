@@ -15,16 +15,19 @@ import { getUrlId, reloadWindow, copyTextToClipboard } from '../utility.js';
 const managerId = getUrlId();
 const hasAudio = $('#audioValidator').val() === 'true';
 const hasWebcam = $('#webcamValidator').val() === 'true';
+const hasWhiteboard = $('#whiteboardValidator').val() === 'true';
 
 function beginLecture(whiteboard, canvasStream) {
   const socket = io('/', { query: `id=${managerId}` });
 
-  socket.on('currentBoard', (studentSocketId) => {
-    socket.emit('currentBoard', {
-      boardImg: whiteboard.getImage(),
-      studentSocket: studentSocketId,
+  if (hasWhiteboard) {
+    socket.on('currentBoard', (studentSocketId) => {
+      socket.emit('currentBoard', {
+        boardImg: whiteboard.getImage(),
+        studentSocket: studentSocketId,
+      });
     });
-  });
+  }
 
   socket.on('disconnect', changeStatus.connection_lost);
 
@@ -40,12 +43,14 @@ function beginLecture(whiteboard, canvasStream) {
   socket.on('invalidLecture', reloadWindow);
 
   socket.on('ready', (room) => {
-    const { boards, boardActive } = room.lecture_details;
-    whiteboard.initialize();
+    if (hasWhiteboard) {
+      const { boards, boardActive } = room.lecture_details;
+      whiteboard.initialize();
+      initializeToolsMenu(whiteboard);
+      initializeActionsMenu(socket, whiteboard, canvasStream);
+      initializeBoards(socket, whiteboard, boards, boardActive, canvasStream);
+    }
     initializeCanvasTopMenu(socket, room.lecture_details.id);
-    initializeToolsMenu(whiteboard);
-    initializeActionsMenu(socket, whiteboard, canvasStream);
-    initializeBoards(socket, whiteboard, boards, boardActive, canvasStream);
     initializeManagerChat(socket, room.lecture_details.id);
   });
 }
@@ -54,8 +59,8 @@ window.onload = () => {
   if (!(hasAudio || hasWebcam)) $('#modal-select-button').css('margin-bottom', '30px');
   $('#welcome-lecture-modal').show();
 
-  const whiteboard = new Whiteboard('canvas');
-  const canvasStream = whiteboard.getStream();
+  const whiteboard = hasWhiteboard ? new Whiteboard('canvas') : null;
+  const canvasStream = hasWhiteboard ? whiteboard.getStream() : null;
   const roomId = $('#_id').val();
   changeStatus.starting();
   initializeManagerRTC(roomId, canvasStream, () => {
@@ -82,7 +87,6 @@ window.onload = () => {
 
 
     $('#modal-select-button').click(() => {
-
       fetch(`/validate/lecture?id=${roomId}`).then((req) => {
         switch (req.status) {
           case 200:
