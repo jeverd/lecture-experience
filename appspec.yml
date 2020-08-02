@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
   - source: /docker/production.yml
-    destination: /home/ec2-user/lecture-experience/docker/production.yml
+    destination: /lecture-experience/docker/
 # hooks:
 #   BeforeInstall:
 #     - location: Scripts/UnzipResourceBundle.sh
