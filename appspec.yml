@@ -5,7 +5,7 @@ files:
     destination: /lecture-experience/docker/
 hooks:
   BeforeInstall:
-    - location: scripts/setup.sh
+    - location: /scripts/setup.sh
 #   AfterInstall:
 #     - location: Scripts/RunResourceTests.sh
 #       timeout: 180
