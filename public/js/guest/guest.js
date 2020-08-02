@@ -11,6 +11,7 @@ import initializeTopMenu from './guestTopMenu.js';
 
 const nameInput = document.querySelector('#studentName');
 const invalidNameDiv = document.getElementById('invalid-student-name');
+const hasWhiteboard = $('#whiteboardValidator').val() === 'true';
 const roomId = getUrlId();
 let studentName;
 let currentBoard;
@@ -26,8 +27,10 @@ function joinLecture() {
   };
 
   socket.on('ready', (room) => {
-    const { boards, boardActive } = room.lecture_details;
-    setNonActiveBoards(boards.filter((e, i) => i !== boardActive));
+    if (hasWhiteboard) {
+      const { boards, boardActive } = room.lecture_details;
+      setNonActiveBoards(boards.filter((e, i) => i !== boardActive));
+    }
     initializeOptionsMenu();
     initializeGuestRTC();
     initializeTopMenu();

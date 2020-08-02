@@ -5,7 +5,7 @@ function handleOptionClick() {
   const targetId = this.getAttribute('target-id');
   const targetElem = $(`#${targetId}`);
   if (targetId === 'boards-view' && $('#num-boards').html() === '0') {
-    showInfoMessage('No other boards to display');
+    showInfoMessage($('#no-other-boards-text').val());
     return;
   }
   const activeOptionClass = 'active-menu-item';
