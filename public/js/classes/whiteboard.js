@@ -81,14 +81,12 @@ export default class Whiteboard {
 
   onMouseUp() {
     this.updateFrameInterval = window.app.updateCanvasFrame();
-    this.canvas.onmousemove = () => this.pushToUndoStack();
-    this.canvas.ontouchmove = () => this.pushToUndoStack();
     document.onmouseup = null;
     document.ontouchend = null;
   }
 
-  onScroll(e, x, y) {
-    window.app.zoom(e, x, y);
+  onScroll(e, offsetX, offsetY) {
+    window.app.zoom(e, offsetX, offsetY);
   }
 
   getZoom() {
@@ -134,7 +132,7 @@ export default class Whiteboard {
       const draws = this.undoStack.pop();
       window.app.addDraws(draws);
     } else {
-      showInfoMessage('Nothing to undo.');
+      showInfoMessage($('#nothing-to-undo').val());
     }
   }
 
@@ -148,7 +146,7 @@ export default class Whiteboard {
       const draws = this.redoStack.pop();
       window.app.addDraws(draws);
     } else {
-      showInfoMessage('Nothing to redo.');
+      showInfoMessage($('#nothing-to-redo').val());
     }
   }
 
@@ -185,6 +183,7 @@ export default class Whiteboard {
   }
 
   pushToUndoStack() {
+    console.log('fui chamada')
     var undoLimit = 40;
     var array = [];
     for (var i in window.app.getElem()) {

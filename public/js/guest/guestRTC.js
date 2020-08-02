@@ -2,8 +2,20 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-undef */
 import {
-  getJanusUrl, addStream, getTurnServers, getStunServers, getStatusColor, getImageFromVideo, getJanusToken,
+  getUrlId, getJanusUrl, addStream, getTurnServers,
+  getStunServers, getStatusColor, getImageFromVideo, getJanusToken,
 } from '../utility.js';
+
+
+const hasWebcam = $('#webcamValidator').val() === 'true';
+const hasWhiteboard = $('#whiteboardValidator').val() === 'true';
+const webcam = document.getElementById('webcam');
+const whiteboard = document.getElementById('whiteboard');
+const speaker = document.getElementById('speaker');
+const janusUrl = getJanusUrl();
+let isCameraSwapped = false;
+let janus;
+let handle;
 
 export const changeStatus = {
   starting: () => {
@@ -30,18 +42,8 @@ export const changeStatus = {
   },
 };
 
-export default async function initializeGuestRTC(roomId) {
-  const hasAudio = $('#audioValidator').val() === 'true';
-  const hasWebcam = $('#webcamValidator').val() === 'true';
-  const hasWhiteboard = $('#whiteboardValidator').val() === 'true';
-  const webcam = document.getElementById('webcam');
-  const whiteboard = document.getElementById('whiteboard');
-  const speaker = document.getElementById('speaker');
-  const janusUrl = getJanusUrl();
-  let isCameraSwapped = false;
-  let janus;
-  let handle;
-
+async function initializeJanus() {
+  const roomId = parseInt(getUrlId());
   function joinFeed(publishers) {
     if (publishers.length === 0) {
       setTimeout(changeStatus.host_disconnected, 500);
@@ -94,7 +96,9 @@ export default async function initializeGuestRTC(roomId) {
                 addStream(whiteboard, videoTrack);
               }
             }
-            setTimeout(changeStatus.live, 500);
+          },
+          webrtcState(isConnected) {
+            setTimeout(changeStatus[isConnected ? 'live' : 'connection_lost'], 700);
           },
         });
       });
@@ -127,6 +131,7 @@ export default async function initializeGuestRTC(roomId) {
                   });
                 },
                 onmessage(msg) {
+                  console.log(msg);
                   const status = msg.videoroom;
                   switch (status) {
                     case 'joined':
@@ -150,7 +155,10 @@ export default async function initializeGuestRTC(roomId) {
       );
     },
   });
+}
 
+export default function initializeGuestRTC() {
+  initializeJanus();
   $('#expand-webcam-view').click(() => {
     const newPoster = getImageFromVideo(!isCameraSwapped ? whiteboard : webcam);
     const tmpStream = whiteboard.srcObject;

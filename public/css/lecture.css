@@ -149,7 +149,7 @@ div.ld-over.running:before{
 }
 
 .title {
-  font-size: calc(.65rem + 3vw);
+  font-size: calc(20px + 1.5vw);
   color: white;
   font-family: "Muli", sans-serif, "Open Sans";
 }
@@ -1335,7 +1335,7 @@ div.messages.active-chat{
 }
 
 #name-file{
-  color: lightgray;
+  color: darkgray;
   position: absolute;
   left: 35px;
   overflow: hidden;
@@ -1345,7 +1345,7 @@ div.messages.active-chat{
 }
 
 .name-file{
-  color: white;
+  color: darkgray;
   position: relative;
   margin-left: 7.5px;
   top: 5px;

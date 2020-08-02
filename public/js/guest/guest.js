@@ -11,6 +11,7 @@ import initializeTopMenu from './guestTopMenu.js';
 
 const nameInput = document.querySelector('#studentName');
 const invalidNameDiv = document.getElementById('invalid-student-name');
+const hasWhiteboard = $('#whiteboardValidator').val() === 'true';
 const roomId = getUrlId();
 let studentName;
 let currentBoard;
@@ -26,11 +27,12 @@ function joinLecture() {
   };
 
   socket.on('ready', (room) => {
-    const { boards, boardActive } = room.lecture_details;
-    setNonActiveBoards(boards.filter((e, i) => i !== boardActive));
-    const roomIdAsInt = parseInt(roomId);
+    if (hasWhiteboard) {
+      const { boards, boardActive } = room.lecture_details;
+      setNonActiveBoards(boards.filter((e, i) => i !== boardActive));
+    }
     initializeOptionsMenu();
-    initializeGuestRTC(roomIdAsInt);
+    initializeGuestRTC();
     initializeTopMenu();
     initializeGuestChat(socket, room.lecture_details.id, studentName);
   });
@@ -52,8 +54,10 @@ function joinLecture() {
     changeStatus.host_disconnected();
   });
 
-  socket.on('updateNumOfStudents', (num) => {
-    document.getElementById('specs').innerHTML = num;
+  socket.on('updateNumOfStudents', (roomSizeObj) => {
+    if (`${roomSizeObj.room}` === `${roomId}`) {
+      document.getElementById('specs').innerHTML = roomSizeObj.size;
+    }
   });
 
   socket.on('boards', setNonActiveBoards);
@@ -74,24 +78,26 @@ window.onload = async () => {
       $('#lecture-status .status-text').html($('#status-starting').val());
       $('video#whiteboard').parent().addClass('running');
 
+      /*
       joinLecture();
       $('#login-lecture-modal').hide();
+      */
 
-      // fetch(`/validate/lecture?id=${roomId}`).then((req) => {
-      //   switch (req.status) {
-      //     case 200:
-      //       joinLecture();
-      //       $('#login-lecture-modal').hide();
-      //       break;
-      //     case 404:
-      //       window.location.replace('/error?code=1');
-      //       break;
-      //     case 401:
-      //       window.location.replace('/error?code=2');
-      //       break;
-      //     default: break;
-      //   }
-      // });
+      fetch(`/validate/lecture?id=${roomId}`).then((req) => {
+        switch (req.status) {
+          case 200:
+            joinLecture();
+            $('#login-lecture-modal').hide();
+            break;
+          case 404:
+            window.location.replace('/error?code=1');
+            break;
+          case 401:
+            window.location.replace('/error?code=2');
+            break;
+          default: break;
+        }
+      });
     }
   });
 
