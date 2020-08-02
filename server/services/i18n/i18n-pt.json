@@ -138,5 +138,13 @@
   "waitingDevices": "Carregando dispositivos...",
   "hostNameChat": "Moderador da sala",
   "youNameChat": "Você",
-  "selectOneVideoSource": "Selecione uma fonte de vídeo"
+  "selectOneVideoSource": "Selecione uma fonte de vídeo",
+  "audioSettingsConfigure": "Audio",
+  "videoSettingsConfigure": "Video",
+  "nothingToUndo": "Nada para desfazer.",
+  "nothingToRedo": "Nada para refazer.",
+  "boardsSavedInfo": "Quadros Salvos",
+  "linkCopiedInfo": "Link Copiado",
+  "copiedInfo": "Copiado",
+  "copyInfo": "Copiar"
 }

@@ -544,12 +544,12 @@
             {{#lectureTools}}
               {{#audio}}
                 <div id="goto-audio-settings">
-                  Audio Settings
+                  {{#lang}}{{audioSettingsConfigure}}{{/lang}}
                 </div>
               {{/audio}}
               {{#webcam}}
                 <div id="goto-video-settings">
-                  Video Settings
+                  {{#lang}}{{videoSettingsConfigure}}{{/lang}}
                 </div>
               {{/webcam}}
             {{/lectureTools}}
@@ -683,6 +683,12 @@
     <input type="hidden" id="swal-help" value="{{#lang}}{{devicesErrorHelp}}{{/lang}}"/>
     <input type="hidden" id="host-name-chat" value="{{#lang}}{{hostNameChat}}{{/lang}}"/>
     <input type="hidden" id="you-name-chat" value="{{#lang}}{{youNameChat}}{{/lang}}"/>
+    <input type="hidden" id="nothing-to-undo" value="{{#lang}}{{nothingToUndo}}{{/lang}}"/>
+    <input type="hidden" id="nothing-to-redo" value="{{#lang}}{{nothingToRedo}}{{/lang}}"/>
+    <input type="hidden" id="boards-saved-info" value="{{#lang}}{{boardsSavedInfo}}{{/lang}}"/>
+    <input type="hidden" id="link-copied-info" value="{{#lang}}{{linkCopiedInfo}}{{/lang}}" />
+    <input type="hidden" id="copied-info" value="{{#lang}}{{copiedInfo}}{{/lang}}" />
+    <input type="hidden" id="copy-info" value="{{#lang}}{{copyInfo}}{{/lang}}" />
     {{#lectureTools}}
       <input type="hidden" id="webcamValidator" value="{{webcam}}"/>
       <input type="hidden" id="audioValidator" value="{{audio}}"/>

@@ -15,7 +15,7 @@ export default function initializeCanvasTopMenu(socket, roomId) {
   sharableUrl += roomId;
   document.getElementById('copy-share-link').addEventListener('click', () => {
     copyTextToClipboard(sharableUrl);
-    showInfoMessage('Link Copied!');
+    showInfoMessage(`${$('#link-copied-info').val()}!`);
   });
 
   if (hasAudio || hasWebcam) {
