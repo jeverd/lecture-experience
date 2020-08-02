@@ -49,11 +49,13 @@ export default function initializeOptionsMenu() {
   $('#toggle-speaker').click(function () {
     const volumeIcon = $(this).find('i');
     volumeIcon.toggleClass('fa-volume-up');
-    volumeIcon.toggleClass('fa-volume-off');
-    $(this).parent().find('audio')[0].muted = volumeIcon.hasClass('fa-volume-off');
+    volumeIcon.toggleClass('fa-volume-mute');
+    $(this).parent().find('audio')[0].muted = volumeIcon.hasClass('fa-volume-mute');
   });
 
+  // check this later to use it on the other modals.
   $('#connect-on-your-phone').click(() => $('#qr-code-modal').fadeIn());
+  $('.qrcode-modal-content').click((e) => e.stopPropagation());
   $('#qr-code-modal').click(function (e) { e.stopPropagation(); $(this).fadeOut(); });
 
   $('#toggle-chat-view').click();

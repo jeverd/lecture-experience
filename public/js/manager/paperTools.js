@@ -300,6 +300,13 @@ window.app = {
       view.center.subtract({x: -3000, y: -3000})
     );
   },
+  updateCanvasFrame: function () {
+    return setInterval(function() {
+      var text = new PointText(new Point(200, 50));
+      text.justification = 'center';
+      text.content = '';
+    }, 500);
+  },
   paintCircle: function () {
     var circle = new Path.Rectangle(new Point(0, 0), view.size.width, view.size.height);
 
@@ -375,6 +382,7 @@ window.app = {
       });
       loadedPath.strokeColor = array[i][1];
       loadedPath.strokeWidth = array[i][2];
+      loadedPath.fillColor = array[i][3];
       loadedPath.parent = items;
 
       drawsLayer.addChild(loadedPath);

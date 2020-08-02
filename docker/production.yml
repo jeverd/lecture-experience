@@ -13,7 +13,7 @@ services:
         - ${WEB_SERVER_PORT_HTTPS}:${WEB_SERVER_PORT_HTTPS}
       volumes:
         - ./letsencrypt:/etc/letsencrypt
-        - ./nginx.conf:/etc/nginx/nginx.conf
+        - ./docker-config/nginx.conf:/etc/nginx/nginx.conf
     app:
       image: jeverd/liteboard-express:latest
       links:  # TODO verify this can be removed

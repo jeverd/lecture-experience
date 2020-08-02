@@ -7,6 +7,15 @@
 <!--<![endif]-->
 
 <head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-173522034-1"></script>
+  <script>
+    if (document.location.hostname.search("liteboard.io") !== -1) {
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-173522034-1');
+    }
+  </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <link rel="canonical" href="https://liteboard.io" />
@@ -88,6 +97,9 @@
                 </div>
                 <div class="invalid-message" id="invalid-tools">
                   {{#lang}}{{createInvalidToolSelection}}{{/lang}}
+                </div>
+                <div class="invalid-message" id="select-video">
+                  {{#lang}}{{selectOneVideoSource}}{{/lang}}
                 </div>
               </div>
             </div>

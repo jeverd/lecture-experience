@@ -7,6 +7,7 @@ const createBut = document.querySelector('#create-lecture');
 const invalidEmailDiv = document.getElementById('invalid-email');
 const invalidNameDiv = document.getElementById('invalid-lecturename');
 const invalidToolsDiv = document.getElementById('invalid-tools');
+const invalidAudioDiv = document.getElementById('select-video');
 const emailInput = document.querySelector('#email');
 const nameInput = document.querySelector('#lectureName');
 const audioCheckbox = document.querySelector('#audio-check');
@@ -24,10 +25,17 @@ createBut.addEventListener('click', async (e) => {
     invalidToolsDiv.style.opacity = 1;
     invalidEmailDiv.style.opacity = 0;
     invalidNameDiv.style.opacity = 0;
+    invalidAudioDiv.style.opacity = 0;
+  } else if (audioCheckbox.checked && !webcamCheckbox.checked && !whiteboardCheckbox.checked) {
+    invalidToolsDiv.style.opacity = 0;
+    invalidEmailDiv.style.opacity = 0;
+    invalidNameDiv.style.opacity = 0;
+    invalidAudioDiv.style.opacity = 1;
   } else if (lectureName === '') {
     invalidToolsDiv.style.opacity = 0;
     invalidEmailDiv.style.opacity = 0;
     invalidNameDiv.style.opacity = 1;
+    invalidAudioDiv.style.opacity = 0;
   } else if (lectureEmail === '' || isValidEmail(lectureEmail)) {
     const janusToken = await getJanusToken();
     Janus.init({
@@ -81,6 +89,7 @@ createBut.addEventListener('click', async (e) => {
     invalidNameDiv.style.opacity = 0;
     invalidEmailDiv.style.opacity = 1;
     invalidToolsDiv.style.opacity = 0;
+    invalidAudioDiv.style.opacity = 0;
   }
 });
 

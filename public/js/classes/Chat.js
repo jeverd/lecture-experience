@@ -27,7 +27,7 @@ export default class Chat {
     const nameSpan = document.createElement('span');
     nameSpan.classList.add('name-span');
     if (tableData.classList.contains('out')) {
-      nameSpan.innerHTML = 'You';
+      nameSpan.innerHTML = $('#you-name-chat').val();
       nameDiv.append(nameSpan);
       tableData.append(nameDiv);
     }

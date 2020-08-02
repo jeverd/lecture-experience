@@ -159,10 +159,6 @@ body {
   padding: 1.2rem 0rem 1rem 0rem;
 }
 
-.status-dot {
-  color: #2ecc40;
-}
-
 .copy-share-link {
   height: 22px;
   border: none;
@@ -584,10 +580,6 @@ button {
   width: 100%;
 }
 
-.bottom-padding{
-  padding-bottom: 6px;
-}
-
 .image-preview{
   height: 120px;
   position: relative;
@@ -881,6 +873,8 @@ button {
 .download-container span{
   color: grey;
   margin-left: 10px;
+  position: relative;
+  z-index: 1;
 }
 
 .download-container:hover{
@@ -1083,9 +1077,16 @@ div.messages.active-chat{
   width: calc(260px + 1.5vw);
   position: relative;
   left: -3px;
+  top: -.4px;
   border-radius: 20px;
   padding: 4px 9px; 
   outline: none;
+  border-radius: 10px;
+  border-style: solid;
+  border-width: thin;
+  border-color: lightgray;
+  font-family: inherit;
+  color: var(--bg-primary);
 }
 
 @media only screen and (max-width: 1000px) {
@@ -1137,10 +1138,6 @@ div.messages.active-chat{
     font-size: 25px !important;
     position: relative;
     left: 5px;
-  }
-
-  .mic-content-header{
-    font-size: 18px!important;
   }
 
   .myProgress{
@@ -1442,14 +1439,6 @@ div.messages.active-chat{
   color: rgb(68, 65, 65);
 }
 
-#mic-content-header{
-  position: relative;
-  color: rgb(228, 225, 225);
-  left: 10px;
-  font-size: 20px;
-
-}
-
 .device-header,
 .mic-test-header{
   position: relative;
@@ -1467,7 +1456,7 @@ div.messages.active-chat{
 
 }
 
-#input-container{
+.input-container{
   position: relative;
   display: flex;
   left: 10px;
@@ -1638,15 +1627,9 @@ div.messages.active-chat{
   display: inline-block;
 }
 
-#mute-mic{
-  position: relative;
-  left: -10px;  
-}
-
 .preview{
   display: none;
   background-color: rgb(236, 236, 236);
-  
 }
 
 .close-preview{
@@ -1730,7 +1713,6 @@ div.webcam-container{
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
 
-#info-webcam,
 #minimize-webcam-view{
   height: 21px;
   width: 21px;
@@ -1760,15 +1742,6 @@ div.webcam-container{
   color: var(--bg-primary);
 }
 
-#info-webcam{
-  right: 35px;
-}
-
-#info-webcam i {
-  color: var(--bg-primary);
-}
-
-#info-webcam:hover,
 #minimize-webcam-view:hover{
   opacity: 1;
   transform: translateY(-2px);
@@ -1797,7 +1770,10 @@ div.webcam-container{
 }
 
 .name-span{
-  font-weight: 600;
+  font-weight: 800;
+  font-size: .8rem;
+  color: var(--bg-primary);
+  opacity: 0.6;
 }
 
 /*zoom*/
@@ -1830,4 +1806,70 @@ div.webcam-container{
   visibility: visible;
   opacity: 1;
   animation: fade-in 1s;
+}
+
+.configuration-modal-header{
+  display: flex;
+  justify-content: space-around;
+  margin: 10px;
+  color: rgb(228, 225, 225);
+  font-size: 1.2rem;
+  flex-wrap: wrap;
+}
+
+#mic-test-header{
+  position: relative;
+  top: 15px;
+}
+
+#goto-video-settings,
+#goto-audio-settings{
+  opacity: 0.5;
+  transition: 0.4s ease;
+  cursor: pointer;
+}
+
+.mute-audio-section{
+  font-size: 17px;
+  color: rgb(102, 102, 102);
+  display: flex;
+  margin-top: 20px;
+  position: relative;
+  top: 10px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.mute-audio-section > div#toggle-mute-text{
+  margin-left: 7.5px;
+  position: relative;
+  top: 4px;
+}
+
+.test-webcam-container{
+  text-align: center;
+  position: relative;
+  top: 20px;
+}
+
+.test-webcam-container video{
+  height: 200px;
+  border-radius: 0.25rem;
+}
+
+.test-webcam-button{
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  color: white;
+  background: rgb(70, 194, 255);
+  background: linear-gradient(200deg, #b10dc9 0%, #85144b 100%);
+  border: none;
+  border-radius: 0 .25rem 0 .25rem;
+  height: 27px;
+  transition: 1.5s;
+  cursor: pointer;
+  text-decoration: none;
+  outline: none;
 }

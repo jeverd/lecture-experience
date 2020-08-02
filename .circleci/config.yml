@@ -37,5 +37,6 @@ workflows:
             branches:
               only: 
                 - dev
+                - switch-device
       - tests
           

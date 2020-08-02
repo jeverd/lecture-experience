@@ -133,7 +133,7 @@ export function addStream(htmlElem, streamTrack) {
 }
 
 export async function getJanusToken() {
-  const response = await fetch('/janusToken');
+  const response = await fetch('/rtcToken');
   if (response.status === 200) {
     const { janusToken } = await response.json();
     return janusToken;
@@ -218,6 +218,13 @@ export function getImageFromVideo(video) {
 }
 
 export function getRandomColor() {
-  const chatColors = ['red', 'green', 'blue', 'orange', 'grey'];
+  const chatColors = [
+    'linear-gradient(315deg, #bdd4e7 0%, #91acdd 74%)',
+    'linear-gradient(315deg, #7cffcb 0%, #74f2ce 74%)',
+    'linear-gradient(315deg, #c0abf0 0%, #b498f3 74%)',
+    'linear-gradient(315deg, #f39f86 0%, #f9d976 74%)',
+    'linear-gradient(315deg, #abe9cd 0%, #8ad7ee 74%)',
+  ];
+
   return chatColors[Math.floor(Math.random() * chatColors.length)];
 }

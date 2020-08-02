@@ -8,6 +8,15 @@
 
 
 <head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-173522034-1"></script>
+  <script>
+    if (document.location.hostname.search("liteboard.io") !== -1) {
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-173522034-1');
+    }
+  </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <link rel="canonical" href="https://liteboard.io" />
@@ -35,7 +44,7 @@
         <a href="#">upgrade your browser</a> to improve your experience.
       </p>
     <![endif]-->
-    <div class="view-container">
+    <div class="view-container line-brackground">
       <div class="top-logo-bar">
         <a class="top-logo-ref" href="/">
             <img class="top-logo-img" src="/logo.png"/>

@@ -2,6 +2,15 @@
 <html lang="en">
 
 <head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-173522034-1"></script>
+    <script>
+    if (document.location.hostname.search("liteboard.io") !== -1) {
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-173522034-1');
+    }
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <link rel='icon' href='/favicon.ico' type='image/x-icon'/>
@@ -126,9 +135,9 @@
                                 {{/webcam}}
                             {{/whiteboard}}
                             {{#audio}}
-                                <audio style="display: none;" id="speaker" autoplay ></audio> 
+                                <audio style="display: none;" id="speaker" autoplay muted></audio> 
                                 <div class="audio" id="toggle-speaker">    
-                                    <i class="fa fa-volume-up" aria-hidden="true"></i>
+                                    <i class="fa fa-volume-mute" aria-hidden="true"></i>
                                 </div>
                             {{/audio}}
                         {{/lectureTools}}
@@ -272,7 +281,8 @@
       <input type="hidden" id="audioValidator" value="{{audio}}"/>
       <input type="hidden" id="whiteboardValidator" value="{{whiteboard}}"/>
     {{/lectureTools}}
-
+    <input type="hidden" id="you-name-chat" value="{{#lang}}{{youNameChat}}{{/lang}}"/>
+    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <!-- <script>
         const onResizeDone = () => {

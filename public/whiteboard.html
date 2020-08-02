@@ -7,6 +7,15 @@
   <!--<![endif]-->
 
   <head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-173522034-1"></script>
+    <script>
+      if (document.location.hostname.search("liteboard.io") !== -1) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-173522034-1');
+      }
+    </script>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
@@ -55,31 +64,15 @@
       </p>
     <![endif]-->
 
-    <!-- <div id="area-selection-menu">
-      <div class="area-selection-menu-row">
-        <span>Copy</span>
-        <span>Ctrl + C</span>
-      </div>
-      <div class="area-selection-menu-row">
-        <span>Cut</span>
-        <span>Ctrl + X</span>
-      </div>
-      <div>
-        <span>Duplicate</span>
-        <span>Ctrl + D</span>
-      </div>
-      <div class="area-selection-menu-row">
-        <span>Delete</span>
-        <span>Backspace</span>
-      </div>
-    </div> -->
-
     <!--start whiteboard topbar-->
     <div class="classroom-info">
       <div class="classroom-info-flexbox">
         <div class="lecture-running">
           <span class="status-dot"><i class="fas fa-circle"></i> &nbsp;</span>
-          <span class="lecture-running-text">{{#lang}}{{statusLive}}{{/lang}}</span>
+          <input type="hidden" value="{{#lang}}{{statusStarting}}{{/lang}}" id="status-starting"/>
+          <input type="hidden" value="{{#lang}}{{statusConnectionLost}}{{/lang}}" id="status-connection_lost"/>
+          <input type="hidden" value="{{#lang}}{{statusLive}}{{/lang}}" id="status-live"/>
+          <span class="lecture-running-text"></span>
           <span class="divider"></span>
         </div>
 
@@ -120,7 +113,7 @@
           &nbsp;
         </div>
 
-        <span class="divider"></span>
+        <span id="config-divider" class="divider"></span>
 
         <div title="{{#lang}}{{spectatorsNumber}}{{/lang}}" class="lecture-spectators">
           <span>
@@ -155,9 +148,6 @@
             <div title="{{#lang}}{{minimizeWebcamView}}{{/lang}}" id="minimize-webcam-view">
               <i class="fa fa-minus" aria-hidden="true"></i>
             </div>
-            <div title="{{#lang}}{{webcamInfo}}{{/lang}}" id="info-webcam">
-              <i class="fas fa-info"></i>
-            </div>
             <video muted id="webcam" playsinline autoplay></video>
           </div>
         </div>
@@ -178,7 +168,7 @@
         <div class="message-container" id="message-container">
           <div class="message-lecture-name">
             <span>
-              {{name}} chat room
+              {{name}} {{#lang}}{{lectureChatRoom}}{{/lang}}
             </span>
           </div>
           <div id="preview" class="preview">
@@ -486,20 +476,41 @@
                 <span class="hidden">{{#lang}}{{goLive}}{{/lang}}</span>
               </button>
             </div>
-
             <div
               title="{{#lang}}{{micTest}}{{/lang}}"
-              id="test-mic"
+              id="open-device-configuration"
               class="test-mic-container hidden"
             >
               <i class="fa fa-cog cog"></i>
-              <span class="test-mic">{{#lang}}{{testMic}}{{/lang}}</span>
+              <span class="test-mic">{{#lang}}{{Configure}}{{/lang}}</span>
             </div>
-            <div class="waiting-for-devices">
-              {{#lang}}{{waitingDevices}}{{/lang}}
-            </div>
-  
-            <!--<button class = "modal-select-button mic_button">Test Mic</button>-->
+            {{#lectureTools}}
+              {{#webcam}}
+                {{#audio}}
+                  <div class="waiting-for-devices">
+                    {{#lang}}{{waitingDevices}}{{/lang}}
+                  </div>  
+                {{/audio}}
+              {{/webcam}}
+            {{/lectureTools}}
+            {{#lectureTools}}
+              {{^webcam}}
+                {{#audio}}
+                  <div class="waiting-for-devices">
+                    {{#lang}}{{waitingDevices}}{{/lang}}
+                  </div>  
+                {{/audio}}
+              {{/webcam}}
+            {{/lectureTools}}
+            {{#lectureTools}}
+              {{#webcam}}
+                {{^audio}}
+                  <div class="waiting-for-devices">
+                    {{#lang}}{{waitingDevices}}{{/lang}}
+                  </div>  
+                {{/audio}}
+              {{/webcam}}
+            {{/lectureTools}}
           </div>
           <!--Share Container-->
           <div class="share-container">
@@ -518,84 +529,139 @@
             </div>
           </div>  
         </div>
-        <!--Start Mic content-->
-        <div id="mic-content" class="mic-content">
-          <div
-              id="go-back"
-              class="go-back back-button"
-            >
-              <i class="fa fa-arrow-left arrow-back"></i>
-              &nbsp;
-              <span class="go-back-modal">{{#lang}}{{goLive}}{{/lang}}</span>
-              &nbsp;
-          </div>
-          <p id="mic-content-header">{{#lang}}{{voiceSettings}}{{/lang}}</p>
-          <div>
-            <p class="device-header">{{#lang}}{{inputDevice}}{{/lang}}</p>
-          </div>
-          <div id="input-container">
-  
-            <div class="custom-select-wrapper">
-              <div class="custom-select">
-                  <div class="custom-select__trigger"><span></span>
-                      <div class="arrow"></div>
-                  </div>
-                  <div class="custom-options" id="select-options">
-            
-                  </div>
-              </div>
-          </div>
-            <div
-              title="{{#lang}}{{Mute}}{{/lang}}"
-              id="mute-mic"
-              class="copy-link-container copy-button "
-            >
-            <i id="mute-icon" class="fa fa-microphone microphone" data-value=""></i>
-            <i id="muted-icon" class="fa fa-microphone-slash microphone" style='display: none;'></i>
-              &nbsp;
-              <span class="copy-link-modal"></span>
-              &nbsp;
-            </div>
-          </div>
-          <div>
-            <div id="mic-test-header">
-              <p class="mic-test-header">{{#lang}}{{micTest}}{{/lang}}</p>
-              <p class="mic-test-comment">{{#lang}}{{startMicTest}}{{/lang}}</p>
-            </div>
-            <div id="mic-test">
-              <div id="mic-buttons-container">
-                <button id = "test-mic-button" class = "test-mic-button">{{#lang}}{{checkMic}}{{/lang}}</button>
-                <div id="myProgress">
-                  <div class="myProgress" id="myProgress1"></div>
-                  <div class="myProgress" id="myProgress2"></div>
-                  <div class="myProgress" id="myProgress3"></div>
-                  <div class="myProgress" id="myProgress4" ></div>
-                  <div class="myProgress" id="myProgress5"></div>
-                  <div class="myProgress" id="myProgress6"></div>
-                  <div class="myProgress" id="myProgress7"></div>
-                  <div class="myProgress" id="myProgress8"></div>
-                  <div class="myProgress" id="myProgress9"></div>
-                  <div class="myProgress" id="myProgress10"></div>
-                  <div class="myProgress" id="myProgress11"></div>
-                  <div class="myProgress" id="myProgress12"></div>
-                  <div class="myProgress" id="myProgress13"></div>
-                  <div class="myProgress" id="myProgress14"></div>
-                  <div class="myProgress" id="myProgress15"></div>
-                  <div class="myProgress" id="myProgress16"></div>
-                  <div class="myProgress" id="myProgress17"></div>
-                  <div class="myProgress" id="myProgress18"></div>
-                  <div class="myProgress" id="myProgress19"></div>
-                  <div class="myProgress" id="myProgress20"></div>
-                  <div class="myProgress" id="myProgress21"></div>
-                  <div class="myProgress" id="myProgress22"></div>
-                  <div class="myProgress" id="myProgress23"></div>
-                  <div class="myProgress" id="myProgress24"></div>
-                  <div class="myProgress" id="myProgress25"></div>             
-                </div>
 
-              </div>  
-            </div>
+        <div id="device-configuration-header" style="display: none;">
+          <div
+            id="go-back"
+            class="go-back back-button"
+          >
+            <i class="fa fa-arrow-left arrow-back"></i>
+            &nbsp;
+            <span class="go-back-modal">{{#lang}}{{goLive}}{{/lang}}</span>
+            &nbsp;
           </div>
+          <div class="configuration-modal-header">
+            {{#lectureTools}}
+              {{#audio}}
+                <div id="goto-audio-settings">
+                  Audio Settings
+                </div>
+              {{/audio}}
+              {{#webcam}}
+                <div id="goto-video-settings">
+                  Video Settings
+                </div>
+              {{/webcam}}
+            {{/lectureTools}}
+          </div>
+          {{#lectureTools}}
+            {{#audio}}
+              <!--Start Mic content-->
+              <div id="mic-content" class="mic-content">
+                <div>
+                  <p class="device-header">{{#lang}}{{inputDevice}}{{/lang}}</p>
+                </div>
+                <div class="input-container">
+        
+                  <div class="custom-select-wrapper">
+                    <div class="custom-select">
+                        <div class="custom-select__trigger"><span></span>
+                            <div class="arrow"></div>
+                        </div>
+                        <div class="custom-options" id="select-options-audio">
+                  
+                        </div>
+                    </div>
+                  </div>
+                </div>
+                <input type="hidden" id="unmute-text" value="{{#lang}}{{Unmute}}{{/lang}}"/>
+                <input type="hidden" id="mute-text" value="{{#lang}}{{Mute}}{{/lang}}"/>
+                <div
+                  title="{{#lang}}{{Mute}}{{/lang}}"
+                  id="mute-mic"
+                  class="mute-audio-section"
+                >
+                  <i id="mute-icon" class="fa fa-microphone microphone" data-value=""></i>
+                  <i id="muted-icon" class="fa fa-microphone-slash microphone" style='display: none;'></i>
+                  <div id="toggle-mute-text">{{#lang}}{{Mute}}{{/lang}}</div>
+                </div>
+                <div>
+                  <div id="mic-test-header">
+                    <p class="mic-test-header">{{#lang}}{{micTest}}{{/lang}}</p>
+                  </div>
+                  <div id="mic-test">
+                    <div id="mic-buttons-container">
+                      <input type="hidden" id="check-audio-text" value="{{#lang}}{{check}}{{/lang}}"/>
+                      <input type="hidden" id="stop-test-audio-text" value="{{#lang}}{{stop}}{{/lang}}"/>
+                      <button id = "test-mic-button" class = "test-mic-button">{{#lang}}{{check}}{{/lang}}</button>
+                      <div id="myProgress">
+                        <div class="myProgress" id="myProgress1"></div>
+                        <div class="myProgress" id="myProgress2"></div>
+                        <div class="myProgress" id="myProgress3"></div>
+                        <div class="myProgress" id="myProgress4" ></div>
+                        <div class="myProgress" id="myProgress5"></div>
+                        <div class="myProgress" id="myProgress6"></div>
+                        <div class="myProgress" id="myProgress7"></div>
+                        <div class="myProgress" id="myProgress8"></div>
+                        <div class="myProgress" id="myProgress9"></div>
+                        <div class="myProgress" id="myProgress10"></div>
+                        <div class="myProgress" id="myProgress11"></div>
+                        <div class="myProgress" id="myProgress12"></div>
+                        <div class="myProgress" id="myProgress13"></div>
+                        <div class="myProgress" id="myProgress14"></div>
+                        <div class="myProgress" id="myProgress15"></div>
+                        <div class="myProgress" id="myProgress16"></div>
+                        <div class="myProgress" id="myProgress17"></div>
+                        <div class="myProgress" id="myProgress18"></div>
+                        <div class="myProgress" id="myProgress19"></div>
+                        <div class="myProgress" id="myProgress20"></div>
+                        <div class="myProgress" id="myProgress21"></div>
+                        <div class="myProgress" id="myProgress22"></div>
+                        <div class="myProgress" id="myProgress23"></div>
+                        <div class="myProgress" id="myProgress24"></div>
+                        <div class="myProgress" id="myProgress25"></div>             
+                      </div>
+                    </div>  
+                  </div>
+                </div>
+              </div>
+            {{/audio}}
+          {{/lectureTools}}
+          {{#lectureTools}}
+            {{#webcam}}
+              <!--Start Mic content-->
+              <div id="webcam-content" class="mic-content">
+                <div>
+                  <p class="device-header">{{#lang}}{{inputDevice}}{{/lang}}</p>
+                </div>
+                <div class="input-container">
+                  <div class="custom-select-wrapper">
+                    <div class="custom-select">
+                        <div class="custom-select__trigger"><span></span>
+                            <div class="arrow"></div>
+                        </div>
+                        <div class="custom-options" id="select-options-webcam">
+                  
+                        </div>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <div id="mic-test-header">
+                    <p class="mic-test-header" style="margin: 0;">{{#lang}}{{testWebcam}}{{/lang}}</p>
+                  </div>
+                  <div class="test-webcam-container">
+                    <div style="display: inline-block;position:relative;">
+                      <input type="hidden" id="check-webcam-text" value="{{#lang}}{{check}}{{/lang}}"/>
+                      <input type="hidden" id="stop-test-webcam-text" value="{{#lang}}{{stop}}{{/lang}}"/>
+                      <button id="test-webcam-button" class="test-webcam-button">{{#lang}}{{check}}{{/lang}}</button>
+                      <video id="test-webcam-src" poster="/test-webcam.png" playsinline muted autoplay></video>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {{/webcam}}
+          {{/lectureTools}}
         </div>
       </div>
       <!-- End Modal content -->
@@ -615,6 +681,8 @@
     <input type="hidden" id="swal-title" value="{{#lang}}{{devicesErrorTitle}}{{/lang}}"/>
     <input type="hidden" id="swal-text" value="{{#lang}}{{devicesErrorText}}{{/lang}}"/>
     <input type="hidden" id="swal-help" value="{{#lang}}{{devicesErrorHelp}}{{/lang}}"/>
+    <input type="hidden" id="host-name-chat" value="{{#lang}}{{hostNameChat}}{{/lang}}"/>
+    <input type="hidden" id="you-name-chat" value="{{#lang}}{{youNameChat}}{{/lang}}"/>
     {{#lectureTools}}
       <input type="hidden" id="webcamValidator" value="{{webcam}}"/>
       <input type="hidden" id="audioValidator" value="{{audio}}"/>
