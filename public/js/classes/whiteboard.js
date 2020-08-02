@@ -132,7 +132,7 @@ export default class Whiteboard {
       const draws = this.undoStack.pop();
       window.app.addDraws(draws);
     } else {
-      showInfoMessage('Nothing to undo.');
+      showInfoMessage($('#nothing-to-undo').val());
     }
   }
 
@@ -141,13 +141,12 @@ export default class Whiteboard {
   }
 
   redoPaint() {
-    console.log('redo')
     if (this.redoStack.length > 0) {
       this.pushToUndoStack();
       const draws = this.redoStack.pop();
       window.app.addDraws(draws);
     } else {
-      showInfoMessage('Nothing to redo.');
+      showInfoMessage($('#nothing-to-redo').val());
     }
   }
 

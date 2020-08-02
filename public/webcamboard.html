@@ -57,6 +57,7 @@
         </div>
         <div class="videoContainer">
           <div id="webcam-view">
+            <div id="info-popup"></div>
             <video muted id="webcam" playsinline autoplay></video>
             <div class="classroom-info">
               <div class="classroom-info-flexbox">
@@ -125,7 +126,7 @@
               </div>
               <div class="message-container" id="message-container">
                 <div class="message-lecture-name">
-                    {{name}}&nbsp;<text class="sm-chat-room">{{#lang}}{{lectureChatRoom}}{{/lang}}</text>
+                    {{name}}
                 </div>
                 <div id="preview" class="preview" style="display: none;">
                     <div class="preview-content">
@@ -170,7 +171,7 @@
           <div class="language-selection-footer">
             <form action="/setLanguage">
               <input type="hidden" name="langCode" value="pt-BR"/>
-              <input type="hidden" name="ref" value="/"/>
+              <input type="hidden" name="pageRef"/>
               <button type="submit">
                 <span>
                   <img src="/brazil.svg" height="33"/>&nbsp;<span class="lang-name">Português</span>
@@ -179,7 +180,7 @@
             </form>
             <form action="/setLanguage">
               <input type="hidden" name="langCode" value="en-US"/>
-              <input type="hidden" name="ref" value="/"/>
+              <input type="hidden" name="pageRef"/>
               <button type="submit">
                 <span>
                   <img src="/uk.svg" height="33"/>&nbsp;<span class="lang-name">English</span>
@@ -284,12 +285,12 @@
             {{#lectureTools}}
               {{#audio}}
                 <div id="goto-audio-settings">
-                  Audio Settings
+                  {{#lang}}{{audioSettingsConfigure}}{{/lang}}
                 </div>
               {{/audio}}
               {{#webcam}}
                 <div id="goto-video-settings">
-                  Video Settings
+                  {{#lang}}{{videoSettingsConfigure}}{{/lang}}
                 </div>
               {{/webcam}}
             {{/lectureTools}}
@@ -411,6 +412,9 @@
     <input type="hidden" id="_id" value="{{id}}"/>
     <input type="hidden" id="host-name-chat" value="{{#lang}}{{hostNameChat}}{{/lang}}"/>
     <input type="hidden" id="you-name-chat" value="{{#lang}}{{youNameChat}}{{/lang}}"/>
+    <input type="hidden" id="link-copied-info" value="{{#lang}}{{linkCopiedInfo}}{{/lang}}" />
+    <input type="hidden" id="copied-info" value="{{#lang}}{{copiedInfo}}{{/lang}}" />
+    <input type="hidden" id="copy-info" value="{{#lang}}{{copyInfo}}{{/lang}}" />
     {{#lectureTools}}
       <input type="hidden" id="webcamValidator" value="{{webcam}}"/>
       <input type="hidden" id="audioValidator" value="{{audio}}"/>
@@ -465,7 +469,13 @@
       return event;
     },
   });
-</script>    
+</script>  
+<script>
+  document.querySelectorAll('input[name=pageRef]').forEach(input => {
+    console.log(window.location.pathname)
+    input.value = window.location.pathname;
+  });
+</script>  
 </body>
 
 </html>

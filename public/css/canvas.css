@@ -65,19 +65,18 @@ body {
 }
 
 #info-popup {
-  position: absolute;
-  transform: translateX(-50%);
-  left: 50%;
-  top: 75px;
-  padding: 7.5px 10px;
-  font-size: 0.75em;
-  background-color: #21212e;
-  color: #fafafa;
-  font-weight: 600;
-  opacity: 0.9;
   display: none;
-  border-radius: 0 0 0.25em 0.25em;
-  z-index: 10;
+  position: absolute;
+  top: 80px;
+  z-index: 100001;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 5px;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 0.5rem;
+  background-color: var(--bg-primary);
+  font-size: 1.2rem;
 }
 
 .end-lecture-icon {

@@ -149,7 +149,7 @@ div.ld-over.running:before{
 }
 
 .title {
-  font-size: calc(.65rem + 3vw);
+  font-size: calc(20px + 1.5vw);
   color: white;
   font-family: "Muli", sans-serif, "Open Sans";
 }

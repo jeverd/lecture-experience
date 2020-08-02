@@ -138,5 +138,13 @@
   "lectureChatRoom": "Chat Room",
   "hostNameChat": "Room Host",
   "youNameChat": "You",
-  "selectOneVideoSource": "Select one video source"
+  "selectOneVideoSource": "Select one video source",
+  "audioSettingsConfigure": "Audio Settings",
+  "videoSettingsConfigure": "Video Settings",
+  "nothingToUndo": "Nothing to undo.",
+  "nothingToRedo": "Nothing to redo.",
+  "boardsSavedInfo":"Boards Saved",
+  "linkCopiedInfo": "Link Copied",
+  "copiedInfo": "Copied",
+  "copyInfo": "Copy"
 }

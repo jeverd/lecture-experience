@@ -17,6 +17,21 @@
   border-radius:10px;
 }
 
+#info-popup{
+  display: none;
+  position: absolute;
+  top: 45px;
+  z-index: 100001;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 5px;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 0.5rem;
+  background-color: var(--bg-primary);
+  font-size: 1.2rem;
+}
+
 .classroom-info {
   position: absolute;
   z-index: 10;
@@ -90,7 +105,7 @@ span.custom-option,
   }
 }
 
-@media only screen and (max-width: 950px) {
+@media only screen and (max-width: 1200px) {
   .classroom-info{
     width: 100%;
     border-radius: 0px;
@@ -101,7 +116,7 @@ span.custom-option,
   }
 }
 
-@media only screen and (max-width: 780px) {
+@media only screen and (max-width: 880px) {
 .lecture-running-text,
 .spectators-count-text,
 .end-lecture-text,
@@ -120,6 +135,14 @@ span.custom-option,
 @media only screen and (max-width: 650px) {
   .modal-content{
     overflow-y: scroll !important;
+  }
+
+  span.lecture-running-text,
+  span.spectators-count-text,
+  span.end-lecture-text,
+  span.mic-config-text,
+  span.copy-link-text {
+      display: none;
   }
 }
 
@@ -182,14 +205,6 @@ span.custom-option,
   div.top-logo-bar{
     justify-content: center;
     padding-left: 0;
-  }
-
-  span.lecture-running-text,
-  span.spectators-count-text,
-  span.end-lecture-text,
-  span.mic-config-text,
-  span.copy-link-text {
-      display: none;
   }
 }
 
@@ -402,18 +417,16 @@ span.custom-option,
 }
 
 .titleBoard{
-  width: auto;
   position: relative;
-  background-color:#21212e;
+  background-color: #21212e;
   border-radius: 5px;
   box-shadow: 0px 0px 20px 1px rgba(0,0,0,0.75);
-  margin: 20px 40px 0px 40px;
+  margin: 20px 40px;
   padding: 20px 40px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-bottom: 15px;
 }
 
 
@@ -426,7 +439,7 @@ span.custom-option,
 }
 
 .title {
-  font-size: 30px;
+  font-size: calc(20px + 1.5vw);
   color: white;
   font-family: "Muli", sans-serif, "Open Sans";
 }
@@ -573,6 +586,7 @@ span.custom-option,
   font-weight: 800;
   font-size: 1em;
   text-align: center;
+  opacity: 0.4;
   color: white;
   transition: 0.8s ease-in-out;
 }

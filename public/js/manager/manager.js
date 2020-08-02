@@ -67,11 +67,11 @@ window.onload = () => {
     const selection = window.getSelection();
     selection.removeAllRanges();
     selection.addRange(range);
-    this.innerHTML = 'Copied!';
+    this.innerHTML = $('#copied-info').val();
     this.style.opacity = 1;
     setTimeout(() => {
       this.style.opacity = 0.83;
-      this.innerHTML = 'Copy';
+      this.innerHTML = $('#copy-info').val();
       selection.removeAllRanges();
     }, 2000);
   });
