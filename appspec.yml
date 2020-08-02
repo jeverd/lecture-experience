@@ -3,9 +3,9 @@ os: linux
 files:
   - source: /docker/production.yml
     destination: /lecture-experience/docker/
-hooks:
-  BeforeInstall:
-    - location: /scripts/setup.sh
+# hooks:
+#   BeforeInstall:
+#     - location: /scripts/setup.sh
 #   AfterInstall:
 #     - location: Scripts/RunResourceTests.sh
 #       timeout: 180
