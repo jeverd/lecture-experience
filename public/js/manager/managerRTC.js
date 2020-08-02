@@ -68,6 +68,7 @@ export async function initializeManagerRTC(stream, initCanvasStream) {
       onlocalstream(localStream) {
         if (hasWebcam) {
           const webcam = document.getElementById('webcam');
+
           const videoTracks = localStream.getTracks().filter((track) => track.kind === 'video');
           videoTracks.forEach((video) => {
             if (typeof video.canvas === 'undefined' && video.label !== '') {

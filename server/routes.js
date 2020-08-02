@@ -77,12 +77,16 @@ app.get('/lecture/:id', (req, res) => {
         const objToRender = {
           sentryDSN, sentryEnvironment, ...roomJson, ...getLanguage(req.session, req.locale),
         };
+
         if (isGuest) {
           delete roomJson.managerId;
           res.render('lecture.html', objToRender);
-        } else {
+        } else if (roomJson.lectureTools.whiteboard) {
           res.render('whiteboard.html', objToRender);
+        } else {
+          res.render('webcamboard.html', objToRender);
         }
+
       } else {
         res.status(404);
         res.redirect('/error?code=3');

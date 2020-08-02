@@ -137,5 +137,6 @@
   "statsPopupTime": "Tempo",
   "waitingDevices": "Carregando dispositivos...",
   "hostNameChat": "Moderador da sala",
-  "youNameChat": "Você"
+  "youNameChat": "Você",
+  "selectOneVideoSource": "Selecione uma fonte de vídeo"
 }
