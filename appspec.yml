@@ -6,7 +6,7 @@ files:
 hooks:
    BeforeInstall:
      - location: /scripts/setup.sh
-    AfterInstall:
+   AfterInstall:
      - location: /scripts/startup.sh
 #       timeout: 180
 #   ApplicationStart:
