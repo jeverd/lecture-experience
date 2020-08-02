@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
   - source: /docker/production.yml
-    destination: /lecture-experience/docker/
+    destination: /lecture-experience/docker
 hooks:
    BeforeInstall:
      - location: /scripts/setup.sh
