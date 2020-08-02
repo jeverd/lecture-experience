@@ -60,7 +60,7 @@
           
           <div class="content">
             <div class="webcam">              
-              <video muted id="webcam" playsinline autoplay></video>
+              <video muted id="webcam" width="100%" playsinline autoplay></video>
               <div class="classroom-info">
                 <div class="classroom-info-flexbox">
                   <div class="lecture-running">
@@ -116,13 +116,6 @@
                     </span>
                   </div>
           
-                  <span class="divider"></span>
-          
-                  <div title="{{#lang}}{{lectureMinimizeView}}{{/lang}}" class="hide-bar-button-container">
-                    <button class="hide-bar-button">
-                      <i class="fas fa-level-up-alt"></i>
-                    </button>
-                  </div>
                 </div>
               </div>
             </div>
@@ -130,9 +123,6 @@
               <div id="wrapper" class="messages-main">
                   <div title="{{#lang}}{{lectureMinimizeView}}{{/lang}}" class="minimize-chat-view">
                       <div>{{#lang}}{{lectureChat}}{{/lang}}</div>
-                      <div id="minimize-chat-view">
-                          <i class="fa fa-minus" aria-hidden="true"></i>
-                      </div>
                   </div>
                   <div class="message-container" id="message-container">
                   <div class="message-lecture-name">
