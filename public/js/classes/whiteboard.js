@@ -14,6 +14,7 @@ import { handleBoardsViewButtonsDisplay } from '../manager/managerBoards.js';
 import Fill from './fill.js';
 import Point from './point.js';
 import Tools from './Tools.js';
+// import stableZoom from './stableZoom.js';
 
 const DEFAULT_COLOR = '#424242';
 
@@ -93,8 +94,8 @@ export default class Whiteboard {
     document.ontouchend = null;
   }
 
-  onScroll(e, x, y) {
-    window.app.zoom(e, x, y);
+  onScroll(e, offsetX, offsetY) {
+    window.app.zoom(e, offsetX, offsetY);
   }
 
   getZoom() {

@@ -116,74 +116,90 @@ var deselectItem = function (event) {
 };
 
 var Zoom = function (scale, positionX, positionY, zoomDirection) {
+  var mousePosition = new Point(positionX, positionY);
+  var newZoom = 0;
+  var zoomFactor = 1.05;
+  if (scale < 0) {
+    newZoom = view.zoom * zoomFactor;
+  }
+  if (scale > 0) {
+    newZoom = view.zoom / zoomFactor;
+  }
+  var beta = view.zoom / newZoom;
+  var pc = mousePosition.subtract(view.center);
+  var changeVector = mousePosition.subtract(pc.multiply(beta)).subtract(view.center);
+  // console.log(changeVector)
+  // view.center = view.center.add(changeVector);
+  // console.log(view.center.x, view.center.y)
+  view.zoom += zoomDirection;
   // move the center for the same amount comparing the position of the mouse with it
-  var zoomAmount = zoomDirection;
-  var centerAmount = 1000;
-  var verticalBorder = 300;
-  var horizontalBorder = 300;
-  var verticalCond = (positionY < view.center.y + horizontalBorder && positionY > view.center.y - horizontalBorder);
-  var horizontalCond = (positionX > view.center.x - verticalBorder && positionX < view.center.x + verticalBorder);
+  // var zoomAmount = zoomDirection;
+  // var centerAmount = 1000;
+  // var verticalBorder = 300;
+  // var horizontalBorder = 300;
+  // var verticalCond = (positionY < view.center.y + horizontalBorder && positionY > view.center.y - horizontalBorder);
+  // var horizontalCond = (positionX > view.center.x - verticalBorder && positionX < view.center.x + verticalBorder);
 
-  if (zoomDirection < 0) {
-    //COMEBACK TO THIS LATER
-    /*
-    if (positionY < view.center.y && positionX < view.center.x + verticalBorder && positionX > view.center.x - verticalBorder) {
-      // mid up
-      view.center.y -= centerAmount;
-      view.zoom += zoomAmount;
-    }else if (positionY < view.center.y && positionX > view.center.x){
-      // up right
-      view.center.y -= centerAmount / 2;
-      view.center.x += centerAmount;
-      view.zoom += zoomAmount;
-    }else if (positionY < view.center.y && positionX < view.center.x){
-      // up left
-      view.center.y -= centerAmount / 2;
-      view.center.x -= centerAmount;
-      view.zoom += zoomAmount;
-    }else if (positionY > view.center.y && positionX > view.center.x - verticalBorder && positionX < view.center.x + verticalBorder){
-      // mid down
-      view.center.y += centerAmount;
-      view.zoom += zoomAmount;
-    }else if (positionY > view.center.y && positionX > view.center.x){
-      // down right
-      view.center.y += centerAmount / 2;
-      view.center.x += centerAmount;
-      view.zoom += zoomAmount;
-    }else if (positionY > view.center.y && positionX < view.center.x){
-      // down left
-      view.center.y += centerAmount / 2;
-      view.center.x -= centerAmount;
-      view.zoom += zoomAmount;
-    }else if (positionY < view.center.y + horizontalBorder && positionY > view.center.y - horizontalBorder && positionX > view.center.x + verticalBorder){
-      view.center.x += centerAmount / 2;
-      view.center.y += centerAmount / 2;
-      view.zoom += zoomAmount;
-    }else if (positionY < view.center.y + horizontalBorder && positionY > view.center.y - horizontalBorder && positionX < view.center.x + verticalBorder){
-      view.center.x -= centerAmount;
-      view.center.y += centerAmount / 2;
-      view.zoom += zoomAmount;
-    }else if (verticalCond && horizontalCond){
-      view.zoom += zoomAmount;
-    }else {
-      view.zoom += zoomAmount;
-    }
-  }else {
-    view.zoom += zoomAmount;
-  }
-  */  
-    if (view.zoom + zoomAmount < 0.2) {
-      view.zoom = 0.2;
-    } else {
-      view.zoom += zoomAmount;
-    }
-  } else {
-    if (view.zoom + zoomAmount < 0.2) {
-      view.zoom = 0.2;
-    } else {
-      view.zoom += zoomAmount;
-    }
-  }
+  // if (zoomDirection < 0) {
+  //   //COMEBACK TO THIS LATER
+  //   /*
+  //   if (positionY < view.center.y && positionX < view.center.x + verticalBorder && positionX > view.center.x - verticalBorder) {
+  //     // mid up
+  //     view.center.y -= centerAmount;
+  //     view.zoom += zoomAmount;
+  //   }else if (positionY < view.center.y && positionX > view.center.x){
+  //     // up right
+  //     view.center.y -= centerAmount / 2;
+  //     view.center.x += centerAmount;
+  //     view.zoom += zoomAmount;
+  //   }else if (positionY < view.center.y && positionX < view.center.x){
+  //     // up left
+  //     view.center.y -= centerAmount / 2;
+  //     view.center.x -= centerAmount;
+  //     view.zoom += zoomAmount;
+  //   }else if (positionY > view.center.y && positionX > view.center.x - verticalBorder && positionX < view.center.x + verticalBorder){
+  //     // mid down
+  //     view.center.y += centerAmount;
+  //     view.zoom += zoomAmount;
+  //   }else if (positionY > view.center.y && positionX > view.center.x){
+  //     // down right
+  //     view.center.y += centerAmount / 2;
+  //     view.center.x += centerAmount;
+  //     view.zoom += zoomAmount;
+  //   }else if (positionY > view.center.y && positionX < view.center.x){
+  //     // down left
+  //     view.center.y += centerAmount / 2;
+  //     view.center.x -= centerAmount;
+  //     view.zoom += zoomAmount;
+  //   }else if (positionY < view.center.y + horizontalBorder && positionY > view.center.y - horizontalBorder && positionX > view.center.x + verticalBorder){
+  //     view.center.x += centerAmount / 2;
+  //     view.center.y += centerAmount / 2;
+  //     view.zoom += zoomAmount;
+  //   }else if (positionY < view.center.y + horizontalBorder && positionY > view.center.y - horizontalBorder && positionX < view.center.x + verticalBorder){
+  //     view.center.x -= centerAmount;
+  //     view.center.y += centerAmount / 2;
+  //     view.zoom += zoomAmount;
+  //   }else if (verticalCond && horizontalCond){
+  //     view.zoom += zoomAmount;
+  //   }else {
+  //     view.zoom += zoomAmount;
+  //   }
+  // }else {
+  //   view.zoom += zoomAmount;
+  // }
+  // */  
+  //   if (view.zoom + zoomAmount < 0.2) {
+  //     view.zoom = 0.2;
+  //   } else {
+  //     view.zoom += zoomAmount;
+  //   }
+  // } else {
+  //   if (view.zoom + zoomAmount < 0.2) {
+  //     view.zoom = 0.2;
+  //   } else {
+  //     view.zoom += zoomAmount;
+  //   }
+  // }
 };
 
 var delItem = function () {
@@ -315,6 +331,30 @@ window.app = {
       centerY: view.center.y
     }
   },
+  // changeZoomCenter: function(delta, mousePosition) {
+  //   if (!delta) {
+  //     return
+  //   }
+
+  //   const oldZoom = view.zoom;
+  //   const oldCenter = view.center;
+  //   const viewPos = view.viewToProject(mousePosition);
+
+  //   let newZoom = delta > 0
+  //   ? view.zoom * this.factor
+  //   : view.zoom / this.factor
+  //   newZoom = this.setZoomConstrained(newZoom);
+
+  //   if (!newZoom) {
+  //     return;
+  //   }
+
+  //   const zoomScale = oldZoom / newZoom;
+  //   const centerAdjust = viewPos.subtract(oldCenter);
+  //   const offset = viewPos.subtract(centerAdjust.multiply(zoomScale))
+  //           .subtract(oldCenter);
+  //   view.center = view.center.add(offset);
+  // },
   zoomDirection: function (scale) {
     if (scale < 0) {
       // inward movement

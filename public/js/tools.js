@@ -15,7 +15,8 @@ export default function initializeToolsMenu(whiteboard) {
     $('#zoom-modal').hide();
   };
   document.getElementById('canvas').addEventListener('wheel', (e) => {
-    whiteboard.onScroll(e.deltaY, e.clientX, e.clientY);
+    console.log(e);
+    whiteboard.onScroll(e.deltaY, e.offsetX, e.offsetY);
     const { zoom } = whiteboard.getZoom();
     $('#zoom-modal').show();
     $('#zoom-span').html(`${Math.ceil(zoom * 100)}%`);
