@@ -24,7 +24,7 @@ export default function initializeActionsMenu(socket, whiteboard, stream) {
             .find('img')
             .attr('src', whiteboard.boards[whiteboard.currentBoard].image);
           emitBoards(socket, whiteboard);
-          showInfoMessage(`Boards Saved: ${whiteboard.boards.length}`);
+          showInfoMessage(`${$('#boards-saved-info').val()}: ${whiteboard.boards.length}`);
           break;
         case 'add-page':
           addBoard(socket, whiteboard, stream);

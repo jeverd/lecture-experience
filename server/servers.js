@@ -42,7 +42,7 @@ app.use(express.json({ limit: '50mb' }));
 app.use(locale(supportedLanguages, defaultLanguage));
 app.use(bodyParser.json());
 app.use(helmet());
-if (loggerFlag) app.use(logMiddleWare);
+if (loggerFlag && environment === 'PRODUCTION') app.use(logMiddleWare);
 
 
 let client = null;
