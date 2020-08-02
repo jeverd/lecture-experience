@@ -3,6 +3,7 @@ os: linux
 files:
   - source: /docker/production.yml
     destination: /lecture-experience/docker/
+    overwrite: true
 # hooks:
 #   BeforeInstall:
 #     - location: Scripts/UnzipResourceBundle.sh
