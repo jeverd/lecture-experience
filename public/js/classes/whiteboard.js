@@ -81,8 +81,6 @@ export default class Whiteboard {
 
   onMouseUp() {
     this.updateFrameInterval = window.app.updateCanvasFrame();
-    this.canvas.onmousemove = () => this.pushToUndoStack();
-    this.canvas.ontouchmove = () => this.pushToUndoStack();
     document.onmouseup = null;
     document.ontouchend = null;
   }
@@ -143,6 +141,7 @@ export default class Whiteboard {
   }
 
   redoPaint() {
+    console.log('redo')
     if (this.redoStack.length > 0) {
       this.pushToUndoStack();
       const draws = this.redoStack.pop();
@@ -185,6 +184,7 @@ export default class Whiteboard {
   }
 
   pushToUndoStack() {
+    console.log('fui chamada')
     var undoLimit = 40;
     var array = [];
     for (var i in window.app.getElem()) {
