@@ -8,60 +8,48 @@
   --transition-speed: 600ms;
 }
 
-.centered {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    min-height: 100vh;
-    margin-top: -40px;
+.videoContainer {
+  position:relative;
+  display: flex;
+  margin: 0 30px 30px 30px;
+  height:auto;
+  width: auto;
+  border-radius:10px;
 }
 
-.webcam {
-      border-radius: 10px;
-      width: 110%;
-      height: auto;
-      margin-top: auto;
-      margin-bottom: auto;
-      position: relative;
-  }
+.classroom-info {
+  position: absolute;
+  z-index: 10;
+  top: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: auto;
+  border: none;
+  color: white;
+  background-color: #21212e;
+  transition: width 600ms ease;
+  overflow: hidden;
+  border-bottom-right-radius: 27px;
+  border-bottom-left-radius: 27px;
+  -webkit-box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3),
+    0 15px 12px rgba(0, 0, 0, 0.22);
+  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+  font-size: 0.8rem;
+  margin: 0;
+  width: 80%;
+  border-radius: 0px 0px 1rem 1rem;
+}
 
-  .classroom-info {
-    position: absolute;
-    z-index: 10;
-    top: 0px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: auto;
-    border: none;
-    color: white;
-    background-color: #21212e;
-    transition: width 600ms ease;
-    overflow: hidden;
-    border-bottom-right-radius: 27px;
-    border-bottom-left-radius: 27px;
-    -webkit-box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3),
-      0 15px 12px rgba(0, 0, 0, 0.22);
-    box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
-    font-size: 0.8rem;
-    margin: 0;
-    width: 80%;
-    border-radius: 0px 0px 1rem 1rem;
-  }
-
-  .classroom-info-flexbox {
-    /* display tob bar contents in a row */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 10px;
-    /* forces topbar text to stay in a single line */
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-weight: 500;
-  }
+.classroom-info-flexbox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 500;
+}
 
   .lecture-running,
 .end-lecture-container,
@@ -81,11 +69,39 @@
   position: relative;
 }
 
-.status-dot {
-    color: #2ecc40;
+span.custom-option,
+.custom-select__trigger span {
+  font-size: 0.8rem;
 }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (min-height: 880px) and (min-width: 740px){
+  .view-container .footer{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+@media only screen and (min-height: 620px) and (min-width: 740px) and (max-width: 1300px){
+  div.view-container .footer{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+@media only screen and (max-width: 950px) {
+  .classroom-info{
+    width: 100%;
+    border-radius: 0px;
+  }
+
+  div.classroom-info-flexbox{
+    padding: 10px;
+  }
+}
+
+@media only screen and (max-width: 780px) {
 .lecture-running-text,
 .spectators-count-text,
 .end-lecture-text,
@@ -95,18 +111,33 @@
 }
 }
 
-@media only screen and (max-width: 650px) {
-  .classroom-info{
-    width: 100.2%;
-    border-radius: 0px 0px 0rem 0rem;
+@media only screen and (max-width: 700px) {
+  .modal-url-share-container{
+    width: 70vw;
   }
+}
 
+@media only screen and (max-width: 650px) {
   .modal-content{
     overflow-y: scroll !important;
   }
 }
 
 @media only screen and (max-width: 580px) {
+  div div.classroom-info{
+    width: 100%;
+    border-radius: 0;
+  }
+
+  div.classroom-info-flexbox{
+    padding: 10px;
+  }
+
+
+  #lectureTitle span{
+    display: none;
+  }
+
   .mic-test-comment{
     font-size: 13px !important;
   }
@@ -146,6 +177,19 @@
 @media only screen and (max-width: 470px){
   #myProgress{
     left: 10px !important;
+  }
+
+  div.top-logo-bar{
+    justify-content: center;
+    padding-left: 0;
+  }
+
+  span.lecture-running-text,
+  span.spectators-count-text,
+  span.end-lecture-text,
+  span.mic-config-text,
+  span.copy-link-text {
+      display: none;
   }
 }
 
@@ -257,6 +301,15 @@
   transition: all 1.5s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
+#webcam-view{
+  position: relative;
+  display: inline-flex;
+}
+
+#webcam-view video{
+  width: 50vw;
+}
+
 .show-bar-button:hover,
 .hide-bar-button:hover {
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
@@ -265,7 +318,7 @@
 }
 
 .chat {
-  width: 450px;
+  width: calc(280px + 1.5vw);
   overflow: hidden;
   border-radius: 0px 10px 10px 0;
 }
@@ -279,27 +332,35 @@
 }
 
 .content {
-    width: 100%; 
     height: auto;
     display: flex;
-        /* remove this when you add the chat */
-    /* background-color: white; */
 }
 
-@media only screen and (max-width: 1080px) {
-  .content {
-    margin-top: 100px;
-    margin-bottom: 100px;
+@media only screen and (max-width: 740px) {
+  .videoContainer{
     flex-direction: column;
-    width: 79vw;
   }
 
-  #webcam{
-    width: 100%;
+  div.message-container{
+    max-height: 100%;
   }
 
-  .centered{
-    margin-top: -50px;
+  div#webcam-view video{
+    height: auto;
+    width: 85vw;
+  }
+
+  .lecture-running-text,
+  .spectators-count-text,
+  .end-lecture-text,
+  .mic-config-text,
+  .copy-link-text {
+      display: initial;
+  }
+
+  div.classroom-info{
+    width: 80%;
+    border-radius: 0 0 10px 10px;
   }
 
   .chat {
@@ -313,9 +374,8 @@
   .minimize-chat-view{
     display: none !important;
   }  
-    .webcam {
-      width: 100% !important;
-
+  input#message-input{
+    width: 85%;
   }
 }
 
@@ -475,18 +535,14 @@
 
 .messages-main {
   position: relative;
-  height: calc(100% - 32px);
+  height: calc(100% - 35px);
   overflow: hidden;
   display: flex;
 }
 
-div.message-container {
-  max-height: calc(290px - 60px);
-}
-
 .message-container {
+  max-height: calc(100% - 30px);
   position: absolute;
-  max-height: calc(350px - 10px);
   bottom: 0;
   overflow-y: auto;
   word-wrap: break-word;
@@ -770,6 +826,7 @@ div.message-container {
 
 /* Modal Content */
 .modal-content {
+  box-sizing: unset !important;
   display: block;/* default */
   background-color: var(--bg-primary);
   margin: auto;

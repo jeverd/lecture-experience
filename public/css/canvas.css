@@ -1283,6 +1283,11 @@ div.messages.active-chat{
   left: 1px;
 }
 
+span.custom-option,
+.custom-select__trigger span {
+  font-size: 0.8rem;
+}
+
 .inputfile {
 	width: 0.1px;
 	height: 0.1px;
