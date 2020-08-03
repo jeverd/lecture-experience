@@ -13,7 +13,7 @@
     <img src="https://circleci.com/gh/jeverd/lecture-experience.svg?style=shield&circle-token=:circle-token" 
     alt="Current CircleCI build status." />
   <a href="https://github.com/jeverd/lecture-experience/pulse" alt="Activity">
-        <img src="https://img.shields.io/github/commit-activity/m/jeverd/lecture-experience" /></a>
+        <img src="https://img.shields.io/github/commit-activity/y/jeverd/lecture-experience" /></a>
   </a>
   <a href="https://github.com/jeverd/lecture-experience">
     <img src="https://img.shields.io/badge/Repo-Link-orange.svg" 
