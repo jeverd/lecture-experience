@@ -21,6 +21,15 @@
   }
 }
 
+@media only screen and (min-height: 620px) and (max-width: 1300px){
+  div.view-container .footer{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+
   .buttons {
     margin-bottom: 50px;
     margin-top: 10px;
