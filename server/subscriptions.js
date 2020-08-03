@@ -11,25 +11,29 @@ const Stats = require('./models/stats');
 
 const roomsTimeout = {};
 
-function updateNumOfStudents(room) {
+function updateStats(room, numOfStudents, numOfBoards) {
+  redisClient.hmget('stats', room, (error, stats) => {
+    stats = stats.pop();
+    logger.info(`STATS: adding stats on room ${room}`);
+    if (stats) {
+      const {
+        lectureName, userTracker, maxNumOfUsers,
+      } = JSON.parse(stats);
+      const updatedStat = new Stats(lectureName, userTracker, maxNumOfUsers, numOfBoards);
+      updatedStat.addUserTrack(new Date(), numOfStudents);
+      redisClient.hmset('stats', { [room]: JSON.stringify(updatedStat) });
+    }
+  });
+}
+
+function updateNumOfStudents(room, boardsCount) {
   if (room in io.sockets.adapter.rooms) {
     const roomObj = io.sockets.adapter.rooms[room];
     const roomSize = roomObj.length;
     const numOfStudents = roomSize + (room in roomsTimeout ? 0 : -1);
     logger.info(`SOCKET: updating number of students for room ${room}`);
     io.sockets.in(room).emit('updateNumOfStudents', { size: numOfStudents, room });
-    redisClient.hmget('stats', room, (error, stats) => {
-      stats = stats.pop();
-      logger.info(`STATS: adding stats on room ${room}`);
-      if (stats) {
-        const {
-          lectureName, userTracker, maxNumOfUsers, numOfBoards,
-        } = JSON.parse(stats);
-        const updatedStat = new Stats(lectureName, userTracker, maxNumOfUsers, numOfBoards);
-        updatedStat.addUserTrack(new Date(), roomSize);
-        redisClient.hmset('stats', { [room]: JSON.stringify(updatedStat) });
-      }
-    });
+    updateStats(room, roomSize, boardsCount);
   }
 }
 
@@ -72,13 +76,13 @@ io.sockets.on('connection', (socket) => {
         redisClient.hmget('rooms', roomToJoin, (error, roomObj) => {
           roomObj = roomObj.pop();
           if (roomObj) {
-            const { managerId } = JSON.parse(roomObj);
+            const { managerId, boards } = JSON.parse(roomObj);
             redisClient.hdel('managers', managerId);
             logger.info(`SOCKET: Successfully deleted manager from redis, managerId: ${managerId}`);
             redisClient.hdel('rooms', roomToJoin, () => {
               socket.leave(roomToJoin, () => {
                 // Call this just to get last piece of stats about this lecture.
-                updateNumOfStudents(roomToJoin);
+                updateNumOfStudents(roomToJoin, boards.length);
                 logger.info(`SOCKET: Successfully deleted room from redis, room_id: ${roomToJoin}`);
                 io.to(roomToJoin).emit('lectureEnd');
                 if (roomToJoin in io.sockets.adapter.rooms) {

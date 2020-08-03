@@ -1,5 +1,5 @@
 class Stats {
-  constructor(lectureName, userTracker = [], maxNumOfUsers = 0, numOfBoards = 1) {
+  constructor(lectureName, userTracker = [], maxNumOfUsers = 0, numOfBoards = 0) {
     this.userTracker = userTracker;
     this.maxNumOfUsers = maxNumOfUsers;
     this.numOfBoards = numOfBoards;
