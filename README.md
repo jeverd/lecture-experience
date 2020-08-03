@@ -27,12 +27,11 @@
 
 Liteboard is a free, browser-based lecturing platform for anyone who wants to quickly setup a real-like classroom with State-of-the-Art drawing tools and webcam/audio broadcasts. We don't support cumbersome setups; no downloads or accounts required! Just create a lecture, and share the link. It's really that simple.
 
-<div style="margin: 5px 0px;">
+<div style="margin-top: 5px; margin-bottom: 15px;">
   <img src="public/images/github-readme-main.png"/>
 </div>
 
 Liteboard is powered by WebRTC and uses the [Janus](https://github.com/meetecho/janus-gateway) implementation of a Selective Forwarding Unit (SFU) to allow multiple participants per lecture while ensuring the lowest latency available on browsers. We host our own TURN server to guarantee support for users in any kind of network.
-
 
 ## Contents
 
