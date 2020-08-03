@@ -22,8 +22,6 @@
   <a href="https://discord.gg/BH4akDY">
         <img src="https://img.shields.io/discord/703452000951730177?logo=discord"
             alt="chat on Discord"></a>
-  <!-- <a href="https://discord.gg/BH4akDY">
-    <img src="https://img.shields.io/discord/703452000951730177?label=&logo=discord&logoColor=ffffff& color=7389D8&labelColor=6A7EC2" alt="Discord Server" /> -->
   </a>
 </p>
 
@@ -44,7 +42,7 @@ Liteboard is powered by WebRTC and uses the [Janus](https://github.com/meetecho/
 - [💡 Features](#-features)
 - [📝 Requirements](#-requirements)
 - [🏃 Getting Started](#-getting-started)
-      - [Clone](#clone)
+    - [Clone](#clone)
     - [Setup](#setup)
 - [🌲 Environment Variables](#-environment-variables)
 - [🔊 Contributing](#-contributing)
