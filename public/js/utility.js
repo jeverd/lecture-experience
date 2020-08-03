@@ -70,14 +70,11 @@ export function getUrlId() {
 }
 
 export function getJanusUrl() {
-  let { host } = window.location;
-  let prefix = 'https';
+  const { host } = window.location;
   if (host.includes('localhost')) {
-    prefix = 'http';
-    const collonIndex = host.indexOf(':');
-    host = `${host.slice(0, collonIndex + 1)}8088`;
+    return 'http://localhost:8088/janus';
   }
-  return `${prefix}://${host}/janus`;
+  return '/janus';
 }
 
 export function buildPostRequestOpts(body) {

@@ -7,7 +7,6 @@ import { getUrlId, redirectToStats, getStatusColor } from '../utility.js';
 import initializeGuestRTC, { changeStatus } from './guestRTC.js';
 import setNonActiveBoards from './guestBoards.js';
 import initializeOptionsMenu from './guestOptionsMenu.js';
-import initializeTopMenu from './guestTopMenu.js';
 
 const nameInput = document.querySelector('#studentName');
 const invalidNameDiv = document.getElementById('invalid-student-name');
@@ -33,7 +32,6 @@ function joinLecture() {
     }
     initializeOptionsMenu();
     initializeGuestRTC();
-    initializeTopMenu();
     initializeGuestChat(socket, room.lecture_details.id, studentName);
   });
 
@@ -64,7 +62,11 @@ function joinLecture() {
 
   socket.on('currentBoard', (boardImg) => {
     currentBoard = boardImg;
-    document.querySelector('#whiteboard').poster = currentBoard;
+    if (document.querySelector('#whiteboard').poster) {
+      // if poster is defined we don't want to do anything
+    } else {
+      document.querySelector('#whiteboard').poster = currentBoard;
+    }
   });
 }
 
