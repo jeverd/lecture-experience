@@ -27,35 +27,31 @@ Liteboard is powered by WebRTC and uses the [Janus](https://github.com/meetecho/
 
 
 ## Contents
+
+<img style="float: right" width="375" height="auto" src="public/images/github-readme-main2.png"/>
+
 - [Contents](#contents)
-- [💡 What we offer?](#-features)
+- [💡 Features](#-features)
 - [📝 Requirements](#-requirements)
 - [🏃 Getting Started](#-getting-started)
       - [Clone](#clone)
     - [Setup](#setup)
 - [🌲 Environment Variables](#-environment-variables)
 - [🔊 Contributing](#-contributing)
-- [✨ Meet the team](#-contributors)
+- [✨ Team](#-team)
 
 
-## 💡 What we offer?
+## 💡 Features
+  
+  <img style="float: right" width="375" height="auto" src="public/images/github-readme-stats.png"/>
 
-<div style="display: flex; justify-content: space-between; flex-wrap: wrap;">
-  <div>
-    <ul style="position: relative; top: 15px;">
-      <li style="margin: 6px 0;">Live audio/video transmissions</li>
-      <li style="margin: 6px 0;">High Quality live drawing boards</li>
-      <li style="margin: 6px 0;">Chat rooms supporting text and attachments</li>
-      <li style="margin: 6px 0;">Quick-to-setup lectures - no download or accounts</li>
-      <li style="margin: 6px 0;">SFU infrastucture allowing multiple attendees</li>
-      <li style="margin: 6px 0;">Lecture metrics with graphical interface</li>
-      <li style="margin: 6px 0;">i18n - Portuguese | English</li>
-    </ul>
-  </div>
-  <div>
-    <img style="border-radius: 0.25rem;" width="375" height="auto" src="public/images/github-readme-stats.png"/>
-  </div>
-</div>
+  - Live audio/video transmissions
+  - High Quality live drawing boards
+  - Chat rooms supporting text and attachments
+  - Quick-to-setup lectures - no download or accounts
+  - SFU infrastucture allowing multiple attendees
+  - Lecture metrics with graphical interface
+  - i18n - Portuguese | English
 
 ## 📝 Requirements
 
@@ -124,7 +120,7 @@ To run liteboard locally, you will need the following:
 We encourge anyone interested in contributing to our project to open Pull Requests and Issues about bugs or cool features to implement
 
 
-## ✨ Meet the team 
+## ✨ Team 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
