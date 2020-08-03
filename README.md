@@ -15,6 +15,9 @@
     <img src="https://img.shields.io/badge/Repo-Link-orange.svg" 
      alt="Repo Link" />
   </a>
+  <a href="https://discord.gg/yXvEhMv">
+    <img src="https://img.shields.io/discord/703452000951730177.svg?label=&logo=discord&logoColor=ffffff& color=7389D8&labelColor=6A7EC2" alt="Discord Server" />
+  </a>
 </p>
 
 Liteboard is a free, browser-based lecturing platform for anyone who wants to quickly setup a real-like classroom with State-of-the-Art drawing tools and webcam/audio broadcasts. We don't support cumbersome setups; no downloads or accounts required! Just create a lecture, and share the link. It's really that simple.
@@ -28,7 +31,7 @@ Liteboard is powered by WebRTC and uses the [Janus](https://github.com/meetecho/
 
 ## Contents
 
-<img style="float: right" width="375" height="auto" src="public/images/github-readme-main2.png"/>
+<img align="right" style="border-radius:0.25rem;" width="375" height="auto" src="public/images/github-readme-main2.png"/>
 
 - [Contents](#contents)
 - [💡 Features](#-features)
@@ -43,7 +46,7 @@ Liteboard is powered by WebRTC and uses the [Janus](https://github.com/meetecho/
 
 ## 💡 Features
   
-  <img style="float: right" width="375" height="auto" src="public/images/github-readme-stats.png"/>
+  <img align="right" style="border-radius:0.25rem;" width="375" height="auto" src="public/images/github-readme-stats.png"/>
 
   - Live audio/video transmissions
   - High Quality live drawing boards
@@ -117,7 +120,7 @@ To run liteboard locally, you will need the following:
 
 
 ## 🔊 Contributing
-We encourge anyone interested in contributing to our project to open Pull Requests and Issues about bugs or cool features to implement
+We encourge anyone interested in contributing to our project to open Pull Requests and Issues about bugs or cool features to implement. We use discord to communicate. Feel free to join the [Liteboard server](https://discord.gg/yXvEhMv)!
 
 
 ## ✨ Team 
