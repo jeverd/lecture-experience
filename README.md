@@ -4,19 +4,26 @@
   </a>
 </h1>
 <p align="center">
+  <a href="https://github.com/jeverd/lecture-experience/graphs/contributors" alt="Contributors">
+        <img src="https://img.shields.io/github/contributors/jeverd/lecture-experience" /></a>
   <a href="https://github.com/jeverd/lecture-experience/blob/master/LICENSE">
     <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="Liteboard is released under the MIT license." />
   </a>
   <a href="https://circleci.com/">
     <img src="https://circleci.com/gh/jeverd/lecture-experience.svg?style=shield&circle-token=:circle-token" 
     alt="Current CircleCI build status." />
+  <a href="https://github.com/jeverd/lecture-experience/pulse" alt="Activity">
+        <img src="https://img.shields.io/github/commit-activity/m/jeverd/lecture-experience" /></a>
   </a>
   <a href="https://github.com/jeverd/lecture-experience">
     <img src="https://img.shields.io/badge/Repo-Link-orange.svg" 
      alt="Repo Link" />
   </a>
-  <a href="https://discord.gg/yXvEhMv">
-    <img src="https://img.shields.io/discord/703452000951730177.svg?label=&logo=discord&logoColor=ffffff& color=7389D8&labelColor=6A7EC2" alt="Discord Server" />
+  <!-- <a href="https://discord.gg/BH4akDY">
+        <img src="https://img.shields.io/discord/703452000951730177?logo=discord"
+            alt="chat on Discord"></a> -->
+  <a href="https://discord.gg/BH4akDY">
+    <img src="https://img.shields.io/discord/703452000951730177?label=&logo=discord&logoColor=ffffff& color=7389D8&labelColor=6A7EC2" alt="Discord Server" />
   </a>
 </p>
 
@@ -120,7 +127,7 @@ To run liteboard locally, you will need the following:
 
 
 ## 🔊 Contributing
-We encourge anyone interested in contributing to our project to open Pull Requests and Issues about bugs or cool features to implement. We use discord to communicate. Feel free to join the [Liteboard server](https://discord.gg/yXvEhMv)!
+We encourge anyone interested in contributing to our project to open Pull Requests and Issues about bugs or cool features to implement. We use discord to communicate. Feel free to join the [Liteboard server](https://discord.gg/BH4akDY)!
 
 
 ## ✨ Team 
