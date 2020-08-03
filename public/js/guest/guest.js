@@ -64,7 +64,11 @@ function joinLecture() {
 
   socket.on('currentBoard', (boardImg) => {
     currentBoard = boardImg;
-    document.querySelector('#whiteboard').poster = currentBoard;
+    if (document.querySelector('#whiteboard').poster) {
+      // if poster is defined we don't want to do anything
+    } else {
+      document.querySelector('#whiteboard').poster = currentBoard;
+    }
   });
 }
 
