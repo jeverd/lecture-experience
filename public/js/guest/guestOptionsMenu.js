@@ -53,6 +53,13 @@ export default function initializeOptionsMenu() {
     $(this).parent().find('audio')[0].muted = volumeIcon.hasClass('fa-volume-mute');
   });
 
+  $('#fullscreen-video').click(() => {
+    const elem = document.getElementById('whiteboard');
+    if (screenfull.isEnabled) {
+      screenfull.request(elem);
+    }
+  });
+
   // check this later to use it on the other modals.
   $('#connect-on-your-phone').click(() => $('#qr-code-modal').fadeIn());
   $('.qrcode-modal-content').click((e) => e.stopPropagation());
