@@ -131,7 +131,6 @@ async function initializeJanus() {
                   });
                 },
                 onmessage(msg) {
-                  console.log(msg);
                   const status = msg.videoroom;
                   switch (status) {
                     case 'joined':
