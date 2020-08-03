@@ -183,7 +183,6 @@ export default class Whiteboard {
   }
 
   pushToUndoStack() {
-    console.log('fui chamada')
     var undoLimit = 40;
     var array = [];
     for (var i in window.app.getElem()) {
