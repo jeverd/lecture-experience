@@ -289,23 +289,11 @@
     <input type="hidden" id="you-name-chat" value="{{#lang}}{{youNameChat}}{{/lang}}"/>
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-    <!-- <script>
-        const onResizeDone = () => {
-            videoHeight = $('#whiteboard').height();
-            console.log(videoHeight);
-            $('.page-list').css('max-height', videoHeight);
-        };
-        onResizeDone();
-        let timeout;
-        $(window).on('resize', () => {
-            clearTimeout(timeout);
-            timeout = setTimeout(onResizeDone, 20);
-        });
-    </script> -->
     <script src="/socket.io/socket.io.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/6.4.0/adapter.min.js"></script>
     <script src="/lib/janus.js"></script>
     <script src="/lib/qrcode.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/screenfull.js/5.0.2/screenfull.min.js"></script>
     <script type="text/javascript">
         new QRCode(document.getElementById('qrcode'), {
             text: window.location.href,
