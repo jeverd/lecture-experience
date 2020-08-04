@@ -223,7 +223,17 @@ export default function initializeStreamConfigurations(stream, changeTrack) {
     }
   }
 
-  navigator.mediaDevices.enumerateDevices().then(gotDevices);
+  let currentDevices = [];
+  setInterval(() => {
+    navigator.mediaDevices.enumerateDevices().then((devices) => {
+      if (currentDevices.length !== devices.length) {
+        document.getElementById('select-options-audio').innerHTML = '';
+        document.getElementById('select-options-webcam').innerHTML = '';
+        currentDevices = devices;
+        gotDevices(devices);
+      }
+    });
+  }, 2000);
 
   document.querySelectorAll('.custom-select-wrapper').forEach((selectInput) => {
     selectInput.addEventListener('click', function () {

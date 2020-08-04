@@ -86,6 +86,7 @@ app.get('/lecture/:id', (req, res) => {
         } else {
           res.render('webcamboard.html', objToRender);
         }
+
       } else {
         res.status(404);
         res.redirect('/error?code=3');

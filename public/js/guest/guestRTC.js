@@ -100,6 +100,7 @@ async function initializeJanus() {
           webrtcState(isConnected) {
             setTimeout(changeStatus[isConnected ? 'live' : 'connection_lost'], 700);
           },
+          iceState(state) { if (state === 'connected') changeStatus.live(); },
         });
       });
     }
@@ -134,6 +135,7 @@ async function initializeJanus() {
                   const status = msg.videoroom;
                   switch (status) {
                     case 'joined':
+                      changeStatus.starting();
                       joinFeed(msg.publishers);
                       break;
                     case 'event':
@@ -141,6 +143,7 @@ async function initializeJanus() {
                         // Handle here properly when the manager disconnects
                         changeStatus.host_disconnected();
                       } else if (typeof msg.publishers !== 'undefined') {
+                        changeStatus.starting();
                         joinFeed(msg.publishers);
                       }
                       break;
