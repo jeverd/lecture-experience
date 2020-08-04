@@ -117,8 +117,6 @@ To run liteboard locally, you will need the following:
 | LOGGER              | bool   |                                                                                                                                                                        | true or false                                 |
 | JANUS_SERVER_SECRET | string | This is used for janus webrtc gateway authentication. If you change this, please change it in janus config file as well.                                               | Any                                           |
 | TURN_SERVER_ACTIVE  | bool   | This specifies if you will be using a turn server. Please keep this false for dev environment                                                                          | true or false                                 |
-| SENTRY_DSN          | string | If you want to hook up sentry bug report tracking, use this. If nothing is specified, there will be no issues!                                                         | Any                                           |
-| SENTRY_ENVIRONMENT  | string | Use this to track errors for specific sentry environment                                                                                                               | Any                                           |
 | DEFAULT_LANGUAGE    | string | Sets the Liteboards default language.                                                                                                                           | en-US, pt-BR                                          |
 
 
