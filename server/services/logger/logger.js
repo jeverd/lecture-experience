@@ -27,24 +27,26 @@ const consoleLogger = new winston.transports.Console({
   silent: !loggerFlag,
 });
 
-// sentry logs
 
-const options = {
-  config: {
-    dsn: sentryDSN,
-  },
-  level: 'error',
-};
-
-// eslint-disable-next-line new-cap
-const sentryLogger = new winston.createLogger({
-  transports: [new Sentry(options)],
-});
-
-
-const loggerTransports = [consoleLogger, sentryLogger];
+const loggerTransports = [consoleLogger];
 
 if (environment === 'PRODUCTION' || environment === 'STAGING') {
+// sentry logs
+
+  const options = {
+    config: {
+      dsn: sentryDSN,
+    },
+    level: 'error',
+  };
+
+  // eslint-disable-next-line new-cap
+  const sentryLogger = new winston.createLogger({
+    transports: [new Sentry(options)],
+  });
+
+  loggerTransports.push(sentryLogger);
+
   const papertrailConnection = new PapertrailConnection({
     host: ptHost,
     port: ptPort,
