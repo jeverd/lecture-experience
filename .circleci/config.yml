@@ -36,8 +36,6 @@ workflows:
           filters:
             branches:
               only: 
-                - dev
-                - switch-device
-                - jawad/Staging
+                - staging
       - tests
           
