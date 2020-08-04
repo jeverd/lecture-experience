@@ -46,7 +46,7 @@ async function initializeJanus() {
   const roomId = parseInt(getUrlId());
   function joinFeed(publishers) {
     if (publishers.length === 0) {
-      setTimeout(changeStatus.host_disconnected, 500);
+      changeStatus.host_disconnected();
     } else {
       publishers.forEach((publisher) => {
         const streamType = publisher.display;
@@ -97,9 +97,7 @@ async function initializeJanus() {
               }
             }
           },
-          webrtcState(isConnected) {
-            setTimeout(changeStatus[isConnected ? 'live' : 'connection_lost'], 700);
-          },
+          webrtcState(isConnected) { changeStatus[isConnected ? 'live' : 'connection_lost'](); },
           iceState(state) { if (state === 'connected') changeStatus.live(); },
         });
       });
@@ -140,7 +138,6 @@ async function initializeJanus() {
                       break;
                     case 'event':
                       if (typeof msg.unpublished !== 'undefined' || typeof msg.leaving !== 'undefined') {
-                        // Handle here properly when the manager disconnects
                         changeStatus.host_disconnected();
                       } else if (typeof msg.publishers !== 'undefined') {
                         changeStatus.starting();
