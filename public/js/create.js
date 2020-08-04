@@ -76,9 +76,6 @@ createBut.addEventListener('click', async (e) => {
                     },
                   });
                 },
-                error(error) {
-                  console.log('error plugin connection');
-                },
               },
             );
           },
