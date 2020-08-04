@@ -182,4 +182,4 @@ app.get('*', (req, res) => {
 });
 
 // error handling middleware, have to specify here, refer to docs https://docs.sentry.io/platforms/node/express/, error handlers should always be defined last
-app.use(Sentry.Handlers.errorHandler()); // will capture any statusCode of 500
+if (environment !== 'DEVELOPMENT') app.use(Sentry.Handlers.errorHandler()); // will capture any statusCode of 500
