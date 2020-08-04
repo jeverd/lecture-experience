@@ -11,11 +11,7 @@ body {
 }
 
 .landing-container {
-  background-image: url(/liteboardLandingBGlight.png);
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
+  height: 85vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -42,7 +38,7 @@ body {
 }
 
 .landing-info img {
-  width: calc(440px + 7.5vw);
+  width: calc(410px + 10vw);
   min-width: 300px;
 }
 
@@ -691,4 +687,12 @@ body {
   transform: translateX(-50%);
   width: 85%;
   background: #333;
+}
+
+.line-brackground{
+  background-image: url(/liteboardLandingBGlight.png);
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }

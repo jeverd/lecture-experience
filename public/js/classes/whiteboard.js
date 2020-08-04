@@ -25,19 +25,12 @@ export default class Whiteboard {
     this.canvas.width = window.innerWidth;
     this.context = this.canvas.getContext('2d');
     this.canvas.style.cursor = 'crosshair';
-    this.tools = new Tools();
     this.currentBoard = 0;
-    this.onScroll();
     this.paintWhite();
     this.boards = [];
     this.centerCoords = [];
     this.undoStack = [];
     this.redoStack = [];
-    this.startingPoint = new Point();
-    this.endPoint = new Point();
-    this.isSelectionActive = false;
-    window.onkeydown = this.handleShortcutKeys.bind(this);
-    this.handleResize();
   }
 
   set activeTool(tool) {
@@ -67,34 +60,33 @@ export default class Whiteboard {
   initialize() {
     this.canvas.onmousedown = this.onMouseDown.bind(this);
     this.canvas.ontouchstart = this.onMouseDown.bind(this);
+    this.canvas.onmouseup = this.onMouseUp.bind(this);
+    this.canvas.ontouchend = this.onMouseUp.bind(this);
+    window.onkeydown = this.handleShortcutKeys.bind(this);
+    this.updateFrameInterval = window.app.updateCanvasFrame();
+    this.tools = new Tools();
+    this.onScroll();
+    this.handleResize();
   }
 
   paintWhite() {
     window.app.paintBackgroundWhite();
   }
 
-  onMouseDown(e) {
+  onMouseDown() {
+    clearInterval(this.updateFrameInterval);
     this.pushToUndoStack();
     this.clearRedoStack();
-
-    this.startPos = getMouseCoordsOnCanvas(e, this.canvas); // NaN here
   }
 
   onMouseUp() {
-    this.canvas.onmousemove = (e) => {
-      this.currentPos = getMouseCoordsOnCanvas(e, this.canvas);
-      this.pushToUndoStack();
-    };
-    this.canvas.ontouchmove = (e) => {
-      this.currentPos = getMouseCoordsOnCanvas(e, this.canvas);
-      this.pushToUndoStack();
-    };
+    this.updateFrameInterval = window.app.updateCanvasFrame();
     document.onmouseup = null;
     document.ontouchend = null;
   }
 
-  onScroll(e, x, y) {
-    window.app.zoom(e, x, y);
+  onScroll(e, offsetX, offsetY) {
+    window.app.zoom(e, offsetX, offsetY);
   }
 
   getZoom() {
@@ -140,7 +132,7 @@ export default class Whiteboard {
       const draws = this.undoStack.pop();
       window.app.addDraws(draws);
     } else {
-      showInfoMessage('Nothing to undo.');
+      showInfoMessage($('#nothing-to-undo').val());
     }
   }
 
@@ -154,7 +146,7 @@ export default class Whiteboard {
       const draws = this.redoStack.pop();
       window.app.addDraws(draws);
     } else {
-      showInfoMessage('Nothing to redo.');
+      showInfoMessage($('#nothing-to-redo').val());
     }
   }
 

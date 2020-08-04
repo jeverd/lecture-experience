@@ -5,33 +5,41 @@ const { io } = require('./servers');
 const redisClient = require('./servers').client;
 const { logger } = require('./services/logger/logger');
 const { sendManagerDisconnectEmail } = require('./services/emailer/emailer');
+const { environment } = require('../config/config');
 const Stats = require('./models/stats');
 
 
 const roomsTimeout = {};
 
-function updateNumOfStudents(room) {
-  io.in(room).clients((error, clients) => {
-    const numOfStudents = clients.length + (room in roomsTimeout ? 0 : -1);
-    io.in(room).emit('updateNumOfStudents', numOfStudents);
-    redisClient.hmget('stats', room, (error, stats) => {
-      stats = stats.pop();
-      logger.info(`STATS: adding stats on room ${room}`);
-      if (stats) {
-        const {
-          lectureName, userTracker, maxNumOfUsers, numOfBoards,
-        } = JSON.parse(stats);
-        const updatedStat = new Stats(lectureName, userTracker, maxNumOfUsers, numOfBoards);
-        updatedStat.addUserTrack(new Date(), clients.length);
-        redisClient.hmset('stats', { [room]: JSON.stringify(updatedStat) });
-      }
-    });
+function updateStats(room, numOfStudents, numOfBoards) {
+  redisClient.hmget('stats', room, (error, stats) => {
+    stats = stats.pop();
+    logger.info(`STATS: adding stats on room ${room}`);
+    if (stats) {
+      const {
+        lectureName, userTracker, maxNumOfUsers,
+      } = JSON.parse(stats);
+      const updatedStat = new Stats(lectureName, userTracker, maxNumOfUsers, numOfBoards);
+      updatedStat.addUserTrack(new Date(), numOfStudents);
+      redisClient.hmset('stats', { [room]: JSON.stringify(updatedStat) });
+    }
   });
+}
+
+function updateNumOfStudents(room, boardsCount) {
+  if (room in io.sockets.adapter.rooms) {
+    const roomObj = io.sockets.adapter.rooms[room];
+    const roomSize = roomObj.length;
+    const numOfStudents = roomSize + (room in roomsTimeout ? 0 : -1);
+    logger.info(`SOCKET: updating number of students for room ${room}`);
+    io.sockets.in(room).emit('updateNumOfStudents', { size: numOfStudents, room });
+    updateStats(room, roomSize, boardsCount);
+  }
 }
 
 io.sockets.on('connection', (socket) => {
   const urlUuid = socket.handshake.query.id;
-  socket.handshake.session.inRoom = true;
+  socket.handshake.session.inRoom = environment === 'PRODUCTION' || environment === 'STAGING';
   socket.handshake.session.save();
   const deleteSession = () => {
     if (socket.handshake.session.inRoom) {
@@ -68,13 +76,13 @@ io.sockets.on('connection', (socket) => {
         redisClient.hmget('rooms', roomToJoin, (error, roomObj) => {
           roomObj = roomObj.pop();
           if (roomObj) {
-            const { managerId } = JSON.parse(roomObj);
+            const { managerId, boards } = JSON.parse(roomObj);
             redisClient.hdel('managers', managerId);
             logger.info(`SOCKET: Successfully deleted manager from redis, managerId: ${managerId}`);
             redisClient.hdel('rooms', roomToJoin, () => {
               socket.leave(roomToJoin, () => {
                 // Call this just to get last piece of stats about this lecture.
-                updateNumOfStudents(roomToJoin);
+                updateNumOfStudents(roomToJoin, boards.length);
                 logger.info(`SOCKET: Successfully deleted room from redis, room_id: ${roomToJoin}`);
                 io.to(roomToJoin).emit('lectureEnd');
                 if (roomToJoin in io.sockets.adapter.rooms) {
@@ -151,22 +159,21 @@ io.sockets.on('connection', (socket) => {
       redisClient.hmset('managers', {
         [urlUuid]: JSON.stringify(managerObj),
       });
-
-      socket.join(roomToJoin);
     } else {
       roomToJoin = urlUuid;
       socket.on('disconnect', () => {
+        logger.info(`SOCKET: student disconnecting from room ${roomToJoin}`);
         deleteSession();
         updateNumOfStudents(roomToJoin);
       });
       logger.info(`SOCKET: Student joining room ${roomToJoin}`);
       isIncomingStudent = true;
-      socket.join(roomToJoin);
     }
     redisClient.hmget('rooms', roomToJoin, (error, roomObj) => {
       logger.info(`SOCKET: Retreiving room object on room ${roomToJoin}`);
       roomObj = roomObj.pop();
       if (roomObj) {
+        socket.join(roomToJoin);
         const lectureObj = JSON.parse(roomObj);
         lectureObj.id = roomToJoin;
         const { managerId } = lectureObj;

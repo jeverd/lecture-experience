@@ -58,7 +58,7 @@
                 <div class="titleBoard">
                     <img class="title-circle" src="/liteboardCircle.png"/>
                     <img class="title-triangle" src="/liteboardTriangle.png"/>
-                        <span class="title" id="lectureTitle"><span>{{#lang}}{{guestLectureRoom}}{{/lang}} | </span><b>{{name}}</b></span>
+                    <span class="title" id="lectureTitle"><span>{{#lang}}{{guestLectureRoom}}{{/lang}} | </span><b>{{name}}</b></span>
                 </div>
                 <div class="videoContainer">
                     <div class="left-menu">
@@ -74,17 +74,22 @@
                                 </div>
                             </div>
                         </div>
-                        <div title="{{#lang}}{{lectureToggleBoards}}{{/lang}}" id="toggle-boards-view" target-id="boards-view">
-                            <img class="nav-icon" src="/whiteboard.svg" />
-                            <div class="left-menu-badge"><span id="num-boards">0</span></div>
-                        </div>
+                        {{#lectureTools}}
+                            {{#whiteboard}}
+                                <div title="{{#lang}}{{lectureToggleBoards}}{{/lang}}" id="toggle-boards-view" target-id="boards-view">
+                                    <img class="nav-icon" src="/whiteboard.svg" />
+                                    <div class="left-menu-badge"><span id="num-boards">0</span></div>
+                                </div>
+                            {{/whiteboard}}
+                        {{/lectureTools}}
                         <div title="{{#lang}}{{lectureToggleChat}}{{/lang}}" id="toggle-chat-view" target-id="chat-view">
                             <i class="fas fa-comment-dots chat-info-icon"></i>
                             <div class="left-menu-badge"><span id="num-unread-messages">0</span></div>
                         </div>
                     </div>
                     <div class="main-stream-container">
-                        <div id="info-popup">{{#lang}}{{guestNoOtherBoards}}{{/lang}}</div>
+                        <input id="no-other-boards-text" type="hidden" value="{{#lang}}{{guestNoOtherBoards}}{{/lang}}"/>
+                        <div id="info-popup"></div>
                         <div class="lecture-top-bar">
                             <div id="lecture-status">
                                 <input type="hidden" id="status-starting" value="{{#lang}}{{statusStarting}}{{/lang}}"/>
@@ -135,9 +140,9 @@
                                 {{/webcam}}
                             {{/whiteboard}}
                             {{#audio}}
-                                <audio style="display: none;" id="speaker" autoplay ></audio> 
+                                <audio style="display: none;" id="speaker" autoplay muted></audio> 
                                 <div class="audio" id="toggle-speaker">    
-                                    <i class="fa fa-volume-up" aria-hidden="true"></i>
+                                    <i class="fa fa-volume-mute" aria-hidden="true"></i>
                                 </div>
                             {{/audio}}
                         {{/lectureTools}}
@@ -284,23 +289,11 @@
     <input type="hidden" id="you-name-chat" value="{{#lang}}{{youNameChat}}{{/lang}}"/>
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-    <!-- <script>
-        const onResizeDone = () => {
-            videoHeight = $('#whiteboard').height();
-            console.log(videoHeight);
-            $('.page-list').css('max-height', videoHeight);
-        };
-        onResizeDone();
-        let timeout;
-        $(window).on('resize', () => {
-            clearTimeout(timeout);
-            timeout = setTimeout(onResizeDone, 20);
-        });
-    </script> -->
     <script src="/socket.io/socket.io.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/6.4.0/adapter.min.js"></script>
     <script src="/lib/janus.js"></script>
     <script src="/lib/qrcode.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/screenfull.js/5.0.2/screenfull.min.js"></script>
     <script type="text/javascript">
         new QRCode(document.getElementById('qrcode'), {
             text: window.location.href,

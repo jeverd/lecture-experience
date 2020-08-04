@@ -4,6 +4,7 @@ const Sentry = require('@sentry/node');
 const { app } = require('./servers');
 const redisClient = require('./servers').client;
 const { logger } = require('./services/logger/logger');
+const rateLimit = require('express-rate-limit');
 const { turnCredsGenerator, janusCredsGenerator } = require('./services/credsGenerator');
 const Stats = require('./models/stats');
 const Manager = require('./models/manager');
@@ -12,6 +13,8 @@ const {
   expressPort, environment, turnServerSecret, redisTurnDbNumber,
   turnServerActive, turnServerPort, turnServerUrl, sentryDSN, sentryEnvironment, janusServerSecret,
 } = require('../config/config');
+
+const apiLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 100 });
 
 const { getLanguage, setLanguage } = require('./services/i18n/i18n');
 
@@ -24,7 +27,7 @@ app.get('/create', (req, res) => {
   res.render('create.html', { sentryDSN, sentryEnvironment, ...getLanguage(req.session, req.locale) });
 });
 
-app.post('/create', (req, res) => {
+app.post('/create', apiLimiter, (req, res) => {
   logger.info('POST request received: /create');
   const managerId = uuidv4();
   const {
@@ -77,11 +80,14 @@ app.get('/lecture/:id', (req, res) => {
         const objToRender = {
           sentryDSN, sentryEnvironment, ...roomJson, ...getLanguage(req.session, req.locale),
         };
+
         if (isGuest) {
           delete roomJson.managerId;
           res.render('lecture.html', objToRender);
-        } else {
+        } else if (roomJson.lectureTools.whiteboard) {
           res.render('whiteboard.html', objToRender);
+        } else {
+          res.render('webcamboard.html', objToRender);
         }
       } else {
         res.status(404);
@@ -178,4 +184,4 @@ app.get('*', (req, res) => {
 });
 
 // error handling middleware, have to specify here, refer to docs https://docs.sentry.io/platforms/node/express/, error handlers should always be defined last
-app.use(Sentry.Handlers.errorHandler()); // will capture any statusCode of 500
+if (environment !== 'DEVELOPMENT') app.use(Sentry.Handlers.errorHandler()); // will capture any statusCode of 500

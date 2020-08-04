@@ -14,9 +14,11 @@
   "indexRecordLecture": "Grave suas Aulas",
   "indexRecordLectureContent": "Você tem a opção de gravar suas aulas e deixá-las disponível aos alunos em nossa plataforma",
   "indexIntegratedBoard": "Quadro Integrado",
-  "indexIntegratedBoardContent": "Use as ferramentas de desenho para criar quantos quadros você precisar com qualidade e consistência",
+  "indexIntegratedBoardContent": "Use modernas ferramentas de desenho para criar quantos quadros você precisar com qualidade e consistência",
   "indexAnalytics": "Análise Detalhada",
   "indexAnalyticsContent": "Você tem acesso às estatísticas de sua aula com o gráfico gerado ao final da apresentação",
+  "indexChatWithYourClass": "Fale com seus Estudantes",
+  "indexChatWithYourClassContent": "Comunique-se mandando mensagens, fotos e documentos para sua turma no chat da aula",
   "indexFromStudentToProf": "De estudantes a professores",
   "indexTryLiteboard": "Experimente Liteboard",
   "indexCreateALecture": "Crie uma Aula",
@@ -137,5 +139,14 @@
   "statsPopupTime": "Tempo",
   "waitingDevices": "Carregando dispositivos...",
   "hostNameChat": "Moderador da sala",
-  "youNameChat": "Você"
+  "youNameChat": "Você",
+  "selectOneVideoSource": "Selecione uma fonte de vídeo",
+  "audioSettingsConfigure": "Audio",
+  "videoSettingsConfigure": "Video",
+  "nothingToUndo": "Nada para desfazer.",
+  "nothingToRedo": "Nada para refazer.",
+  "boardsSavedInfo": "Quadros Salvos",
+  "linkCopiedInfo": "Link Copiado",
+  "copiedInfo": "Copiado",
+  "copyInfo": "Copiar"
 }

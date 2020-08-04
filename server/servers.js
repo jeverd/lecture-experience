@@ -24,7 +24,6 @@ const { logMiddleWare } = require('./services/logger/loggingMiddleware');
 const app = express();
 
 // sentry intergation
-Sentry.init({ dsn: sentryDSN, environment });
 app.use(Sentry.Handlers.requestHandler());
 
 const expressServer = app.listen(expressPort);
@@ -42,13 +41,14 @@ app.use(express.json({ limit: '50mb' }));
 app.use(locale(supportedLanguages, defaultLanguage));
 app.use(bodyParser.json());
 app.use(helmet());
-if (loggerFlag) app.use(logMiddleWare);
+if (loggerFlag && environment === 'PRODUCTION') app.use(logMiddleWare);
 
 
 let client = null;
 if (environment === 'DEVELOPMENT') {
   client = redis.createClient(redisUrl); // use envir var TODO.
 } else {
+  Sentry.init({ dsn: sentryDSN, environment });
   app.set('trust proxy', 1); // trust first proxy, if not set, ngnix ip will be considered by same as clients
   client = redis.createClient(redisUrl);
 }
@@ -86,7 +86,7 @@ client.on('connect', () => {
   logger.info(`Redis connected on port: ${redisPort}`);
 });
 
-app.use(Sentry.Handlers.errorHandler());
+if (environment !== 'DEVELOPMENT') app.use(Sentry.Handlers.errorHandler());
 
 
 module.exports = {

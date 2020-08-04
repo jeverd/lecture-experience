@@ -115,75 +115,52 @@ var deselectItem = function (event) {
   onDragItem = '';
 };
 
-var Zoom = function (scale, positionX, positionY, zoomDirection) {
-  // move the center for the same amount comparing the position of the mouse with it
-  var zoomAmount = zoomDirection;
-  var centerAmount = 1000;
-  var verticalBorder = 300;
-  var horizontalBorder = 300;
-  var verticalCond = (positionY < view.center.y + horizontalBorder && positionY > view.center.y - horizontalBorder);
-  var horizontalCond = (positionX > view.center.x - verticalBorder && positionX < view.center.x + verticalBorder);
+var changeZoomCenter = function(delta, mousePosition) {
+  if (!delta) {
+    return;
+  }
+  if (delta > 0){
+    var oldZoom = view.zoom;
+    var oldCenter = view.center;
+    var viewPos = view.viewToProject(mousePosition);
+    var factor = 1.10;
+    var newZoom = delta > 0
+    ? view.zoom * factor
+    : view.zoom / factor
+  
+    if (!newZoom) {
+      return;
+    }
+    var zoomScale = oldZoom / newZoom;
+    var centerAdjust = viewPos.subtract(oldCenter);
+    var offset = viewPos.subtract(centerAdjust.multiply(zoomScale))
+            .subtract(oldCenter);
+    view.center = view.center.add(offset);
+  }
+  Zoom(delta);
+};
 
+var Zoom = function (zoomDirection) {
+  var zoomAmount = zoomDirection;
+  var zoomFactor = 1.05;
   if (zoomDirection < 0) {
-    //COMEBACK TO THIS LATER
-    /*
-    if (positionY < view.center.y && positionX < view.center.x + verticalBorder && positionX > view.center.x - verticalBorder) {
-      // mid up
-      view.center.y -= centerAmount;
-      view.zoom += zoomAmount;
-    }else if (positionY < view.center.y && positionX > view.center.x){
-      // up right
-      view.center.y -= centerAmount / 2;
-      view.center.x += centerAmount;
-      view.zoom += zoomAmount;
-    }else if (positionY < view.center.y && positionX < view.center.x){
-      // up left
-      view.center.y -= centerAmount / 2;
-      view.center.x -= centerAmount;
-      view.zoom += zoomAmount;
-    }else if (positionY > view.center.y && positionX > view.center.x - verticalBorder && positionX < view.center.x + verticalBorder){
-      // mid down
-      view.center.y += centerAmount;
-      view.zoom += zoomAmount;
-    }else if (positionY > view.center.y && positionX > view.center.x){
-      // down right
-      view.center.y += centerAmount / 2;
-      view.center.x += centerAmount;
-      view.zoom += zoomAmount;
-    }else if (positionY > view.center.y && positionX < view.center.x){
-      // down left
-      view.center.y += centerAmount / 2;
-      view.center.x -= centerAmount;
-      view.zoom += zoomAmount;
-    }else if (positionY < view.center.y + horizontalBorder && positionY > view.center.y - horizontalBorder && positionX > view.center.x + verticalBorder){
-      view.center.x += centerAmount / 2;
-      view.center.y += centerAmount / 2;
-      view.zoom += zoomAmount;
-    }else if (positionY < view.center.y + horizontalBorder && positionY > view.center.y - horizontalBorder && positionX < view.center.x + verticalBorder){
-      view.center.x -= centerAmount;
-      view.center.y += centerAmount / 2;
-      view.zoom += zoomAmount;
-    }else if (verticalCond && horizontalCond){
-      view.zoom += zoomAmount;
-    }else {
-      view.zoom += zoomAmount;
-    }
-  }else {
-    view.zoom += zoomAmount;
-  }
-  */  
+    newZoom = view.zoom * zoomFactor;
     if (view.zoom + zoomAmount < 0.2) {
       view.zoom = 0.2;
     } else {
       view.zoom += zoomAmount;
     }
-  } else {
+    } else {
     if (view.zoom + zoomAmount < 0.2) {
       view.zoom = 0.2;
     } else {
       view.zoom += zoomAmount;
     }
   }
+  if (zoomDirection > 0) {
+    newZoom = view.zoom / zoomFactor;
+  }
+  view.zoom += zoomDirection;
 };
 
 var delItem = function () {
@@ -284,6 +261,13 @@ window.app = {
       view.center.subtract({x: -3000, y: -3000})
     );
   },
+  updateCanvasFrame: function () {
+    return setInterval(function() {
+      var text = new PointText(new Point(200, 50));
+      text.justification = 'center';
+      text.content = '';
+    }, 500);
+  },
   paintCircle: function () {
     var circle = new Path.Rectangle(new Point(0, 0), view.size.width, view.size.height);
 
@@ -305,10 +289,9 @@ window.app = {
     });
   },
   zoom: function (scale, x, y) {
-    Zoom(scale, x, y, this.zoomDirection(scale));
+    changeZoomCenter(this.zoomDirection(scale), new Point(x, y));
   },
   getZoomData: function () {
-    // ########
     return {
       zoom: view.zoom,
       centerX: view.center.x,

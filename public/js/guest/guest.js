@@ -7,10 +7,10 @@ import { getUrlId, redirectToStats, getStatusColor } from '../utility.js';
 import initializeGuestRTC, { changeStatus } from './guestRTC.js';
 import setNonActiveBoards from './guestBoards.js';
 import initializeOptionsMenu from './guestOptionsMenu.js';
-import initializeTopMenu from './guestTopMenu.js';
 
 const nameInput = document.querySelector('#studentName');
 const invalidNameDiv = document.getElementById('invalid-student-name');
+const hasWhiteboard = $('#whiteboardValidator').val() === 'true';
 const roomId = getUrlId();
 let studentName;
 let currentBoard;
@@ -26,12 +26,12 @@ function joinLecture() {
   };
 
   socket.on('ready', (room) => {
-    const { boards, boardActive } = room.lecture_details;
-    setNonActiveBoards(boards.filter((e, i) => i !== boardActive));
-    const roomIdAsInt = parseInt(roomId);
+    if (hasWhiteboard) {
+      const { boards, boardActive } = room.lecture_details;
+      setNonActiveBoards(boards.filter((e, i) => i !== boardActive));
+    }
     initializeOptionsMenu();
-    initializeGuestRTC(roomIdAsInt);
-    initializeTopMenu();
+    initializeGuestRTC();
     initializeGuestChat(socket, room.lecture_details.id, studentName);
   });
 
@@ -52,15 +52,21 @@ function joinLecture() {
     changeStatus.host_disconnected();
   });
 
-  socket.on('updateNumOfStudents', (num) => {
-    document.getElementById('specs').innerHTML = num;
+  socket.on('updateNumOfStudents', (roomSizeObj) => {
+    if (`${roomSizeObj.room}` === `${roomId}`) {
+      document.getElementById('specs').innerHTML = roomSizeObj.size;
+    }
   });
 
   socket.on('boards', setNonActiveBoards);
 
   socket.on('currentBoard', (boardImg) => {
     currentBoard = boardImg;
-    document.querySelector('#whiteboard').poster = currentBoard;
+    if (document.querySelector('#whiteboard').poster) {
+      // if poster is defined we don't want to do anything
+    } else {
+      document.querySelector('#whiteboard').poster = currentBoard;
+    }
   });
 }
 
@@ -74,8 +80,10 @@ window.onload = async () => {
       $('#lecture-status .status-text').html($('#status-starting').val());
       $('video#whiteboard').parent().addClass('running');
 
-      // joinLecture();
-      // $('#login-lecture-modal').hide();
+      /*
+      joinLecture();
+      $('#login-lecture-modal').hide();
+      */
 
       fetch(`/validate/lecture?id=${roomId}`).then((req) => {
         switch (req.status) {

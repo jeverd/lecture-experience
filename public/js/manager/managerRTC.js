@@ -7,6 +7,14 @@ import {
   getJanusToken, getStatusColor, reloadWindow,
 } from '../utility.js';
 
+let janus;
+let isRtcEstablished = false;
+let canvasStream;
+
+const hasAudio = $('#audioValidator').val() === 'true';
+const hasWebcam = $('#webcamValidator').val() === 'true';
+const hasWhiteboard = $('#whiteboardValidator').val() === 'true';
+
 function changeLectureStatus(status) {
   $('.status-dot').css('color', getStatusColor(status));
   $('.lecture-running-text').html($(`#status-${status}`).val());
@@ -14,16 +22,17 @@ function changeLectureStatus(status) {
 
 export const changeStatus = {
   starting: () => changeLectureStatus('starting'),
-  live: () => changeLectureStatus('live'),
-  connection_lost: () => changeLectureStatus('connection_lost'),
+  live: () => { changeLectureStatus('live'); isRtcEstablished = true; },
+  connection_lost: () => { changeLectureStatus('connection_lost'); isRtcEstablished = false; },
 };
 
-export default function initializeManagerRTC(roomId, canvasStream, beginLectureCb) {
-  const hasAudio = $('#audioValidator').val() === 'true';
-  const hasWebcam = $('#webcamValidator').val() === 'true';
-  const hasWhiteboard = $('#whiteboardValidator').val() === 'true';
+export async function initializeManagerRTC(stream, initCanvasStream) {
+  canvasStream = initCanvasStream;
+  const turnServers = await getTurnServers();
+  const janusToken = await getJanusToken();
+  const stunServers = getStunServers();
+  const roomId = $('#_id').val();
   const janusUrl = getJanusUrl();
-  let janus;
 
   function publishFeed(feedStream, label) {
     let feedHandle;
@@ -59,6 +68,7 @@ export default function initializeManagerRTC(roomId, canvasStream, beginLectureC
       onlocalstream(localStream) {
         if (hasWebcam) {
           const webcam = document.getElementById('webcam');
+
           const videoTracks = localStream.getTracks().filter((track) => track.kind === 'video');
           videoTracks.forEach((video) => {
             if (typeof video.canvas === 'undefined' && video.label !== '') {
@@ -99,9 +109,47 @@ export default function initializeManagerRTC(roomId, canvasStream, beginLectureC
           },
         });
       },
+      webrtcState(isConnected) {
+        setTimeout(changeStatus[isConnected ? 'live' : 'connection_lost'], 700);
+      },
     });
   }
 
+  Janus.init({
+    debug: 'all',
+    callback() {
+      janus = new Janus({
+        server: janusUrl,
+        iceServers: [...turnServers, ...stunServers],
+        token: janusToken,
+        // iceTransportPolicy: 'relay',   enable to force turn server
+        success() {
+          if (hasWhiteboard && hasWebcam) {
+            publishFeed(stream, 'stream');
+            publishFeed(canvasStream, 'canvasStream');
+          } else if (hasWhiteboard && hasAudio) {
+            stream.addTrack(canvasStream.getTracks()[0]);
+            publishFeed(stream, 'canvasStream');
+          } else if (!hasWhiteboard) {
+            publishFeed(stream, 'stream');
+          } else {
+            publishFeed(canvasStream, 'canvasStream');
+          }
+        },
+      });
+    },
+  });
+}
+
+function reconnectStream(stream) {
+  if (typeof janus !== 'undefined') {
+    janus.destroy();
+  }
+  changeStatus.starting();
+  initializeManagerRTC(stream, canvasStream);
+}
+
+export function initializeManagerMedia(beginLectureCb) {
   function getUserMedia(successCb, devices = {}) {
     const mediaConstraints = {
       audio: typeof devices.audio !== 'undefined' ? { deviceId: { exact: devices.audio } } : hasAudio,
@@ -110,7 +158,6 @@ export default function initializeManagerRTC(roomId, canvasStream, beginLectureC
     navigator.mediaDevices.getUserMedia(mediaConstraints)
       .then((stream) => {
         successCb(stream);
-        initializeJanus(stream);
       })
       .catch((error) => {
         console.log(error);
@@ -126,17 +173,14 @@ export default function initializeManagerRTC(roomId, canvasStream, beginLectureC
             popup: 'animate__animated animate__fadeIn',
           },
           footer: `
-              <a style="color: gray; text-decoration: none;" href="https://getacclaim.zendesk.com/hc/en-us/articles/360001547832-Setting-the-default-camera-on-your-browser">
-                <i class="fa fa-question-circle" aria-hidden="true"></i> ${$('#swal-help').val()}
-              </a>`,
+          <a style="color: gray; text-decoration: none;" href="https://getacclaim.zendesk.com/hc/en-us/articles/360001547832-Setting-the-default-camera-on-your-browser">
+          <i class="fa fa-question-circle" aria-hidden="true"></i> ${$('#swal-help').val()}
+          </a>`,
         }).then(reloadWindow);
       });
   }
 
   function changeDevice(stream, device) {
-    if (typeof janus !== 'undefined') {
-      janus.destroy();
-    }
     stream.getTracks().forEach((track) => {
       track.stop();
       stream.removeTrack(track);
@@ -145,16 +189,20 @@ export default function initializeManagerRTC(roomId, canvasStream, beginLectureC
       updatedStream.getTracks().forEach((updatedTrack) => {
         stream.addTrack(updatedTrack);
       });
-      changeStatus.starting();
+      if (isRtcEstablished) {
+        reconnectStream(stream);
+      }
     }, device);
   }
 
   if (hasAudio || hasWebcam) {
     getUserMedia((stream) => {
-      beginLectureCb();
+      beginLectureCb(stream);
       initializeStreamConfigurations(stream, changeDevice);
     });
-  } else beginLectureCb();
+  } else {
+    beginLectureCb();
+  }
 
   $('#minimize-webcam-view').click(() => {
     $('#active-webcam-view').fadeOut(() => $('#inactive-webcam-view').fadeIn());

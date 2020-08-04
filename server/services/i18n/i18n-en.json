@@ -14,9 +14,11 @@
   "indexRecordLecture": "Record Your Lessons",
   "indexRecordLectureContent": "You have the choice to record your lessons and make it available for students in our platform",
   "indexIntegratedBoard": "Integrated Whiteboard",
-  "indexIntegratedBoardContent": "Use the drawing tools to create as many boards as you want with great quality and consistency",
+  "indexIntegratedBoardContent": "Use state-of-the-art drawing tools to create as many boards as you want with great quality and consistency",
   "indexAnalytics": "In-depth Analytics",
   "indexAnalyticsContent": "You can keep track of your class statistics by looking at the generated graph at the end of your lecture",
+  "indexChatWithYourClass": "Chat with your Students",
+  "indexChatWithYourClassContent": "Communicate sending messages, photos and documents to your classroom in the live lecture chat",
   "indexFromStudentToProf": "From students to teachers",
   "indexTryLiteboard": "Try Liteboard Now",
   "indexCreateALecture": "Create a Lecture",
@@ -137,5 +139,14 @@
   "waitingDevices": "Waiting for devices...",
   "lectureChatRoom": "Chat Room",
   "hostNameChat": "Room Host",
-  "youNameChat": "You"
+  "youNameChat": "You",
+  "selectOneVideoSource": "Select one video source",
+  "audioSettingsConfigure": "Audio Settings",
+  "videoSettingsConfigure": "Video Settings",
+  "nothingToUndo": "Nothing to undo.",
+  "nothingToRedo": "Nothing to redo.",
+  "boardsSavedInfo":"Boards Saved",
+  "linkCopiedInfo": "Link Copied",
+  "copiedInfo": "Copied",
+  "copyInfo": "Copy"
 }

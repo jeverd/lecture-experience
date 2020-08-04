@@ -5,7 +5,7 @@ function handleOptionClick() {
   const targetId = this.getAttribute('target-id');
   const targetElem = $(`#${targetId}`);
   if (targetId === 'boards-view' && $('#num-boards').html() === '0') {
-    showInfoMessage('No other boards to display');
+    showInfoMessage($('#no-other-boards-text').val());
     return;
   }
   const activeOptionClass = 'active-menu-item';
@@ -49,8 +49,15 @@ export default function initializeOptionsMenu() {
   $('#toggle-speaker').click(function () {
     const volumeIcon = $(this).find('i');
     volumeIcon.toggleClass('fa-volume-up');
-    volumeIcon.toggleClass('fa-volume-off');
-    $(this).parent().find('audio')[0].muted = volumeIcon.hasClass('fa-volume-off');
+    volumeIcon.toggleClass('fa-volume-mute');
+    $(this).parent().find('audio')[0].muted = volumeIcon.hasClass('fa-volume-mute');
+  });
+
+  $('#fullscreen-video').click(() => {
+    const elem = document.getElementById('whiteboard');
+    if (screenfull.isEnabled) {
+      screenfull.request(elem);
+    }
   });
 
   // check this later to use it on the other modals.
