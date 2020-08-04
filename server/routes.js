@@ -4,6 +4,7 @@ const Sentry = require('@sentry/node');
 const { app } = require('./servers');
 const redisClient = require('./servers').client;
 const { logger } = require('./services/logger/logger');
+const rateLimit = require('express-rate-limit');
 const { turnCredsGenerator, janusCredsGenerator } = require('./services/credsGenerator');
 const Stats = require('./models/stats');
 const Manager = require('./models/manager');
@@ -12,6 +13,8 @@ const {
   expressPort, environment, turnServerSecret, redisTurnDbNumber,
   turnServerActive, turnServerPort, turnServerUrl, sentryDSN, sentryEnvironment, janusServerSecret,
 } = require('../config/config');
+
+const apiLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 100 });
 
 const { getLanguage, setLanguage } = require('./services/i18n/i18n');
 
@@ -24,7 +27,7 @@ app.get('/create', (req, res) => {
   res.render('create.html', { sentryDSN, sentryEnvironment, ...getLanguage(req.session, req.locale) });
 });
 
-app.post('/create', (req, res) => {
+app.post('/create', apiLimiter, (req, res) => {
   logger.info('POST request received: /create');
   const managerId = uuidv4();
   const {
@@ -86,7 +89,6 @@ app.get('/lecture/:id', (req, res) => {
         } else {
           res.render('webcamboard.html', objToRender);
         }
-
       } else {
         res.status(404);
         res.redirect('/error?code=3');
