@@ -144,7 +144,7 @@ We encourge anyone interested in contributing to our project to open Pull Reques
     <a href="https://www.linkedin.com/in/lukas-müller-de-oliveira-437b08189">💼</a>
     </td>
     <td align="center"><a href="https://github.com/jeverd"><img src="https://avatars0.githubusercontent.com/u/46453568?s=460&u=a8441d4ed98a18b8b937c29d84742074d340b173&v=4" width="100px;" alt=""/><br /><sub><b>Jawad Bhimani</b></sub></a><br /><a href="https://github.com/jeverd/lecture-experience/commits?author=jeverd" title="Commits">📖</a>
-    <a href="https://jbhimani.me/">🔗</a>
+    <a href="https://jawadbhimani.me/">🔗</a>
     <a href="https://ca.linkedin.com/in/jawadbhimani">💼</a>
     </td>
     <td align="center"><a href="https://github.com/aasirvalji"><img src="https://avatars2.githubusercontent.com/u/45238682?s=460&u=17011f159eecbdc2aad99719c24d4b178e0618ae&v=4" width="100px;" alt=""/><br /><sub><b>Aasir Valji</b></sub></a><br /><a href="https://github.com/jeverd/lecture-experience/commits?author=aasirvalji" title="Commits">📖</a>
