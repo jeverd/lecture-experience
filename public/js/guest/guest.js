@@ -20,10 +20,7 @@ function joinLecture() {
     query: `id=${roomId}`,
   });
 
-  window.onbeforeunload = (e) => {
-    e.preventDefault();
-    socket.disconnect();
-  };
+  window.onbeforeunload = () => { socket.disconnect(); };
 
   socket.on('ready', (room) => {
     if (hasWhiteboard) {

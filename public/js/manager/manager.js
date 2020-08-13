@@ -37,10 +37,7 @@ function beginLecture(stream) {
     window.location.replace('/error?code=2');
   });
 
-  $(window).on('beforeunload', (e) => {
-    e.preventDefault();
-    socket.disconnect();
-  });
+  $(window).on('beforeunload', () => { socket.disconnect(); });
 
   socket.on('invalidLecture', reloadWindow);
 
