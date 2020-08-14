@@ -94,7 +94,7 @@ var selectItem = function (event) {
     centerPoint = {
       currentX: view.center.x,
       currentY: view.center.y
-    }
+    };
   }
 };
 
@@ -102,7 +102,7 @@ var drag = function (event) {
   if (onDragItem) {
     onDragItem.position = event.point;
   } else {
-    var lastMousePoint = event.downPoint
+    var lastMousePoint = event.downPoint;
     lastViewCenter = view.center;
     view.center = view.center.add(
       lastMousePoint.subtract(event.point)
@@ -115,26 +115,22 @@ var deselectItem = function (event) {
   onDragItem = '';
 };
 
-var changeZoomCenter = function(delta, mousePosition) {
+var changeZoomCenter = function (delta, mousePosition) {
   if (!delta) {
     return;
   }
-  if (delta > 0){
+  if (delta > 0) {
     var oldZoom = view.zoom;
     var oldCenter = view.center;
     var viewPos = view.viewToProject(mousePosition);
     var factor = 1.10;
-    var newZoom = delta > 0
-    ? view.zoom * factor
-    : view.zoom / factor
-  
+    var newZoom = delta > 0 ? view.zoom * factor : view.zoom / factor;
     if (!newZoom) {
       return;
     }
     var zoomScale = oldZoom / newZoom;
     var centerAdjust = viewPos.subtract(oldCenter);
-    var offset = viewPos.subtract(centerAdjust.multiply(zoomScale))
-            .subtract(oldCenter);
+    var offset = viewPos.subtract(centerAdjust.multiply(zoomScale)).subtract(oldCenter);
     view.center = view.center.add(offset);
   }
   Zoom(delta);
@@ -145,19 +141,12 @@ var Zoom = function (zoomDirection) {
   var zoomFactor = 1.05;
   if (zoomDirection < 0) {
     newZoom = view.zoom * zoomFactor;
-    if (view.zoom + zoomAmount < 0.2) {
-      view.zoom = 0.2;
+    if (view.zoom + zoomAmount <= 0.2) {
+      view.zoom = 0.23;
     } else {
       view.zoom += zoomAmount;
     }
-    } else {
-    if (view.zoom + zoomAmount < 0.2) {
-      view.zoom = 0.2;
-    } else {
-      view.zoom += zoomAmount;
-    }
-  }
-  if (zoomDirection > 0) {
+  } if (zoomDirection > 0) {
     newZoom = view.zoom / zoomFactor;
   }
   view.zoom += zoomDirection;
@@ -192,11 +181,9 @@ window.app = {
       },
       onMouseDrag: function (event) {
         path.add(event.point);
-        drawsLayer.addChild(path);
       },
       onMouseUp: function (event) {
         path.simplify(10);
-        drawsLayer.addChild(path);
       },
     }),
     pointer: new Tool({
@@ -296,7 +283,7 @@ window.app = {
       zoom: view.zoom,
       centerX: view.center.x,
       centerY: view.center.y
-    }
+    };
   },
   zoomDirection: function (scale) {
     if (scale < 0) {
@@ -311,6 +298,7 @@ window.app = {
     return drawsLayer.children;
   },
   addDraws: function (array) {
+    console.log(array)
     this.paintCircle();
     for (var i in array) {
       var loadedPath = new Path({

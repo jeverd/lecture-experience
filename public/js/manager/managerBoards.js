@@ -53,6 +53,7 @@ function activateCurrentBoard(socket, whiteboard, stream, clickedBoardIndex) {
   const newBoardImg = document.createElement('img');
   newBoardImg.setAttribute('src', whiteboard.boards[clickedBoardIndex].image);
   const newBoardPath = whiteboard.boards[clickedBoardIndex].pathsData;
+  console.log(newBoardPath)
   setTimeout(() => {
     whiteboard.setPaths(newBoardPath);
     socket.emit('currentBoardToAll', newBoardImg.getAttribute('src'));
