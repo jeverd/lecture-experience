@@ -298,7 +298,6 @@ window.app = {
     return drawsLayer.children;
   },
   addDraws: function (array) {
-    console.log(array)
     this.paintCircle();
     for (var i in array) {
       var loadedPath = new Path({

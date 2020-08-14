@@ -169,13 +169,33 @@ export default class Whiteboard {
     window.app.setBackground(img.src);
   }
 
+  RGBToHex(rgb) {
+    if (rgb === 'transparent') {
+      return rgb;
+    }
+    // Choose correct separator
+    const sep = rgb.indexOf(",") > -1 ? "," : " ";
+    // Turn "rgb(r,g,b)" into [r,g,b]
+    rgb = rgb.substr(4).split(")")[0].split(sep);
+
+    let r = (+rgb[0]).toString(16);
+    let g = (+rgb[1]).toString(16);
+    let b = (+rgb[2]).toString(16);
+
+    if (r.length === 1) r = "0" + r;
+    if (g.length === 1) g = "0" + g;
+    if (b.length === 1) b = "0" + b;
+
+    return "#" + r + g + b;
+  }
+
   getDraws() {
     var array = [];
     for (var i in window.app.getElem()) {
       const completePath = window.app.getElem()[i];
       if (completePath.pathData) {
-        array.push([completePath.pathData, completePath.strokeColor, completePath.strokeWidth, "#000"]);
-        console.log(completePath.fillColor, 'color')
+        const fillColor = completePath.fillColor._canvasStyle ? completePath.fillColor._canvasStyle : 'transparent';
+        array.push([completePath.pathData, this.RGBToHex(completePath.strokeColor._canvasStyle), completePath.strokeWidth, this.RGBToHex(fillColor)]);
       }
     }
     return array;
