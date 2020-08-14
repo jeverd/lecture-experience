@@ -156,6 +156,7 @@ We encourge anyone interested in contributing to our project to open Pull Reques
     </td>
     <td align="center"><a href="https://github.com/michaelfromyeg"><img src="https://avatars1.githubusercontent.com/u/35978975?s=460&u=05153ea0426075ea9edf9960bdd2443e167b31ce&v=4" width="100px;" alt=""/><br /><sub><b>Michael DeMarco</b></sub></a><br /><a href="https://github.com/jeverd/lecture-experience/commits?author=michaelfromyeg" title="Commits">📖</a>
     <a href="https://michaeldemar.co/">🔗</a>
+    <a href="https://www.linkedin.com/in/michaelfromyeg/">💼</a>
     </td>
   </tr>
 </table>
