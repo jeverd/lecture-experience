@@ -32,10 +32,10 @@ const readHtmlFile = (path, cb) => {
 
 
 const sendEmail = (toEmail, subject, htmlBody) => {
-  const toEmailFormat = `✏️ Liteboard.io <${toEmail}>`;
+  const fromEmailFormat = `✏️ Liteboard.io <${emailSender}>`;
   const mailOption = {
-    from: emailSender,
-    to: toEmailFormat,
+    from: fromEmailFormat,
+    to: toEmail,
     subject,
     html: htmlBody,
   };
