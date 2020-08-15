@@ -1,5 +1,5 @@
 import { addBoard, removeBoard } from './managerBoards.js';
-import { showInfoMessage, saveBoards } from '../utility.js';
+import { showInfoMessage, downloadFile, saveCurrentBoard, dataURItoBlob } from '../utility.js';
 
 export default function initializeActionsMenu(socket, whiteboard, stream) {
   document.querySelectorAll('[data-command]').forEach((item) => {
@@ -13,8 +13,17 @@ export default function initializeActionsMenu(socket, whiteboard, stream) {
           whiteboard.undoPaint();
           break;
         case 'save':
-          saveBoards(socket, whiteboard);
-          showInfoMessage(`${$('#boards-saved-info').val()}: ${whiteboard.boards.length}`);
+          saveCurrentBoard(whiteboard);
+          const zip = new JSZip();
+          const boardsFolder = zip.folder('boards')
+          whiteboard.boards.forEach((board, i) => {
+            boardsFolder.file(`board_${i+1}.png`, dataURItoBlob(board.image))
+          });
+          zip.generateAsync({type:"blob"})
+            .then((content) => {
+                downloadFile(URL.createObjectURL(content), "boards.zip")
+                showInfoMessage(`${$('#boards-saved-info').val()}: ${whiteboard.boards.length}`);
+            });
           break;
         case 'add-page':
           addBoard(socket, whiteboard, stream);

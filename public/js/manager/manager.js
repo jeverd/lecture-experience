@@ -2,11 +2,11 @@ import Whiteboard from '../classes/Whiteboard.js';
 import initializeToolsMenu from '../tools.js';
 import initializeCanvasTopMenu from './canvasTopMenu.js';
 import initializeManagerChat from './managerChat.js';
-import initializeBoards from './managerBoards.js';
+import initializeBoards, { emitBoards } from './managerBoards.js';
 import initializeActionsMenu from './canvasActions.js';
 import { initializeManagerMedia, initializeManagerRTC, changeStatus } from './managerRTC.js';
 import {
-  getUrlId, reloadWindow, copyTextToClipboard, saveBoards,
+  getUrlId, reloadWindow, copyTextToClipboard, saveCurrentBoard,
 } from '../utility.js';
 
 const managerId = getUrlId();
@@ -35,7 +35,10 @@ function beginLecture(stream) {
   });
 
   $(window).on('beforeunload', () => {
-    if (hasWhiteboard) saveBoards(socket, whiteboard);
+    if (hasWhiteboard) {
+      saveCurrentBoard(whiteboard);
+      emitBoards(socket, whiteboard); 
+    }
     socket.disconnect();
   });
 

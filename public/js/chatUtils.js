@@ -1,20 +1,5 @@
-import { displayImagePopUpOnClick } from '../utility.js';
+import { displayImagePopUpOnClick, downloadFile } from '../utility.js';
 import Attachment from './classes/Attachment.js';
-
-function downloadFile(file, fileName) {
-  const messageContainer = document.getElementById('message-container');
-  const messageElement = document.createElement('tr');
-  messageElement.style.display = 'none';
-  let fileElement = null;
-  fileElement = document.createElement('a');
-  fileElement.href = file;
-  fileElement.download = fileName;
-  fileElement.innerText = fileName;
-  messageElement.append(fileElement);
-  messageContainer.append(messageElement);
-  fileElement.click();
-  $(messageElement).remove();
-}
 
 export default function initializeChat(chat) {
   const fileInput = document.getElementById('file-input');

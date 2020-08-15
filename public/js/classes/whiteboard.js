@@ -39,7 +39,7 @@ export default class Whiteboard {
 
   // returns an image of the current state of canvas
   getImage() {
-    return this.canvas.toDataURL('image/png', 1.0).replace('image.png', 'image/octet-stream');
+    return this.canvas.toDataURL('image/png', 1.0);
   }
 
   initialize() {
