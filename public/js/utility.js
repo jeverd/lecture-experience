@@ -5,6 +5,7 @@
 /* eslint-disable import/no-absolute-path */
 /* eslint-disable-next-line import/no-unresolved */
 import Point from './classes/point.js';
+import { emitBoards } from './manager/managerBoards.js';
 
 export function getMouseCoordsOnCanvas(e, canvas) {
   let x; let y;
@@ -212,6 +213,15 @@ export function getImageFromVideo(video) {
   canvas.height = video.videoHeight;
   canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
   return canvas.toDataURL();
+}
+
+export function saveBoards(socket, whiteboard) {
+  whiteboard.boards[whiteboard.currentBoard] = whiteboard.makeNewBoard();
+  $('[data-page=page]')
+    .eq(`${whiteboard.currentBoard}`)
+    .find('img')
+    .attr('src', whiteboard.boards[whiteboard.currentBoard].image);
+  emitBoards(socket, whiteboard);
 }
 
 export function getRandomColor() {

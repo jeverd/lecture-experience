@@ -10,7 +10,9 @@ import initializeManagerChat from './managerChat.js';
 import initializeBoards from './managerBoards.js';
 import initializeActionsMenu from './canvasActions.js';
 import { initializeManagerMedia, initializeManagerRTC, changeStatus } from './managerRTC.js';
-import { getUrlId, reloadWindow, copyTextToClipboard } from '../utility.js';
+import {
+  getUrlId, reloadWindow, copyTextToClipboard, saveBoards,
+} from '../utility.js';
 
 const managerId = getUrlId();
 const hasAudio = $('#audioValidator').val() === 'true';
@@ -37,7 +39,10 @@ function beginLecture(stream) {
     window.location.replace('/error?code=2');
   });
 
-  $(window).on('beforeunload', () => { socket.disconnect(); });
+  $(window).on('beforeunload', () => {
+    if (hasWhiteboard) saveBoards(socket, whiteboard);
+    socket.disconnect();
+  });
 
   socket.on('invalidLecture', reloadWindow);
 
