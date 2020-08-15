@@ -1,10 +1,4 @@
-/* eslint-disable no-undef */
-/* eslint-disable no-param-reassign */
-/* eslint-disable no-restricted-properties */
-/* eslint-disable import/extensions */
-/* eslint-disable import/no-absolute-path */
-/* eslint-disable-next-line import/no-unresolved */
-import Point from './classes/point.js';
+import Point from './classes/Point.js';
 import { emitBoards } from './manager/managerBoards.js';
 
 export function getMouseCoordsOnCanvas(e, canvas) {

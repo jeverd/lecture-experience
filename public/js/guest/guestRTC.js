@@ -1,11 +1,7 @@
-/* eslint-disable import/extensions */
-/* eslint-disable no-param-reassign */
-/* eslint-disable no-undef */
 import {
   getUrlId, getJanusUrl, addStream, getTurnServers,
   getStunServers, getStatusColor, getImageFromVideo, getJanusToken,
 } from '../utility.js';
-
 
 const hasWebcam = $('#webcamValidator').val() === 'true';
 const hasWhiteboard = $('#whiteboardValidator').val() === 'true';

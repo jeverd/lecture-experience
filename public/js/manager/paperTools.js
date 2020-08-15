@@ -1,13 +1,3 @@
-/* eslint-disable guard-for-in */
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable vars-on-top */
-/* eslint-disable prefer-arrow-callback */
-/* eslint-disable no-new */
-/* eslint-disable func-names */
-/* eslint-disable object-shorthand */
-/* eslint-disable no-var */
-/* eslint-disable no-undef */
-/* eslint-disable no-unused-vars */
 var path;
 var items = new Group();
 var imageLayer = new Layer();

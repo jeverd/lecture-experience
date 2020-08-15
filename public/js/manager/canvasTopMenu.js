@@ -1,5 +1,3 @@
-/* eslint-disable import/extensions */
-/* eslint-disable no-undef */
 import { showInfoMessage, redirectToStats, copyTextToClipboard } from '../utility.js';
 import { showConfigModal } from './streamConfigurations.js';
 

@@ -1,7 +1,3 @@
-/* eslint-disable radix */
-/* eslint-disable import/extensions */
-/* eslint-disable no-param-reassign */
-/* eslint-disable no-undef */
 import initializeGuestChat from './guestChat.js';
 import { getUrlId, redirectToStats, getStatusColor } from '../utility.js';
 import initializeGuestRTC, { changeStatus } from './guestRTC.js';

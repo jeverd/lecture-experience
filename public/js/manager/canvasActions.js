@@ -1,6 +1,3 @@
-/* eslint-disable no-undef */
-/* eslint-disable no-param-reassign */
-/* eslint-disable import/extensions */
 import { addBoard, removeBoard } from './managerBoards.js';
 import { showInfoMessage, saveBoards } from '../utility.js';
 

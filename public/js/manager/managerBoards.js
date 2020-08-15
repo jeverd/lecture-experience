@@ -1,7 +1,3 @@
-/* eslint-disable no-undef */
-/* eslint-disable import/extensions */
-/* eslint-disable no-param-reassign */
-
 export function emitBoards(socket, whiteboard) {
   socket.emit('updateBoards', {
     boards: whiteboard.boards,

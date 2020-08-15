@@ -1,5 +1,3 @@
-/* eslint-disable import/extensions */
-/* eslint-disable no-undef */
 import initializeStreamConfigurations from './streamConfigurations.js';
 
 import {

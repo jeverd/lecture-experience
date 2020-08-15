@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-/* eslint-disable import/extensions */
 import { buildPostRequestOpts, getJanusUrl, getJanusToken } from './utility.js';
 
 const janusUrl = getJanusUrl();

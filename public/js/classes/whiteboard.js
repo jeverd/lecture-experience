@@ -1,22 +1,7 @@
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable guard-for-in */
-/* eslint-disable no-var */
-/* eslint-disable class-methods-use-this */
-/* eslint-disable no-param-reassign */
-/* eslint-disable no-case-declarations */
-/* eslint-disable no-new */
-/* eslint-disable no-shadow */
-/* eslint-disable import/extensions */
-/* eslint-disable no-underscore-dangle */
-
-import { getMouseCoordsOnCanvas, showInfoMessage } from '../utility.js';
+import { showInfoMessage } from '../utility.js';
 import { handleBoardsViewButtonsDisplay } from '../manager/managerBoards.js';
-import Fill from './fill.js';
-import Point from './point.js';
 import Tools from './Tools.js';
 import Board from './Board.js';
-
-const DEFAULT_COLOR = '#424242';
 
 export default class Whiteboard {
   constructor(canvasId) {

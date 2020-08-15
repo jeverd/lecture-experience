@@ -1,7 +1,6 @@
 import { displayImagePopUpOnClick } from '../utility.js';
 import Attachment from './classes/Attachment.js';
 
-/* eslint-disable no-undef */
 function downloadFile(file, fileName) {
   const messageContainer = document.getElementById('message-container');
   const messageElement = document.createElement('tr');

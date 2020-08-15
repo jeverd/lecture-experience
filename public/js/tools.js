@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-/* eslint-disable no-param-reassign */
 export const TOOL_SQUARE = 'square';
 export const TOOL_TRIANGLE = 'triangle';
 export const TOOL_PAINT_BUCKET = 'pointer';
