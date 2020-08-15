@@ -8,7 +8,9 @@ export function emitBoards(socket, whiteboard) {
 
 export function handleBoardsViewButtonsDisplay() {
   const boardView = document.querySelector('.canvas-toggle-nav');
-  if (boardView.offsetWidth < boardView.scrollWidth) {
+  if (boardView.querySelectorAll('li').length >= 3 && boardView.offsetWidth === 0 && boardView.scrollWidth === 0) {
+    $('.scroll-boards-view-right').show();
+  } else if (boardView.offsetWidth < boardView.scrollWidth) {
     if ($(boardView).scrollLeft() > 0) {
       $('.scroll-boards-view-left').show();
     } else {
