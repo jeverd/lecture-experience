@@ -41,6 +41,7 @@ export const changeStatus = {
 async function initializeJanus() {
   const roomId = parseInt(getUrlId());
   function joinFeed(publishers) {
+    changeStatus.starting();
     if (publishers.length === 0) {
       changeStatus.host_disconnected();
     } else {
@@ -129,14 +130,12 @@ async function initializeJanus() {
                   const status = msg.videoroom;
                   switch (status) {
                     case 'joined':
-                      changeStatus.starting();
                       joinFeed(msg.publishers);
                       break;
                     case 'event':
-                      if (typeof msg.unpublished !== 'undefined' || typeof msg.leaving !== 'undefined') {
+                      if (typeof msg.unpublished !== 'undefined') {
                         changeStatus.host_disconnected();
                       } else if (typeof msg.publishers !== 'undefined') {
-                        changeStatus.starting();
                         joinFeed(msg.publishers);
                       }
                       break;
