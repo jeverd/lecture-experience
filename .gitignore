@@ -120,4 +120,5 @@ config/.env
 /docker/docker-config/janus/janus.transport.http.jcfg
 /docker/docker-config/nginx.conf
 config/.env
+/docker/production.yml;
 
