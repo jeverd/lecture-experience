@@ -93,6 +93,7 @@ async function initializeJanus() {
                 addStream(whiteboard, videoTrack);
               }
             }
+            changeStatus.live();
           },
           webrtcState(isConnected) { changeStatus[isConnected ? 'live' : 'connection_lost'](); },
           iceState(state) { if (state === 'connected') changeStatus.live(); },
@@ -133,7 +134,7 @@ async function initializeJanus() {
                       joinFeed(msg.publishers);
                       break;
                     case 'event':
-                      if (typeof msg.unpublished !== 'undefined') {
+                      if (typeof msg.leaving !== 'undefined') {
                         changeStatus.host_disconnected();
                       } else if (typeof msg.publishers !== 'undefined') {
                         joinFeed(msg.publishers);
