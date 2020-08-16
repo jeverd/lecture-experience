@@ -148,5 +148,9 @@
   "boardsSavedInfo":"Boards Saved",
   "linkCopiedInfo": "Link Copied",
   "copiedInfo": "Copied",
-  "copyInfo": "Copy"
+  "copyInfo": "Copy",
+  "emailHiThere": "Hi there",
+  "emailDisconnectedNotice": "We noticed that you disconnected from your lecture. If this was by accident, click the button below to reconnect",
+  "emailReconnect": "Reconnect",
+  "emailSlogan": "Liteboard.io | Browser-based Lecture Experiences"
 }
