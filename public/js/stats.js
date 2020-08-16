@@ -1,5 +1,3 @@
-/* eslint-disable import/extensions */
-/* eslint-disable no-plusplus */
 import { getUrlId, buildPostRequestOpts } from './utility.js';
 
 // getSecondsBetweenTwoTimes receives two Date objects

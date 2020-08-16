@@ -1,22 +1,7 @@
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable guard-for-in */
-/* eslint-disable no-var */
-/* eslint-disable class-methods-use-this */
-/* eslint-disable no-param-reassign */
-/* eslint-disable no-case-declarations */
-/* eslint-disable no-new */
-/* eslint-disable no-shadow */
-/* eslint-disable import/extensions */
-/* eslint-disable no-underscore-dangle */
-
-import { getMouseCoordsOnCanvas, showInfoMessage } from '../utility.js';
+import { showInfoMessage } from '../utility.js';
 import { handleBoardsViewButtonsDisplay } from '../manager/managerBoards.js';
-import Fill from './fill.js';
-import Point from './point.js';
 import Tools from './Tools.js';
 import Board from './Board.js';
-
-const DEFAULT_COLOR = '#424242';
 
 export default class Whiteboard {
   constructor(canvasId) {
@@ -54,7 +39,7 @@ export default class Whiteboard {
 
   // returns an image of the current state of canvas
   getImage() {
-    return this.canvas.toDataURL('image/png', 1.0).replace('image.png', 'image/octet-stream');
+    return this.canvas.toDataURL('image/png', 1.0);
   }
 
   initialize() {
@@ -169,11 +154,34 @@ export default class Whiteboard {
     window.app.setBackground(img.src);
   }
 
+  RGBToHex(rgb) {
+    if (rgb === 'transparent') {
+      return rgb;
+    }
+    // Choose correct separator
+    const sep = rgb.indexOf(",") > -1 ? "," : " ";
+    // Turn "rgb(r,g,b)" into [r,g,b]
+    rgb = rgb.substr(4).split(")")[0].split(sep);
+
+    let r = (+rgb[0]).toString(16);
+    let g = (+rgb[1]).toString(16);
+    let b = (+rgb[2]).toString(16);
+
+    if (r.length === 1) r = "0" + r;
+    if (g.length === 1) g = "0" + g;
+    if (b.length === 1) b = "0" + b;
+
+    return "#" + r + g + b;
+  }
+
   getDraws() {
     var array = [];
     for (var i in window.app.getElem()) {
       const completePath = window.app.getElem()[i];
-      array.push([completePath.pathData, completePath.strokeColor, completePath.strokeWidth, completePath.fillColor]);
+      if (completePath.pathData) {
+        const fillColor = completePath.fillColor._canvasStyle ? completePath.fillColor._canvasStyle : 'transparent';
+        array.push([completePath.pathData, this.RGBToHex(completePath.strokeColor._canvasStyle), completePath.strokeWidth, this.RGBToHex(fillColor)]);
+      }
     }
     return array;
   }
@@ -184,25 +192,26 @@ export default class Whiteboard {
 
   pushToUndoStack() {
     var undoLimit = 40;
-    var array = [];
-    for (var i in window.app.getElem()) {
-      const completePath = window.app.getElem()[i];
-      array.push([completePath.pathData, completePath.strokeColor, completePath.strokeWidth, completePath.fillColor]);
-    }
-    this.saveData = array;
+    this.saveData = this.getPathData();
     if (this.undoStack.length >= undoLimit) this.undoStack.shift();
     this.undoStack.push(this.saveData);
   }
 
   pushToRedoStack() {
     var redoLimit = 40;
+    this.saveData = this.getPathData();
+    if (this.undoStack.length >= redoLimit) this.redoStack.shift();
+    this.redoStack.push(this.saveData);
+  }
+
+  getPathData() {
     var array = [];
     for (var i in window.app.getElem()) {
       const completePath = window.app.getElem()[i];
-      array.push([completePath.pathData, completePath.strokeColor, completePath.strokeWidth, completePath.fillColor]);
+      if (completePath.pathData) {
+        array.push([completePath.pathData, completePath.strokeColor, completePath.strokeWidth, completePath.fillColor]);
+      }
     }
-    this.saveData = array;
-    if (this.undoStack.length >= redoLimit) this.redoStack.shift();
-    this.redoStack.push(this.saveData);
+    return array;
   }
 }

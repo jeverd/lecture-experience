@@ -17,7 +17,7 @@ function setLanguage(session, language) {
   session.lang = langToSet;
 }
 
-function getLanguage(session, locale) {
+function getLanguage(session, locale = 'en-US') {
   const langToUse = 'lang' in session ? session.lang : locale;
   return { lang: langCodeMap[langToUse] };
 }

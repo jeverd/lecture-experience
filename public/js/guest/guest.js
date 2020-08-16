@@ -1,7 +1,3 @@
-/* eslint-disable radix */
-/* eslint-disable import/extensions */
-/* eslint-disable no-param-reassign */
-/* eslint-disable no-undef */
 import initializeGuestChat from './guestChat.js';
 import { getUrlId, redirectToStats, getStatusColor } from '../utility.js';
 import initializeGuestRTC, { changeStatus } from './guestRTC.js';
@@ -20,10 +16,7 @@ function joinLecture() {
     query: `id=${roomId}`,
   });
 
-  window.onbeforeunload = (e) => {
-    e.preventDefault();
-    socket.disconnect();
-  };
+  window.onbeforeunload = () => socket.disconnect();
 
   socket.on('ready', (room) => {
     if (hasWhiteboard) {

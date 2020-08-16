@@ -1,6 +1,5 @@
 import { showInfoMessage } from '../utility.js';
 
-
 function handleOptionClick() {
   const targetId = this.getAttribute('target-id');
   const targetElem = $(`#${targetId}`);

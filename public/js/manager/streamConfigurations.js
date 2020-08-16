@@ -1,5 +1,3 @@
-/* eslint-disable no-loop-func */
-/* eslint-disable no-inner-declarations */
 const hasAudio = $('#audioValidator').val() === 'true';
 const hasWebcam = $('#webcamValidator').val() === 'true';
 

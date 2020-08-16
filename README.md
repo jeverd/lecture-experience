@@ -31,7 +31,7 @@ Liteboard is a free, browser-based lecturing platform for anyone who wants to qu
   <img src="public/images/github-readme-main.png"/>
 </div>
 
-Liteboard is powered by WebRTC and uses the [Janus](https://github.com/meetecho/janus-gateway) implementation of a Selective Forwarding Unit (SFU) to allow multiple participants per lecture while ensuring the lowest latency available on browsers. We host our own TURN server to guarantee support for users in any kind of network.
+Liteboard is powered by WebRTC and uses the [Janus](https://github.com/meetecho/janus-gateway) implementation of a Selective Forwarding Unit (SFU) to allow multiple participants per lecture while ensuring the lowest latency available on browsers. We host our own TURN server to guarantee support for users in any kind of network. Read about us in [this university article](https://falauniversidades.com.br/projeto-gratuito-simplifica-o-acesso-as-aulas-on-line/).
 
 ## Contents
 
@@ -134,7 +134,7 @@ We encourge anyone interested in contributing to our project to open Pull Reques
     <td align="center"><a href="https://github.com/lnogueir">
       <img src="https://avatars0.githubusercontent.com/u/48890798?s=460&u=6c62615de3bc32628e8aec4e8a4c320fe6d77869&v=4" width="100px;" alt=""/><br /><sub><b>Lucas Nogueira</b></sub></a><br /> 
         <a href="https://github.com/jeverd/lecture-experience/commits?author=lnogueir"           title="Commits">📖</a> 
-        <a href="https://lucasnogueira.ca/">🔗</a>
+        <a href="https://lnogueir.me/">🔗</a>
         <a href="https://devpost.com/lnogueir">💻</a>
     </td>
     <td align="center"><a href="https://github.com/lukasmuller10"><img src="https://avatars3.githubusercontent.com/u/66929827?s=460&u=34131fcf10cbd8918da4fa95ac807c4b75e36714&v=4" width="100px;" alt=""/><br /><sub><b>Lukas Müller</b></sub></a><br /><a href="https://github.com/jeverd/lecture-experience/commits?author=lukasmuller10" title="Commits">📖</a>
@@ -156,6 +156,7 @@ We encourge anyone interested in contributing to our project to open Pull Reques
     </td>
     <td align="center"><a href="https://github.com/michaelfromyeg"><img src="https://avatars1.githubusercontent.com/u/35978975?s=460&u=05153ea0426075ea9edf9960bdd2443e167b31ce&v=4" width="100px;" alt=""/><br /><sub><b>Michael DeMarco</b></sub></a><br /><a href="https://github.com/jeverd/lecture-experience/commits?author=michaelfromyeg" title="Commits">📖</a>
     <a href="https://michaeldemar.co/">🔗</a>
+    <a href="https://www.linkedin.com/in/michaelfromyeg/">💼</a>
     </td>
   </tr>
 </table>

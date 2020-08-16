@@ -1,10 +1,5 @@
-/* eslint-disable no-undef */
-/* eslint-disable no-param-reassign */
-/* eslint-disable no-restricted-properties */
-/* eslint-disable import/extensions */
-/* eslint-disable import/no-absolute-path */
-/* eslint-disable-next-line import/no-unresolved */
-import Point from './classes/point.js';
+import Point from './classes/Point.js';
+import { emitBoards } from './manager/managerBoards.js';
 
 export function getMouseCoordsOnCanvas(e, canvas) {
   let x; let y;
@@ -212,6 +207,47 @@ export function getImageFromVideo(video) {
   canvas.height = video.videoHeight;
   canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
   return canvas.toDataURL();
+}
+
+export function saveCurrentBoard(whiteboard) {
+  whiteboard.boards[whiteboard.currentBoard] = whiteboard.makeNewBoard();
+  $('[data-page=page]')
+    .eq(`${whiteboard.currentBoard}`)
+    .find('img')
+    .attr('src', whiteboard.boards[whiteboard.currentBoard].image);
+}
+
+export function downloadFile(fileContent, fileName){
+  let fileElement = document.createElement('a');
+  fileElement.href = fileContent;
+  fileElement.download = fileName;
+  fileElement.click();
+}
+
+// reference: https://stackoverflow.com/questions/12168909/blob-from-dataurl
+export function dataURItoBlob(dataURI) {
+  // convert base64 to raw binary data held in a string
+  // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
+  var byteString = atob(dataURI.split(',')[1]);
+
+  // separate out the mime component
+  var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
+
+  // write the bytes of the string to an ArrayBuffer
+  var ab = new ArrayBuffer(byteString.length);
+
+  // create a view into the buffer
+  var ia = new Uint8Array(ab);
+
+  // set the bytes of the buffer to the correct values
+  for (var i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+  }
+
+  // write the ArrayBuffer to a blob, and you're done
+  var blob = new Blob([ab], {type: mimeString});
+  return blob;
+
 }
 
 export function getRandomColor() {

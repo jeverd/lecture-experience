@@ -1,11 +1,7 @@
-/* eslint-disable import/extensions */
-/* eslint-disable no-param-reassign */
-/* eslint-disable no-undef */
 import {
   getUrlId, getJanusUrl, addStream, getTurnServers,
   getStunServers, getStatusColor, getImageFromVideo, getJanusToken,
 } from '../utility.js';
-
 
 const hasWebcam = $('#webcamValidator').val() === 'true';
 const hasWhiteboard = $('#whiteboardValidator').val() === 'true';
@@ -45,8 +41,9 @@ export const changeStatus = {
 async function initializeJanus() {
   const roomId = parseInt(getUrlId());
   function joinFeed(publishers) {
+    changeStatus.starting();
     if (publishers.length === 0) {
-      setTimeout(changeStatus.host_disconnected, 500);
+      changeStatus.host_disconnected();
     } else {
       publishers.forEach((publisher) => {
         const streamType = publisher.display;
@@ -96,10 +93,9 @@ async function initializeJanus() {
                 addStream(whiteboard, videoTrack);
               }
             }
+            changeStatus.live();
           },
-          webrtcState(isConnected) {
-            setTimeout(changeStatus[isConnected ? 'live' : 'connection_lost'], 700);
-          },
+          webrtcState(isConnected) { changeStatus[isConnected ? 'live' : 'connection_lost'](); },
           iceState(state) { if (state === 'connected') changeStatus.live(); },
         });
       });
@@ -135,15 +131,12 @@ async function initializeJanus() {
                   const status = msg.videoroom;
                   switch (status) {
                     case 'joined':
-                      changeStatus.starting();
                       joinFeed(msg.publishers);
                       break;
                     case 'event':
-                      if (typeof msg.unpublished !== 'undefined' || typeof msg.leaving !== 'undefined') {
-                        // Handle here properly when the manager disconnects
+                      if (typeof msg.leaving !== 'undefined') {
                         changeStatus.host_disconnected();
                       } else if (typeof msg.publishers !== 'undefined') {
-                        changeStatus.starting();
                         joinFeed(msg.publishers);
                       }
                       break;

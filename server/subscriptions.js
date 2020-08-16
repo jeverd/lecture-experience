@@ -7,6 +7,7 @@ const { logger } = require('./services/logger/logger');
 const { sendManagerDisconnectEmail } = require('./services/emailer/emailer');
 const { environment } = require('../config/config');
 const Stats = require('./models/stats');
+const { getLanguage } = require('./services/i18n/i18n');
 
 
 const roomsTimeout = {};
@@ -114,7 +115,7 @@ io.sockets.on('connection', (socket) => {
             roomsTimeout[roomToJoin] = setTimeout(() => {
               const { email } = managerObj;
               if (email !== '') {
-                sendManagerDisconnectEmail(email, urlUuid);
+                sendManagerDisconnectEmail(email, urlUuid, getLanguage(socket.handshake.session));
               } else {
                 logger.info(`EMAIL: Not sending email to manager of room ${roomToJoin} as no email was provided`);
               }

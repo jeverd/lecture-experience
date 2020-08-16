@@ -1,8 +1,4 @@
-/* eslint-disable prefer-destructuring */
-/* eslint-disable no-sequences */
-/* eslint-disable no-plusplus */
-// eslint-disable-next-line import/extensions
-import Point from './point.js';
+import Point from './Point.js';
 
 function colorsMatch(color1, color2) {
   return color1[0] === color2[0] && color1[1] === color2[1]

@@ -1,5 +1,3 @@
-/* eslint-disable import/extensions */
-/* eslint-disable no-undef */
 import Message from '../classes/Message.js';
 import Chat from '../classes/Chat.js';
 import initializeChat from '../chatUtils.js';

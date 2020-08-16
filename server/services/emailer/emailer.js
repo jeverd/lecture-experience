@@ -32,8 +32,9 @@ const readHtmlFile = (path, cb) => {
 
 
 const sendEmail = (toEmail, subject, htmlBody) => {
+  const fromEmailFormat = `✏️ Liteboard.io <${emailSender}>`;
   const mailOption = {
-    from: emailSender,
+    from: fromEmailFormat,
     to: toEmail,
     subject,
     html: htmlBody,
@@ -45,7 +46,7 @@ const sendEmail = (toEmail, subject, htmlBody) => {
 };
 
 // eslint-disable-next-line max-len
-const sendManagerDisconnectEmail = (toEmail, id) => { // doesn't matter because its async, since user disconnected
+const sendManagerDisconnectEmail = (toEmail, id, lang) => { // doesn't matter because its async, since user disconnected
   const subject = 'You disconnected from your lecture, heres your link';
   const host = environment === 'DEVELOPMENT' ? 'http://localhost:8080' : 'https://liteboard.io';
   const link = `${host}/lecture/${id}`;
@@ -54,7 +55,7 @@ const sendManagerDisconnectEmail = (toEmail, id) => { // doesn't matter because 
     if (err) {
       logger.error('EMAIL: issue reading html file ');
     } else {
-      const renderedHtml = Mustache.render(html, { link });
+      const renderedHtml = Mustache.render(html, { link, ...lang });
       sendEmail(toEmail, subject, renderedHtml);
     }
   });

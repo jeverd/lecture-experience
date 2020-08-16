@@ -1,16 +1,13 @@
-/* eslint-disable no-param-reassign */
-/* eslint-disable no-undef */
-/* eslint-disable no-use-before-define */
-/* eslint-disable no-fallthrough */
-/* eslint-disable import/extensions */
-import Whiteboard from '../classes/whiteboard.js';
+import Whiteboard from '../classes/Whiteboard.js';
 import initializeToolsMenu from '../tools.js';
 import initializeCanvasTopMenu from './canvasTopMenu.js';
 import initializeManagerChat from './managerChat.js';
-import initializeBoards from './managerBoards.js';
+import initializeBoards, { emitBoards } from './managerBoards.js';
 import initializeActionsMenu from './canvasActions.js';
 import { initializeManagerMedia, initializeManagerRTC, changeStatus } from './managerRTC.js';
-import { getUrlId, reloadWindow, copyTextToClipboard } from '../utility.js';
+import {
+  getUrlId, reloadWindow, copyTextToClipboard, saveCurrentBoard,
+} from '../utility.js';
 
 const managerId = getUrlId();
 const hasAudio = $('#audioValidator').val() === 'true';
@@ -37,8 +34,11 @@ function beginLecture(stream) {
     window.location.replace('/error?code=2');
   });
 
-  $(window).on('beforeunload', (e) => {
-    e.preventDefault();
+  $(window).on('beforeunload', () => {
+    if (hasWhiteboard) {
+      saveCurrentBoard(whiteboard);
+      emitBoards(socket, whiteboard); 
+    }
     socket.disconnect();
   });
 

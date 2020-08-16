@@ -1,27 +1,10 @@
-import { displayImagePopUpOnClick } from '../utility.js';
+import { displayImagePopUpOnClick, downloadFile } from '../utility.js';
 import Attachment from './classes/Attachment.js';
-
-/* eslint-disable no-undef */
-function downloadFile(file, fileName) {
-  const messageContainer = document.getElementById('message-container');
-  const messageElement = document.createElement('tr');
-  messageElement.style.display = 'none';
-  let fileElement = null;
-  fileElement = document.createElement('a');
-  fileElement.href = file;
-  fileElement.download = fileName;
-  fileElement.innerText = fileName;
-  messageElement.append(fileElement);
-  messageContainer.append(messageElement);
-  fileElement.click();
-  $(messageElement).remove();
-}
 
 export default function initializeChat(chat) {
   const fileInput = document.getElementById('file-input');
 
   fileInput.addEventListener('change', (e) => {
-    document.querySelector('#message-container').appendChild(document.querySelector('#preview'));
     const file = e.target.files[0];
     const reader = new FileReader();
     reader.onload = function (fileLoadedEvent) {
