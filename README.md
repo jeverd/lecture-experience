@@ -31,7 +31,7 @@ Liteboard is a free, browser-based lecturing platform for anyone who wants to qu
   <img src="public/images/github-readme-main.png"/>
 </div>
 
-Liteboard is powered by WebRTC and uses the [Janus](https://github.com/meetecho/janus-gateway) implementation of a Selective Forwarding Unit (SFU) to allow multiple participants per lecture while ensuring the lowest latency available on browsers. We host our own TURN server to guarantee support for users in any kind of network.
+Liteboard is powered by WebRTC and uses the [Janus](https://github.com/meetecho/janus-gateway) implementation of a Selective Forwarding Unit (SFU) to allow multiple participants per lecture while ensuring the lowest latency available on browsers. We host our own TURN server to guarantee support for users in any kind of network. Read about us in [this university article](https://falauniversidades.com.br/projeto-gratuito-simplifica-o-acesso-as-aulas-on-line/).
 
 ## Contents
 
