@@ -114,7 +114,7 @@ io.sockets.on('connection', (socket) => {
             roomsTimeout[roomToJoin] = setTimeout(() => {
               const { email } = managerObj;
               if (email !== '') {
-                sendManagerDisconnectEmail(email, urlUuid);
+                sendManagerDisconnectEmail(email, urlUuid, socket.handshake.session.lang);
               } else {
                 logger.info(`EMAIL: Not sending email to manager of room ${roomToJoin} as no email was provided`);
               }

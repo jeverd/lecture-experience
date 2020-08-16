@@ -46,7 +46,7 @@ const sendEmail = (toEmail, subject, htmlBody) => {
 };
 
 // eslint-disable-next-line max-len
-const sendManagerDisconnectEmail = (toEmail, id) => { // doesn't matter because its async, since user disconnected
+const sendManagerDisconnectEmail = (toEmail, id, lang) => { // doesn't matter because its async, since user disconnected
   const subject = 'You disconnected from your lecture, heres your link';
   const host = environment === 'DEVELOPMENT' ? 'http://localhost:8080' : 'https://liteboard.io';
   const link = `${host}/lecture/${id}`;
