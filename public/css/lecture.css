@@ -11,6 +11,10 @@ body {
     margin: 0;
   }
 
+#whiteboard{
+  background-color: white !important;
+}
+
 .message-container::-webkit-scrollbar,
 .page-list::-webkit-scrollbar {
   width: 7px;
@@ -1271,25 +1275,12 @@ div.messages.active-chat{
   left:-100px;
 }
 
-/*preview*/
-
-.preview{
-  position: relative;
-  top: -3px;
-  display: flex;
-  flex: 1;
-}
-
-.preview-content{
-  padding-top: 10px; 
-  padding-right: 30px; 
-  overflow: auto;
-}
-
 /*Preview*/
 .preview{
-  position: relative;
-  top: -3px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  z-index: 1;
   display: flex;
   flex: 1;
   background-color: rgb(53, 53, 73);

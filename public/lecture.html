@@ -156,24 +156,24 @@
                     </div>
                     <div style="display: none; width: 0; height: 0;" id="chat-view" class="chat">
                         <div id="wrapper" class="messages-main">
-                            <div title="{{#lang}}{{lectureMinimizeView}}{{/lang}}Minimize Chat View" class="minimize-chat-view">
+                            <div title="{{#lang}}{{lectureMinimizeView}}{{/lang}}" class="minimize-chat-view">
                                 <div>{{#lang}}{{lectureChat}}{{/lang}}</div>
                                 <div id="minimize-chat-view">
                                     <i class="fa fa-minus" aria-hidden="true"></i>
                                 </div>
                             </div>
-                            <div class="message-container" id="message-container">
-                            <div class="message-lecture-name">
-                                {{name}}&nbsp;<text class="sm-chat-room">{{#lang}}{{lectureChatRoom}}{{/lang}}</text>
-                            </div>
                             <div id="preview" class="preview" style="display: none;">
                                 <div class="preview-content">
-                                <i class="fas fa-file" id="file-preview"></i>
-                                <img src="" id='image-preview' class='image-preview'>
-                                <span id="name-file"></span>
-                                <i class="fas fa-times close-preview" id="close-preview"></i>
+                                    <i class="fas fa-file" id="file-preview"></i>
+                                    <img src="" id='image-preview' class='image-preview'>
+                                    <span id="name-file"></span>
+                                    <i class="fas fa-times close-preview" id="close-preview"></i>
                                 </div> 
                             </div>
+                            <div class="message-container" id="message-container">
+                                <div class="message-lecture-name">
+                                    {{name}}&nbsp;<text class="sm-chat-room">{{#lang}}{{lectureChatRoom}}{{/lang}}</text>
+                                </div>
                             </div>
                         </div>
                         <div id="send-wrapper">

@@ -5,7 +5,6 @@ export default function initializeChat(chat) {
   const fileInput = document.getElementById('file-input');
 
   fileInput.addEventListener('change', (e) => {
-    document.querySelector('#message-container').appendChild(document.querySelector('#preview'));
     const file = e.target.files[0];
     const reader = new FileReader();
     reader.onload = function (fileLoadedEvent) {

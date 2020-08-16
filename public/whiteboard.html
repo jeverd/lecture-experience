@@ -165,19 +165,19 @@
         </div>
       </div>
       <div id="wrapper" class="messages-main">
+        <div id="preview" class="preview">
+          <div class="preview-content">
+            <i class="fas fa-file" id="file-preview"></i>
+            <img src="" id='image-preview' class='image-preview'>
+            <span id="name-file"></span>
+            <i class="fas fa-times close-preview" id="close-preview"></i>
+          </div> 
+        </div>
         <div class="message-container" id="message-container">
           <div class="message-lecture-name">
             <span>
               {{name}} {{#lang}}{{lectureChatRoom}}{{/lang}}
             </span>
-          </div>
-          <div id="preview" class="preview">
-            <div class="preview-content">
-              <i class="fas fa-file" id="file-preview"></i>
-              <img src="" id='image-preview' class='image-preview'>
-              <span id="name-file"></span>
-              <i class="fas fa-times close-preview" id="close-preview"></i>
-            </div> 
           </div>
         </div>
       </div>

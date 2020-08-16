@@ -1220,7 +1220,7 @@ div.messages.active-chat{
 .message-container {
   position: relative;
   bottom: 0;
-  max-height: 240px;
+  max-height: calc(300px + 10vh - 65px);
   overflow-y: auto;
   word-wrap: break-word;
   margin: auto;
@@ -1239,8 +1239,10 @@ div.messages.active-chat{
 }
 
 .preview{
-  position: relative;
-  top: -3px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  z-index: 1;
   display: flex;
   flex: 1;
 }

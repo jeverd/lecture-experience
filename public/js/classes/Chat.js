@@ -68,13 +68,13 @@ export default class Chat {
         file.append(imageName);
         tableData.append(file);
       }
-
-      document.getElementById('file-input').value = '';
-      $('#file-preview').hide();
-      $('#name-file').html('');
-      $('#image-preview').attr('src', '');
-      $('#preview').hide();
-      $('#close-preview').css('right', '15px');
+      if (!isIncoming) {
+        $('#file-preview').hide();
+        $('#name-file').html('');
+        $('#image-preview').attr('src', '');
+        $('#close-preview').css('right', '15px');
+        $('#preview').hide();
+      }
     }
     tableData.append(messageText);
     messageElement.append(tableData);
