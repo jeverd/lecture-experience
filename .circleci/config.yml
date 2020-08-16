@@ -6,7 +6,7 @@ jobs:
       - checkout
       - setup_remote_docker
       - run: |
-          TAG=0.1.$CIRCLE_BUILD_NUM
+          TAG=0.1.$CIRCLE_BUILD_NUM_$CIRCLE_BRANCH
           docker build -t jeverd/liteboard-express .
           echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin  # (4)
           docker push jeverd/liteboard-express
@@ -37,5 +37,6 @@ workflows:
             branches:
               only: 
                 - staging
+                - master
       - tests
           
