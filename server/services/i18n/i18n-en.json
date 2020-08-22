@@ -129,7 +129,7 @@
   "devicesErrorTitle": "Failed to load input devices",
   "devicesErrorText": "Please, make sure the devices you have selected are connected to your computer, are not being used in another program and allow us to use them.",
   "devicesErrorHelp": "Here's how to fix",
-  "liteboardDescription": "Liteboard is a decentralized lightweight platform for online lectures",
+  "liteboardDescription": "Liteboard is a decentralized lightweight platform for online real-like lecture experiences. Liteboard provides free State-of-the-Art drawing tools and unlimited time for lecture hosting. Create a lecture now!",
   "liteboardDescriptionLecture": "Invitation to join",
   "liteboardDescriptionCreate": "Create a Liteboard lecture",
   "liteboardDescriptionStats": "View analytics of the lecture",
