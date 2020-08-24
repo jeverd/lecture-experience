@@ -1289,6 +1289,41 @@ span.custom-option,
   font-size: 0.8rem;
 }
 
+.inputimage {
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.inputimage + label {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 1s;
+  height: 3.75rem;  
+}
+
+.inputimage + label img{
+  filter: grayscale(100%);
+  opacity: 0.75;
+  transition: var(--transition-speed);
+  height: 40px;
+}
+
+
+.inputimage + label:hover img{
+  transform: scale(1.2);
+  opacity: 1;
+  filter: grayscale(0%);
+}
+
+.inputimage + label * {
+	pointer-events: none;
+}
+
+
 .inputfile {
 	width: 0.1px;
 	height: 0.1px;

@@ -11,6 +11,16 @@ drawsLayer.addChild(items);
 drawsLayer.activate();
 imageLayer.insertBelow(drawsLayer);
 
+var displayImage = function (imgSrc) {
+  new Raster({
+      source: imgSrc,
+      crossOrigin: 'anonymous',
+      onLoad: function() {
+          this.blendMode = 'normal';
+          this.position = view.center;
+      }
+  });
+}
 
 var erase = function (event) {
   var hitResult = drawsLayer.hitTest(event.point);
@@ -315,5 +325,8 @@ window.app = {
   },
   deleteItem: function () {
     delItem();
+  },
+  addImg: function (imgSrc) {
+    displayImage(imgSrc);
   },
 };

@@ -214,4 +214,8 @@ export default class Whiteboard {
     }
     return array;
   }
+
+  addImg(imgSrc){
+    window.app.addImg(imgSrc)
+  }
 }
