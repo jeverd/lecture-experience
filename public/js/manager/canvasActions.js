@@ -17,7 +17,7 @@ export default function initializeActionsMenu(socket, whiteboard, stream) {
     reader.readAsDataURL(file);
   });
 
-  window.addEventListener('paste', event => {
+  window.addEventListener('paste', (event) => {
     // use event.originalEvent.clipboard for newer chrome versions
     var items = (event.clipboardData  || event.originalEvent.clipboardData).items;
     console.log(JSON.stringify(items)); // will give you the mime types
@@ -37,6 +37,22 @@ export default function initializeActionsMenu(socket, whiteboard, stream) {
       reader.readAsDataURL(blob);
     }
   });
+
+  document.addEventListener("dragover", (event) => {
+    event.preventDefault();
+  });
+
+  document.addEventListener('drop', (event) => {
+    event.preventDefault();
+
+    var file = event.dataTransfer.files[0];
+    var reader = new FileReader();
+
+    reader.onload = function(event) {
+      whiteboard.addImg(event.target.result)
+    };
+    reader.readAsDataURL(file);
+  })
 
   document.querySelectorAll('[data-command]').forEach((item) => {
     item.addEventListener('click', () => {
