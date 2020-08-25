@@ -79,6 +79,12 @@ async function initializeJanus() {
           onremotestream(stream) {
             const videoTrack = stream.getVideoTracks()[0];
             const audioTrack = stream.getAudioTracks()[0];
+
+            if (speaker.srcObject) {
+              speaker.srcObject.addTrack(audioTrack);
+            } else {
+              addStream(speaker, audioTrack);
+            }
             addStream(speaker, audioTrack);
             if (streamType === 'stream') {
               if (!isCameraSwapped) {
@@ -94,7 +100,6 @@ async function initializeJanus() {
               }
             }
           },
-          webrtcState(isConnected) { changeStatus[isConnected ? 'live' : 'host_disconnected'](); },
           iceState(state) { 
             switch(state) {
               case 'checking':
@@ -139,7 +144,12 @@ async function initializeJanus() {
                     },
                   });
                 },
-                onmessage(msg) {
+                onmessage(msg, feedJsep) {
+                  if (feedJsep && feedJsep.type === 'answer') {
+                    handle.handleRemoteJsep({
+                      jsep: feedJsep
+                    });
+                  }
                   const status = msg.videoroom;
                   switch (status) {
                     case 'joined':
@@ -189,4 +199,22 @@ export default function initializeGuestRTC() {
       $('.options-webcam').fadeIn();
     });
   });
+
+  $('#toggle-mic').click(function () {
+    $(this).toggleClass('fa-microphone-slash');
+    $(this).toggleClass('fa-microphone');
+    if (!$(this).hasClass('fa-microphone')) {
+      handle.send({ message: { request: 'unpublish' } });
+    } else {
+      handle.createOffer({
+        media: { audio: true, video: false },
+        success(offerJsep) {
+          handle.send({
+            message: { request: 'configure', audio: true },
+            jsep: offerJsep,
+          });
+        },
+      });
+    }
+  })
 }

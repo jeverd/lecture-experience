@@ -140,9 +140,12 @@
                                 {{/webcam}}
                             {{/whiteboard}}
                             {{#audio}}
-                                <audio style="display: none;" id="speaker" autoplay muted></audio> 
-                                <div class="audio" id="toggle-speaker">    
-                                    <i class="fa fa-volume-mute" aria-hidden="true"></i>
+                                <div class="audio-mute-unmute">
+                                    <audio style="display: none;" id="speaker" autoplay muted></audio> 
+                                    <i id="toggle-speaker" class="fa fa-volume-mute" aria-hidden="true"></i>
+                                    &nbsp;
+                                    <i id="toggle-mic" class="fa fa-microphone-slash"></i>
+                                    <!-- <i class="fa fa-microphone" aria-hidden="true"></i> -->
                                 </div>
                             {{/audio}}
                         {{/lectureTools}}

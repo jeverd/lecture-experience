@@ -46,10 +46,9 @@ export default function initializeOptionsMenu() {
   $('#minimize-chat-view').click(() => $('#toggle-chat-view').click());
 
   $('#toggle-speaker').click(function () {
-    const volumeIcon = $(this).find('i');
-    volumeIcon.toggleClass('fa-volume-up');
-    volumeIcon.toggleClass('fa-volume-mute');
-    $(this).parent().find('audio')[0].muted = volumeIcon.hasClass('fa-volume-mute');
+    $(this).toggleClass('fa-volume-up');
+    $(this).toggleClass('fa-volume-mute');
+    $(this).closest('div').find('audio')[0].muted = $(this).hasClass('fa-volume-mute');
   });
 
   $('#fullscreen-video').click(() => {
