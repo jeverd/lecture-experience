@@ -11,13 +11,18 @@ drawsLayer.addChild(items);
 drawsLayer.activate();
 imageLayer.insertBelow(drawsLayer);
 
-var displayImage = function (imgSrc) {
-  new Raster({
+var displayImage = function (imgSrc, pos) {
+  console.log(pos)
+  var position = pos;
+  if (!pos) {
+    position = view.center;
+  }
+  var raster = new Raster({
       source: imgSrc,
       crossOrigin: 'anonymous',
       onLoad: function() {
           this.blendMode = 'normal';
-          this.position = view.center;
+          this.position = position;
       }
   });
 }
@@ -300,15 +305,19 @@ window.app = {
   addDraws: function (array) {
     this.paintCircle();
     for (var i in array) {
-      var loadedPath = new Path({
-        pathData: array[i][0],
-      });
-      loadedPath.strokeColor = array[i][1];
-      loadedPath.strokeWidth = array[i][2];
-      loadedPath.fillColor = array[i][3];
-      loadedPath.parent = items;
-
-      drawsLayer.addChild(loadedPath);
+      if (array[i][0]==='path') {
+        var loadedPath = new Path({
+          pathData: array[i][1],
+        });
+        loadedPath.strokeColor = array[i][2];
+        loadedPath.strokeWidth = array[i][3];
+        loadedPath.fillColor = array[i][4];
+        loadedPath.parent = items;
+  
+        drawsLayer.addChild(loadedPath);
+      } else if (array[i][0]==='image') {
+        displayImage(array[i][1],array[i][2]);
+      }
     }
   },
   saveSVG: function () {

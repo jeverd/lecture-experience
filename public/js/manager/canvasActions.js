@@ -8,7 +8,6 @@ export default function initializeActionsMenu(socket, whiteboard, stream) {
   fileInput.addEventListener('change', (e) => {
     const file = e.target.files[0];
     const reader = new FileReader();
-    console.log('mudou')
     reader.onload = function (fileLoadedEvent) {
       if (file.type.includes('image')) {
         whiteboard.addImg(fileLoadedEvent.target.result)

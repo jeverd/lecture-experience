@@ -204,18 +204,32 @@ export default class Whiteboard {
     this.redoStack.push(this.saveData);
   }
 
+
+  
   getPathData() {
     var array = [];
     for (var i in window.app.getElem()) {
-      const completePath = window.app.getElem()[i];
-      if (completePath.pathData) {
-        array.push([completePath.pathData, completePath.strokeColor, completePath.strokeWidth, completePath.fillColor]);
+      const item = window.app.getElem()[i];
+      let imgSrc;
+      try {
+        imgSrc = item._image.currentSrc;
+      }
+      catch {
+        imgSrc = null;
+      }
+      
+      if (item.pathData) {
+        array.push(['path', item.pathData, item.strokeColor, item.strokeWidth, item.fillColor]);
+      } else if (imgSrc) {
+        array.push(['image', item.toDataURL("image/png"), item._position]);
       }
     }
     return array;
   }
 
   addImg(imgSrc){
+    this.pushToUndoStack();
+    this.clearRedoStack();
     window.app.addImg(imgSrc)
   }
 }
