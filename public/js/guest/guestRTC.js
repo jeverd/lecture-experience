@@ -1,5 +1,5 @@
 import {
-  getUrlId, getJanusUrl, addStream, getTurnServers,
+  getUrlId, getJanusUrl, addStream, getTurnServers, addNewSpeaker,
   getStunServers, getStatusColor, getImageFromVideo, getJanusToken,
 } from '../utility.js';
 
@@ -7,7 +7,6 @@ const hasWebcam = $('#webcamValidator').val() === 'true';
 const hasWhiteboard = $('#whiteboardValidator').val() === 'true';
 const webcam = document.getElementById('webcam');
 const whiteboard = document.getElementById('whiteboard');
-const speaker = document.getElementById('speaker');
 const janusUrl = getJanusUrl();
 let isCameraSwapped = false;
 let janus;
@@ -59,10 +58,10 @@ async function initializeJanus() {
             });
           },
           onmessage(msg, offerJsep) {
+            console.log(msg)
             const event = msg.videoroom;
             if (event === 'attached') {
-              remoteHandle.rfid = msg.id;
-              remoteHandle.rfdisplay = msg.display;
+              remoteHandle.currentPublisherId = msg.id;
             }
             if (offerJsep) {
               remoteHandle.createAnswer({
@@ -79,13 +78,7 @@ async function initializeJanus() {
           onremotestream(stream) {
             const videoTrack = stream.getVideoTracks()[0];
             const audioTrack = stream.getAudioTracks()[0];
-
-            if (speaker.srcObject) {
-              speaker.srcObject.addTrack(audioTrack);
-            } else {
-              addStream(speaker, audioTrack);
-            }
-            addStream(speaker, audioTrack);
+            addNewSpeaker(audioTrack, remoteHandle.currentPublisherId);
             if (streamType === 'stream') {
               if (!isCameraSwapped) {
                 addStream(hasWhiteboard ? webcam : whiteboard, videoTrack);

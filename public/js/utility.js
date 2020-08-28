@@ -261,3 +261,20 @@ export function getRandomColor() {
 
   return chatColors[Math.floor(Math.random() * chatColors.length)];
 }
+
+export function addNewSpeaker(audioTrack, speakerId){
+  const newSpeaker = document.createElement('audio');
+  newSpeaker.autoplay = true;
+  newSpeaker.style.display = 'none';
+  $(`#${speakerId}`).remove();
+  newSpeaker.setAttribute('id', `${speakerId}`);
+  newSpeaker.classList.add('speaker');
+  addStream(newSpeaker, audioTrack);
+  document.body.appendChild(newSpeaker);
+  newSpeaker.muted = true;
+  document.querySelectorAll('.speaker').forEach((speaker) => {
+    if (!speaker.srcObject.active) {
+      $(speaker).remove();
+    }
+  });
+}
