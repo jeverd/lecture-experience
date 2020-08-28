@@ -38,5 +38,6 @@ workflows:
               only: 
                 - staging
                 - master
+                - allow-guests-to-speak
       - tests
           
