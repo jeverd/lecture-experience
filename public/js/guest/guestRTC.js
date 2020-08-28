@@ -1,6 +1,7 @@
 import {
   getUrlId, getJanusUrl, addStream, getTurnServers, addNewSpeaker,
   getStunServers, getStatusColor, getImageFromVideo, getJanusToken,
+  showInfoMessage
 } from '../utility.js';
 
 const hasWebcam = $('#webcamValidator').val() === 'true';
@@ -132,6 +133,18 @@ async function initializeJanus() {
                   });
                 },
                 onmessage(msg, feedJsep) {
+                  if (msg.configured === 'ok') {
+                    showInfoMessage($('#mic-connected-msg').val());
+                    $('#mic-spin').hide();
+                    $('#toggle-mic').show();
+                  }
+
+                  if (msg.unpublished === 'ok') {
+                    showInfoMessage($('#mic-disconnected-msg').val());
+                    $('#mic-spin').hide();
+                    $('#toggle-mic').show();
+                  }
+
                   if (feedJsep && feedJsep.type === 'answer') {
                     handle.handleRemoteJsep({
                       jsep: feedJsep
@@ -203,5 +216,7 @@ export default function initializeGuestRTC() {
         },
       });
     }
+    $(this).hide();
+    $('#mic-spin').show();
   })
 }

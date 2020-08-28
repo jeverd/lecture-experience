@@ -221,6 +221,12 @@ div.ld-over.running:before{
   font-size: 1.1rem;
   border-radius: 99999px;
   padding: 1.25px .8rem;
+  opacity: 0.75;
+  transition: 0.25s ease;
+}
+
+.audio-mute-unmute:hover {
+  opacity: 1;
 }
 
 .audio-mute-unmute i{
