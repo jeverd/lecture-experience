@@ -35,7 +35,8 @@
       integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
       crossorigin="anonymous"
     />
-    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet"></link>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+      integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css" 
@@ -202,7 +203,7 @@
         <!-- <i class="fas fa-level-up-alt"></i> -->
       </button>
     </div>
-              <!--end show-bar-button-->
+    <!--end show-bar-button-->
 
 
     <canvas id="canvas" hidpi resize> </canvas>
@@ -447,20 +448,30 @@
     </nav>
     <!--end left sidebar-->
 
-    <!--start canvas image toggle bar-->
-    <div class="canvas-toggle-bar animate__animated">
-      <nav>
-        <button class="scroll-boards-view-left">
-          <i class="fas fa-chevron-left"></i>
-        </button>
-        <ul class="canvas-toggle-nav" id="pagelist"></ul>
-        <button class="scroll-boards-view-right">
-          <i class="fas fa-chevron-right"></i>
-        </button>
-      </nav>
+    <div class="toggle-canvas-and-audio-menu-wrap animate__animated">
+      {{#lectureTools}}
+        {{#audio}}
+          <div class="audio-mute-unmute">
+            <i id="toggle-speaker" class="fa fa-volume-mute" aria-hidden="true"></i>
+            &nbsp;
+            <i id="toggle-mic" class="fa fa-microphone mute-mic"></i>
+          </div>
+        {{/audio}}
+      {{/lectureTools}}
+      <!--start canvas image toggle bar-->
+      <div class="canvas-toggle-bar">
+        <nav>
+          <button class="scroll-boards-view-left">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <ul class="canvas-toggle-nav" id="pagelist"></ul>
+          <button class="scroll-boards-view-right">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </nav>
+      </div>
+      <!--end canvas image toggle bar-->
     </div>
-
-    <!--end canvas image toggle bar-->
     <!-- Start Modal -->
     <div id="welcome-lecture-modal" class="modal">
       <!-- Start Modal content -->
@@ -578,8 +589,7 @@
                 <input type="hidden" id="mute-text" value="{{#lang}}{{Mute}}{{/lang}}"/>
                 <div
                   title="{{#lang}}{{Mute}}{{/lang}}"
-                  id="mute-mic"
-                  class="mute-audio-section"
+                  class="mute-audio-section mute-mic"
                 >
                   <i id="mute-icon" class="fa fa-microphone microphone" data-value=""></i>
                   <i id="muted-icon" class="fa fa-microphone-slash microphone" style='display: none;'></i>

@@ -1,4 +1,4 @@
-import { showInfoMessage, toggleSpeakers, areSpeakersMuted } from '../utility.js';
+import { showInfoMessage, toggleSpeakers } from '../utility.js';
 
 function handleOptionClick() {
   const targetId = this.getAttribute('target-id');

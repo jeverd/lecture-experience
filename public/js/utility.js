@@ -263,15 +263,8 @@ export function getRandomColor() {
 }
 
 export function areSpeakersMuted(){
-  const speakers = document.querySelectorAll('.speaker')
-  if (speakers.length > 0) {
-    for (var i = 0; i < speakers.length; i++){
-      if (!speakers[i].muted){
-        return false;
-      }
-    }
-  }
-  return true;
+  const speakers = document.querySelectorAll('.speaker');
+  return speakers.length === 0 || speakers[0].muted;
 }
 
 export function toggleSpeakers(){
