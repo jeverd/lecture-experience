@@ -1,4 +1,4 @@
-import { showInfoMessage } from '../utility.js';
+import { showInfoMessage, toggleSpeakers, areSpeakersMuted } from '../utility.js';
 
 function handleOptionClick() {
   const targetId = this.getAttribute('target-id');
@@ -48,7 +48,7 @@ export default function initializeOptionsMenu() {
   $('#toggle-speaker').click(function () {
     $(this).toggleClass('fa-volume-up');
     $(this).toggleClass('fa-volume-mute');
-    $(this).closest('div').find('audio')[0].muted = $(this).hasClass('fa-volume-mute');
+    toggleSpeakers();
   });
 
   $('#fullscreen-video').click(() => {

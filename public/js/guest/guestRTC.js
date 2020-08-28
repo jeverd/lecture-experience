@@ -58,7 +58,6 @@ async function initializeJanus() {
             });
           },
           onmessage(msg, offerJsep) {
-            console.log(msg)
             const event = msg.videoroom;
             if (event === 'attached') {
               remoteHandle.currentPublisherId = msg.id;
