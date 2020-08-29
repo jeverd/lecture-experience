@@ -133,6 +133,7 @@ async function initializeJanus() {
                   });
                 },
                 onmessage(msg, feedJsep) {
+                  console.log(msg);
                   if (msg.configured === 'ok') {
                     showInfoMessage($('#mic-connected-msg').val());
                     $('#mic-spin').hide();
