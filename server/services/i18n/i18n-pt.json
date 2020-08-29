@@ -152,5 +152,7 @@
   "emailHiThere": "Olá",
   "emailDisconnectedNotice": "Vimos que você se desconectou de sua aula. Se isso não foi proposital, clique no botão abaixo para se reconectar",
   "emailReconnect": "Reconectar",
-  "emailSlogan": "Liteboard.io | Experiências de Aula no Browser"
+  "emailSlogan": "Liteboard.io | Experiências de Aula no Browser",
+  "micConnected": "Microfone Conectado",
+  "micDisconnected": "Microfone Desconectado"
 }

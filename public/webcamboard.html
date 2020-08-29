@@ -58,6 +58,15 @@
         <div class="videoContainer">
           <div id="webcam-view">
             <div id="info-popup"></div>
+            {{#lectureTools}}
+              {{#audio}}
+                <div class="audio-mute-unmute">
+                  <i id="toggle-speaker" class="fa fa-volume-mute" aria-hidden="true"></i>
+                  &nbsp;
+                  <i id="toggle-mic" class="fa fa-microphone mute-mic"></i>
+                </div>
+              {{/audio}}
+            {{/lectureTools}}
             <video muted id="webcam" playsinline autoplay></video>
             <div class="classroom-info">
               <div class="classroom-info-flexbox">
@@ -319,8 +328,7 @@
                 <input type="hidden" id="mute-text" value="{{#lang}}{{Mute}}{{/lang}}"/>
                 <div
                   title="{{#lang}}{{Mute}}{{/lang}}"
-                  id="mute-mic"
-                  class="mute-audio-section"
+                  class="mute-audio-section mute-mic"
                 >
                   <i id="mute-icon" class="fa fa-microphone microphone" data-value=""></i>
                   <i id="muted-icon" class="fa fa-microphone-slash microphone" style='display: none;'></i>

@@ -2,7 +2,7 @@ import initializeStreamConfigurations from './streamConfigurations.js';
 
 import {
   getJanusUrl, addStream, getTurnServers, getStunServers,
-  getJanusToken, getStatusColor, reloadWindow,
+  getJanusToken, getStatusColor, reloadWindow, addNewSpeaker,
 } from '../utility.js';
 
 let janus;
@@ -32,6 +32,54 @@ export async function initializeManagerRTC(stream, initCanvasStream) {
   const roomId = $('#_id').val();
   const janusUrl = getJanusUrl();
 
+  function joinFeed(publishers){
+    publishers.forEach((publisher) => {
+      let remoteHandle;
+      janus.attach({
+        plugin: 'janus.plugin.videoroom',
+        success(remHandle) {
+          remoteHandle = remHandle;
+          remoteHandle.send({
+            message: {
+              request: 'join',
+              ptype: 'subscriber',
+              room: parseInt(roomId),
+              feed: publisher.id,
+            },
+          });
+        },
+        onmessage(msg, offerJsep) {
+          const event = msg.videoroom;
+          if (event === 'attached') {
+            remoteHandle.currentPublisherId = msg.id;
+          }
+          if (offerJsep) {
+            remoteHandle.createAnswer({
+              jsep: offerJsep,
+              media: {
+                audioSend: false,
+                videoSend: false,
+              },
+              success(answerJsep) {
+                remoteHandle.send({
+                  message: {
+                    request: 'start',
+                    room: roomId
+                  },
+                  jsep: answerJsep
+                });
+              },
+            });
+          }
+        },
+        onremotestream(stream) {
+          const audioTrack = stream.getAudioTracks()[0];
+          addNewSpeaker(audioTrack, remoteHandle.currentPublisherId);
+        }
+      });
+    });
+  }
+
   function publishFeed(feedStream, label) {
     let feedHandle;
     janus.attach({
@@ -48,19 +96,33 @@ export async function initializeManagerRTC(stream, initCanvasStream) {
         if (feedJsep && feedJsep.type === 'answer') {
           feedHandle.handleRemoteJsep({ jsep: feedJsep });
         }
-        if (feedMsg.videoroom === 'joined') {
-          const feedRequest = { request: 'configure' };
-          feedRequest.video = feedStream.getVideoTracks().length > 0;
-          feedRequest.audio = feedStream.getAudioTracks().length > 0;
-          feedHandle.createOffer({
-            stream: feedStream,
-            success(offerJsep) {
-              feedHandle.send({
-                message: feedRequest,
-                jsep: offerJsep,
-              });
-            },
-          });
+
+        const status = feedMsg.videoroom;
+        switch (status) {
+          case 'joined':
+            joinFeed(feedMsg.publishers);
+            const feedRequest = {
+              request: 'configure'
+            };
+            feedRequest.video = feedStream.getVideoTracks().length > 0;
+            feedRequest.audio = feedStream.getAudioTracks().length > 0;
+            feedHandle.createOffer({
+              stream: feedStream,
+              success(offerJsep) {
+                feedHandle.send({
+                  message: feedRequest,
+                  jsep: offerJsep,
+                });
+              },
+            });
+            break;
+          case 'event':
+            if (typeof feedMsg.publishers !== 'undefined') {
+              joinFeed(feedMsg.publishers);
+            }
+            break;
+          default:
+            break;
         }
       },
       onlocalstream(localStream) {
