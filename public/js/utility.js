@@ -263,8 +263,7 @@ export function getRandomColor() {
 }
 
 export function areSpeakersMuted(){
-  const speakers = document.querySelectorAll('.speaker');
-  return speakers.length === 0 || speakers[0].muted;
+  return $('#toggle-speaker').hasClass('fa-volume-mute');
 }
 
 export function toggleSpeakers(){
@@ -272,6 +271,8 @@ export function toggleSpeakers(){
   document.querySelectorAll('.speaker').forEach((speaker) => {
     speaker.muted = !isMuted;
   });
+  $('#toggle-speaker').toggleClass('fa-volume-up');
+  $('#toggle-speaker').toggleClass('fa-volume-mute');
 }
 
 export function addNewSpeaker(audioTrack, speakerId){

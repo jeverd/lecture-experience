@@ -38,6 +38,16 @@ export const changeStatus = {
   },
 };
 
+export function disconnectMicrophone() {
+  if (typeof handle !== 'undefined'){
+    handle.send({
+      message: {
+        request: 'unpublish'
+      }
+    });
+  }
+}
+
 async function initializeJanus() {
   const roomId = parseInt(getUrlId());
   function joinFeed(publishers) {
@@ -205,7 +215,7 @@ export default function initializeGuestRTC() {
     $(this).toggleClass('fa-microphone-slash');
     $(this).toggleClass('fa-microphone');
     if (!$(this).hasClass('fa-microphone')) {
-      handle.send({ message: { request: 'unpublish' } });
+      disconnectMicrophone();
     } else {
       handle.createOffer({
         media: { audio: true, video: false },
