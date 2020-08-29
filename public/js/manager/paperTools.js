@@ -12,7 +12,7 @@ drawsLayer.activate();
 imageLayer.insertBelow(drawsLayer);
 
 var displayImage = function (imgSrc, pos) {
-  console.log(pos)
+  console.log(pos, 'ola')
   var position = pos;
   if (!pos) {
     position = view.center;
@@ -88,6 +88,7 @@ var selectItem = function (event) {
       selectedItem.fullySelected = false;
     }
     selectedItem = hitResult.item;
+    console.log(selectedItem.position)
     onDragItem = hitResult.item;
     selectedItem.fullySelected = true;
   }
@@ -188,7 +189,7 @@ window.app = {
         path.add(event.point);
       },
       onMouseUp: function (event) {
-        path.simplify(10);
+        path.simplify(1);
       },
     }),
     pointer: new Tool({

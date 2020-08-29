@@ -222,6 +222,7 @@ export default class Whiteboard {
         array.push(['path', item.pathData, item.strokeColor, item.strokeWidth, item.fillColor]);
       } else if (imgSrc) {
         array.push(['image', item.toDataURL("image/png"), item._position]);
+        console.log(item)
       }
     }
     return array;
