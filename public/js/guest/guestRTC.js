@@ -1,7 +1,7 @@
 import {
   getUrlId, getJanusUrl, addStream, getTurnServers, addNewSpeaker,
   getStunServers, getStatusColor, getImageFromVideo, getJanusToken,
-  showInfoMessage, displayMediaError
+  showInfoMessage, displayMediaError, displayMaxPublishersReachedWarning
 } from '../utility.js';
 
 const hasWebcam = $('#webcamValidator').val() === 'true';
@@ -154,6 +154,19 @@ async function initializeJanus() {
                     showInfoMessage($('#mic-disconnected-msg').val());
                     $('#mic-spin').hide();
                     $('#toggle-mic').show();
+                  }
+
+                  if (typeof msg.error !== 'undefined') {
+                    switch (msg.error_code) {
+                      case 432: 
+                        displayMaxPublishersReachedWarning();
+                        disconnectMicrophone();
+                        $('#toggle-mic').removeClass('fa-microphone');
+                        $('#toggle-mic').addClass('fa-microphone-slash');
+                        $('#toggle-mic').show();
+                        $('#mic-spin').hide();
+                      default: break;
+                    }
                   }
 
                   if (feedJsep && feedJsep.type === 'answer') {

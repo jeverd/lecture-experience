@@ -154,5 +154,7 @@
   "emailReconnect": "Reconnect",
   "emailSlogan": "Liteboard.io | Browser-based Lecture Experiences",
   "micConnected": "Microphone Connected",
-  "micDisconnected": "Microphone Disconnected"
+  "micDisconnected": "Microphone Disconnected",
+  "maxNumberOfPublishersTitle": "Seems there are too many students speaking already",
+  "maxNumberOfPublishersText": "There's already other 6 students with the microphone connected and that is the maximum allowed per lecture. If you wish to speak, please ask others to mute themselves."
 }

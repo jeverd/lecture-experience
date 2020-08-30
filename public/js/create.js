@@ -49,7 +49,10 @@ createBut.addEventListener('click', async (e) => {
                 plugin: 'janus.plugin.videoroom',
                 success(pluginHandle) {
                   pluginHandle.send({
-                    message: { request: 'create' },
+                    message: {
+                      request: 'create',
+                      publishers: 8
+                    },
                     success(res) {
                       if (res.videoroom === 'created') {
                         const body = JSON.stringify({

@@ -310,3 +310,19 @@ export function displayMediaError(){
           </a>`,
   }).then(reloadWindow);
 }
+
+export function displayMaxPublishersReachedWarning(){
+  Swal.fire({
+    icon: 'warning',
+    title: `<strong style="font-size: 1.4rem">${$('#swal-max-number-of-publishers-title').val()}</strong>`,
+    html: `
+          <div style="font-size: 1rem; opacity: .85; text-align: left;">
+              ${$('#swal-max-number-of-publishers-text').val()}
+          </div>`,
+    confirmButtonColor: 'rgba(70, 194, 255, 1)',
+    confirmButtonText: 'Ok',
+    showClass: {
+      popup: 'animate__animated animate__fadeIn',
+    }
+  });
+}
