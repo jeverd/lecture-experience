@@ -1,8 +1,7 @@
 import initializeStreamConfigurations from './streamConfigurations.js';
-
 import {
-  getJanusUrl, addStream, getTurnServers, getStunServers,
-  getJanusToken, getStatusColor, reloadWindow, addNewSpeaker,
+  getJanusUrl, getTurnServers, getStunServers, displayMediaError,
+  getJanusToken, getStatusColor, addNewSpeaker, addStream
 } from '../utility.js';
 
 let janus;
@@ -34,49 +33,52 @@ export async function initializeManagerRTC(stream, initCanvasStream) {
 
   function joinFeed(publishers){
     publishers.forEach((publisher) => {
-      let remoteHandle;
-      janus.attach({
-        plugin: 'janus.plugin.videoroom',
-        success(remHandle) {
-          remoteHandle = remHandle;
-          remoteHandle.send({
-            message: {
-              request: 'join',
-              ptype: 'subscriber',
-              room: parseInt(roomId),
-              feed: publisher.id,
-            },
-          });
-        },
-        onmessage(msg, offerJsep) {
-          const event = msg.videoroom;
-          if (event === 'attached') {
-            remoteHandle.currentPublisherId = msg.id;
-          }
-          if (offerJsep) {
-            remoteHandle.createAnswer({
-              jsep: offerJsep,
-              media: {
-                audioSend: false,
-                videoSend: false,
-              },
-              success(answerJsep) {
-                remoteHandle.send({
-                  message: {
-                    request: 'start',
-                    room: roomId
-                  },
-                  jsep: answerJsep
-                });
+      //if display is defined it means it's a stream from manager and we don't want to subscribe
+      if (typeof publisher.display === 'undefined') {
+        let remoteHandle;
+        janus.attach({
+          plugin: 'janus.plugin.videoroom',
+          success(remHandle) {
+            remoteHandle = remHandle;
+            remoteHandle.send({
+              message: {
+                request: 'join',
+                ptype: 'subscriber',
+                room: parseInt(roomId),
+                feed: publisher.id,
               },
             });
+          },
+          onmessage(msg, offerJsep) {
+            const event = msg.videoroom;
+            if (event === 'attached') {
+              remoteHandle.currentPublisherId = msg.id;
+            }
+            if (offerJsep) {
+              remoteHandle.createAnswer({
+                jsep: offerJsep,
+                media: {
+                  audioSend: false,
+                  videoSend: false,
+                },
+                success(answerJsep) {
+                  remoteHandle.send({
+                    message: {
+                      request: 'start',
+                      room: roomId
+                    },
+                    jsep: answerJsep
+                  });
+                },
+              });
+            }
+          },
+          onremotestream(stream) {
+            const audioTrack = stream.getAudioTracks()[0];
+            addNewSpeaker(audioTrack, remoteHandle.currentPublisherId);
           }
-        },
-        onremotestream(stream) {
-          const audioTrack = stream.getAudioTracks()[0];
-          addNewSpeaker(audioTrack, remoteHandle.currentPublisherId);
-        }
-      });
+        });
+      }
     });
   }
 
@@ -187,25 +189,7 @@ export function initializeManagerMedia(beginLectureCb) {
       .then((stream) => {
         successCb(stream);
       })
-      .catch((error) => {
-        console.log(error);
-        Swal.fire({
-          icon: 'error',
-          title: `<strong style="font-size: 1.2rem">${$('#swal-title').val()}</strong>`,
-          html: `<div style="font-size: .9rem; opacity: .85;">
-              ${$('#swal-text').val()}
-            </div>`,
-          confirmButtonColor: 'rgba(70, 194, 255, 1)',
-          confirmButtonText: 'Ok',
-          showClass: {
-            popup: 'animate__animated animate__fadeIn',
-          },
-          footer: `
-          <a style="color: gray; text-decoration: none;" href="https://getacclaim.zendesk.com/hc/en-us/articles/360001547832-Setting-the-default-camera-on-your-browser">
-          <i class="fa fa-question-circle" aria-hidden="true"></i> ${$('#swal-help').val()}
-          </a>`,
-        }).then(reloadWindow);
-      });
+      .catch(displayMediaError);
   }
 
   function changeDevice(stream, device) {

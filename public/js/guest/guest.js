@@ -1,6 +1,6 @@
 import initializeGuestChat from './guestChat.js';
 import { getUrlId, redirectToStats, getStatusColor } from '../utility.js';
-import initializeGuestRTC, { changeStatus } from './guestRTC.js';
+import initializeGuestRTC, { changeStatus, disconnectMicrophone } from './guestRTC.js';
 import setNonActiveBoards from './guestBoards.js';
 import initializeOptionsMenu from './guestOptionsMenu.js';
 
@@ -48,6 +48,9 @@ function joinLecture() {
   socket.on('managerDisconnected', () => {
     document.querySelector('#whiteboard').poster = currentBoard;
     changeStatus.host_disconnected();
+    disconnectMicrophone();
+    $('#toggle-mic').removeClass('fa-microphone');
+    $('#toggle-mic').addClass('fa-microphone-slash');
   });
 
   socket.on('updateNumOfStudents', (roomSizeObj) => {
