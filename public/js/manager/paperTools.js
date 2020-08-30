@@ -24,6 +24,7 @@ var displayImage = function (imgSrc, pos) {
           this.position = position;
       }
   });
+  raster.scale(1/view.zoom);
 }
 
 var erase = function (event) {
@@ -165,7 +166,7 @@ var delItem = function () {
 var setPathProperties = function () {
   path.fillColor = 'transparent';
   path.strokeColor = activeColor;
-  path.strokeWidth = activeWidth;
+  path.strokeWidth = activeWidth / view.zoom;
   path.parent = items;
 };
 
