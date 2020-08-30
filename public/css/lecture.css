@@ -216,7 +216,7 @@ div.ld-over.running:before{
   background: #eeeeee;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12),
   0 1px 2px rgba(0, 0, 0, 0.24);
-  top: 6px;
+  top: 7.5px;
   color: var(--bg-secondary);
   font-size: 1.1rem;
   border-radius: 99999px;
@@ -387,6 +387,10 @@ div.ld-over.running:before{
     min-height: calc(530px - 35px);
     max-height: calc(530px - 35px);
   }
+
+  .message-container {
+    max-height: calc(530px - 60px) !important;
+  }
 }
 
 @media only screen and (min-width: 1350px){
@@ -396,6 +400,10 @@ div.ld-over.running:before{
   .page-list{
     min-height: calc(475px - 35px);
     max-height: calc(475px - 35px);
+  }
+
+  div.message-container {
+    max-height: calc(475px - 60px);
   }
 }
 
@@ -517,7 +525,6 @@ video.whiteboard{
 
   .lecture-top-bar{
     left: 2.3%;
-    top: 2%;
   }
 
   .webcam-container{
@@ -1161,7 +1168,7 @@ div.messages.active-chat{
   
 .message-container {
   position: absolute;
-  max-height: calc(350px - 10px);
+  max-height: calc(350px - 60px);
   bottom: 0;
   overflow-y: auto;
   word-wrap: break-word;
