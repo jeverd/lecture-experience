@@ -244,7 +244,7 @@ window.app = {
   paintBackgroundWhite: function () {
     var rect = new Path.Rectangle({
       point: [0, 0],
-      size: [10000, 10000],
+      size: [14000, 14000],
       strokeColor: 'white',
     });
     rect.fillColor = 'white';
