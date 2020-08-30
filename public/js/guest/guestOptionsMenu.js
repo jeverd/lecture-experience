@@ -1,4 +1,4 @@
-import { showInfoMessage } from '../utility.js';
+import { showInfoMessage, toggleSpeakers } from '../utility.js';
 
 function handleOptionClick() {
   const targetId = this.getAttribute('target-id');
@@ -46,10 +46,7 @@ export default function initializeOptionsMenu() {
   $('#minimize-chat-view').click(() => $('#toggle-chat-view').click());
 
   $('#toggle-speaker').click(function () {
-    const volumeIcon = $(this).find('i');
-    volumeIcon.toggleClass('fa-volume-up');
-    volumeIcon.toggleClass('fa-volume-mute');
-    $(this).parent().find('audio')[0].muted = volumeIcon.hasClass('fa-volume-mute');
+    toggleSpeakers();
   });
 
   $('#fullscreen-video').click(() => {

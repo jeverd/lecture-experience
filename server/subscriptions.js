@@ -102,7 +102,7 @@ io.sockets.on('connection', (socket) => {
       socket.on('disconnect', deleteSession);
       socket.on('disconnecting', () => {
         logger.info(`SOCKET: Manager of room ${roomToJoin} disconnected`);
-        managerObj.sockedId = null;
+        managerObj.socketId = null;
         deleteSession();
         redisClient.hmset('managers', {
           [urlUuid]: JSON.stringify(managerObj),
@@ -186,14 +186,15 @@ io.sockets.on('connection', (socket) => {
             manager = manager.pop();
             if (manager) {
               const { socketId } = JSON.parse(manager);
+              lectureObj.isManagerLive = socketId !== null;
               if (socketId in io.in(roomToJoin).connected) {
                 // Notify prof to send student back the currentBoard
                 io.in(roomToJoin).connected[socketId].emit('currentBoard', socket.id);
               }
             }
+            socket.emit('ready', { lecture_details: lectureObj });
           });
-        }
-        socket.emit('ready', { lecture_details: lectureObj });
+        } else socket.emit('ready', { lecture_details: lectureObj });
         updateNumOfStudents(roomToJoin);
       } else {
         socket.emit('invalidLecture');

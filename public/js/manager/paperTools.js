@@ -11,6 +11,21 @@ drawsLayer.addChild(items);
 drawsLayer.activate();
 imageLayer.insertBelow(drawsLayer);
 
+var displayImage = function (imgSrc, pos) {
+  var position = pos;
+  if (!pos) {
+    position = view.center;
+  }
+  var raster = new Raster({
+      source: imgSrc,
+      crossOrigin: 'anonymous',
+      onLoad: function() {
+          this.blendMode = 'normal';
+          this.position = position;
+      }
+  });
+  raster.scale(1/view.zoom);
+}
 
 var erase = function (event) {
   var hitResult = drawsLayer.hitTest(event.point);
@@ -40,10 +55,10 @@ var onChangeTool = function () {
 var cloneItem = function () {
   if (selectedItem) {
     var clone = selectedItem.clone();
-
     clone.position = selectedItem.position + (100, 100);
-    clone.fullySelected = false;
-    drawsLayer.addChild(clone);
+    selectedItem.fullySelected = false;
+    selectedItem = clone;
+    drawsLayer.addChild(clone)
   }
 };
 
@@ -75,6 +90,7 @@ var selectItem = function (event) {
     selectedItem = hitResult.item;
     onDragItem = hitResult.item;
     selectedItem.fullySelected = true;
+    selectedItem.bringToFront();
   }
   if (!hitResult) {
     if (selectedItem) {
@@ -151,7 +167,7 @@ var delItem = function () {
 var setPathProperties = function () {
   path.fillColor = 'transparent';
   path.strokeColor = activeColor;
-  path.strokeWidth = activeWidth;
+  path.strokeWidth = activeWidth / view.zoom;
   path.parent = items;
 };
 
@@ -173,7 +189,7 @@ window.app = {
         path.add(event.point);
       },
       onMouseUp: function (event) {
-        path.simplify(10);
+        path.simplify(1);
       },
     }),
     pointer: new Tool({
@@ -245,7 +261,7 @@ window.app = {
       text.content = '';
     }, 500);
   },
-  paintCircle: function () {
+  clear: function () {
     var circle = new Path.Rectangle(new Point(0, 0), view.size.width, view.size.height);
 
     project.activeLayer.lastChild.fillColor = 'white';
@@ -284,25 +300,16 @@ window.app = {
       return -0.03;
     }
   },
-  getElem: function () {
-    return drawsLayer.children;
-  },
-  addDraws: function (array) {
-    this.paintCircle();
-    for (var i in array) {
-      var loadedPath = new Path({
-        pathData: array[i][0],
-      });
-      loadedPath.strokeColor = array[i][1];
-      loadedPath.strokeWidth = array[i][2];
-      loadedPath.fillColor = array[i][3];
-      loadedPath.parent = items;
-
-      drawsLayer.addChild(loadedPath);
-    }
-  },
   saveSVG: function () {
     return project.exportSVG();
+  },
+  saveProject: function () {
+    return project.activeLayer.exportJSON();
+  },
+  drawProject : function (json) {
+    this.clear();
+    project.activeLayer.importJSON(json);
+    project.view.update();
   },
   deselect: function () {
     desItem();
@@ -315,5 +322,8 @@ window.app = {
   },
   deleteItem: function () {
     delItem();
+  },
+  addImg: function (imgSrc) {
+    displayImage(imgSrc);
   },
 };

@@ -4,6 +4,7 @@ import { showConfigModal } from './streamConfigurations.js';
 export default function initializeCanvasTopMenu(socket, roomId) {
   const hasAudio = $('#audioValidator').val() === 'true';
   const hasWebcam = $('#webcamValidator').val() === 'true';
+  const hasWhiteboard = $('#whiteboardValidator').val() === 'true';
   $('.hide-options-right').click(() => {
     $('.right-bar').fadeToggle();
   });
@@ -46,7 +47,7 @@ export default function initializeCanvasTopMenu(socket, roomId) {
     $('.right-bar').removeClass('animate__fadeInRight').addClass('animate__fadeOutRight');
     $('div.messages').removeClass('animate__fadeInUp').addClass('animate__fadeOutDown');
     $('.webcam-container').removeClass('animate__fadeIn').addClass('animate__fadeOut');
-    $('.canvas-toggle-bar').removeClass('animate__fadeInLeft').addClass('animate__fadeOutDown');
+    $('.toggle-canvas-and-audio-menu-wrap').removeClass('animate__fadeInLeft').addClass('animate__fadeOutDown');
   });
 
   $('.show-bar-button').click(() => {
@@ -56,7 +57,7 @@ export default function initializeCanvasTopMenu(socket, roomId) {
     $('.right-bar').show().removeClass('animate__fadeOutRight').addClass('animate__fadeInRight');
     $('div.messages').show().removeClass('animate__fadeOutDown').addClass('animate__fadeInUp');
     $('.webcam-container').show().removeClass('animate__fadeOut').addClass('animate__fadeIn');
-    $('.canvas-toggle-bar').show().removeClass('animate__fadeOutDown').addClass('animate__fadeInLeft');
+    $('.toggle-canvas-and-audio-menu-wrap').show().removeClass('animate__fadeOutDown').addClass('animate__fadeInLeft');
   });
 
   setTimeout(() => $('.show-bar-button').click(), 400);

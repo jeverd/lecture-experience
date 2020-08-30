@@ -13,34 +13,23 @@
     height: auto;
 }
 
-@media only screen and (min-height: 880px) and (min-width: 740px){
-  .view-container .footer{
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-  }
+.view-container .footer {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
-@media only screen and (min-height: 620px) and (max-width: 1300px){
-  div.view-container .footer{
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-  }
+.buttons {
+  margin-bottom: 50px;
+  margin-top: 10px;
+  width: 100%;
+  background-color: transparent;
+  display: flex;
+  flex-direction: row;
 }
 
-
-  .buttons {
-    margin-bottom: 50px;
-    margin-top: 10px;
-    width: 100%;
-    background-color: transparent;
-    display: flex;
-    flex-direction: row;
+@media only screen and (max-width: 1024px) {
+  #error404 {
+      width: 70%;
   }
-
-  @media only screen and (max-width: 1024px) {
-    #error404 {
-        width: 70%;
-    }
-  }
+}

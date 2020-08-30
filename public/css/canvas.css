@@ -31,6 +31,29 @@ body {
   margin: 0;
 }
 
+.audio-mute-unmute {
+  position: absolute;
+  background: #eeeeee;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12),
+    0 1px 2px rgba(0, 0, 0, 0.24);
+  left: 5px;
+  top: -35px;
+  color: var(--bg-secondary);
+  font-size: 1.1rem;
+  border-radius: 99999px;
+  padding: 1.25px .8rem;
+  opacity: 0.84;
+  transition: 0.25s ease;
+}
+
+.audio-mute-unmute:hover{
+  opacity: 1;
+}
+
+.audio-mute-unmute i {
+  cursor: pointer;
+}
+
 .classroom-info-flexbox {
   /* display tob bar contents in a row */
   display: flex;
@@ -534,23 +557,27 @@ button {
   transition: 1s;
 }
 
+.toggle-canvas-and-audio-menu-wrap{
+  display:none;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: auto;
+  max-width: 35%;
+}
+
 /* start canvas toggle bar */
 
 .canvas-toggle-bar {
-  display:none;
-  position: absolute;
   background-color: var(--bg-primary);
   transition: width 600ms ease;
-  bottom: 0;
-  left: 0;
   border: none;
   outline: none;
+  position: relative;
   border-top-right-radius: 27px;
   -webkit-box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3),
     0 15px 12px rgba(0, 0, 0, 0.22);
   box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
-  width: auto;
-  max-width: 35%;
   height: auto;
   padding: none;
   margin: none;
@@ -1288,6 +1315,41 @@ span.custom-option,
 .custom-select__trigger span {
   font-size: 0.8rem;
 }
+
+.inputimage {
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.inputimage + label {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 1s;
+  height: 3.75rem;  
+}
+
+.inputimage + label img{
+  filter: grayscale(100%);
+  opacity: 0.75;
+  transition: var(--transition-speed);
+  height: 40px;
+}
+
+
+.inputimage + label:hover img{
+  transform: scale(1.2);
+  opacity: 1;
+  filter: grayscale(0%);
+}
+
+.inputimage + label * {
+	pointer-events: none;
+}
+
 
 .inputfile {
 	width: 0.1px;

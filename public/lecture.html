@@ -29,6 +29,7 @@
     />  
     <link rel="stylesheet" href="/lecture.css"/>
     <link rel="stylesheet" href="/style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css" 
@@ -140,9 +141,13 @@
                                 {{/webcam}}
                             {{/whiteboard}}
                             {{#audio}}
-                                <audio style="display: none;" id="speaker" autoplay muted></audio> 
-                                <div class="audio" id="toggle-speaker">    
-                                    <i class="fa fa-volume-mute" aria-hidden="true"></i>
+                                <div class="audio-mute-unmute">
+                                    <i id="toggle-speaker" class="fa fa-volume-mute" aria-hidden="true"></i>
+                                    &nbsp;
+                                    <i style="display: none; color: gray; cursor: initial;" id="mic-spin" class="ld ld-ring ld-spin"></i>
+                                    <i id="toggle-mic" class="fa fa-microphone-slash"></i>
+                                    <input type="hidden" id="mic-connected-msg" value="{{#lang}}{{micConnected}}{{/lang}}" />
+                                    <input type="hidden" id="mic-disconnected-msg" value="{{#lang}}{{micDisconnected}}{{/lang}}" />
                                 </div>
                             {{/audio}}
                         {{/lectureTools}}
@@ -287,7 +292,9 @@
       <input type="hidden" id="whiteboardValidator" value="{{whiteboard}}"/>
     {{/lectureTools}}
     <input type="hidden" id="you-name-chat" value="{{#lang}}{{youNameChat}}{{/lang}}"/>
-    
+    <input type="hidden" id="swal-title" value="{{#lang}}{{devicesErrorTitle}}{{/lang}}" />
+    <input type="hidden" id="swal-text" value="{{#lang}}{{devicesErrorText}}{{/lang}}" />
+    <input type="hidden" id="swal-help" value="{{#lang}}{{devicesErrorHelp}}{{/lang}}" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/6.4.0/adapter.min.js"></script>
