@@ -974,6 +974,30 @@ button.live-button-inactive:hover{
   margin-top: 6px;
 }
 
+.audio-mute-unmute{
+  position: absolute;
+  background: #eeeeee;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12),
+  0 1px 2px rgba(0, 0, 0, 0.24);
+  right: 5px;
+  bottom: 7.5px;
+  z-index:10;
+  color: var(--bg-secondary);
+  font-size: 1.1rem;
+  border-radius: 99999px;
+  padding: 1.25px .8rem;
+  opacity: 0.75;
+  transition: 0.25s ease;
+}
+
+.audio-mute-unmute:hover{
+  opacity: 1;
+}
+
+.audio-mute-unmute i {
+  cursor: pointer;
+}
+
 .modal-url-share{
   -webkit-user-select: all;
   -moz-user-select: all;

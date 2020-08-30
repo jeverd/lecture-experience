@@ -1,6 +1,6 @@
 import initializeGuestChat from './guestChat.js';
 import { getUrlId, redirectToStats, getStatusColor } from '../utility.js';
-import initializeGuestRTC, { changeStatus } from './guestRTC.js';
+import initializeGuestRTC, { changeStatus, disconnectMicrophone } from './guestRTC.js';
 import setNonActiveBoards from './guestBoards.js';
 import initializeOptionsMenu from './guestOptionsMenu.js';
 
@@ -23,6 +23,11 @@ function joinLecture() {
       const { boards, boardActive } = room.lecture_details;
       setNonActiveBoards(boards.filter((e, i) => i !== boardActive));
     }
+    
+    if (!room.lecture_details.isManagerLive) {
+      changeStatus.host_disconnected();
+    }
+
     initializeOptionsMenu();
     initializeGuestRTC();
     initializeGuestChat(socket, room.lecture_details.id, studentName);
@@ -43,6 +48,9 @@ function joinLecture() {
   socket.on('managerDisconnected', () => {
     document.querySelector('#whiteboard').poster = currentBoard;
     changeStatus.host_disconnected();
+    disconnectMicrophone();
+    $('#toggle-mic').removeClass('fa-microphone');
+    $('#toggle-mic').addClass('fa-microphone-slash');
   });
 
   socket.on('updateNumOfStudents', (roomSizeObj) => {

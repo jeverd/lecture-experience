@@ -1,13 +1,13 @@
 import {
-  getUrlId, getJanusUrl, addStream, getTurnServers,
+  getUrlId, getJanusUrl, addStream, getTurnServers, addNewSpeaker,
   getStunServers, getStatusColor, getImageFromVideo, getJanusToken,
+  showInfoMessage, displayMediaError, displayMaxPublishersReachedWarning
 } from '../utility.js';
 
 const hasWebcam = $('#webcamValidator').val() === 'true';
 const hasWhiteboard = $('#whiteboardValidator').val() === 'true';
 const webcam = document.getElementById('webcam');
 const whiteboard = document.getElementById('whiteboard');
-const speaker = document.getElementById('speaker');
 const janusUrl = getJanusUrl();
 let isCameraSwapped = false;
 let janus;
@@ -38,80 +38,83 @@ export const changeStatus = {
   },
 };
 
+export function disconnectMicrophone() {
+  if (typeof handle !== 'undefined'){
+    handle.send({
+      message: {
+        request: 'unpublish'
+      }
+    });
+  }
+}
+
 async function initializeJanus() {
   const roomId = parseInt(getUrlId());
   function joinFeed(publishers) {
-    changeStatus.starting();
-    if (publishers.length === 0) {
-      changeStatus.host_disconnected();
-    } else {
-      publishers.forEach((publisher) => {
-        const streamType = publisher.display;
-        let remoteHandle;
-        janus.attach({
-          plugin: 'janus.plugin.videoroom',
-          success(remHandle) {
-            remoteHandle = remHandle;
-            remoteHandle.send({
-              message: {
-                request: 'join', ptype: 'subscriber', room: roomId, feed: publisher.id,
+    publishers.forEach((publisher) => {
+      const streamType = publisher.display;
+      let remoteHandle;
+      janus.attach({
+        plugin: 'janus.plugin.videoroom',
+        success(remHandle) {
+          remoteHandle = remHandle;
+          remoteHandle.send({
+            message: {
+              request: 'join', ptype: 'subscriber', room: roomId, feed: publisher.id,
+            },
+          });
+        },
+        onmessage(msg, offerJsep) {
+          const event = msg.videoroom;
+          if (event === 'attached') {
+            remoteHandle.currentPublisherId = msg.id;
+          }
+          if (offerJsep) {
+            remoteHandle.createAnswer({
+              jsep: offerJsep,
+              media: {
+                audioSend: false, videoSend: false,
+              },
+              success(answerJsep) {
+                remoteHandle.send({ message: { request: 'start', room: roomId }, jsep: answerJsep });
               },
             });
-          },
-          onmessage(msg, offerJsep) {
-            const event = msg.videoroom;
-            if (event === 'attached') {
-              remoteHandle.rfid = msg.id;
-              remoteHandle.rfdisplay = msg.display;
+          }
+        },
+        onremotestream(stream) {
+          const videoTrack = stream.getVideoTracks()[0];
+          const audioTrack = stream.getAudioTracks()[0];
+          addNewSpeaker(audioTrack, remoteHandle.currentPublisherId);
+          if (streamType === 'stream') {
+            if (!isCameraSwapped) {
+              addStream(hasWhiteboard ? webcam : whiteboard, videoTrack);
+            } else {
+              addStream(hasWhiteboard ? whiteboard : webcam, videoTrack);
             }
-            if (offerJsep) {
-              remoteHandle.createAnswer({
-                jsep: offerJsep,
-                media: {
-                  audioSend: false, videoSend: false,
-                },
-                success(answerJsep) {
-                  remoteHandle.send({ message: { request: 'start', room: roomId }, jsep: answerJsep });
-                },
-              });
+          } else if (streamType === 'canvasStream') {
+            if (hasWebcam) {
+              addStream(!isCameraSwapped ? whiteboard : webcam, videoTrack);
+            } else {
+              addStream(whiteboard, videoTrack);
             }
-          },
-          onremotestream(stream) {
-            const videoTrack = stream.getVideoTracks()[0];
-            const audioTrack = stream.getAudioTracks()[0];
-            addStream(speaker, audioTrack);
-            if (streamType === 'stream') {
-              if (!isCameraSwapped) {
-                addStream(hasWhiteboard ? webcam : whiteboard, videoTrack);
-              } else {
-                addStream(hasWhiteboard ? whiteboard : webcam, videoTrack);
-              }
-            } else if (streamType === 'canvasStream') {
-              if (hasWebcam) {
-                addStream(!isCameraSwapped ? whiteboard : webcam, videoTrack);
-              } else {
-                addStream(whiteboard, videoTrack);
-              }
-            }
-          },
-          webrtcState(isConnected) { changeStatus[isConnected ? 'live' : 'host_disconnected'](); },
-          iceState(state) { 
-            switch(state) {
-              case 'checking':
-                changeStatus.starting();
-                break;
-              case 'disconnected':
-                changeStatus.connection_lost();
-                break;
-              case 'connected':
-                changeStatus.live();
-                break;
-              default: break;
-            }
-          },
-        });
+          }
+        },
+        iceState(state) { 
+          switch(state) {
+            case 'checking':
+              changeStatus.starting();
+              break;
+            case 'disconnected':
+              changeStatus.connection_lost();
+              break;
+            case 'connected':
+              changeStatus.live();
+              break;
+            default: break;
+          }
+        },
       });
-    }
+    });
   }
 
   const turnServers = await getTurnServers();
@@ -139,7 +142,37 @@ async function initializeJanus() {
                     },
                   });
                 },
-                onmessage(msg) {
+                onmessage(msg, feedJsep) {
+                  if (msg.configured === 'ok') {
+                    showInfoMessage($('#mic-connected-msg').val());
+                    $('#mic-spin').hide();
+                    $('#toggle-mic').show();
+                  }
+
+                  if (msg.unpublished === 'ok') {
+                    showInfoMessage($('#mic-disconnected-msg').val());
+                    $('#mic-spin').hide();
+                    $('#toggle-mic').show();
+                  }
+
+                  if (typeof msg.error !== 'undefined') {
+                    switch (msg.error_code) {
+                      case 432: 
+                        displayMaxPublishersReachedWarning();
+                        disconnectMicrophone();
+                        $('#toggle-mic').removeClass('fa-microphone');
+                        $('#toggle-mic').addClass('fa-microphone-slash');
+                        $('#toggle-mic').show();
+                        $('#mic-spin').hide();
+                      default: break;
+                    }
+                  }
+
+                  if (feedJsep && feedJsep.type === 'answer') {
+                    handle.handleRemoteJsep({
+                      jsep: feedJsep
+                    });
+                  }
                   const status = msg.videoroom;
                   switch (status) {
                     case 'joined':
@@ -189,4 +222,31 @@ export default function initializeGuestRTC() {
       $('.options-webcam').fadeIn();
     });
   });
+
+  $('#toggle-mic').click(function () {
+    $(this).toggleClass('fa-microphone-slash');
+    $(this).toggleClass('fa-microphone');
+    if (!$(this).hasClass('fa-microphone')) {
+      disconnectMicrophone();
+    } else {
+      handle.createOffer({
+        media: { audio: true, video: false },
+        success(offerJsep) {
+          handle.send({
+            message: { request: 'configure', audio: true },
+            jsep: offerJsep,
+          });
+        },
+        error: (err) => {
+          $(this).removeClass('fa-microphone');
+          $(this).addClass('fa-microphone-slash');
+          $(this).show();
+          $('#mic-spin').hide();
+          displayMediaError();
+        }
+      });
+    }
+    $(this).hide();
+    $('#mic-spin').show();
+  })
 }

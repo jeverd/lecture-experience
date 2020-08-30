@@ -58,6 +58,15 @@
         <div class="videoContainer">
           <div id="webcam-view">
             <div id="info-popup"></div>
+            {{#lectureTools}}
+              {{#audio}}
+                <div class="audio-mute-unmute">
+                  <i id="toggle-speaker" class="fa fa-volume-mute" aria-hidden="true"></i>
+                  &nbsp;
+                  <i id="toggle-mic" class="fa fa-microphone mute-mic"></i>
+                </div>
+              {{/audio}}
+            {{/lectureTools}}
             <video muted id="webcam" playsinline autoplay></video>
             <div class="classroom-info">
               <div class="classroom-info-flexbox">
@@ -319,8 +328,7 @@
                 <input type="hidden" id="mute-text" value="{{#lang}}{{Mute}}{{/lang}}"/>
                 <div
                   title="{{#lang}}{{Mute}}{{/lang}}"
-                  id="mute-mic"
-                  class="mute-audio-section"
+                  class="mute-audio-section mute-mic"
                 >
                   <i id="mute-icon" class="fa fa-microphone microphone" data-value=""></i>
                   <i id="muted-icon" class="fa fa-microphone-slash microphone" style='display: none;'></i>
@@ -410,6 +418,9 @@
     <!-- End Modal -->  
 
     <input type="hidden" id="_id" value="{{id}}"/>
+    <input type="hidden" id="swal-title" value="{{#lang}}{{devicesErrorTitle}}{{/lang}}" />
+    <input type="hidden" id="swal-text" value="{{#lang}}{{devicesErrorText}}{{/lang}}" />
+    <input type="hidden" id="swal-help" value="{{#lang}}{{devicesErrorHelp}}{{/lang}}" />
     <input type="hidden" id="host-name-chat" value="{{#lang}}{{hostNameChat}}{{/lang}}"/>
     <input type="hidden" id="you-name-chat" value="{{#lang}}{{youNameChat}}{{/lang}}"/>
     <input type="hidden" id="link-copied-info" value="{{#lang}}{{linkCopiedInfo}}{{/lang}}" />
