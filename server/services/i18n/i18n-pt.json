@@ -154,5 +154,7 @@
   "emailReconnect": "Reconectar",
   "emailSlogan": "Liteboard.io | Experiências de Aula no Browser",
   "micConnected": "Microfone Conectado",
-  "micDisconnected": "Microfone Desconectado"
+  "micDisconnected": "Microfone Desconectado",
+  "maxNumberOfPublishersTitle": "Parece que já tem muitos outros estudantes falando",
+  "maxNumberOfPublishersText": "Esta aula já tem outros 6 estudantes com o microfone conectado e esse é o número máximo permitido por aula. Se você deseja falar, por favor peça aos outros para se mutarem."
 }
