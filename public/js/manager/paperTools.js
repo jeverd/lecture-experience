@@ -12,7 +12,6 @@ drawsLayer.activate();
 imageLayer.insertBelow(drawsLayer);
 
 var displayImage = function (imgSrc, pos) {
-  console.log(pos, 'ola')
   var position = pos;
   if (!pos) {
     position = view.center;
@@ -88,7 +87,6 @@ var selectItem = function (event) {
       selectedItem.fullySelected = false;
     }
     selectedItem = hitResult.item;
-    console.log(selectedItem.position)
     onDragItem = hitResult.item;
     selectedItem.fullySelected = true;
   }
@@ -261,7 +259,7 @@ window.app = {
       text.content = '';
     }, 500);
   },
-  paintCircle: function () {
+  clear: function () {
     var circle = new Path.Rectangle(new Point(0, 0), view.size.width, view.size.height);
 
     project.activeLayer.lastChild.fillColor = 'white';
@@ -300,29 +298,16 @@ window.app = {
       return -0.03;
     }
   },
-  getElem: function () {
-    return drawsLayer.children;
-  },
-  addDraws: function (array) {
-    this.paintCircle();
-    for (var i in array) {
-      if (array[i][0]==='path') {
-        var loadedPath = new Path({
-          pathData: array[i][1],
-        });
-        loadedPath.strokeColor = array[i][2];
-        loadedPath.strokeWidth = array[i][3];
-        loadedPath.fillColor = array[i][4];
-        loadedPath.parent = items;
-  
-        drawsLayer.addChild(loadedPath);
-      } else if (array[i][0]==='image') {
-        displayImage(array[i][1],array[i][2]);
-      }
-    }
-  },
   saveSVG: function () {
     return project.exportSVG();
+  },
+  saveProject: function () {
+    return project.activeLayer.exportJSON();
+  },
+  drawProject : function (json) {
+    this.clear();
+    project.activeLayer.importJSON(json);
+    project.view.update();
   },
   deselect: function () {
     desItem();

@@ -115,21 +115,21 @@ export default class Whiteboard {
       // this.context.putImageData(this.undoStack.pop(), 0, 0);
       this.pushToRedoStack();
       const draws = this.undoStack.pop();
-      window.app.addDraws(draws);
+      window.app.drawProject(draws);
     } else {
       showInfoMessage($('#nothing-to-undo').val());
     }
   }
 
   setPaths(array) {
-    window.app.addDraws(array);
+    window.app.drawProject(array);
   }
 
   redoPaint() {
     if (this.redoStack.length > 0) {
       this.pushToUndoStack();
       const draws = this.redoStack.pop();
-      window.app.addDraws(draws);
+      window.app.drawProject(draws);
     } else {
       showInfoMessage($('#nothing-to-redo').val());
     }
@@ -141,7 +141,7 @@ export default class Whiteboard {
 
   clearCanvas() {
     // make the canvass a blank page
-    window.app.paintCircle();
+    window.app.clear();
   }
 
   getSvgImage() {
@@ -149,83 +149,27 @@ export default class Whiteboard {
   }
 
   setCurrentBoard(img) {
-    window.app.paintCircle();
+    window.app.clear();
     this.context.drawImage(img, 0, 0);
     window.app.setBackground(img.src);
   }
 
-  RGBToHex(rgb) {
-    if (rgb === 'transparent') {
-      return rgb;
-    }
-    // Choose correct separator
-    const sep = rgb.indexOf(",") > -1 ? "," : " ";
-    // Turn "rgb(r,g,b)" into [r,g,b]
-    rgb = rgb.substr(4).split(")")[0].split(sep);
-
-    let r = (+rgb[0]).toString(16);
-    let g = (+rgb[1]).toString(16);
-    let b = (+rgb[2]).toString(16);
-
-    if (r.length === 1) r = "0" + r;
-    if (g.length === 1) g = "0" + g;
-    if (b.length === 1) b = "0" + b;
-
-    return "#" + r + g + b;
-  }
-
-  getDraws() {
-    var array = [];
-    for (var i in window.app.getElem()) {
-      const completePath = window.app.getElem()[i];
-      if (completePath.pathData) {
-        const fillColor = completePath.fillColor._canvasStyle ? completePath.fillColor._canvasStyle : 'transparent';
-        array.push([completePath.pathData, this.RGBToHex(completePath.strokeColor._canvasStyle), completePath.strokeWidth, this.RGBToHex(fillColor)]);
-      }
-    }
-    return array;
-  }
-
   makeNewBoard() {
-    return new Board(this.getDraws(), this.getImage());
+    return new Board(window.app.saveProject(), this.getImage());
   }
 
   pushToUndoStack() {
     var undoLimit = 40;
-    this.saveData = this.getPathData();
+    this.saveData = window.app.saveProject();
     if (this.undoStack.length >= undoLimit) this.undoStack.shift();
     this.undoStack.push(this.saveData);
   }
 
   pushToRedoStack() {
     var redoLimit = 40;
-    this.saveData = this.getPathData();
+    this.saveData = window.app.saveProject();
     if (this.undoStack.length >= redoLimit) this.redoStack.shift();
     this.redoStack.push(this.saveData);
-  }
-
-
-  
-  getPathData() {
-    var array = [];
-    for (var i in window.app.getElem()) {
-      const item = window.app.getElem()[i];
-      let imgSrc;
-      try {
-        imgSrc = item._image.currentSrc;
-      }
-      catch {
-        imgSrc = null;
-      }
-      
-      if (item.pathData) {
-        array.push(['path', item.pathData, item.strokeColor, item.strokeWidth, item.fillColor]);
-      } else if (imgSrc) {
-        array.push(['image', item.toDataURL("image/png"), item._position]);
-        console.log(item)
-      }
-    }
-    return array;
   }
 
   addImg(imgSrc){
