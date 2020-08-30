@@ -67,8 +67,6 @@ export default function initializeStreamConfigurations(stream, changeTrack) {
     });
 
     $('#toggle-speaker').click(function () {
-      $(this).toggleClass('fa-volume-up');
-      $(this).toggleClass('fa-volume-mute');
       toggleSpeakers();
     });
 

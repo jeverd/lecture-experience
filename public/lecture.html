@@ -29,6 +29,7 @@
     />  
     <link rel="stylesheet" href="/lecture.css"/>
     <link rel="stylesheet" href="/style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css" 
@@ -291,7 +292,9 @@
       <input type="hidden" id="whiteboardValidator" value="{{whiteboard}}"/>
     {{/lectureTools}}
     <input type="hidden" id="you-name-chat" value="{{#lang}}{{youNameChat}}{{/lang}}"/>
-    
+    <input type="hidden" id="swal-title" value="{{#lang}}{{devicesErrorTitle}}{{/lang}}" />
+    <input type="hidden" id="swal-text" value="{{#lang}}{{devicesErrorText}}{{/lang}}" />
+    <input type="hidden" id="swal-help" value="{{#lang}}{{devicesErrorHelp}}{{/lang}}" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/6.4.0/adapter.min.js"></script>

@@ -1,7 +1,7 @@
 import {
   getUrlId, getJanusUrl, addStream, getTurnServers, addNewSpeaker,
   getStunServers, getStatusColor, getImageFromVideo, getJanusToken,
-  showInfoMessage
+  showInfoMessage, displayMediaError
 } from '../utility.js';
 
 const hasWebcam = $('#webcamValidator').val() === 'true';
@@ -37,6 +37,16 @@ export const changeStatus = {
     $('#lecture-status .status-text').html($('#status-connection-lost').val());
   },
 };
+
+export function disconnectMicrophone() {
+  if (typeof handle !== 'undefined'){
+    handle.send({
+      message: {
+        request: 'unpublish'
+      }
+    });
+  }
+}
 
 async function initializeJanus() {
   const roomId = parseInt(getUrlId());
@@ -205,7 +215,7 @@ export default function initializeGuestRTC() {
     $(this).toggleClass('fa-microphone-slash');
     $(this).toggleClass('fa-microphone');
     if (!$(this).hasClass('fa-microphone')) {
-      handle.send({ message: { request: 'unpublish' } });
+      disconnectMicrophone();
     } else {
       handle.createOffer({
         media: { audio: true, video: false },
@@ -215,6 +225,13 @@ export default function initializeGuestRTC() {
             jsep: offerJsep,
           });
         },
+        error: (err) => {
+          $(this).removeClass('fa-microphone');
+          $(this).addClass('fa-microphone-slash');
+          $(this).show();
+          $('#mic-spin').hide();
+          displayMediaError();
+        }
       });
     }
     $(this).hide();
