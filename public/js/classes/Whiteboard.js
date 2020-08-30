@@ -60,6 +60,7 @@ export default class Whiteboard {
 
   onMouseDown() {
     clearInterval(this.updateFrameInterval);
+    console.log('ferramenta',this.tool);
     this.pushToUndoStack();
     this.clearRedoStack();
   }

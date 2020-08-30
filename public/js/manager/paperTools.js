@@ -55,10 +55,10 @@ var onChangeTool = function () {
 var cloneItem = function () {
   if (selectedItem) {
     var clone = selectedItem.clone();
-
     clone.position = selectedItem.position + (100, 100);
-    clone.fullySelected = false;
-    drawsLayer.addChild(clone);
+    selectedItem.fullySelected = false;
+    selectedItem = clone;
+    drawsLayer.addChild(clone)
   }
 };
 
@@ -90,6 +90,7 @@ var selectItem = function (event) {
     selectedItem = hitResult.item;
     onDragItem = hitResult.item;
     selectedItem.fullySelected = true;
+    selectedItem.bringToFront();
   }
   if (!hitResult) {
     if (selectedItem) {
