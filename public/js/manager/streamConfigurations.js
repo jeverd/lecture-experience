@@ -1,3 +1,5 @@
+import { toggleSpeakers } from '../utility.js';
+
 const hasAudio = $('#audioValidator').val() === 'true';
 const hasWebcam = $('#webcamValidator').val() === 'true';
 
@@ -37,11 +39,15 @@ export default function initializeStreamConfigurations(stream, changeTrack) {
       $('#mic-content').show();
       $(this).css('opacity', 1);
     });
+
     // mute mic
-    document.getElementById('mute-mic').addEventListener('click', function () {
+    $('.mute-mic').click(function () {
       const muteicon = document.getElementById('mute-icon');
       const mutedicon = document.getElementById('muted-icon');
+      const micButtonSide = $('#toggle-mic');
       if (stream.getAudioTracks()[0].enabled) {
+        micButtonSide.removeClass('fa-microphone');
+        micButtonSide.addClass('fa-microphone-slash');
         const unmuteText = $('#unmute-text').val();
         this.title = unmuteText;
         $('#toggle-mute-text').html(unmuteText);
@@ -49,6 +55,8 @@ export default function initializeStreamConfigurations(stream, changeTrack) {
         mutedicon.style.display = 'block';
         stream.getAudioTracks()[0].enabled = false;
       } else {
+        micButtonSide.addClass('fa-microphone');
+        micButtonSide.removeClass('fa-microphone-slash');
         const muteText = $('#mute-text').val();
         muteicon.style.display = 'block';
         mutedicon.style.display = 'none';
@@ -58,6 +66,11 @@ export default function initializeStreamConfigurations(stream, changeTrack) {
       }
     });
 
+    $('#toggle-speaker').click(function () {
+      $(this).toggleClass('fa-volume-up');
+      $(this).toggleClass('fa-volume-mute');
+      toggleSpeakers();
+    });
 
     // test mic
     let test = false;

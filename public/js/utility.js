@@ -261,3 +261,32 @@ export function getRandomColor() {
 
   return chatColors[Math.floor(Math.random() * chatColors.length)];
 }
+
+export function areSpeakersMuted(){
+  const speakers = document.querySelectorAll('.speaker');
+  return speakers.length === 0 || speakers[0].muted;
+}
+
+export function toggleSpeakers(){
+  const isMuted = areSpeakersMuted();
+  document.querySelectorAll('.speaker').forEach((speaker) => {
+    speaker.muted = !isMuted;
+  });
+}
+
+export function addNewSpeaker(audioTrack, speakerId){
+  const newSpeaker = document.createElement('audio');
+  newSpeaker.autoplay = true;
+  newSpeaker.style.display = 'none';
+  $(`#${speakerId}`).remove();
+  newSpeaker.setAttribute('id', `${speakerId}`);
+  newSpeaker.muted = areSpeakersMuted();
+  newSpeaker.classList.add('speaker');
+  addStream(newSpeaker, audioTrack);
+  document.body.appendChild(newSpeaker);
+  document.querySelectorAll('.speaker').forEach((speaker) => {
+    if (speaker.srcObject && !speaker.srcObject.active) {
+      $(speaker).remove();
+    }
+  });
+}
