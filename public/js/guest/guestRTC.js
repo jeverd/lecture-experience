@@ -1,7 +1,7 @@
 import {
   getUrlId, getJanusUrl, addStream, getTurnServers, addNewSpeaker,
   getStunServers, getStatusColor, getImageFromVideo, getJanusToken,
-  showInfoMessage
+  showInfoMessage, displayMediaError
 } from '../utility.js';
 
 const hasWebcam = $('#webcamValidator').val() === 'true';
@@ -225,6 +225,13 @@ export default function initializeGuestRTC() {
             jsep: offerJsep,
           });
         },
+        error: (err) => {
+          $(this).removeClass('fa-microphone');
+          $(this).addClass('fa-microphone-slash');
+          $(this).show();
+          $('#mic-spin').hide();
+          displayMediaError();
+        }
       });
     }
     $(this).hide();
