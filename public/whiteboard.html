@@ -146,10 +146,13 @@
             <img title="{{#lang}}{{openWebcamView}}{{/lang}}" src="https://img.icons8.com/fluent/48/000000/webcam.png"/>
           </div>
           <div id="active-webcam-view">
-            <div title="{{#lang}}{{minimizeWebcamView}}{{/lang}}" id="minimize-webcam-view">
+            <div style="right: 7.5px;" title="{{#lang}}{{minimizeWebcamView}}{{/lang}}" class="webcam-top-icons" id="minimize-webcam-view">
               <i class="fa fa-minus" aria-hidden="true"></i>
             </div>
-            <video muted id="webcam" playsinline autoplay></video>
+            <div style="right: 35px;" title="{{#lang}}{{minimizeWebcamView}}{{/lang}}" class="webcam-top-icons toggle-webcam">
+              <i class="fas fa-video-slash"></i>
+            </div>
+            <video muted id="webcam" playsinline autoplay poster="/test-webcam.png"></video>
           </div>
         </div>
       {{/webcam}}

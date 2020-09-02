@@ -183,6 +183,16 @@ export default function initializeStreamConfigurations(stream, changeTrack) {
       $(this).css('opacity', 1);
     });
 
+    $('.toggle-webcam').click(function () {
+      const videoTrack = stream.getVideoTracks()[0];
+      videoTrack.enabled = !videoTrack.enabled;
+      const videoIcon = $(this).is('i') ? $(this) : $(this).find('i');
+      videoIcon.toggleClass('fa-video-slash');
+      videoIcon.toggleClass('fa-video');
+      const webcamElem = document.getElementById('webcam');
+      webcamElem.srcObject = !videoTrack.enabled ? null : stream;
+    });
+
     document.getElementById('test-webcam-button').addEventListener('click', function () {
       webcamTestToggler = !webcamTestToggler;
       $(this).html($(`#${webcamTestToggler ? 'stop-test-webcam-text' : 'check-webcam-text'}`).val());

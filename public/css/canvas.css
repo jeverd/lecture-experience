@@ -1781,14 +1781,14 @@ div.webcam-container{
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
 
-#minimize-webcam-view{
-  height: 21px;
-  width: 21px;
+.webcam-top-icons{
+  height: 25px;
+  width: 25px;
   border-radius: 50%;
   opacity: 0.75;
   background: white;
   position: absolute;
-  top:10px;
+  top:7.5px;
   z-index:1;
   display: flex;
   transition: 0.4s ease;
@@ -1800,17 +1800,14 @@ div.webcam-container{
   cursor: pointer;
 }
 
-#minimize-webcam-view{
-  right: 10px;
-}
-
-#minimize-webcam-view i {
+.webcam-top-icons i {
   position: relative;
   top:1px;
+  font-size: 1rem;
   color: var(--bg-primary);
 }
 
-#minimize-webcam-view:hover{
+.webcam-top-icons:hover{
   opacity: 1;
   transform: translateY(-2px);
 }
