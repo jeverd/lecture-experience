@@ -19,6 +19,7 @@ var displayImage = function (imgSrc, pos) {
   var raster = new Raster({
       source: imgSrc,
       crossOrigin: 'anonymous',
+      position: position,
       onLoad: function() {
           this.blendMode = 'normal';
           this.position = position;

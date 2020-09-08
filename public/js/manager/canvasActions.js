@@ -2,6 +2,36 @@ import { addBoard, removeBoard } from './managerBoards.js';
 import { showInfoMessage, downloadFile, saveCurrentBoard, dataURItoBlob } from '../utility.js';
 
 export default function initializeActionsMenu(socket, whiteboard, stream) {
+  var currPage = 1;
+  var numPages = 0;
+  var thePDF = null;
+  function handlePages(page) {
+      addBoard(socket, whiteboard, stream);
+      var scale = 1.5
+      var viewport = page.getViewport({scale: scale})
+      var canvas = document.createElement("canvas")
+      var context = canvas.getContext('2d')
+      canvas.height = viewport.height
+      canvas.width = viewport.width
+
+      var task = page.render({
+        canvasContext: context,
+        viewport: viewport
+      });
+
+      task.promise.then(function() {
+        var img_b64 = canvas.toDataURL('image/png')
+        var png = img_b64.split(',')[1]
+        var theFile = new Blob([window.atob(png)],  {type: 'image/png', encoding: 'utf-8'})
+        var fr = new FileReader()
+        whiteboard.addImg(img_b64)
+        fr.readAsDataURL(theFile)
+        currPage++
+        if (thePDF !== null && currPage <= numPages) {
+            thePDF.getPage(currPage).then(handlePages)
+        }
+      });
+  }
 
   const fileInput = document.getElementById('image-input');
 
@@ -12,8 +42,24 @@ export default function initializeActionsMenu(socket, whiteboard, stream) {
       if (file.type.includes('image')) {
         whiteboard.addImg(fileLoadedEvent.target.result)
       }
+      if (file.type.includes('pdf')) {
+        var typedarray = new Uint8Array(fileLoadedEvent.target.result)
+        var loadingTask = pdfjsLib.getDocument(typedarray)
+        loadingTask.promise.then(function (pdf) {
+          thePDF = pdf
+          numPages = pdf.numPages
+          pdf.getPage(1).then(handlePages)
+        });
+        currPage = 1
+        numPages = 0
+        thePDF = null
+      }
     };
-    reader.readAsDataURL(file);
+    if (file.type.includes('image')) {
+      reader.readAsDataURL(file)
+    } else {
+      reader.readAsArrayBuffer(file)
+    }
   });
 
   window.addEventListener('paste', (event) => {
