@@ -31,7 +31,7 @@ export function updateBoardsBadge() {
   });
 }
 
-function deactivateCurrentBoard(whiteboard) {
+export function deactivateCurrentBoard(whiteboard) {
   // console.log(whiteboard.getSvgImage());
   whiteboard.boards[whiteboard.currentBoard] = whiteboard.makeNewBoard();
   const currentBoardDiv = $('[data-page=page]').eq(`${whiteboard.currentBoard}`);
@@ -41,7 +41,7 @@ function deactivateCurrentBoard(whiteboard) {
   currentBoardDiv.find('video').hide();
 }
 
-function activateCurrentBoard(socket, whiteboard, stream, clickedBoardIndex) {
+export function activateCurrentBoard(socket, whiteboard, stream, clickedBoardIndex) {
   whiteboard.currentBoard = clickedBoardIndex;
   emitBoards(socket, whiteboard);
   const clickedBoardDiv = $('[data-page=page]').eq(`${clickedBoardIndex}`);

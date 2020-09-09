@@ -1,7 +1,58 @@
-import { addBoard, removeBoard } from './managerBoards.js';
-import { showInfoMessage, downloadFile, saveCurrentBoard, dataURItoBlob } from '../utility.js';
+import {
+  createNonActiveBoardElem, addBoard,
+  removeBoard, emitBoards,
+  deactivateCurrentBoard,
+  activateCurrentBoard,
+  handleBoardsViewButtonsDisplay
+} from './managerBoards.js';
+
+import {
+  showInfoMessage,
+  downloadFile,
+  saveCurrentBoard,
+  dataURItoBlob,
+  startSpinningPage, 
+  stopSpinningPage
+} from '../utility.js';
 
 export default function initializeActionsMenu(socket, whiteboard, stream) {
+  var currPage = 1
+  var numPages = 0
+  var thePDF = null
+  function handlePages(page) {
+    var scale = 1.5
+    var viewport = page.getViewport({scale: scale})
+    var canvas = document.createElement('canvas')
+    var context = canvas.getContext('2d')
+    canvas.height = viewport.height
+    canvas.width = viewport.width
+    
+    var task = page.render({
+      canvasContext: context,
+      viewport: viewport
+    });
+    
+    task.promise.then(function() {
+      var img_b64 = canvas.toDataURL('image/png')
+      deactivateCurrentBoard(whiteboard)
+      whiteboard.clearCanvas();
+      whiteboard.addImg(img_b64)
+      // must defer to give enough time for pdfs to load on board and be saved
+      setTimeout(() => {
+        createNonActiveBoardElem(socket, whiteboard, whiteboard.makeNewBoard(), true, stream)
+        currPage++
+        if (thePDF !== null && currPage <= numPages) {
+          thePDF.getPage(currPage).then(handlePages)
+        } else {
+          deactivateCurrentBoard(whiteboard)
+          activateCurrentBoard(socket, whiteboard, stream, whiteboard.currentBoard - numPages + 1)
+          emitBoards(socket, whiteboard)
+          handleBoardsViewButtonsDisplay()
+          stopSpinningPage()
+        }
+      }, 0)
+    });
+  }
 
   const fileInput = document.getElementById('image-input');
 
@@ -11,9 +62,32 @@ export default function initializeActionsMenu(socket, whiteboard, stream) {
     reader.onload = function (fileLoadedEvent) {
       if (file.type.includes('image')) {
         whiteboard.addImg(fileLoadedEvent.target.result)
+      } else if (file.type.includes('pdf')) {
+        var typedarray = new Uint8Array(fileLoadedEvent.target.result)
+        var loadingTask = pdfjsLib.getDocument(typedarray)
+        loadingTask.promise.then(function (pdf) {
+          if (pdf.numPages > 30) {
+            showInfoMessage(`${$('#pdf-too-big-msg').val()}`)
+          } else {
+            thePDF = pdf
+            numPages = pdf.numPages
+            startSpinningPage()
+            pdf.getPage(1).then(handlePages)
+          }
+        });
+        currPage = 1
+        numPages = 0
+        thePDF = null
+      } else {
+        showInfoMessage(`${$('#invalid-file-type-msg').val()}`)
       }
     };
-    reader.readAsDataURL(file);
+    if (file.type.includes('image')) {
+      reader.readAsDataURL(file)
+    } else {
+      reader.readAsArrayBuffer(file)
+    }
+    fileInput.value = null;
   });
 
   window.addEventListener('paste', (event) => {
@@ -50,7 +124,7 @@ export default function initializeActionsMenu(socket, whiteboard, stream) {
     reader.onload = function(event) {
       whiteboard.addImg(event.target.result)
     };
-    reader.readAsDataURL(file);
+    try { reader.readAsDataURL(file) } catch{}
   })
 
   document.querySelectorAll('[data-command]').forEach((item) => {

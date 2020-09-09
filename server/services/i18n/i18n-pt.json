@@ -97,6 +97,7 @@
   "Redo": "Refazer",
   "Undo": "Desfazer",
   "saveBoards": "Salvar Quadros",
+  "insertImageOrPDF": "Inserir imagem ou PDF",
   "addNewBoard": "Adicionar novo quadro",
   "deleteCurrentBoard": "Deletar quadro atual",
   "clearBoard": "Limpar quadro",
@@ -156,5 +157,7 @@
   "micConnected": "Microfone Conectado",
   "micDisconnected": "Microfone Desconectado",
   "maxNumberOfPublishersTitle": "Parece que já tem muitos outros estudantes falando",
-  "maxNumberOfPublishersText": "Esta aula já tem outros 6 estudantes com o microfone conectado e esse é o número máximo permitido por aula. Se você deseja falar, por favor peça aos outros para se mutarem."
+  "maxNumberOfPublishersText": "Esta aula já tem outros 6 estudantes com o microfone conectado e esse é o número máximo permitido por aula. Se você deseja falar, por favor peça aos outros para se mutarem.",
+  "invalidFileType": "Desculpe, você tentou inserir um tipo de arquivo inválido no quadro. Tipos válidos são imagens e PDFs.",
+  "pdfIsTooBig": "Desculpe, o PDF que você tentou inserir é grande demais. Por favor, tente novamente com um que contenha não mais que 30 páginas."
 }
