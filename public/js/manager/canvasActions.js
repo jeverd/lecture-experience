@@ -48,9 +48,13 @@ export default function initializeActionsMenu(socket, whiteboard, stream) {
         var typedarray = new Uint8Array(fileLoadedEvent.target.result)
         var loadingTask = pdfjsLib.getDocument(typedarray)
         loadingTask.promise.then(function (pdf) {
-          thePDF = pdf
-          numPages = pdf.numPages
-          pdf.getPage(1).then(handlePages)
+          if (pdf.numPages > 30) {
+            showInfoMessage(`${$('#pdf-too-big-msg').val()}`)
+          } else {
+            thePDF = pdf
+            numPages = pdf.numPages
+            pdf.getPage(1).then(handlePages)
+          }
         });
         currPage = 1
         numPages = 0
