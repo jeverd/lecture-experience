@@ -94,6 +94,7 @@ body {
   z-index: 100001;
   left: 50%;
   transform: translateX(-50%);
+  max-width: 250px;
   margin: 5px;
   color: white;
   padding: 6px 10px;

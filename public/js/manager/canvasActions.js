@@ -44,8 +44,7 @@ export default function initializeActionsMenu(socket, whiteboard, stream) {
     reader.onload = function (fileLoadedEvent) {
       if (file.type.includes('image')) {
         whiteboard.addImg(fileLoadedEvent.target.result)
-      }
-      if (file.type.includes('pdf')) {
+      } else if (file.type.includes('pdf')) {
         var typedarray = new Uint8Array(fileLoadedEvent.target.result)
         var loadingTask = pdfjsLib.getDocument(typedarray)
         loadingTask.promise.then(function (pdf) {
@@ -56,6 +55,8 @@ export default function initializeActionsMenu(socket, whiteboard, stream) {
         currPage = 1
         numPages = 0
         thePDF = null
+      } else {
+        showInfoMessage(`${$('#invalid-file-type-msg').val()}`)
       }
     };
     if (file.type.includes('image')) {
