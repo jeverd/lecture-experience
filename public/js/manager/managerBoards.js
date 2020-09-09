@@ -100,16 +100,14 @@ export function createNonActiveBoardElem(socket, whiteboard, board, isActive, st
   }, 0);
 }
 
-export function addBoard(socket, whiteboard, stream, skipDisplay = false) {
+export function addBoard(socket, whiteboard, stream) {
   deactivateCurrentBoard(whiteboard);
   whiteboard.clearCanvas();
   createNonActiveBoardElem(socket, whiteboard, whiteboard.makeNewBoard(), true, stream);
   emitBoards(socket, whiteboard);
-  if(!skipDisplay) {
-    $('.canvas-toggle-nav').animate({ scrollLeft: '+=100000px' }, 150, () => {
-      handleBoardsViewButtonsDisplay();
-    });
-  }
+  $('.canvas-toggle-nav').animate({ scrollLeft: '+=100000px' }, 150, () => {
+    handleBoardsViewButtonsDisplay();
+  });
 }
 
 export function removeBoard(socket, whiteboard, stream) {

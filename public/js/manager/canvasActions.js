@@ -1,39 +1,56 @@
-import { addBoard, removeBoard, deactivateCurrentBoard, activateCurrentBoard } from './managerBoards.js';
-import { showInfoMessage, downloadFile, saveCurrentBoard, dataURItoBlob } from '../utility.js';
+import {
+  createNonActiveBoardElem, addBoard,
+  removeBoard, emitBoards,
+  deactivateCurrentBoard,
+  activateCurrentBoard,
+  handleBoardsViewButtonsDisplay
+} from './managerBoards.js';
+
+import {
+  showInfoMessage,
+  downloadFile,
+  saveCurrentBoard,
+  dataURItoBlob,
+  startSpinningPage, 
+  stopSpinningPage
+} from '../utility.js';
 
 export default function initializeActionsMenu(socket, whiteboard, stream) {
   var currPage = 1
   var numPages = 0
   var thePDF = null
   function handlePages(page) {
-      addBoard(socket, whiteboard, stream, true)
-      var scale = 1.5
-      var viewport = page.getViewport({scale: scale})
-      var canvas = document.createElement('canvas')
-      var context = canvas.getContext('2d')
-      canvas.height = viewport.height
-      canvas.width = viewport.width
-
-      var task = page.render({
-        canvasContext: context,
-        viewport: viewport
-      });
-
-      task.promise.then(function() {
-        var img_b64 = canvas.toDataURL('image/png')
-        var png = img_b64.split(',')[1]
-        var theFile = new Blob([window.atob(png)],  {type: 'image/png', encoding: 'utf-8'})
-        var fr = new FileReader()
-        whiteboard.addImg(img_b64)
-        fr.readAsDataURL(theFile)
+    var scale = 1.5
+    var viewport = page.getViewport({scale: scale})
+    var canvas = document.createElement('canvas')
+    var context = canvas.getContext('2d')
+    canvas.height = viewport.height
+    canvas.width = viewport.width
+    
+    var task = page.render({
+      canvasContext: context,
+      viewport: viewport
+    });
+    
+    task.promise.then(function() {
+      var img_b64 = canvas.toDataURL('image/png')
+      deactivateCurrentBoard(whiteboard)
+      whiteboard.addImg(img_b64)
+      // must defer to give enough time for pdfs to load on board and be saved
+      setTimeout(() => {
+        createNonActiveBoardElem(socket, whiteboard, whiteboard.makeNewBoard(), true, stream)
         currPage++
         if (thePDF !== null && currPage <= numPages) {
           thePDF.getPage(currPage).then(handlePages)
         } else {
           deactivateCurrentBoard(whiteboard)
           activateCurrentBoard(socket, whiteboard, stream, whiteboard.currentBoard - numPages + 1)
+          emitBoards(socket, whiteboard)
+          handleBoardsViewButtonsDisplay()
+          stopSpinningPage()
         }
-      });
+      }, 0)
+    });
   }
 
   const fileInput = document.getElementById('image-input');
@@ -53,6 +70,7 @@ export default function initializeActionsMenu(socket, whiteboard, stream) {
           } else {
             thePDF = pdf
             numPages = pdf.numPages
+            startSpinningPage()
             pdf.getPage(1).then(handlePages)
           }
         });

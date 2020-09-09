@@ -2,10 +2,14 @@
 body {
   padding: 0;
   margin: 0px;
-  background-color: #283333;
+  background-color: #ffffff;
   overflow: hidden;
   max-width: 100vh;
   font-family: 'Open Sans', 'Lato', 'Lucida Grande', 'Lucida Sans Unicode', Tahoma, Sans-Serif, sans-serif;
+}
+
+body.ld-over{
+  position: static;
 }
 /* start top panel styling */
 
