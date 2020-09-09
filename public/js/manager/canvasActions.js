@@ -35,6 +35,7 @@ export default function initializeActionsMenu(socket, whiteboard, stream) {
     task.promise.then(function() {
       var img_b64 = canvas.toDataURL('image/png')
       deactivateCurrentBoard(whiteboard)
+      whiteboard.clearCanvas();
       whiteboard.addImg(img_b64)
       // must defer to give enough time for pdfs to load on board and be saved
       setTimeout(() => {
