@@ -1,12 +1,12 @@
-import { addBoard, removeBoard } from './managerBoards.js';
+import { addBoard, removeBoard, deactivateCurrentBoard, activateCurrentBoard } from './managerBoards.js';
 import { showInfoMessage, downloadFile, saveCurrentBoard, dataURItoBlob } from '../utility.js';
 
 export default function initializeActionsMenu(socket, whiteboard, stream) {
-  var currPage = 1;
-  var numPages = 0;
-  var thePDF = null;
+  var currPage = 1
+  var numPages = 0
+  var thePDF = null
   function handlePages(page) {
-      addBoard(socket, whiteboard, stream);
+      addBoard(socket, whiteboard, stream, true)
       var scale = 1.5
       var viewport = page.getViewport({scale: scale})
       var canvas = document.createElement("canvas")
@@ -28,7 +28,10 @@ export default function initializeActionsMenu(socket, whiteboard, stream) {
         fr.readAsDataURL(theFile)
         currPage++
         if (thePDF !== null && currPage <= numPages) {
-            thePDF.getPage(currPage).then(handlePages)
+          thePDF.getPage(currPage).then(handlePages)
+        } else {
+          deactivateCurrentBoard(whiteboard)
+          activateCurrentBoard(socket, whiteboard, stream, whiteboard.currentBoard - numPages + 1)
         }
       });
   }
