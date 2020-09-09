@@ -9,7 +9,7 @@ export default function initializeActionsMenu(socket, whiteboard, stream) {
       addBoard(socket, whiteboard, stream, true)
       var scale = 1.5
       var viewport = page.getViewport({scale: scale})
-      var canvas = document.createElement("canvas")
+      var canvas = document.createElement('canvas')
       var context = canvas.getContext('2d')
       canvas.height = viewport.height
       canvas.width = viewport.width
@@ -63,6 +63,7 @@ export default function initializeActionsMenu(socket, whiteboard, stream) {
     } else {
       reader.readAsArrayBuffer(file)
     }
+    fileInput.value = null;
   });
 
   window.addEventListener('paste', (event) => {
@@ -99,7 +100,7 @@ export default function initializeActionsMenu(socket, whiteboard, stream) {
     reader.onload = function(event) {
       whiteboard.addImg(event.target.result)
     };
-    reader.readAsDataURL(file);
+    try { reader.readAsDataURL(file) } catch{}
   })
 
   document.querySelectorAll('[data-command]').forEach((item) => {
