@@ -415,11 +415,6 @@ div.ld-over.running:before{
   input#message-input{
     width: 80%;
   }
-
-  .page-list{
-    min-height: calc(400px - 35px);
-    max-height: calc(400px - 35px);
-  }
 }
 
 video.whiteboard{
