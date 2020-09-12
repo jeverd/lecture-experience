@@ -1,6 +1,6 @@
-export default function Board(pathsData, image) {
+export default function Board(pathsData, image, zoom) {
   this.pathsData = pathsData;
   this.image = image;
-  this.zoom = null;
+  this.zoom = zoom;
   this.centerView = null;
 }
