@@ -327,4 +327,11 @@ window.app = {
   addImg: function (imgSrc) {
     displayImage(imgSrc);
   },
+  setZoom: function (point) {
+    view.center = {
+      x: point.centerX,
+      y: point.centerY
+    }
+    view.zoom = point.zoom
+  }
 };

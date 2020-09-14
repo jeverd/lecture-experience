@@ -62,6 +62,10 @@ export default class Whiteboard {
     window.app.paintBackgroundWhite();
   }
 
+  setZoom(point) {
+    window.app.setZoom(point);
+  }
+
   onMouseDown() {
     clearInterval(this.updateFrameInterval);
     this.pushToUndoStack();
@@ -158,8 +162,8 @@ export default class Whiteboard {
     window.app.setBackground(img.src);
   }
 
-  makeNewBoard() {
-    return new Board(window.app.saveProject(), this.getImage());
+  makeNewBoard(zoom = null) {
+    return new Board(window.app.saveProject(), this.getImage(), zoom);
   }
 
   pushToUndoStack() {
