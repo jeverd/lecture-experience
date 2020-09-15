@@ -4,6 +4,7 @@ import initializeChat from '../chatUtils.js';
 
 export default function initializeManagerChat(socket, roomId) {
   const chat = new Chat('message-container');
+  socket.emit('send-to-room', roomId, { joined: $('#host-name-chat').val() });
   const sendContainer = document.getElementById('send-container');
   const messageInput = document.getElementById('message-input');
   const fileInput = document.getElementById('file-input');

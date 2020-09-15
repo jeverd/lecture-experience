@@ -1244,11 +1244,6 @@ div.messages.active-chat{
   text-align: center;
 }
 
-.message-lecture-name > span{
-  position: relative;
-  bottom: 2.5px;
-}
-
 .message-container {
   position: relative;
   bottom: 0;

@@ -45,11 +45,7 @@ body {
   text-align: center;
   color: white;
   transition: 0.8s ease-in-out;
-}
-
-.message-lecture-name > span{
-  position: relative;
-  bottom: 2.5px;
+  opacity: 0.4;
 }
 
 .spectators-icon{
@@ -377,34 +373,6 @@ div.ld-over.running:before{
   top:1px;
   font-size: .85rem;
   color: var(--bg-primary);
-}
-
-@media only screen and (min-width: 1500px){
-  div video.whiteboard#whiteboard{
-    height: 530px;
-  }
-  div.page-list{
-    min-height: calc(530px - 35px);
-    max-height: calc(530px - 35px);
-  }
-
-  .message-container {
-    max-height: calc(530px - 60px) !important;
-  }
-}
-
-@media only screen and (min-width: 1350px){
-  video.whiteboard#whiteboard{
-    height: 475px;
-  }
-  .page-list{
-    min-height: calc(475px - 35px);
-    max-height: calc(475px - 35px);
-  }
-
-  div.message-container {
-    max-height: calc(475px - 60px);
-  }
 }
 
 @media only screen and (min-width: 1235px){
