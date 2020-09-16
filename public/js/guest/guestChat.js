@@ -10,11 +10,15 @@ const fileInput = document.getElementById('file-input');
 
 export default function initializeGuestChat(socket, roomId, name) {
   const chat = new Chat('message-container');
+  socket.emit('send-to-room', roomId, { joined: name });
   socket.on('send-to-room', (message) => {
     chat.appendMessage(message, true);
     if (!$('div.chat').hasClass('active-menu-item')) {
       const currNumOfUnread = parseInt(document.querySelector('#num-unread-messages').innerText);
       $('#num-unread-messages').html(currNumOfUnread + 1);
+      if ($('.mute-unmute-chat').hasClass('fa-volume-up')) {
+        playSound('/notification.mp3');
+      }
     }
   });
 

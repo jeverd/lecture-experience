@@ -1224,8 +1224,24 @@ div.messages.active-chat{
   transition: .25s ease;
 }
 
+.mute-unmute-chat{
+  color: rgba(255,255,255,0.92);
+  opacity: 0.8;
+  position: relative;
+  top: 4px;
+  right: 8px;
+  cursor: pointer;
+  transition: .25s ease;
+}
+
+.mute-unmute-chat:hover,
 .close-chat:hover{
   opacity:1;
+}
+
+.chat-minimize-sound-buttons{
+  position: relative;
+  bottom: 3.5px;
 }
 
 .messages-main{
@@ -1242,11 +1258,6 @@ div.messages.active-chat{
   font-weight: 800;
   font-size: 1em;
   text-align: center;
-}
-
-.message-lecture-name > span{
-  position: relative;
-  bottom: 2.5px;
 }
 
 .message-container {

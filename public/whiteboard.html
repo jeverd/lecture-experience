@@ -167,7 +167,10 @@
             <div class="new-messages-badge">0</div>
             <span class="chat-title">{{#lang}}{{lectureChat}}{{/lang}}</span>
           </div>
-          <i class="fa fa-minus close-chat" aria-hidden="true"></i>
+          <div class="chat-minimize-sound-buttons">
+            <i class="fa fa-volume-up mute-unmute-chat" aria-hidden="true"></i>
+            <i class="fa fa-minus close-chat" aria-hidden="true"></i>
+          </div>
         </div>
       </div>
       <div id="wrapper" class="messages-main">
@@ -702,6 +705,9 @@
       </div>
     </div>
     <input type="hidden" id="_id" value="{{id}}"/>
+    <input type="hidden" id="you-name-chat" value="{{#lang}}{{youNameChat}}{{/lang}}"/>
+    <input type="hidden" id="joined-chat-action" value="{{#lang}}{{joinedChatAction}}{{/lang}}"/>
+    <input type="hidden" id="left-chat-action" value="{{#lang}}{{leftChatAction}}{{/lang}}"/>
     <input type="hidden" id="swal-title" value="{{#lang}}{{devicesErrorTitle}}{{/lang}}"/>
     <input type="hidden" id="swal-text" value="{{#lang}}{{devicesErrorText}}{{/lang}}"/>
     <input type="hidden" id="swal-help" value="{{#lang}}{{devicesErrorHelp}}{{/lang}}"/>

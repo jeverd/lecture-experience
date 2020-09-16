@@ -16,7 +16,10 @@ function joinLecture() {
     query: `id=${roomId}`,
   });
 
-  window.onbeforeunload = () => socket.disconnect();
+  window.onbeforeunload = () => {
+    socket.emit('send-to-room', roomId, { left: studentName });
+    socket.disconnect();
+  };
 
   socket.on('ready', (room) => {
     if (hasWhiteboard) {

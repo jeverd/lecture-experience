@@ -13,6 +13,7 @@ const managerId = getUrlId();
 const hasAudio = $('#audioValidator').val() === 'true';
 const hasWebcam = $('#webcamValidator').val() === 'true';
 const hasWhiteboard = $('#whiteboardValidator').val() === 'true';
+const roomId = $('#_id').val();
 
 function beginLecture(stream) {
   const socket = io('/', { query: `id=${managerId}` });
@@ -35,6 +36,7 @@ function beginLecture(stream) {
   });
 
   $(window).on('beforeunload', () => {
+    socket.emit('send-to-room', roomId, { left: $('#host-name-chat').val() });
     if (hasWhiteboard) {
       saveCurrentBoard(whiteboard);
       emitBoards(socket, whiteboard); 
@@ -86,7 +88,6 @@ window.onload = () => {
     });
 
     $('#modal-select-button').click(() => {
-      const roomId = $('#_id').val();
       fetch(`/validate/lecture?id=${roomId}`).then((req) => {
         switch (req.status) {
           case 200:

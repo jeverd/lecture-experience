@@ -67,6 +67,12 @@ export default function initializeChat(chat) {
     }
   });
 
+  $('.mute-unmute-chat').click(function (e) {
+    e.stopPropagation();
+    $(this).toggleClass('fa-volume-up');
+    $(this).toggleClass('fa-volume-mute');
+  })
+
   $('#close-preview').click(() => {
     fileInput.value = '';
     $('#file-preview').hide();

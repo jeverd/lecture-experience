@@ -37,6 +37,7 @@ app.set('views', 'public');
 app.use(express.static('public/js'));
 app.use(express.static('public/css'));
 app.use(express.static('public/images'));
+app.use(express.static('public/audios'));
 app.use(express.json({ limit: '50mb' }));
 app.use(locale(supportedLanguages, defaultLanguage));
 app.use(bodyParser.json());
