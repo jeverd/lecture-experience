@@ -6,11 +6,6 @@ export default class Chat {
     this.preview = null;
   }
 
-  /**
-   * Appends message to chat container
-   * @param Message
-   * @returns void
-   * */
   appendMessage(message, isIncoming) {
     const time = new Date();
     this.history.push({

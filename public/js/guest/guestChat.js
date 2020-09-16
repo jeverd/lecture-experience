@@ -16,6 +16,9 @@ export default function initializeGuestChat(socket, roomId, name) {
     if (!$('div.chat').hasClass('active-menu-item')) {
       const currNumOfUnread = parseInt(document.querySelector('#num-unread-messages').innerText);
       $('#num-unread-messages').html(currNumOfUnread + 1);
+      if ($('.mute-unmute-chat').hasClass('fa-volume-up')) {
+        playSound('/notification.mp3');
+      }
     }
   });
 

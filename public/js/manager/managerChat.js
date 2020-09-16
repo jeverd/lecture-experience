@@ -1,6 +1,7 @@
 import Message from '../classes/Message.js';
 import Chat from '../classes/Chat.js';
 import initializeChat from '../chatUtils.js';
+import { playSound } from '../utility.js';
 
 export default function initializeManagerChat(socket, roomId) {
   const chat = new Chat('message-container');
@@ -14,6 +15,9 @@ export default function initializeManagerChat(socket, roomId) {
     if (!messagesDiv.hasClass('active-chat')) {
       chat.unreadCount += 1;
       $('.new-messages-badge').html(chat.unreadCount);
+      if ($('.mute-unmute-chat').hasClass('fa-volume-up')) {
+        playSound('/notification.mp3');
+      }
     }
   });
 
