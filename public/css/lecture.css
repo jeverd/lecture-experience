@@ -380,6 +380,15 @@ div.ld-over.running:before{
     height: 400px;
   }
 
+  .page-list{
+    min-height: calc(400px - 35px);
+    max-height: calc(400px - 35px);
+  }
+
+  div.message-container {
+    max-height: calc(400px - 60px);
+  }
+
   input#message-input{
     width: 80%;
   }
