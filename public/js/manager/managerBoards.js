@@ -31,9 +31,9 @@ export function updateBoardsBadge() {
   });
 }
 
-function deactivateCurrentBoard(whiteboard) {
+export function deactivateCurrentBoard(whiteboard, zoom = null) {
   // console.log(whiteboard.getSvgImage());
-  whiteboard.boards[whiteboard.currentBoard] = whiteboard.makeNewBoard();
+  whiteboard.boards[whiteboard.currentBoard] = whiteboard.makeNewBoard(zoom);
   const currentBoardDiv = $('[data-page=page]').eq(`${whiteboard.currentBoard}`);
   currentBoardDiv.find('img').attr('src', whiteboard.boards[whiteboard.currentBoard].image);
   currentBoardDiv.find('img').show();
@@ -41,7 +41,7 @@ function deactivateCurrentBoard(whiteboard) {
   currentBoardDiv.find('video').hide();
 }
 
-function activateCurrentBoard(socket, whiteboard, stream, clickedBoardIndex) {
+export function activateCurrentBoard(socket, whiteboard, stream, clickedBoardIndex) {
   whiteboard.currentBoard = clickedBoardIndex;
   emitBoards(socket, whiteboard);
   const clickedBoardDiv = $('[data-page=page]').eq(`${clickedBoardIndex}`);
@@ -52,6 +52,9 @@ function activateCurrentBoard(socket, whiteboard, stream, clickedBoardIndex) {
   newBoardImg.setAttribute('src', whiteboard.boards[clickedBoardIndex].image);
   const newBoardPath = whiteboard.boards[clickedBoardIndex].pathsData;
   setTimeout(() => {
+    if (whiteboard.boards[whiteboard.currentBoard].zoom) {
+      whiteboard.setZoom(whiteboard.boards[whiteboard.currentBoard].zoom)
+    }
     whiteboard.setPaths(newBoardPath);
     socket.emit('currentBoardToAll', newBoardImg.getAttribute('src'));
   }, 0);
@@ -59,7 +62,9 @@ function activateCurrentBoard(socket, whiteboard, stream, clickedBoardIndex) {
 
 export function createNonActiveBoardElem(socket, whiteboard, board, isActive, stream) {
   function onClickNonActiveBoardElem() {
-    deactivateCurrentBoard(whiteboard);
+    const zoom = whiteboard.getZoom();
+    whiteboard.boards[whiteboard.currentBoard].zoom = zoom;
+    deactivateCurrentBoard(whiteboard, zoom);
     const clickedBoardIndex = $(this).index();
     activateCurrentBoard(socket, whiteboard, stream, clickedBoardIndex);
   }

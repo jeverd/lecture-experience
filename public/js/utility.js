@@ -1,5 +1,4 @@
 import Point from './classes/Point.js';
-import { emitBoards } from './manager/managerBoards.js';
 
 export function getMouseCoordsOnCanvas(e, canvas) {
   let x; let y;
@@ -325,4 +324,25 @@ export function displayMaxPublishersReachedWarning(){
       popup: 'animate__animated animate__fadeIn',
     }
   });
+}
+
+//====================================================================
+/** 
+ * The following two functions assumes in your html: 
+ * the body has the ld-over class 
+ * the body element contains a direct child with the class="ld ld-ring ld-spin"
+ * includes loading.io css framework
+*/
+export function startSpinningPage(){
+  $('body').addClass('running');
+}
+
+export function stopSpinningPage() {
+  $('body').removeClass('running');
+}
+//====================================================================
+
+export function playSound(path) {
+  const sound = new Audio(path);
+  sound.play();
 }

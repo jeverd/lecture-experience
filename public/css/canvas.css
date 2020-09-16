@@ -2,10 +2,14 @@
 body {
   padding: 0;
   margin: 0px;
-  background-color: #283333;
+  background-color: #ffffff;
   overflow: hidden;
   max-width: 100vh;
   font-family: 'Open Sans', 'Lato', 'Lucida Grande', 'Lucida Sans Unicode', Tahoma, Sans-Serif, sans-serif;
+}
+
+body.ld-over{
+  position: static;
 }
 /* start top panel styling */
 
@@ -94,6 +98,7 @@ body {
   z-index: 100001;
   left: 50%;
   transform: translateX(-50%);
+  max-width: 250px;
   margin: 5px;
   color: white;
   padding: 6px 10px;
@@ -1219,8 +1224,24 @@ div.messages.active-chat{
   transition: .25s ease;
 }
 
+.mute-unmute-chat{
+  color: rgba(255,255,255,0.92);
+  opacity: 0.8;
+  position: relative;
+  top: 4px;
+  right: 8px;
+  cursor: pointer;
+  transition: .25s ease;
+}
+
+.mute-unmute-chat:hover,
 .close-chat:hover{
   opacity:1;
+}
+
+.chat-minimize-sound-buttons{
+  position: relative;
+  bottom: 3.5px;
 }
 
 .messages-main{
@@ -1237,11 +1258,6 @@ div.messages.active-chat{
   font-weight: 800;
   font-size: 1em;
   text-align: center;
-}
-
-.message-lecture-name > span{
-  position: relative;
-  bottom: 2.5px;
 }
 
 .message-container {
@@ -1781,14 +1797,14 @@ div.webcam-container{
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
 
-#minimize-webcam-view{
-  height: 21px;
-  width: 21px;
+.webcam-top-icons{
+  height: 25px;
+  width: 25px;
   border-radius: 50%;
   opacity: 0.75;
   background: white;
   position: absolute;
-  top:10px;
+  top:7.5px;
   z-index:1;
   display: flex;
   transition: 0.4s ease;
@@ -1800,17 +1816,14 @@ div.webcam-container{
   cursor: pointer;
 }
 
-#minimize-webcam-view{
-  right: 10px;
-}
-
-#minimize-webcam-view i {
+.webcam-top-icons i {
   position: relative;
   top:1px;
+  font-size: 1rem;
   color: var(--bg-primary);
 }
 
-#minimize-webcam-view:hover{
+.webcam-top-icons:hover{
   opacity: 1;
   transform: translateY(-2px);
 }

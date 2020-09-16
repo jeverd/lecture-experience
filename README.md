@@ -45,7 +45,6 @@ Liteboard is powered by WebRTC and uses the [Janus](https://github.com/meetecho/
     - [Setup](#setup)
 - [🌲 Environment Variables](#-environment-variables)
 - [🔊 Contributing](#-contributing)
-- [✨ Team](#-team)
 
 
 ## 💡 Features
@@ -123,45 +122,6 @@ To run liteboard locally, you will need the following:
 
 ## 🔊 Contributing
 We encourge anyone interested in contributing to our project to open Pull Requests and Issues about bugs or cool features to implement. We use discord to communicate. Feel free to join the [Liteboard server](https://discord.gg/BH4akDY)!
-
-
-## ✨ Team 
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
-<table>
-  <tr>
-    <td align="center"><a href="https://github.com/lnogueir">
-      <img src="https://avatars0.githubusercontent.com/u/48890798?s=460&u=6c62615de3bc32628e8aec4e8a4c320fe6d77869&v=4" width="100px;" alt=""/><br /><sub><b>Lucas Nogueira</b></sub></a><br /> 
-        <a href="https://github.com/jeverd/lecture-experience/commits?author=lnogueir"           title="Commits">📖</a> 
-        <a href="https://lnogueir.me/">🔗</a>
-        <a href="https://devpost.com/lnogueir">💻</a>
-    </td>
-    <td align="center"><a href="https://github.com/lukasmuller10"><img src="https://avatars3.githubusercontent.com/u/66929827?s=460&u=34131fcf10cbd8918da4fa95ac807c4b75e36714&v=4" width="100px;" alt=""/><br /><sub><b>Lukas Müller</b></sub></a><br /><a href="https://github.com/jeverd/lecture-experience/commits?author=lukasmuller10" title="Commits">📖</a>
-    <a href="https://lukasmuller.me/">🔗</a>
-    <a href="https://www.linkedin.com/in/lukas-müller-de-oliveira-437b08189">💼</a>
-    </td>
-    <td align="center"><a href="https://github.com/jeverd"><img src="https://avatars0.githubusercontent.com/u/46453568?s=460&u=a8441d4ed98a18b8b937c29d84742074d340b173&v=4" width="100px;" alt=""/><br /><sub><b>Jawad Bhimani</b></sub></a><br /><a href="https://github.com/jeverd/lecture-experience/commits?author=jeverd" title="Commits">📖</a>
-    <a href="https://jawadbhimani.me/">🔗</a>
-    <a href="https://ca.linkedin.com/in/jawadbhimani">💼</a>
-    </td>
-    <td align="center"><a href="https://github.com/aasirvalji"><img src="https://avatars2.githubusercontent.com/u/45238682?s=460&u=17011f159eecbdc2aad99719c24d4b178e0618ae&v=4" width="100px;" alt=""/><br /><sub><b>Aasir Valji</b></sub></a><br /><a href="https://github.com/jeverd/lecture-experience/commits?author=aasirvalji" title="Commits">📖</a>
-    <a href="https://www.aasirvalji.com/">🔗</a>
-    <a href="https://www.linkedin.com/in/aasir-valji/">💼</a>
-    </td>
-    <td align="center"><a href="https://github.com/SultanEm"><img src="https://avatars0.githubusercontent.com/u/35204758?s=460&v=4" width="100px;" alt=""/><br /><sub><b>Sultan Emaish</b></sub></a><br /><a href="https://github.com/jeverd/lecture-experience/commits?author=SultanEm" title="Commits">📖</a>
-    </td>
-    <td align="center"><a href="https://github.com/Lemos00"><img src="https://avatars2.githubusercontent.com/u/55399020?s=460&u=6ffb1175921b2a38be05ec26ac4fa3dd66beb62d&v=4" width="100px;" alt=""/><br /><sub><b>Gabriel Lemos</b></sub></a><br /><a href="https://github.com/jeverd/lecture-experience/commits?author=Lemos00" title="Commits">📖</a>
-    <a href="https://ca.linkedin.com/in/gabriel-lemos-rodrigues-b96824198">💼</a>
-    </td>
-    <td align="center"><a href="https://github.com/michaelfromyeg"><img src="https://avatars1.githubusercontent.com/u/35978975?s=460&u=05153ea0426075ea9edf9960bdd2443e167b31ce&v=4" width="100px;" alt=""/><br /><sub><b>Michael DeMarco</b></sub></a><br /><a href="https://github.com/jeverd/lecture-experience/commits?author=michaelfromyeg" title="Commits">📖</a>
-    <a href="https://michaeldemar.co/">🔗</a>
-    <a href="https://www.linkedin.com/in/michaelfromyeg/">💼</a>
-    </td>
-  </tr>
-</table>
-
-
 
 
 [1]: https://github.com/jeverd/lecture-experience/blob/master/LICENSE

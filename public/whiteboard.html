@@ -16,6 +16,7 @@
         gtag('config', 'UA-173522034-1');
       }
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@2.6.347/build/pdf.min.js"></script>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
@@ -57,7 +58,8 @@
     />
   </head>
 
-  <body style="background-color: #ffffff;">
+  <body class="ld-over">
+    <div style="font-size:3.25rem; color: gray;" class="ld ld-ring ld-spin"></div>
     <!--[if lt IE 7]>
       <p class="browsehappy">
         You are using an <strong>outdated</strong> browser. Please
@@ -146,10 +148,13 @@
             <img title="{{#lang}}{{openWebcamView}}{{/lang}}" src="https://img.icons8.com/fluent/48/000000/webcam.png"/>
           </div>
           <div id="active-webcam-view">
-            <div title="{{#lang}}{{minimizeWebcamView}}{{/lang}}" id="minimize-webcam-view">
+            <div style="right: 7.5px;" title="{{#lang}}{{minimizeWebcamView}}{{/lang}}" class="webcam-top-icons" id="minimize-webcam-view">
               <i class="fa fa-minus" aria-hidden="true"></i>
             </div>
-            <video muted id="webcam" playsinline autoplay></video>
+            <div style="right: 35px;" title="{{#lang}}{{minimizeWebcamView}}{{/lang}}" class="webcam-top-icons toggle-webcam">
+              <i class="fas fa-video-slash"></i>
+            </div>
+            <video muted id="webcam" playsinline autoplay poster="/test-webcam.png"></video>
           </div>
         </div>
       {{/webcam}}
@@ -162,7 +167,10 @@
             <div class="new-messages-badge">0</div>
             <span class="chat-title">{{#lang}}{{lectureChat}}{{/lang}}</span>
           </div>
-          <i class="fa fa-minus close-chat" aria-hidden="true"></i>
+          <div class="chat-minimize-sound-buttons">
+            <i class="fa fa-volume-up mute-unmute-chat" aria-hidden="true"></i>
+            <i class="fa fa-minus close-chat" aria-hidden="true"></i>
+          </div>
         </div>
       </div>
       <div id="wrapper" class="messages-main">
@@ -420,11 +428,11 @@
             </li>
           </div>
 
-          <div class="item" data-command="add-image" title="{{#lang}}{{saveBoards}}{{/lang}}">
+          <div class="item" data-command="add-image" title="{{#lang}}{{insertImageOrPDF}}{{/lang}}">
             <li class="left-bar-item">
               <input type="file" name="image" id="image-input" class="inputimage" />
               <label for="image-input">
-                <img src="https://img.icons8.com/plasticine/100/000000/image.png"/>
+                <img src="/pdf-image.png"/>
               </label>
             </li>
           </div>  
@@ -697,6 +705,9 @@
       </div>
     </div>
     <input type="hidden" id="_id" value="{{id}}"/>
+    <input type="hidden" id="you-name-chat" value="{{#lang}}{{youNameChat}}{{/lang}}"/>
+    <input type="hidden" id="joined-chat-action" value="{{#lang}}{{joinedChatAction}}{{/lang}}"/>
+    <input type="hidden" id="left-chat-action" value="{{#lang}}{{leftChatAction}}{{/lang}}"/>
     <input type="hidden" id="swal-title" value="{{#lang}}{{devicesErrorTitle}}{{/lang}}"/>
     <input type="hidden" id="swal-text" value="{{#lang}}{{devicesErrorText}}{{/lang}}"/>
     <input type="hidden" id="swal-help" value="{{#lang}}{{devicesErrorHelp}}{{/lang}}"/>
@@ -708,6 +719,8 @@
     <input type="hidden" id="link-copied-info" value="{{#lang}}{{linkCopiedInfo}}{{/lang}}" />
     <input type="hidden" id="copied-info" value="{{#lang}}{{copiedInfo}}{{/lang}}" />
     <input type="hidden" id="copy-info" value="{{#lang}}{{copyInfo}}{{/lang}}" />
+    <input type="hidden" id="invalid-file-type-msg" value="{{#lang}}{{invalidFileType}}{{/lang}}" />
+    <input type="hidden" id="pdf-too-big-msg" value="{{#lang}}{{pdfIsTooBig}}{{/lang}}" />
     {{#lectureTools}}
       <input type="hidden" id="webcamValidator" value="{{webcam}}"/>
       <input type="hidden" id="audioValidator" value="{{audio}}"/>
