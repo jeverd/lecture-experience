@@ -31,12 +31,14 @@ Liteboard is a free, browser-based lecturing platform for anyone who wants to qu
 
 Liteboard is powered by WebRTC and uses the [Janus](https://github.com/meetecho/janus-gateway) implementation of a Selective Forwarding Unit (SFU) to allow multiple participants per lecture while ensuring the lowest latency available on browsers. We host our own TURN server to guarantee support for users in any kind of network. Read about us in [this university article](https://falauniversidades.com.br/projeto-gratuito-simplifica-o-acesso-as-aulas-on-line/). 
 
+<hr/>
 <div align="center">
-  <a href="https://paypal.me/liteboard">
-    <img src="https://img.shields.io/badge/Donate-PayPal-orange.svg" /></a>
-    <br/>
-  Loved the project? Please consider <a href="https://paypal.me/liteboard">donating</a> to keep the project alive.  <br/>
+  🙌 &nbsp;Loved the project? Please consider <a href="https://paypal.me/liteboard">donating</a> to keep the project alive  🙌<br/>
   The project is hosted using student tier cloud provider services and it will run out of credits by December.
+
+  [![https://paypal.me/liteboard](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A8YE92K9QM7NA) <a style="position:relative;bottom:15px;" href="https://paypal.me/liteboard">
+    <img src="https://img.shields.io/badge/Donate-PayPal-blue.svg" /></a>
+    <br/>
 </div>
 <hr/>
 
