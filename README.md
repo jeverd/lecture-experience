@@ -15,16 +15,12 @@
   <a href="https://github.com/jeverd/lecture-experience/pulse" alt="Activity">
         <img src="https://img.shields.io/github/commit-activity/y/jeverd/lecture-experience" /></a>
   </a>
-  <a href="https://github.com/jeverd/lecture-experience">
-    <img src="https://img.shields.io/badge/Repo-Link-orange.svg" 
-     alt="Repo Link" />
-  </a>
+  <a href="https://paypal.me/liteboard">
+    <img src="https://img.shields.io/badge/Donate-PayPal-orange.svg" /></a>
   <a href="https://discord.gg/BH4akDY">
         <img src="https://img.shields.io/discord/703452000951730177?logo=discord"
             alt="chat on Discord"></a>
   </a>
-  <a href="https://paypal.me/liteboard">
-    <img src="https://img.shields.io/badge/Donate-PayPal-green.svg" /></a>
 </p>
 
 Liteboard is a free, browser-based lecturing platform for anyone who wants to quickly setup a real-like classroom with State-of-the-Art drawing tools and webcam/audio broadcasts. We don't support cumbersome setups; no downloads or accounts required! Just create a lecture, and share the link. It's really that simple.
@@ -35,7 +31,14 @@ Liteboard is a free, browser-based lecturing platform for anyone who wants to qu
 
 Liteboard is powered by WebRTC and uses the [Janus](https://github.com/meetecho/janus-gateway) implementation of a Selective Forwarding Unit (SFU) to allow multiple participants per lecture while ensuring the lowest latency available on browsers. We host our own TURN server to guarantee support for users in any kind of network. Read about us in [this university article](https://falauniversidades.com.br/projeto-gratuito-simplifica-o-acesso-as-aulas-on-line/). 
 
-We are also currently looking for sponsors! Please reach out on our discord server if you would like to sponsor this project!
+<div align="center">
+  <a href="https://paypal.me/liteboard">
+    <img src="https://img.shields.io/badge/Donate-PayPal-orange.svg" /></a>
+    <br/>
+  Loved the project? Please consider <a href="https://paypal.me/liteboard">donating</a> to keep the project alive.  <br/>
+  The project is hosted using student tier cloud provider services and it will run out of credits by December.
+</div>
+<hr/>
 
 ## Contents
 
@@ -45,7 +48,7 @@ We are also currently looking for sponsors! Please reach out on our discord serv
 - [💡 Features](#-features)
 - [📝 Requirements](#-requirements)
 - [🏃 Getting Started](#-getting-started)
-    - [Clone](#clone)
+      - [Clone](#clone)
     - [Setup](#setup)
 - [🌲 Environment Variables](#-environment-variables)
 - [🔊 Contributing](#-contributing)
