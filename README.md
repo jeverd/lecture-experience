@@ -48,7 +48,6 @@ Liteboard is powered by WebRTC and uses the [Janus](https://github.com/meetecho/
 
 <img align="right" style="border-radius:0.25rem;" width="375" height="auto" src="public/images/github-readme-main2.png"/>
 
-- [Contents](#contents)
 - [💡 Features](#-features)
 - [📝 Requirements](#-requirements)
 - [🏃 Getting Started](#-getting-started)
