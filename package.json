@@ -36,7 +36,7 @@
     "nodemailer": "^6.4.6",
     "nodemon": "^2.0.4",
     "redis": "^3.0.2",
-    "socket.io": "^2.3.0",
+    "socket.io": "^2.4.0",
     "url": "^0.11.0",
     "uuid": "^8.0.0",
     "winston": "^3.2.1",
