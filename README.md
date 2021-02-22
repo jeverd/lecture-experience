@@ -12,8 +12,6 @@
   <a href="https://circleci.com/">
     <img src="https://circleci.com/gh/jeverd/lecture-experience.svg?style=shield&circle-token=:circle-token" 
     alt="Current CircleCI build status." />
-  <a href="https://github.com/jeverd/lecture-experience/pulse" alt="Activity">
-        <img src="https://img.shields.io/github/commit-activity/y/jeverd/lecture-experience" /></a>
   </a>
   <a href="https://paypal.me/liteboard">
     <img src="https://img.shields.io/badge/Donate-PayPal-orange.svg" /></a>
