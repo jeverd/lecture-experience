@@ -1,7 +1,5 @@
 <h1 align="center">
-  <a href="http://liteboard.io/">
-    Liteboard.io
-  </a>
+  Liteboard.io
 </h1>
 <p align="center">
   <a href="https://github.com/jeverd/lecture-experience/graphs/contributors" alt="Contributors">
