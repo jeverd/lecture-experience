@@ -38,9 +38,9 @@ Liteboard is powered by WebRTC and uses the [Janus](https://github.com/meetecho/
   <a href="https://paypal.me/liteboard">
     <img src="https://img.shields.io/badge/Donate-PayPal-blue.svg" /></a>
   <br/>
-  The project is currently hosted using student tier cloud services and it will run out of credits by December.
+  This project is currently archived due to lack of financial support.
   <br/>
-  🙌 &nbsp;Loved the project? Please consider <a href="https://paypal.me/liteboard">donating</a> to keep the project alive 🙌
+  🙌 &nbsp;Used to love liteboard? Please consider <a href="https://paypal.me/liteboard">donating</a> to keep the project alive 🙌
 </div>
 <hr/>
 
